@@ -1,37 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Number Guesser Game</title>
-  </head>
-  <body>
-    <h1>Number Guesser Game</h1>
-    <p>Guess a number between 1 and 100:</p>
-    <input type="text" id="guessInput" />
-    <button onclick="guess()">Submit Guess</button>
-    <p id="output"></p>
+<head>
+  <title>Number Guessing Game</title>
+</head>
+<body>
 
-    <script>
-      function guess() {
-        // Generate a new random number between 1 and 100 for each guess
-        const randomNumber = Math.floor(Math.random() * 100) + 1;
+<script>
+  let lower = 1;
+  let upper = 10;
+  let correct_ans = Math.floor(Math.random() * (upper - lower + 1)) + lower;
+  let attempts = 3;
 
-        const guessInput = document.getElementById("guessInput");
-        const output = document.getElementById("output");
-        const guess = parseInt(guessInput.value);
+  for (let i = 1; i <= attempts; i++) {
+    let userGuess = parseInt(prompt(`Enter a number between ${lower} and ${upper} (Attempt ${i}):`));
 
-        if (isNaN(guess) || guess < 1 || guess > 100) {
-          output.innerHTML = "Please enter a valid number between 1 and 100.";
-          return;
-        }
+    if (userGuess === correct_ans) {
+      alert('Congratulations! You guessed the correct number.');
+      break;
+    } else if (userGuess < correct_ans) {
+      alert('Correct answer is greater!');
+    } else {
+      alert('Correct answer is smaller!');
+    }
 
-        if (guess < randomNumber) {
-          output.innerHTML = `Too low! Try again. The number was (${randomNumber}).`;
-        } else if (guess > randomNumber) {
-          output.innerHTML = `Too high! Try again. The number was (${randomNumber}).`;
-        } else {
-          output.innerHTML = `Congratulations! You guessed the correct number (${randomNumber}).`;
-        }
-      }
-    </script>
-  </body>
+    if (i === attempts) {
+      alert(`You have used all your attempts. The correct number was ${correct_ans}. You lose!`);
+    }
+  }
+</script>
+
+</body>
 </html>
