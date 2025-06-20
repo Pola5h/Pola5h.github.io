@@ -1,412 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta name="google-site-verification" content="29PlynScGIlDVqdRT-kE7LCEyx-WnDrDkCI2rg2rHlU" />
-  <meta name="keywords"
-    content="Kamruzzaman Polash, IUBAT, International University of Business Agriculture and Technology, Web Application Developer, Laravel, JavaScript, Python, Machine Learning">
-  <meta name="description"
-    content="Kamruzzaman Polash, a skilled web application developer with expertise in Laravel, JavaScript, and Python. He specializes in creating high-quality, responsive web applications that deliver exceptional user experiences.">
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kamruzzaman Polash - Web Application Developer</title>
-  <meta name="description"
-    content="Kamruzzaman Polash, a skilled web application developer with expertise in Laravel, JavaScript, and Python.">
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Kamruzzaman Polash">
-
-  <link href="/assets/img/favicon.ico" rel="icon">
-  <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
-  <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="/assets/css/style.css" rel="stylesheet">
+  <title>🧑‍💻 K. Polash | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #3b82f6;
+      --bg: #fff;
+      --text: #222;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0.5rem;
+    }
+    .hero, .skills {
+      background: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      padding: 0 0 1.2rem 0;
+      max-width: 700px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero {
+      text-align: center;
+    }
+    .skills {
+      max-width: 700px;
+      width: 100%;
+      margin-bottom: 2rem;
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.06);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+    }
+    .skills-categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .skills-category {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      min-width: 0;
+    }
+    .skills-category-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+      text-align: left;
+    }
+    .skills-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: flex-start;
+      width: 100%;
+    }
+    .skill-badge {
+      display: inline-block;
+      padding: 0.28em 0.9em;
+      font-size: 0.93rem;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #222;
+      border: 1px solid #e5e7eb;
+      font-weight: 500;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .skill-badge:hover {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+      border-color: var(--accent);
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: #fff;
+      color: #222;
+      border: 1px solid #e5e7eb;
+      border-radius: 50%;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      z-index: 100;
+      transition: background 0.2s, color 0.2s;
+    }
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    body.dark {
+      --bg: #18181b;
+      --text: #f3f4f6;
+      background: var(--bg);
+      color: var(--text);
+    }
+    body.dark .theme-toggle {
+      background: #23272f;
+      color: #f3f4f6;
+      border-color: #23272f;
+    }
+    body.dark .skills, body.dark .hero {
+      background: var(--bg);
+      color: var(--text);
+    }
+    body.dark .skills-category-title {
+      color: #60a5fa;
+    }
+    body.dark .skill-badge {
+      background: #23272f;
+      color: #f3f4f6;
+      border-color: #374151;
+    }
+    body.dark .skill-badge:hover {
+      background: #60a5fa;
+      color: #18181b;
+      border-color: #60a5fa;
+    }
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .links a {
+      display: flex;
+      align-items: center;
+      gap: 0.4em;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 1.08rem;
+      font-weight: 500;
+      padding: 0.38em 1.1em;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #f3f4f6;
+      transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    }
+    .links a:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+    }
+    body.dark .links a {
+      background: #23272f;
+      color: #60a5fa;
+      border-color: #374151;
+    }
+    body.dark .links a:hover {
+      background: #60a5fa;
+      color: #18181b;
+      border-color: #60a5fa;
+    }
+    @media (max-width: 900px) {
+      .skills-categories-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .skills-categories-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+      .hero, .skills {
+        padding: 1.2rem 0.5rem;
+      }
+      .skills-badges-categories {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+        gap: 0.5rem;
+      }
+      .skills-category {
+        width: 100%;
+        align-items: center;
+      }
+      .hero h1 {
+        font-size: 1.4rem;
+      }
+      .bg-shape-topleft, .bg-shape-bottomright {
+        width: 140px;
+        height: 140px;
+      }
+      .bg-shape-topleft {
+        top: -30px;
+        left: -30px;
+      }
+      .bg-shape-bottomright {
+        bottom: -30px;
+        right: -30px;
+      }
+    }
+    .bg-shape, .bg-shape-topleft, .bg-shape-bottomright {
+      display: none !important;
+    }
+  </style>
 </head>
-
 <body>
-  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
-  <header id="header">
-    <div class="d-flex flex-column">
-      <!-- <div class="profile">
-        <img src="/assets/img/profile-img.jpg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html">Kamruzzaman Polash</a></h1>
-        <div class="social-links mt-3 text-center">
-          <a href="mailto:mkz.polash@gmail.com title="Email: mkz.polash@gmail.com" class="envelope"><i
-              class="bx bx-envelope"></i></a>
-          <a href="https://github.com/Pola5h" title="GitHub: Pola5h" class="github"><i
-              class="bx bxl-github"></i></a>
-          <a href="https://www.linkedin.com/in/pola5h/" title="Linkedin: Kamruzzaman Polash" class="linkedin"><i
-              class="bx bxl-linkedin"></i></a>
-        </div>
-      </div> -->
-      <nav id="navbar" class="nav-menu navbar">
-        <ul>
-          <li><a href="#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
-          <li><a href="#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
-          <li><a href="#skills" class="nav-link scrollto"><i class="bx bxs-bulb"></i> <span>Skills</span></a></li>
-          <li><a href="#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
-          <li><a href="#project" class="nav-link scrollto"><i class="bx bx-desktop"></i> <span>Project</span></a></li>
-          <li><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
-        </ul>
-      </nav><!-- .nav-menu -->
-    </div>
-  </header><!-- End Header -->
-  <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
-    <div class="hero-container" data-aos="fade-in">
-      <h3>Hi 👋</h3>
-      <h2>I'm Kamruzzaman Polash</h2>
-      <p>A <span class="typed" data-typed-items="Noob Coder,Fast Learner,Software Engineer"></span></p>
-      <a href="https://Pola5h.github.io/assets/resume/kzaman_resume.pdf" class="button-3" target="_blank">View My
-        Resume</a>
-      <a href="#contact" class="button-4" role="button">Get in Touch</a>
-    </div>
-  </section><!-- End Hero -->
-  <main id="main">
-    <!-- ======= About Section ======= -->
-    <section id="about" class="about">
-      <div class="container">
-        <div class="section-title">
-          <h2>About</h2>
-          <p style="text-align:justify;">A Self-driven, quick starter, passionate programmer with a curious mind who enjoys solving a complex and
-            challenging real-world problems.</p>
-        </div>
-    </section><!-- End About Section -->
-    <!-- ======= Skills Section ======= -->
-    <section id="skills" class="skills section-bg">
-      <div class="container">
-        <div class="section-title">
-          <h2>Skills</h2>
-        </div>
-        <div class="row skills-content">
-          <div class="col-lg-6" data-aos="fade-up">
-            <span class="skill"><strong>Languages</strong> </span>
-            <ul class="my-2">
-              <li><span>Python, Java, C, C++, HTML/CSS, JavaScript, PHP, SQL</span></li>
-            </ul>
-            <span class="skill"><strong>Libraries</strong> </span>
-            <ul class="my-2">
-              <li> <span>NumPy, Pandas, OpenCV</span></li>
-            </ul>
-            <span class="skill"><strong>OS</strong> </span>
-            <ul class="my-2">
-              <li> <span>Linux, Windows</span></li>
-            </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙</button>
+    <section class="hero">
+      <h1>K. Polash</h1>
+      <p class="hero-subtext">Web developer passionate about building, learning, and collaborating. Open to new challenges and connections.</p>
+      <div class="links">
+        <a href="https://github.com/Pola5h" title="GitHub" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/Pola5h/" title="LinkedIn" target="_blank">LinkedIn</a>
+        <a href="mailto:mkz.polash@gmail.com" title="Email">Email</a>
+        <a href="https://wa.me/8801791296967" title="WhatsApp" target="_blank">WhatsApp</a>
+      </div>
+    </section>
+    <section class="skills">
+      <h2>Skills & Tools</h2>
+      <div class="skills-categories-grid">
+        <div class="skills-category">
+          <div class="skills-category-title">Languages</div>
+          <div class="skills-badges">
+            <span class="skill-badge">PHP</span>
+            <span class="skill-badge">Python</span>
           </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <span class="skill"><strong>Frameworks/CMS</strong> </span>
-            <ul class="my-2">
-              <li><span>Laravel, Bootstrap, Wordpress</span></li>
-            </ul>
-            <span class="skill"><strong>Databases</strong> </span>
-            <ul class="my-2">
-              <li> <span> MySQL, SQLit3</span></li>
-            </ul>
-            <span class="skill"><strong>Tech/Tools</strong> </span>
-            <ul class="my-2">
-              <li><span> GitHub, VS Code, Google Co lab, Jupyter </span></li>
-            </ul>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">Backend</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Laravel</span>
+            <span class="skill-badge">Slim</span>
+            <span class="skill-badge">RESTful API</span>
+            <span class="skill-badge">OOP</span>
+            <span class="skill-badge">MVC</span>
+            <span class="skill-badge">PHPUnit</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">Databases</div>
+          <div class="skills-badges">
+            <span class="skill-badge">MySQL</span>
+            <span class="skill-badge">SQLite</span>
+            <span class="skill-badge">Redis</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">DevOps & Cloud</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Docker</span>
+            <span class="skill-badge">Kubernetes</span>
+            <span class="skill-badge">APISIX</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">Frontend</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Blade</span>
+            <span class="skill-badge">Livewire</span>
+            <span class="skill-badge">Tailwind CSS</span>
+            <span class="skill-badge">Alpine.js</span>
+            <span class="skill-badge">JavaScript</span>
+            <span class="skill-badge">Vue.js</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">API Docs</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Postman</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">Linux Admin</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Bash scripting</span>
+            <span class="skill-badge">cron</span>
+          </div>
+        </div>
+        <div class="skills-category">
+          <div class="skills-category-title">Tools</div>
+          <div class="skills-badges">
+            <span class="skill-badge">Git</span>
+            <span class="skill-badge">cPanel</span>
+            <span class="skill-badge">Linux</span>
           </div>
         </div>
       </div>
-    </section><!-- End Skills Section -->
-    <!-- ======= Resume Section ======= -->
-    <section id="resume" class="resume">
-      <div class="container">
-        <div class="section-title">
-          <h2>Resume</h2>
-        </div>
-        <div class="row">
-          <div class="col-lg-6" data-aos="fade-up">
-            <h3 class="resume-title">Experience</h3>
-            <div class="resume-item pb-0">
-              <h4>Lomeyo LLC</h4>
-              <p><em>Laravel Developer - Remote</em></p>
-              <h5>October 2023 - Present</h5>
-            </div>
-            <div class="resume-item pb-0">
-              <h4>The Riser IT</h4>
-              <p><em>Web application developer, Dhaka, Bangladesh</em></p>
-              <h5>January 2023 - May 2023</h5>
-            </div>
-            <div class="resume-item pb-0">
-              <h4>NordHex</h4>
-              <p><em>Web developer, Dhaka, Bangladesh</em></p>
-              <h5>April 2022 - August 2022</h5>
-            </div>
-            <div class="resume-item pb-0">
-              <h4>Mechanic Koi</h4>
-              <p><em>Information Technology Intern, Dhaka, Bangladesh</em></p>
-              <h5>October 2021 - January 2022</h5>
-              <!-- <ul>
-                <li style="text-align:justify;">Developed and managed the back-end of a traveling e-commerce platform targeting admin users using Laravel 8 and
-                  MySQL; built functionalities such as login/sign up, view daily booking, view, edit, add packages, confirm booking, check
-                  to inquire, etc.</li>
-              </ul> -->
-            </div>
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-            <h3 class="resume-title">Education</h3>
-            <div class="resume-item">
-              <h4>Bachelor of Science in Computer Science and Engineering</h4>
-              <p><em>International University of Business Agriculture and Technology</em></p>
-              <h5>January 2018 - January 2022</h5>
-              <p><em></em></p>
-              <p style="text-align:justify;"><strong>Thesis:</strong> “Machine Learning Approaches for PE Header Based
-                Multinomial Malware Classification”- Md. Kamruzzaman, Nuhash
-                Alam, Prof. Dr. Shamim Akhter. It is a PE Header-based approach for detecting malicious programs with
-                types the
-                analyzing of PE features using machine learning algorithms and achieving Correctly Classified Instance
-                about 68.17 % .</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section><!-- End Resume Section -->
-    <!-- ======= Project Section ======= -->
-    <section id="project" class="project section-bg">
-      <div class="container">
-        <div class="section-title">
-          <h2>Projects</h2>
-        </div>
-        <div class="row">
-          <div class="col-lg-6" data-aos="fade-up">
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">File Management System</h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">
-                  Developed a project using Laravel v9 and PHP to organize files such as images and PDFs for users with
-                  specific access permissions.
-                </li>
-              </ul>
-              <h5>Laravel 9</h5>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Lomeyo Management System</h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">
-                  Developed a data management system using FilamentPHP and Laravel v10 for Lomeyo LLC, organizing
-                  records for members, teams, projects, etc.
-                </li>
-              </ul>
-              <h5>Laravel 10</h5>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Blood Management System</h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">
-                  Crafted a robust blood management system employing Laravel v9 and PHP, proficiently organizing and
-                  overseeing blood resources to meet user needs.
-                </li>
-              </ul>
-              <h5>Laravel 9</h5>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Inventory Management System</h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">
-                  The goal of this project is to create a user-friendly system using Laravel v9, PHP, and MySQL that
-                  helps clients keep track of product stock, sales, dues, and service notifications.
-                </li>
-              </ul>
-              <h5>Laravel 9</h5>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Tour E Zone Management System </h4>
-                <!-- <a href="https://github.com/Pola5h/Tour_E_Zone_Management_System">
-                  <h4 style="display:inline;">Tour E Zone Management System </h4><i href="" class="bx bxl-github"
-                    style="position: relative; top: 2px; font-size: 1.3rem;"></i>
-                </a> -->
-              </div>
-              <ul>
-                <li style="text-align:justify;">Developed on Laravel 8 and MySQL. The main purpose
-                  of developing this project can help clients manage booking requests, package details,
-                  transport details, resort details, restaurant details based on the destination, dashboard, and daily
-                  log,
-                  get booking notifications etc.</li>
-              </ul>
-              <h5>Laravel 8</h5>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-
-          </div>
-          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Fleet management system </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">Developed on PHP and MySQL. The main purpose of
-                  developing this project can help corporate clients manage vehicle details, driver details,
-                  mechanic details, daily log and services details, etc.</li>
-              </ul>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">School Management System </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">A Web application coded where admin can control teacher and student
-                  information and the accountant can control the payment information, which helps reduce at least 5% of
-                  office paperwork.</li>
-              </ul>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Routine Search System </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">A Web module built where students can search class routines using
-                  student
-                  ID and can see assigned course information.</li>
-              </ul>
-              <h5>PHP</h5>
-              <h5>HTML/CSS</h5>
-              <h5>MySQL</h5>
-            </div>
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Gender and Age Detection System </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">Created an open-source project that analyzes the still image and
-                  identify the gender and age.</li>
-              </ul>
-              <h5>Python</h5>
-              <h5>OpenCV</h5>
-              <h5>Caffe Model</h5>
-            </div>
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Simple Hand Tracking System </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">Take a real-time image and track multiple hands with fingers with 90%
-                  accuracy</li>
-              </ul>
-              <h5>Python</h5>
-              <h5>OpenCV</h5>
-              <h5>Pipeline</h5>
-            </div>
-            <div class="project-item pb-0">
-              <div class="my-2">
-                <h4 style="display:inline;">Simple Hand Tracking System </h4>
-              </div>
-              <ul>
-                <li style="text-align:justify;">Listen voice through the microphone, analyze it, and work as the
-                  command.
-                </li>
-              </ul>
-              <h5>Python</h5>
-              <h5>SpeechRecognition</h5>
-              <h5>Pyttsx3</h5>
-              <h5>Pywhatkit</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section><!-- End Project Section -->
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
-      <div class="container">
-        <div class="section-title">
-          <h2>Contact</h2>
-          <p>I'm currently looking for opportunities to not only learn new skills by solving a variety of problems, but
-            also to apply what I already know. My inbox, however, is always open. Thank you for visiting my profile</p>
-        </div>
-        <div class="row" data-aos="fade-in">
-          <div class="col-lg-4 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-linkedin"></i>
-                <h4>Ping Me :</h4>
-                <p>Linkedin: <a title="click to redirect" href="https://www.linkedin.com/in/pola5h/">Kamruzzaman
-                    Polash</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 d-flex align-items-stretch">
-            <div class="info">
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email :</h4>
-                <p><a title="Click for mail" href="mailto:mkz.polash@gmail.com">mkz.polash@gmail.com</a></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 d-flex align-items-stretch">
-            <div class="info">
-              <div class="address">
-                <i class="bi bi-messenger"></i>
-                <h4>Messenger :</h4>
-                <p>Profile: <a title="click to redirect" href="https://m.me/Pola5h/">Polash</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section><!-- End Contact Section -->
-  </main><!-- End #main -->
-  <!-- ======= Footer ======= -->
-  <footer id="footer">
-    <div class="container">
-      <div class="credits">
-      </div>
-    </div>
-  </footer><!-- End  Footer -->
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center">👆</a>
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/purecounter/purecounter.js"></script>
-  <script src="assets/vendor/aos/aos.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/typed.js/typed.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-</body>
-
+    </section>
+    <script>
+      // Dark/light mode toggle with localStorage persistence
+      const themeToggle = document.getElementById('themeToggle');
+      // Check localStorage for theme preference
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      // Set correct icon on load
+      themeToggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        themeToggle.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      });
+    </script>
+  </body>
 </html>
