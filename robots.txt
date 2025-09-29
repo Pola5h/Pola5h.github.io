@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Sitemap: https://pola5h.github.io/sitemap.xml
+
+# GitHub Pages specific
+User-agent: GPTBot
+Allow: /
