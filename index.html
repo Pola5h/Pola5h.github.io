@@ -937,10 +937,6 @@
             color: var(--accent-purple);
             font-size: 0.9rem;
             margin-bottom: 1rem;
-            padding: 1rem 2rem;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
-            display: inline-block;
             font-family: 'Fira Code', monospace;
         }
         
@@ -1129,15 +1125,7 @@
             <div class="about-info">
                 <div class="info-item">
                     <span class="info-label">name</span>
-                    <span class="info-value">"Md. Kamruzzaman"</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">username</span>
-                    <span class="info-value">"pola5h"</span>
-                </div>
-                <div class="info-item">
-                    <span class="info-label">location</span>
-                    <span class="info-value">"Mymensingh, Bangladesh"</span>
+                    <span class="info-value">"Kamruzzaman Polash"</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">email</span>
@@ -1391,7 +1379,7 @@
     <footer>
         <div class="footer-content">
             <div class="portfolio-end"></div>
-            <p>© 2024 Md. Kamruzzaman - Laravel Developer in Bangladesh</p>
+            <p>© <span id="current-year">2024</span> K. Polash - Laravel Developer in Bangladesh</p>
             <p style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-secondary);">
                 Based in Mymensingh & Dhaka, Bangladesh | Available for remote work worldwide
             </p>
@@ -1490,6 +1478,8 @@
         document.querySelectorAll('.section-header, .timeline-item, .project-card, .skill-category').forEach(el => {
             observer.observe(el);
         });
-    </script>
+            // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        </script>
 </body>
 </html>
