@@ -1,0 +1,31 @@
+<svg width="1200" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="twbg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="600" fill="url(#twbg)"/>
+  
+  <!-- Developer Icon -->
+  <text x="80" y="150" font-size="120">👨‍💻</text>
+  
+  <!-- Main Text -->
+  <text x="250" y="150" fill="#c9d1d9" font-family="monospace" font-size="42" font-weight="bold">Kamruzzaman Polash</text>
+  <text x="250" y="200" fill="#58a6ff" font-family="monospace" font-size="28">Laravel Developer • Bangladesh</text>
+  
+  <!-- Code Block -->
+  <text x="250" y="260" fill="#3fb950" font-family="monospace" font-size="18">const skills = [</text>
+  <text x="280" y="290" fill="#ff9b5e" font-family="monospace" font-size="18">'Laravel', 'PHP', 'REST API',</text>
+  <text x="280" y="320" fill="#ff9b5e" font-family="monospace" font-size="18">'MySQL', 'Docker', 'Kubernetes'</text>
+  <text x="250" y="350" fill="#3fb950" font-family="monospace" font-size="18">];</text>
+  
+  <!-- Stats -->
+  <text x="250" y="410" fill="#bc8cff" font-family="monospace" font-size="20">✅ 10+ Projects Delivered</text>
+  <text x="250" y="440" fill="#bc8cff" font-family="monospace" font-size="20">🌍 Available for Remote Work</text>
+  
+  <!-- Website -->
+  <text x="250" y="500" fill="#8b949e" font-family="monospace" font-size="16">https://pola5h.github.io</text>
+</svg>

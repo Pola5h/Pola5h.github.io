@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel & PHP Development Blog | Kamruzzaman Polash</title>
+    <meta name="description" content="Expert Laravel and PHP development tutorials, tips, and best practices by Kamruzzaman Polash. Learn REST API development, MySQL optimization, and modern PHP techniques.">
+    <meta name="keywords" content="Laravel tutorials, PHP development, REST API, MySQL optimization, Laravel best practices, PHP tips, Backend development Bangladesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel & PHP Development Blog | Kamruzzaman Polash">
+    <meta property="og:description" content="Expert Laravel and PHP development tutorials, tips, and best practices">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://pola5h.github.io/blog/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Laravel & PHP Development Blog",
+      "description": "Expert Laravel and PHP development tutorials and best practices",
+      "url": "https://pola5h.github.io/blog/",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      }
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #e9ecef;
+            margin-bottom: 2rem;
+            padding: 1rem 0;
+        }
+        
+        .header h1 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .breadcrumb {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .post-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .post-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .post-content {
+            padding: 1.5rem;
+        }
+        
+        .post-category {
+            color: #28a745;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .post-title a {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .post-title a:hover {
+            color: #007bff;
+        }
+        
+        .post-excerpt {
+            color: #6c757d;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .read-more {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .sidebar {
+            background: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .sidebar ul {
+            list-style: none;
+        }
+        
+        .sidebar li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar a {
+            color: #6c757d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .sidebar a:hover {
+            color: #007bff;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .post-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <nav class="breadcrumb">
+                <a href="/">Home</a> / Blog
+            </nav>
+            <h1>Laravel & PHP Development Blog</h1>
+            <p>Expert tutorials, tips, and best practices for modern Laravel and PHP development</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="post-grid">
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">Laravel Tutorial</div>
+                    <h2 class="post-title">
+                        <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Development: Complete Guide & Best Practices</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Learn how to build robust REST APIs in Laravel with proper authentication, validation, error handling, and documentation. Includes code examples and performance optimization tips.
+                    </p>
+                    <div class="post-meta">
+                        <span>October 2025</span>
+                        <a href="/blog/laravel-rest-api-best-practices/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">PHP Performance</div>
+                    <h2 class="post-title">
+                        <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization in Laravel: Advanced Techniques</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Master database performance in Laravel applications. Learn about N+1 queries, eager loading, indexing strategies, and query caching for better application speed.
+                    </p>
+                    <div class="post-meta">
+                        <span>November 2024</span>
+                        <a href="/blog/mysql-query-optimization-laravel/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">DevOps</div>
+                    <h2 class="post-title">
+                        <a href="/blog/laravel-docker-kubernetes-deployment/">Deploying Laravel Applications with Docker and Kubernetes</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Complete guide to containerizing Laravel applications using Docker and deploying them on Kubernetes clusters. Includes CI/CD pipeline setup and scaling strategies.
+                    </p>
+                    <div class="post-meta">
+                        <span>October 2024</span>
+                        <a href="/blog/laravel-docker-kubernetes-deployment/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">Laravel Tips</div>
+                    <h2 class="post-title">
+                        <a href="/blog/laravel-mvcs-architecture-guide/">Understanding MVCS Architecture in Laravel Applications</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Deep dive into Model-View-Controller-Service (MVCS) architecture pattern in Laravel. Learn how to structure your applications for better maintainability and testing.
+                    </p>
+                    <div class="post-meta">
+                        <span>September 2024</span>
+                        <a href="/blog/laravel-mvcs-architecture-guide/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">Laravel Security</div>
+                    <h2 class="post-title">
+                        <a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel API Authentication: JWT vs Sanctum Comparison</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Comprehensive comparison of JWT and Laravel Sanctum for API authentication. Learn implementation, security considerations, and when to use each approach.
+                    </p>
+                    <div class="post-meta">
+                        <span>August 2024</span>
+                        <a href="/blog/laravel-api-authentication-jwt-sanctum/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">PHP Development</div>
+                    <h2 class="post-title">
+                        <a href="/blog/php-coding-standards-bangladesh-developers/">PHP Coding Standards Every Bangladesh Developer Should Follow</a>
+                    </h2>
+                    <p class="post-excerpt">
+                        Essential PHP coding standards and best practices tailored for Bangladesh developers. Improve code quality, readability, and team collaboration.
+                    </p>
+                    <div class="post-meta">
+                        <span>July 2024</span>
+                        <a href="/blog/php-coding-standards-bangladesh-developers/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</body>
+</html>

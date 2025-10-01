@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://pola5h.github.io/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Kamruzzaman Polash - Laravel Developer Bangladesh</image:title>
+      <image:caption>Professional Laravel developer portfolio showcasing web development expertise in Bangladesh</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+    <image:image>
+      <image:loc>https://pola5h.github.io/twitter-image.svg</image:loc>
+      <image:title>Laravel Developer Bangladesh - Twitter Card</image:title>
+      <image:caption>Social media image for Laravel developer services in Bangladesh</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/laravel-development-services/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel Developer Services Bangladesh</image:title>
+      <image:caption>Professional Laravel development services for businesses in Bangladesh and international clients</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel Development Blog - Technical Tutorials</image:title>
+      <image:caption>Laravel, PHP, and web development tutorials and best practices by Kamruzzaman Polash</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/laravel-rest-api-best-practices/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel REST API Best Practices Tutorial</image:title>
+      <image:caption>Comprehensive guide to building robust REST APIs with Laravel framework</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/mysql-query-optimization-laravel/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>MySQL Query Optimization for Laravel Applications</image:title>
+      <image:caption>Advanced MySQL performance optimization techniques for Laravel developers</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/laravel-docker-kubernetes-deployment/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel Docker Kubernetes Deployment Guide</image:title>
+      <image:caption>Production-ready Laravel deployment using Docker containers and Kubernetes orchestration</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel MVCS Architecture Complete Guide</image:title>
+      <image:caption>Comprehensive guide to Model-View-Controller-Service architecture in Laravel applications</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Laravel API Authentication JWT Sanctum Guide</image:title>
+      <image:caption>Complete comparison and implementation guide for Laravel API authentication using JWT and Sanctum</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>PHP Coding Standards Bangladesh Developers</image:title>
+      <image:caption>Essential PHP coding standards and PSR guidelines for professional developers in Bangladesh</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://pola5h.github.io/local-seo.html</loc>
+    <image:image>
+      <image:loc>https://pola5h.github.io/og-image.svg</image:loc>
+      <image:title>Local Laravel Developer Bangladesh Services</image:title>
+      <image:caption>Local Laravel development services in Dhaka, Bangladesh with cultural understanding and timezone advantages</image:caption>
+      <image:geo_location>Dhaka, Bangladesh</image:geo_location>
+      <image:license>https://pola5h.github.io/licence</image:license>
+    </image:image>
+  </url>
+
+</urlset>

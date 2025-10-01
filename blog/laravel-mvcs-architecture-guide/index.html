@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel MVCS Architecture: Complete Development Guide 2025</title>
+    <meta name="description" content="Deep dive into Model-View-Controller-Service (MVCS) architecture pattern in Laravel. Learn how to structure applications for better maintainability and scalability.">
+    <meta name="keywords" content="Laravel MVCS, Laravel architecture, Laravel service layer, Laravel design patterns, PHP architecture patterns, Laravel developer Bangladesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel MVCS Architecture: Complete Development Guide">
+    <meta property="og:description" content="Master Laravel MVCS architecture patterns for scalable application development">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel MVCS Architecture Guide">
+    <meta name="twitter:description" content="Complete guide to Laravel MVCS architecture and design patterns">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+    
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Laravel MVCS Architecture: Complete Development Guide",
+      "description": "Deep dive into Model-View-Controller-Service architecture pattern in Laravel applications",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-10-02",
+      "dateModified": "2025-10-02",
+      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/",
+      "articleSection": "Technology",
+      "keywords": ["Laravel MVCS", "Laravel architecture", "service layer", "design patterns"]
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            color: #2c3e50;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .author-bio {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .author-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .author-links a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel MVCS Architecture
+        </nav>
+
+        <h1>Understanding MVCS Architecture in Laravel Applications</h1>
+        <p><strong>Published:</strong> September 20, 2024 by <a href="/">Kamruzzaman Polash</a></p>
+
+        <p>
+            MVCS (Model-View-Controller-Service) extends the traditional MVC pattern by adding a service layer. 
+            This separation improves code organization and makes Laravel applications more maintainable.
+        </p>
+
+        <h2>What is MVCS Architecture?</h2>
+        <p>
+            MVCS adds a Service layer between Controllers and Models. Services handle business logic, 
+            keeping controllers thin and models focused on data representation.
+        </p>
+
+        <h2>Service Layer Implementation</h2>
+        <p>Create a service class to handle user registration logic:</p>
+
+        <div class="code-block">
+// app/Services/UserService.php
+class UserService
+{
+    public function createUser(array $data): User
+    {
+        // Business logic here
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        // Send welcome email
+        Mail::to($user)->send(new WelcomeEmail($user));
+
+        return $user;
+    }
+}
+        </div>
+
+        <h2>Controller Using Service</h2>
+        <div class="code-block">
+// app/Http/Controllers/UserController.php
+class UserController extends Controller
+{
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function store(UserRequest $request)
+    {
+        $user = $this->userService->createUser($request->validated());
+        
+        return response()->json(['user' => $user], 201);
+    }
+}
+        </div>
+
+        <h2>Benefits of MVCS</h2>
+        <p><strong>1. Separation of Concerns:</strong> Each layer has a specific responsibility</p>
+        <p><strong>2. Testability:</strong> Services can be easily unit tested</p>
+        <p><strong>3. Reusability:</strong> Services can be used across multiple controllers</p>
+        <p><strong>4. Maintainability:</strong> Changes to business logic are isolated</p>
+
+        <h2>Repository Pattern Integration</h2>
+        <div class="code-block">
+// app/Repositories/UserRepository.php
+class UserRepository
+{
+    public function findByEmail(string $email): ?User
+    {
+        return User::where('email', $email)->first();
+    }
+
+    public function createUser(array $data): User
+    {
+        return User::create($data);
+    }
+}
+        </div>
+
+        <p>
+            MVCS architecture makes Laravel applications more structured and easier to maintain. 
+            Start by extracting business logic from controllers into service classes.
+        </p>
+
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p>
+                <strong>Kamruzzaman Polash</strong>
+            </p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h">GitHub</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

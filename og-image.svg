@@ -1,0 +1,35 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Main Content -->
+  <text x="60" y="180" fill="#58a6ff" font-family="monospace" font-size="32" font-weight="bold">&lt;?php</text>
+  <text x="60" y="220" fill="#3fb950" font-family="monospace" font-size="32" font-weight="bold">class KamruzzamanPolash {</text>
+  
+  <!-- Name -->
+  <text x="100" y="280" fill="#c9d1d9" font-family="monospace" font-size="48" font-weight="bold">Kamruzzaman Polash</text>
+  
+  <!-- Role -->
+  <text x="100" y="330" fill="#bc8cff" font-family="monospace" font-size="28">Laravel PHP Developer &amp; Software Engineer</text>
+  
+  <!-- Location -->
+  <text x="100" y="370" fill="#8b949e" font-family="monospace" font-size="24">📍 Bangladesh • Remote Available</text>
+  
+  <!-- Skills -->
+  <text x="100" y="420" fill="#ff9b5e" font-family="monospace" font-size="20">// Skills: Laravel • REST API • MySQL • Docker • Kubernetes</text>
+  
+  <!-- Contact -->
+  <text x="100" y="460" fill="#ff7b72" font-family="monospace" font-size="20">📧 kzaman3055@gmail.com</text>
+  <text x="100" y="490" fill="#ff7b72" font-family="monospace" font-size="20">🔗 https://pola5h.github.io</text>
+  
+  <!-- Closing -->
+  <text x="60" y="550" fill="#3fb950" font-family="monospace" font-size="32" font-weight="bold">}</text>
+  <text x="60" y="590" fill="#58a6ff" font-family="monospace" font-size="32" font-weight="bold">?&gt;</text>
+</svg>

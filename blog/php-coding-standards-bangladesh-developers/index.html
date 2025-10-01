@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Coding Standards: Complete Guide for Bangladesh Developers 2025</title>
+    <meta name="description" content="Essential PHP coding standards and PSR best practices tailored for Bangladesh developers. Improve code quality, team collaboration, and professional development.">
+    <meta name="keywords" content="PHP coding standards, PSR standards, PHP best practices, Bangladesh developers, PHP development, code quality, Laravel standards">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="PHP Coding Standards: Complete Guide for Bangladesh Developers">
+    <meta property="og:description" content="Essential PHP coding standards and best practices for Bangladeshi developers">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PHP Coding Standards Bangladesh Developers">
+    <meta name="twitter:description" content="Essential PHP coding standards and PSR guidelines">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+    
+    <link rel="canonical" href="https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "PHP Coding Standards: Complete Guide for Bangladesh Developers",
+      "description": "Essential PHP coding standards and PSR best practices tailored for Bangladesh developers",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-10-02",
+      "dateModified": "2025-10-02",
+      "mainEntityOfPage": "https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/",
+      "articleSection": "Technology",
+      "keywords": ["PHP coding standards", "PSR", "Bangladesh developers", "code quality"]
+    }
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 2rem; color: #2c3e50; }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: #2c3e50; }
+        h3 { font-size: 1.4rem; margin: 1.5rem 0 0.5rem; color: #34495e; }
+        p { margin-bottom: 1.5rem; }
+        ul { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: monospace; overflow-x: auto; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="/">Home</a> / <a href="/blog/">Blog</a> / PHP Coding Standards
+    </nav>
+
+    <h1>PHP Coding Standards Every Bangladesh Developer Should Follow</h1>
+    <p><strong>Published:</strong> July 15, 2024 by <a href="/">Kamruzzaman Polash</a></p>
+
+    <p>
+        Following consistent coding standards is essential for Bangladesh developers working in teams or building 
+        maintainable applications. Here are the key standards every PHP developer should adopt.
+    </p>
+
+    <h2>PSR Standards</h2>
+    <p>PHP-FIG (Framework Interop Group) standards ensure code compatibility across different PHP projects.</p>
+
+    <h3>PSR-1: Basic Coding Standard</h3>
+    <ul>
+        <li>Use only opening tags &lt;?php</li>
+        <li>Use UTF-8 without BOM</li>
+        <li>Class names in PascalCase</li>
+        <li>Method names in camelCase</li>
+    </ul>
+
+    <div class="code-block">
+// Good
+class UserService
+{
+    public function getUserById($id)
+    {
+        return User::find($id);
+    }
+}
+
+// Bad
+class user_service
+{
+    public function get_user_by_id($id)
+    {
+        return User::find($id);
+    }
+}
+    </div>
+
+    <h3>PSR-2: Coding Style Guide</h3>
+    <ul>
+        <li>Use 4 spaces for indentation (not tabs)</li>
+        <li>Line length should be 120 characters or less</li>
+        <li>Opening braces on same line for methods</li>
+        <li>One statement per line</li>
+    </ul>
+
+    <div class="code-block">
+// Good formatting
+if ($condition) {
+    $result = processData($data);
+    return $result;
+}
+
+// Bad formatting
+if($condition){
+$result=processData($data);return $result;
+}
+    </div>
+
+    <h2>Laravel-Specific Standards</h2>
+    
+    <h3>Naming Conventions</h3>
+    <ul>
+        <li>Controllers: PascalCase with "Controller" suffix</li>
+        <li>Models: Singular PascalCase</li>
+        <li>Variables: camelCase</li>
+        <li>Database tables: plural snake_case</li>
+    </ul>
+
+    <div class="code-block">
+// Controllers
+class UserController extends Controller {}
+
+// Models  
+class User extends Model {}
+
+// Variables
+$userData = [];
+$isActive = true;
+
+// Database tables
+users, blog_posts, user_profiles
+    </div>
+
+    <h3>Method Documentation</h3>
+    <p>Always document your methods, especially for team projects:</p>
+
+    <div class="code-block">
+/**
+ * Create a new user account
+ *
+ * @param array $data User registration data
+ * @return User The created user instance
+ * @throws ValidationException If validation fails
+ */
+public function createUser(array $data): User
+{
+    // Implementation
+}
+    </div>
+
+    <h2>Tools for Code Quality</h2>
+    
+    <h3>PHP CodeSniffer</h3>
+    <p>Automatically check coding standards:</p>
+    <div class="code-block">
+// Install
+composer require --dev squizlabs/php_codesniffer
+
+// Check code
+./vendor/bin/phpcs --standard=PSR2 app/
+
+// Auto-fix issues
+./vendor/bin/phpcbf --standard=PSR2 app/
+    </div>
+
+    <h3>PHP-CS-Fixer</h3>
+    <p>Automatically fix coding standard violations:</p>
+    <div class="code-block">
+// Install
+composer require --dev friendsofphp/php-cs-fixer
+
+// Fix files
+./vendor/bin/php-cs-fixer fix app/
+    </div>
+
+    <h2>Best Practices for Bangladesh Teams</h2>
+    
+    <h3>1. Use English for Code</h3>
+    <ul>
+        <li>Variable names in English</li>
+        <li>Comments in English</li>
+        <li>Function names in English</li>
+    </ul>
+
+    <h3>2. Consistent Error Handling</h3>
+    <div class="code-block">
+// Good: Consistent exception handling
+try {
+    $user = $this->userService->createUser($data);
+} catch (ValidationException $e) {
+    return response()->json(['errors' => $e->errors()], 422);
+} catch (Exception $e) {
+    Log::error('User creation failed: ' . $e->getMessage());
+    return response()->json(['error' => 'Internal error'], 500);
+}
+    </div>
+
+    <h3>3. Security Standards</h3>
+    <ul>
+        <li>Always validate user input</li>
+        <li>Use prepared statements for database queries</li>
+        <li>Sanitize output data</li>
+        <li>Follow Laravel security best practices</li>
+    </ul>
+
+    <h2>Team Collaboration</h2>
+    <p>For Bangladesh development teams:</p>
+    <ul>
+        <li>Set up EditorConfig for consistent formatting</li>
+        <li>Use Git hooks to enforce standards</li>
+        <li>Regular code reviews</li>
+        <li>Shared coding standards document</li>
+    </ul>
+
+    <p>
+        Following these coding standards will make you a more professional developer and improve collaboration 
+        in Bangladesh tech teams. Start with PSR standards and gradually adopt Laravel-specific conventions.
+    </p>
+
+    <div class="author-bio">
+        <h3>About the Author</h3>
+        <p><strong>Kamruzzaman Polash</strong></p>
+        <div class="author-links">
+            <a href="/">Portfolio</a>
+            <a href="mailto:kzaman3055@gmail.com">Contact</a>
+            <a href="https://github.com/pola5h">GitHub</a>
+        </div>
+    </div>
+</body>
+</html>

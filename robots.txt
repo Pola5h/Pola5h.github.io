@@ -1,7 +1,322 @@
+# Advanced robots.txt for maximum SEO optimization
+# Professional Laravel Developer Portfolio - Bangladesh
+# Optimized for Google, Bing, and local search engines
+
+# Default rules for all crawlers
 User-agent: *
 Allow: /
-Sitemap: https://pola5h.github.io/sitemap.xml
+Crawl-delay: 1
 
-# GitHub Pages specific
-User-agent: GPTBot
+# High-priority content directories
+Allow: /index.html
+Allow: /blog/
+Allow: /laravel-development-services/
+Allow: /local-seo.html
+Allow: /schema.html
+Allow: /og-image.svg
+Allow: /twitter-image.svg
+
+# SEO and social media assets
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.svg$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.webp$
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Block unnecessary files and directories
+Disallow: /*.json$
+Disallow: /*.log$
+Disallow: /*.bak$
+Disallow: /*.tmp$
+Disallow: /private/
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /cgi-bin/
+Disallow: /*.php$
+Disallow: /error/
+Disallow: /temp/
+Disallow: /cache/
+
+# Major search engines - optimized crawling
+User-agent: Googlebot
 Allow: /
+Crawl-delay: 0.5
+Request-rate: 1/1s
+
+User-agent: Googlebot-Image
+Allow: /*.svg$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.webp$
+
+User-agent: Googlebot-News
+Allow: /blog/
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+Request-rate: 1/2s
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 2
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 5
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /
+
+User-agent: SkypeUriPreview
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: Slackbot
+Allow: /
+
+# SEO and monitoring tools (selective access)
+User-agent: adsbot-google
+Allow: /
+
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Google-Safety
+Allow: /
+
+# Archive and research bots (limited access)
+User-agent: ia_archiver
+Allow: /
+Crawl-delay: 86400
+
+User-agent: archive.org_bot
+Allow: /
+Crawl-delay: 86400
+
+User-agent: Wayback
+Allow: /
+Crawl-delay: 86400
+
+# Block aggressive SEO tools and scrapers
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SiteAuditBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: AspiegelBot
+Disallow: /
+
+User-agent: SeznamBot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: proximic
+Disallow: /
+
+User-agent: BomboraBot
+Disallow: /
+
+# Block AI training bots
+User-agent: CCBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: img2dataset
+Disallow: /
+
+User-agent: omgili
+Disallow: /
+
+User-agent: omgilibot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+User-agent: Meta-ExternalFetcher
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+# Block spam and malicious bots
+User-agent: ScoutJet
+Disallow: /
+
+User-agent: Gigabot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: SurveyBot
+Disallow: /
+
+User-agent: CRAZYWEBCRAWLER
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: SemrushBot-SI
+Disallow: /
+
+User-agent: SemrushBot-SA
+Disallow: /
+
+User-agent: SemrushBot-SW
+Disallow: /
+
+User-agent: SemrushBot-CT
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+User-agent: MauiBot
+Disallow: /
+
+User-agent: AlphaBot
+Disallow: /
+
+User-agent: DeuSu
+Disallow: /
+
+User-agent: BetaBot
+Disallow: /
+
+User-agent: VelenPublicWebCrawler
+Disallow: /
+
+User-agent: SafeDNSBot
+Disallow: /
+
+User-agent: FemtosearchBot
+Disallow: /
+
+User-agent: SiteBot
+Disallow: /
+
+User-agent: AhrefsSiteAudit
+Disallow: /
+
+User-agent: EmailCollector
+Disallow: /
+
+User-agent: EmailSiphon
+Disallow: /
+
+User-agent: WebBandit
+Disallow: /
+
+# Geographic-specific crawlers
+User-agent: naver
+Allow: /
+Crawl-delay: 2
+
+User-agent: Daumoa
+Allow: /
+Crawl-delay: 2
+
+# Academic and research bots (limited)
+User-agent: ResearchScan
+Allow: /blog/
+Crawl-delay: 10
+
+User-agent: CiteThisForMeBot
+Allow: /blog/
+Crawl-delay: 5
+
+# Sitemap references
+Sitemap: https://pola5h.github.io/sitemap.xml
+Sitemap: https://pola5h.github.io/sitemap-blog.xml
+Sitemap: https://pola5h.github.io/sitemap-images.xml
+
+# Host specification for canonical URL
+Host: pola5h.github.io
+
+# Clean-param (for URL parameters)
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term
+Clean-param: fbclid&gclid&msclkid&dclid
+Clean-param: ref&source&medium&campaign

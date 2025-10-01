@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel REST API Development: Complete Guide & Best Practices 2025</title>
+    <meta name="description" content="Complete guide to building robust REST APIs in Laravel with authentication, validation, error handling, and documentation. Expert tips from Bangladesh Laravel developer Kamruzzaman Polash.">
+    <meta name="keywords" content="Laravel REST API, Laravel API development, PHP API, REST API Laravel, Laravel authentication, Laravel validation, API documentation Laravel, Laravel developer Bangladesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel REST API Development: Complete Guide & Best Practices">
+    <meta property="og:description" content="Learn how to build robust REST APIs in Laravel with proper authentication, validation, and error handling">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Laravel REST API Development: Complete Guide & Best Practices",
+      "description": "Complete guide to building robust REST APIs in Laravel with authentication, validation, error handling, and documentation",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-10-02",
+      "dateModified": "2025-10-02"
+    }
+    </script>
+    
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are the best practices for Laravel REST API development?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Key best practices include proper authentication (Sanctum/Passport), consistent error handling, API versioning, input validation, rate limiting, comprehensive documentation, and following RESTful conventions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How to handle authentication in Laravel REST API?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Laravel offers multiple authentication options: Laravel Sanctum for SPA and mobile apps, Laravel Passport for OAuth2, or JWT for stateless authentication. Choose based on your specific requirements."
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .breadcrumb {
+            color: #6c757d;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .article-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .article-category {
+            color: #28a745;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .article-meta {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .article-meta a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h2 {
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1rem;
+            color: #2c3e50;
+        }
+        
+        .article-content h3 {
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+            color: #34495e;
+        }
+        
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 1rem;
+            border-left: 4px solid #ffc107;
+            margin: 2rem 0;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .toc h3 {
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .author-bio {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .author-bio h3 {
+            margin-bottom: 1rem;
+            color: #495057;
+        }
+        
+        .author-bio p {
+            margin-bottom: 1rem;
+            color: #6c757d;
+        }
+        
+        .author-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .author-links a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid #007bff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .author-links a:hover {
+            background: #007bff;
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .author-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel REST API Development Guide
+        </nav>
+
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel Tutorial</div>
+                <h1>Laravel REST API Development: Complete Guide & Best Practices</h1>
+                <div class="article-meta">
+                    By <a href="/">Kamruzzaman Polash</a> • October 2, 2025 • 15 min read
+                </div>
+            </header>
+
+            <div class="toc">
+                <h3>Table of Contents</h3>
+                <ul>
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#setup">Project Setup & Configuration</a></li>
+                    <li><a href="#routing">API Routing & Structure</a></li>
+                    <li><a href="#authentication">Authentication & Security</a></li>
+                    <li><a href="#validation">Request Validation</a></li>
+                    <li><a href="#error-handling">Error Handling</a></li>
+                    <li><a href="#documentation">API Documentation</a></li>
+                    <li><a href="#testing">Testing Your API</a></li>
+                    <li><a href="#performance">Performance Optimization</a></li>
+                    <li><a href="#conclusion">Conclusion</a></li>
+                </ul>
+            </div>
+
+            <div class="article-content">
+                <h2 id="introduction">Introduction</h2>
+                <p>
+                    Building robust REST APIs is a crucial skill for modern Laravel developers. As a Laravel developer in Bangladesh with experience in 10+ projects, I've learned that creating maintainable, scalable APIs requires following established patterns and best practices from the start.
+                </p>
+
+                <p>
+                    In this comprehensive guide, we'll cover everything from basic setup to advanced optimization techniques. Whether you're building your first API or looking to improve existing ones, this guide will help you create professional-grade REST APIs that can handle real-world applications.
+                </p>
+
+                <div class="highlight">
+                    <strong>What You'll Learn:</strong> Complete Laravel REST API development workflow, authentication strategies, validation techniques, error handling, testing approaches, and performance optimization tips used in production applications.
+                </div>
+
+                <h2 id="setup">Project Setup & Configuration</h2>
+                <h3>Creating a New Laravel Project</h3>
+                <p>Let's start by creating a fresh Laravel project optimized for API development:</p>
+
+                <div class="code-block">
+# Install Laravel via Composer
+composer create-project laravel/laravel api-project
+
+# Navigate to project directory
+cd api-project
+
+# Install Laravel Sanctum for authentication
+composer require laravel/sanctum
+
+# Publish Sanctum configuration
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+
+# Run migrations
+php artisan migrate
+                </div>
+
+                <h3>API Configuration</h3>
+                <p>Configure your application for API-first development by updating these key files:</p>
+
+                <div class="code-block">
+// config/app.php
+'timezone' => 'Asia/Dhaka', // Set your local timezone
+
+// .env file updates
+API_PREFIX=api
+API_VERSION=v1
+API_RATE_LIMIT=60
+                </div>
+
+                <h2 id="routing">API Routing & Structure</h2>
+                <p>Organize your API routes using Laravel's API routing conventions. Here's how I structure API routes for maintainability:</p>
+
+                <div class="code-block">
+// routes/api.php
+use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Api\V1\ProductController;
+
+Route::prefix('v1')->group(function () {
+    // Public routes
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    
+    // Protected routes
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::get('/profile', [UserController::class, 'profile']);
+        
+        // Resource routes
+        Route::apiResource('products', ProductController::class);
+    });
+});
+                </div>
+
+                <h2 id="authentication">Authentication & Security</h2>
+                <h3>Laravel Sanctum Implementation</h3>
+                <p>Laravel Sanctum provides a lightweight authentication system perfect for SPAs and mobile applications. Here's my recommended setup:</p>
+
+                <div class="code-block">
+// app/Http/Controllers/Api/V1/AuthController.php
+class AuthController extends Controller
+{
+    public function register(RegisterRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User registered successfully',
+            'data' => [
+                'user' => $user,
+                'token' => $token,
+                'token_type' => 'Bearer',
+            ]
+        ], 201);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials'
+            ], 401);
+        }
+
+        $user = Auth::user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Login successful',
+            'data' => [
+                'user' => $user,
+                'token' => $token,
+                'token_type' => 'Bearer',
+            ]
+        ]);
+    }
+}
+                </div>
+
+                <h2 id="validation">Request Validation</h2>
+                <p>Proper input validation is crucial for API security and data integrity. Use Laravel Form Requests for clean, reusable validation:</p>
+
+                <div class="code-block">
+// app/Http/Requests/RegisterRequest.php
+class RegisterRequest extends FormRequest
+{
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email address is already registered.',
+            'password.confirmed' => 'Password confirmation does not match.',
+        ];
+    }
+}
+                </div>
+
+                <h2 id="error-handling">Error Handling</h2>
+                <p>Consistent error handling improves API usability. Create a centralized error response system:</p>
+
+                <div class="code-block">
+// app/Http/Controllers/Controller.php (Base Controller)
+class Controller extends BaseController
+{
+    protected function successResponse($data, $message = 'Success', $code = 200)
+    {
+        return response()->json([
+            'success' => true,
+            'message' => $message,
+            'data' => $data
+        ], $code);
+    }
+
+    protected function errorResponse($message, $code = 400, $errors = null)
+    {
+        $response = [
+            'success' => false,
+            'message' => $message,
+        ];
+
+        if ($errors) {
+            $response['errors'] = $errors;
+        }
+
+        return response()->json($response, $code);
+    }
+}
+                </div>
+
+                <h2 id="documentation">API Documentation</h2>
+                <p>Well-documented APIs are easier to maintain and consume. I recommend using Laravel's built-in API documentation tools or Swagger for comprehensive documentation.</p>
+
+                <h2 id="testing">Testing Your API</h2>
+                <p>Automated testing ensures your API remains reliable as it grows. Here's a sample test for our authentication endpoint:</p>
+
+                <div class="code-block">
+// tests/Feature/AuthTest.php
+class AuthTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_user_can_register()
+    {
+        $userData = [
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
+
+        $response = $this->postJson('/api/v1/register', $userData);
+
+        $response->assertStatus(201)
+                 ->assertJsonStructure([
+                     'success',
+                     'message',
+                     'data' => [
+                         'user',
+                         'token',
+                         'token_type'
+                     ]
+                 ]);
+
+        $this->assertDatabaseHas('users', [
+            'email' => 'john@example.com'
+        ]);
+    }
+}
+                </div>
+
+                <h2 id="performance">Performance Optimization</h2>
+                <p>For high-traffic APIs, consider these optimization strategies:</p>
+
+                <ul>
+                    <li><strong>Database Optimization:</strong> Use eager loading to prevent N+1 queries</li>
+                    <li><strong>Caching:</strong> Implement Redis caching for frequently accessed data</li>
+                    <li><strong>Rate Limiting:</strong> Protect your API from abuse with rate limiting</li>
+                    <li><strong>API Resources:</strong> Use Laravel API Resources for consistent data transformation</li>
+                    <li><strong>Queue Jobs:</strong> Move heavy operations to background jobs</li>
+                </ul>
+
+                <h2 id="conclusion">Conclusion</h2>
+                <p>
+                    Building robust REST APIs in Laravel requires attention to security, performance, and maintainability. By following these best practices, you'll create APIs that can scale with your application's growth and provide excellent developer experience.
+                </p>
+
+                <p>
+                    As a Laravel developer in Bangladesh, I've implemented these patterns across multiple production applications, from e-commerce platforms to inventory management systems. The key is consistency and following established conventions.
+                </p>
+
+                <div class="highlight">
+                    <strong>Next Steps:</strong> Practice implementing these concepts in a sample project, set up automated testing, and consider implementing API versioning for future scalability.
+                </div>
+            </div>
+        </article>
+
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p>
+                <strong>Kamruzzaman Polash</strong>
+            </p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h">GitHub</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel API Authentication: JWT vs Sanctum Complete Guide 2025</title>
+    <meta name="description" content="Comprehensive comparison of JWT and Laravel Sanctum for API authentication. Learn implementation, security considerations, and best practices from Bangladesh Laravel expert.">
+    <meta name="keywords" content="Laravel authentication, Laravel Sanctum, JWT Laravel, API authentication, Laravel security, PHP authentication, Laravel developer Bangladesh">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel API Authentication: JWT vs Sanctum Complete Guide">
+    <meta property="og:description" content="Comprehensive comparison of JWT and Laravel Sanctum for API authentication with implementation examples">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel API Authentication: JWT vs Sanctum Guide">
+    <meta name="twitter:description" content="Complete guide to Laravel API authentication methods">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+    
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Laravel API Authentication: JWT vs Sanctum Complete Guide",
+      "description": "Comprehensive comparison of JWT and Laravel Sanctum for API authentication with implementation examples",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-10-02",
+      "dateModified": "2025-10-02",
+      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/",
+      "articleSection": "Technology",
+      "keywords": ["Laravel authentication", "Laravel Sanctum", "JWT", "API security"],
+      "inLanguage": "en-US"
+    }
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 2rem; color: #2c3e50; }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: #2c3e50; }
+        p { margin-bottom: 1.5rem; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: monospace; overflow-x: auto; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel API Authentication
+    </nav>
+
+    <h1>Laravel API Authentication: JWT vs Sanctum Comparison</h1>
+    <p><strong>Published:</strong> August 10, 2024 by <a href="/">Kamruzzaman Polash</a></p>
+
+    <p>
+        Choosing the right authentication method for Laravel APIs is crucial. Let's compare JWT and Laravel Sanctum 
+        to help you make the right decision for your project.
+    </p>
+
+    <h2>Laravel Sanctum</h2>
+    <p>Official Laravel package for API authentication. Simple and secure for most use cases.</p>
+
+    <div class="code-block">
+// Install Sanctum
+composer require laravel/sanctum
+
+// Create token
+$user = Auth::user();
+$token = $user->createToken('api-token')->plainTextToken;
+
+// Protect routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+    </div>
+
+    <h2>JWT (JSON Web Tokens)</h2>
+    <p>Stateless authentication tokens that contain user information and can be verified without database queries.</p>
+
+    <div class="code-block">
+// Install tymon/jwt-auth
+composer require tymon/jwt-auth
+
+// Generate token
+$token = JWTAuth::attempt($credentials);
+
+// Verify token
+$user = JWTAuth::parseToken()->authenticate();
+    </div>
+
+    <h2>Comparison</h2>
+    
+    <p><strong>Sanctum Pros:</strong></p>
+    <ul>
+        <li>Official Laravel package</li>
+        <li>Simple setup and usage</li>
+        <li>Built-in token management</li>
+        <li>CSRF protection for SPAs</li>
+    </ul>
+
+    <p><strong>JWT Pros:</strong></p>
+    <ul>
+        <li>Stateless (no database queries)</li>
+        <li>Contains user data in token</li>
+        <li>Industry standard</li>
+        <li>Works across different services</li>
+    </ul>
+
+    <h2>When to Use Which?</h2>
+    <p><strong>Use Sanctum when:</strong></p>
+    <ul>
+        <li>Building Laravel SPAs</li>
+        <li>Need simple API authentication</li>
+        <li>Want official Laravel support</li>
+    </ul>
+
+    <p><strong>Use JWT when:</strong></p>
+    <ul>
+        <li>Building microservices</li>
+        <li>Need stateless authentication</li>
+        <li>Working with multiple applications</li>
+    </ul>
+
+    <p>
+        For most Laravel applications, Sanctum is the recommended choice due to its simplicity and official support. 
+        Choose JWT for complex distributed systems requiring stateless authentication.
+    </p>
+
+    <div class="author-bio">
+        <h3>About the Author</h3>
+        <p><strong>Kamruzzaman Polash</strong></p>
+        <div class="author-links">
+            <a href="/">Portfolio</a>
+            <a href="mailto:kzaman3055@gmail.com">Contact</a>
+            <a href="https://github.com/pola5h">GitHub</a>
+        </div>
+    </div>
+</body>
+</html>
