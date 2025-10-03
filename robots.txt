@@ -5,7 +5,6 @@
 # Default rules for all crawlers
 User-agent: *
 Allow: /
-Crawl-delay: 1
 
 # High-priority content directories
 Allow: /index.html
