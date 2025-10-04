@@ -311,6 +311,7 @@ Crawl-delay: 5
 Sitemap: https://pola5h.github.io/sitemap.xml
 Sitemap: https://pola5h.github.io/sitemap-blog.xml
 Sitemap: https://pola5h.github.io/sitemap-images.xml
+Sitemap: https://pola5h.github.io/sitemap-global.xml
 
 # Host specification for canonical URL
 Host: pola5h.github.io
