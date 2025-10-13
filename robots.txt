@@ -9,7 +9,7 @@ Allow: /
 # High-priority content directories
 Allow: /index.html
 Allow: /blog/
-Allow: /laravel-development-services/
+Allow: /services/
 Allow: /local-seo.html
 Allow: /schema.html
 Allow: /og-image.svg
