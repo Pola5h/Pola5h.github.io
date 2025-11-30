@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts</title>
-    <meta name="description" content="Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations. Complete guide with examples for Laravel developers.">
-    <meta name="keywords" content="Laravel 12.39, Laravel new features, @hasStack directive, route:list middleware, Laravel Blade, Laravel performance, Laravel type safety, Laravel caching, Laravel queues, Laravel optimization, Laravel developer, Laravel 12, Laravel framework, Laravel updates, Laravel SEO, Laravel best practices, Laravel Bangladesh, Laravel USA, Laravel UK, Laravel Canada, Laravel Australia, Laravel India, Laravel Singapore, Laravel Europe, Laravel Asia, Laravel remote developer, Laravel hire, Laravel consultant">
+    <meta name="description" content="Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations. Plus preview of Laravel 12.40 hot topics including time interval helpers and enhanced queues. Complete guide with examples for Laravel developers.">
+    <meta name="keywords" content="Laravel 12.39, Laravel 12.40, Laravel new features, @hasStack directive, route:list middleware, time interval helpers, Laravel Blade, Laravel performance, Laravel type safety, Laravel caching, Laravel queues, Laravel optimization, Laravel developer, Laravel 12, Laravel framework, Laravel updates, Laravel SEO, Laravel best practices, Laravel Bangladesh, Laravel USA, Laravel UK, Laravel Canada, Laravel Australia, Laravel India, Laravel Singapore, Laravel Europe, Laravel Asia, Laravel remote developer, Laravel hire, Laravel consultant">
         <!-- FAQ Schema for SEO -->
         <script type="application/ld+json">
         {
@@ -38,6 +38,14 @@
                 },
                 {
                     "@type": "Question",
+                    "name": "What are the hot topics in Laravel 12.40?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Laravel 12.40 introduces time interval helpers, enhanced queue improvements, advanced type safety, and database performance updates including instant column additions and PostgreSQL full-text search."
+                    }
+                },
+                {
+                    "@type": "Question",
                     "name": "How do I upgrade to Laravel 12.39?",
                     "acceptedAnswer": {
                         "@type": "Answer",
@@ -54,14 +62,14 @@
     <link rel="canonical" href="https://pola5h.github.io/blog/laravel-12-39-new-features/">
     <!-- Open Graph -->
     <meta property="og:title" content="Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts">
-    <meta property="og:description" content="Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations.">
+    <meta property="og:description" content="Discover Laravel 12.39's game-changing features plus preview of Laravel 12.40 hot topics: @hasStack directive, route:list middleware filtering, time interval helpers, and performance optimizations.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/laravel-12-39-new-features/">
     <meta property="og:type" content="article">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Laravel 12.39 New Features: @hasStack & Route Filtering">
-    <meta name="twitter:description" content="Laravel 12.39 brings powerful new features: @hasStack directive, middleware route filtering, and major performance improvements.">
+    <meta name="twitter:description" content="Laravel 12.39 brings powerful new features plus Laravel 12.40 preview: @hasStack directive, middleware route filtering, time interval helpers, and major performance improvements.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -69,7 +77,7 @@
       "@context": "https://schema.org",
       "@type": "TechArticle",
       "headline": "Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts",
-      "description": "Complete guide to Laravel 12.39's new features including @hasStack Blade directive, route:list middleware filtering, and performance optimizations.",
+      "description": "Complete guide to Laravel 12.39's new features including @hasStack Blade directive, route:list middleware filtering, and performance optimizations. Plus preview of Laravel 12.40 hot topics and upcoming enhancements.",
       "image": "https://pola5h.github.io/og-image.svg",
       "author": {
         "@type": "Person",
@@ -84,7 +92,7 @@
       "dateModified": "2025-11-30",
       "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-12-39-new-features/",
       "articleSection": "Technology",
-      "keywords": ["Laravel 12.39", "Laravel features", "@hasStack directive", "route:list middleware", "Laravel performance", "Laravel type safety"],
+      "keywords": ["Laravel 12.39", "Laravel 12.40", "Laravel features", "@hasStack directive", "route:list middleware", "time interval helpers", "Laravel performance", "Laravel type safety"],
       "inLanguage": "en-US"
     }
     </script>
@@ -374,7 +382,55 @@
         <li>Performance optimizations</li>
     </ul>
 
-    <h2>8. Conclusion: Laravel 12.39 Sets New Standards</h2>
+    <h2>8. Current Hot Topics in Laravel 12.40</h2>
+    <p>While Laravel 12.39 brings significant improvements, the community is already buzzing about upcoming features in Laravel 12.40. Here are the most discussed and anticipated enhancements:</p>
+
+    <h3>8.1. Time Interval Helpers (Laravel 12.40)</h3>
+    <p>This is the most discussed new feature in recent releases. Laravel 12.40 introduces convenient time interval helpers that make working with dates and times more expressive and readable.</p>
+
+    <div class="code-block">
+        &lt;?php<br><br>
+        // Before<br>
+        Carbon::now()->addDays(7)->addHours(2);<br><br>
+        // With new helpers<br>
+        now()->addDays(7)->addHours(2);
+    </div>
+
+    <p>These helpers provide a more fluent and intuitive API for date manipulations, reducing boilerplate code and improving developer experience.</p>
+
+    <h3>8.2. Enhanced Queue Improvements</h3>
+    <p>Laravel 12.40 brings significant enhancements to the queue system:</p>
+    <ul>
+        <li><strong>Queue Pausing/Resuming:</strong> Ability to pause and resume queue processing dynamically</li>
+        <li><strong>Better Redis Cluster Support:</strong> Improved reliability and performance with Redis clusters</li>
+        <li><strong>Enhanced Connection Handling:</strong> More robust connection management and error recovery</li>
+        <li><strong>Queue Monitoring:</strong> Better visibility into queue health and performance metrics</li>
+    </ul>
+
+    <h3>8.3. Advanced Type Safety Enhancements</h3>
+    <p>Building on Laravel 12.39's improvements, version 12.40 takes type safety to the next level:</p>
+    <ul>
+        <li><strong>Enhanced Type Hints:</strong> More comprehensive type annotations across the framework</li>
+        <li><strong>PHP 8.5 Compatibility:</strong> Full support for latest PHP features and improvements</li>
+        <li><strong>Advanced Validation:</strong> Smarter type casting and validation mechanisms</li>
+        <li><strong>IDE Integration:</strong> Better autocomplete and error detection in development environments</li>
+    </ul>
+
+    <h3>8.4. Database & Performance Updates</h3>
+    <p>Laravel 12.40 introduces powerful database and performance enhancements:</p>
+    <ul>
+        <li><strong>Instant Column Additions:</strong> Add columns to existing tables without downtime</li>
+        <li><strong>PostgreSQL Full-Text Search:</strong> Native support for advanced text search capabilities</li>
+        <li><strong>Enhanced Caching:</strong> More efficient caching strategies and better cache invalidation</li>
+        <li><strong>Query Optimization:</strong> Automatic query performance improvements and suggestions</li>
+    </ul>
+
+    <div class="performance-tip">
+        <h4>🔥 Why Laravel 12.40 Matters</h4>
+        <p>These upcoming features represent Laravel's continued commitment to developer productivity, application performance, and modern PHP development practices. The time interval helpers and enhanced type safety will significantly improve code quality and maintainability.</p>
+    </div>
+
+    <h2>9. Conclusion: Laravel 12.39 Sets New Standards</h2>
     <p>Laravel 12.39 demonstrates the framework's commitment to developer experience and performance. The @hasStack directive, route filtering capabilities, and type safety improvements make Laravel more powerful and enjoyable to use. Whether you're maintaining existing applications or starting new projects, these features will enhance your development workflow and application quality.</p>
 
     <p>For more Laravel tips, check out <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization</a> and <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Best Practices</a>.</p>
