@@ -1829,7 +1829,7 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div style="display: flex; gap: 1rem; align-items: center;">
-                <button class="theme-toggle" id="themeToggle">Toggle Theme</button>
+                <button class="theme-toggle" id="themeToggle">🌙 Dark</button>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
             </div>
         </nav>
@@ -2264,12 +2264,24 @@
         
         const savedTheme = localStorage.getItem('theme') || 'dark';
         htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeToggle(savedTheme);
+        
+        function updateThemeToggle(theme) {
+            if (theme === 'light') {
+                themeToggle.textContent = '☀️ Light';
+                themeToggle.setAttribute('aria-label', 'Switch to dark mode');
+            } else {
+                themeToggle.textContent = '🌙 Dark';
+                themeToggle.setAttribute('aria-label', 'Switch to light mode');
+            }
+        }
         
         themeToggle.addEventListener('click', () => {
             const currentTheme = htmlElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             htmlElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+            updateThemeToggle(newTheme);
         });
         
         // Mobile Menu
