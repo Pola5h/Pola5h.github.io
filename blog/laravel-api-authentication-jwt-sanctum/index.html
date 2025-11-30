@@ -60,6 +60,76 @@
         .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
         .author-links { display: flex; gap: 1rem; justify-content: center; }
         .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; }
+        
+        .hire-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hire-cta h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .hire-cta p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-primary {
+            background: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .cta-primary:hover {
+            background: #218838;
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .cta-meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -145,6 +215,16 @@ $user = JWTAuth::parseToken()->authenticate();
         For most Laravel applications, Sanctum is the recommended choice due to its simplicity and official support. 
         Choose JWT for complex distributed systems requiring stateless authentication.
     </p>
+
+    <div class="hire-cta">
+        <h3>🚀 Need Help Implementing API Authentication?</h3>
+        <p>I'm an expert Laravel developer with 10+ projects delivered. I can help you implement secure API authentication using Sanctum, JWT, or custom solutions.</p>
+        <div class="cta-buttons">
+            <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire for API Development →</a>
+            <a href="mailto:kzaman3055@gmail.com?subject=API Authentication Project" class="cta-secondary">Get Free Consultation</a>
+        </div>
+        <p class="cta-meta">⚡ Fast delivery • 💰 Competitive rates • 🌍 Remote work</p>
+    </div>
 
     <div class="author-bio">
         <h3>About the Author</h3>

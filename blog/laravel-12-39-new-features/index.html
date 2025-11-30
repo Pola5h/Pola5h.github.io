@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts</title>
+    <meta name="description" content="Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations. Complete guide with examples for Laravel developers.">
+    <meta name="keywords" content="Laravel 12.39, Laravel new features, @hasStack directive, route:list middleware, Laravel Blade, Laravel performance, Laravel type safety, Laravel caching, Laravel queues, Laravel optimization, Laravel developer, Laravel 12, Laravel framework, Laravel updates, Laravel SEO, Laravel best practices, Laravel Bangladesh, Laravel USA, Laravel UK, Laravel Canada, Laravel Australia, Laravel India, Laravel Singapore, Laravel Europe, Laravel Asia, Laravel remote developer, Laravel hire, Laravel consultant">
+        <!-- FAQ Schema for SEO -->
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is the @hasStack directive in Laravel 12.39?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "The @hasStack directive allows you to conditionally render HTML elements only when a Blade stack contains content, preventing empty wrapper elements."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How do I filter routes by middleware in Laravel 12.39?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Use the new --middleware option with php artisan route:list command: php artisan route:list --middleware=api or php artisan route:list --middleware=ThrottleRequests"
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "What performance improvements are in Laravel 12.39?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Laravel 12.39 includes better type hints, improved caching, parallel test support, SQLite connection fixes, and enhanced exception handling."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "How do I upgrade to Laravel 12.39?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Update your composer.json to require Laravel 12.39, run composer update, and check for any breaking changes in the changelog."
+                    }
+                }
+            ]
+        }
+        </script>
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-12-39-new-features/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts">
+    <meta property="og:description" content="Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations.">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-12-39-new-features/">
+    <meta property="og:type" content="article">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel 12.39 New Features: @hasStack & Route Filtering">
+    <meta name="twitter:description" content="Laravel 12.39 brings powerful new features: @hasStack directive, middleware route filtering, and major performance improvements.">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts",
+      "description": "Complete guide to Laravel 12.39's new features including @hasStack Blade directive, route:list middleware filtering, and performance optimizations.",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-11-30",
+      "dateModified": "2025-11-30",
+      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-12-39-new-features/",
+      "articleSection": "Technology",
+      "keywords": ["Laravel 12.39", "Laravel features", "@hasStack directive", "route:list middleware", "Laravel performance", "Laravel type safety"],
+      "inLanguage": "en-US"
+    }
+    </script>
+    <style>
+        body { font-family: system-ui, sans-serif; line-height: 1.7; color: #222; background: #fff; max-width: 800px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 2rem; color: #2c3e50; }
+        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: #2c3e50; }
+        h3 { font-size: 1.3rem; margin: 1.5rem 0 0.5rem; color: #34495e; }
+        p { margin-bottom: 1.5rem; }
+        ul { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: monospace; overflow-x: auto; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; }
+
+        .hire-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .hire-cta h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .hire-cta p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-primary {
+            background: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .cta-primary:hover {
+            background: #218838;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .cta-meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .feature-highlight {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-left: 4px solid #2196f3;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .performance-tip {
+            background: linear-gradient(135deg, #e8f5e8 0%, #fff3e0 100%);
+            border-left: 4px solid #4caf50;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 600px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="breadcrumb">
+        <a href="/">Home</a> &raquo; <a href="/blog/">Blog</a> &raquo; Laravel 12.39 New Features
+    </nav>
+    <div style="margin-bottom:1.5rem;">
+        <strong>Related:</strong>
+        <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization</a> |
+        <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Best Practices</a> |
+        <a href="/blog/laravel-mvcs-architecture-guide/">Laravel MVCs Architecture Guide</a>
+    </div>
+    <h1>Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts</h1>
+    <h2 style="font-size:1.1rem;color:#28a745;margin-top:-1rem;">Complete Guide to Laravel 12.39's Game-Changing Features for Better Development Experience</h2>
+    <p><strong>By Kamruzzaman Polash</strong> | <time datetime="2025-11-30">November 30, 2025</time> | <a href="https://pola5h.github.io/">Portfolio</a></p>
+    <p>Laravel 12.39 is here with powerful new features that enhance developer experience and application performance. From the revolutionary @hasStack Blade directive to advanced route filtering and type safety improvements, this release brings significant enhancements for modern Laravel development. Whether you're building APIs, web applications, or enterprise solutions, these features will streamline your workflow and boost productivity.</p>
+
+    <div class="feature-highlight">
+        <h3>🎯 What's New in Laravel 12.39</h3>
+        <ul>
+            <li><strong>@hasStack Blade Directive</strong> - Conditional stack rendering</li>
+            <li><strong>Route List Middleware Filtering</strong> - Advanced route debugging</li>
+            <li><strong>Type Safety Enhancements</strong> - Better PHP type hints</li>
+            <li><strong>Performance Optimizations</strong> - Faster testing and caching</li>
+            <li><strong>Framework Integration</strong> - Symfony 7.4 compatibility</li>
+        </ul>
+    </div>
+
+    <h2>1. @hasStack Blade Directive: Clean Template Organization</h2>
+    <p>The most exciting feature in Laravel 12.39 is the new <code>@hasStack</code> Blade directive. This directive allows you to conditionally render HTML elements only when a Blade stack contains content, preventing empty wrapper elements and improving template cleanliness.</p>
+
+    <h3>1.1. How @hasStack Works</h3>
+    <p>Before Laravel 12.39, you might have empty HTML elements when stacks were unused. The @hasStack directive solves this elegantly:</p>
+
+    <div class="code-block">
+        @push('scripts')<br>
+            &lt;script&gt;console.log('Custom script');&lt;/script&gt;<br>
+        @endpush<br>
+        <br>
+        @hasstack('scripts')<br>
+            &lt;script src="https://cdn.example.com/app.js"&gt;&lt;/script&gt;<br>
+            @stack('scripts')<br>
+        @endif
+    </div>
+
+    <p>This ensures the script tag and CDN reference only render when the 'scripts' stack has content.</p>
+
+    <h3>1.2. Real-World Use Cases</h3>
+    <ul>
+        <li><strong>Conditional CSS/JS Loading:</strong> Only load assets when needed</li>
+        <li><strong>Dynamic Meta Tags:</strong> Add meta tags only when content exists</li>
+        <li><strong>Component Flexibility:</strong> Make components more adaptable</li>
+        <li><strong>Performance Optimization:</strong> Reduce unnecessary HTML output</li>
+    </ul>
+
+    <div class="performance-tip">
+        <h4>🚀 Performance Benefit</h4>
+        <p>The @hasStack directive reduces HTML output and prevents empty elements, leading to cleaner markup and potentially better SEO scores.</p>
+    </div>
+
+    <h2>2. Route List Middleware Filtering: Advanced Debugging</h2>
+    <p>Laravel 12.39 introduces a powerful new feature for the <code>route:list</code> command. You can now filter routes by middleware, making it easier to debug and understand your application's routing structure.</p>
+
+    <h3>2.1. Basic Middleware Filtering</h3>
+    <p>Use the new <code>--middleware</code> option to filter routes:</p>
+
+    <div class="code-block">
+        php artisan route:list --middleware=api<br>
+        php artisan route:list --middleware=auth<br>
+        php artisan route:list --middleware=ThrottleRequests
+    </div>
+
+    <h3>2.2. Advanced Filtering Options</h3>
+    <ul>
+        <li><strong>Exact Match:</strong> <code>--middleware=auth</code></li>
+        <li><strong>Partial Match:</strong> <code>--middleware=Throttle</code></li>
+        <li><strong>Multiple Filters:</strong> Combine with other route:list options</li>
+    </ul>
+
+    <h3>2.3. Debugging Benefits</h3>
+    <p>This feature is invaluable for:</p>
+    <ul>
+        <li><strong>API Development:</strong> Quickly see all API routes</li>
+        <li><strong>Security Audits:</strong> Check authentication middleware usage</li>
+        <li><strong>Performance Analysis:</strong> Identify rate-limited routes</li>
+        <li><strong>Maintenance:</strong> Understand middleware dependencies</li>
+    </ul>
+
+    <h2>3. Type Safety & Performance Improvements</h2>
+    <p>Laravel 12.39 brings significant improvements to type safety and performance, making your applications more robust and faster.</p>
+
+    <h3>3.1. Enhanced Type Hints</h3>
+    <ul>
+        <li><strong>ResourceCollection Property:</strong> <code>$collection</code> is now properly nullable</li>
+        <li><strong>Http::pool() Improvements:</strong> Better type safety for HTTP operations</li>
+        <li><strong>Exception Handling:</strong> Improved error message summarization</li>
+    </ul>
+
+    <h3>3.2. Testing & Development Experience</h3>
+    <ul>
+        <li><strong>Parallel Test Support:</strong> WithCachedConfig now works with parallel testing</li>
+        <li><strong>Test Generator Flags:</strong> --force flag carries through to make:test</li>
+        <li><strong>SQLite Connection Fixes:</strong> Resolved stale connections in RefreshDatabase</li>
+    </ul>
+
+    <h3>3.3. Framework Integration</h3>
+    <ul>
+        <li><strong>Symfony 7.4 Compatibility:</strong> Updated Request::getAcceptableContentTypes()</li>
+        <li><strong>Factory Improvements:</strong> Better array cast handling</li>
+        <li><strong>Application Builder:</strong> Enhanced exception handling</li>
+    </ul>
+
+    <div class="performance-tip">
+        <h4>⚡ Performance Impact</h4>
+        <p>These improvements result in faster test execution, better error handling, and more reliable database operations, especially in high-traffic applications.</p>
+    </div>
+
+    <h2>4. Migration Guide: Upgrading to Laravel 12.39</h2>
+    <p>Upgrading to Laravel 12.39 is straightforward. Here's how to do it safely:</p>
+
+    <h3>4.1. Update Composer Dependencies</h3>
+    <div class="code-block">
+        composer update laravel/framework<br>
+        composer update # Update all dependencies
+    </div>
+
+    <h3>4.2. Check for Breaking Changes</h3>
+    <p>Review the <a href="https://github.com/laravel/framework/compare/v12.38.0...v12.39.0" target="_blank">changelog</a> for any breaking changes, though 12.39 is mostly backward compatible.</p>
+
+    <h3>4.3. Test Your Application</h3>
+    <ul>
+        <li>Run your test suite: <code>php artisan test</code></li>
+        <li>Check route listing: <code>php artisan route:list</code></li>
+        <li>Verify Blade templates render correctly</li>
+    </ul>
+
+    <h2>5. Real-World Examples & Use Cases</h2>
+
+    <h3>5.1. E-commerce Application</h3>
+    <p>Use @hasStack for conditional script loading:</p>
+    <div class="code-block">
+        @hasstack('checkout-scripts')<br>
+            &lt;script src="https://js.stripe.com/v3/"&gt;&lt;/script&gt;<br>
+            @stack('checkout-scripts')<br>
+        @endif
+    </div>
+
+    <h3>5.2. API Development</h3>
+    <p>Filter API routes for documentation:</p>
+    <div class="code-block">
+        php artisan route:list --middleware=api --path=api
+    </div>
+
+    <h3>5.3. Enterprise Applications</h3>
+    <p>Leverage improved type safety for better IDE support and fewer runtime errors.</p>
+
+    <h2>6. Best Practices for Laravel 12.39</h2>
+
+    <h3>6.1. Template Organization</h3>
+    <ul>
+        <li>Use @hasStack for all conditional content blocks</li>
+        <li>Organize stacks by functionality (scripts, styles, meta)</li>
+        <li>Document stack usage in component comments</li>
+    </ul>
+
+    <h3>6.2. Development Workflow</h3>
+    <ul>
+        <li>Use route:list --middleware for debugging</li>
+        <li>Leverage parallel testing improvements</li>
+        <li>Take advantage of enhanced type hints</li>
+    </ul>
+
+    <h3>6.3. Performance Optimization</h3>
+    <ul>
+        <li>Monitor SQLite connection usage in tests</li>
+        <li>Use improved caching mechanisms</li>
+        <li>Implement better error handling</li>
+    </ul>
+
+    <h2>7. Future Laravel 12 Features to Watch</h2>
+    <p>Laravel 12.39 is part of the ongoing evolution of the framework. Keep an eye on:</p>
+    <ul>
+        <li>Further Blade template improvements</li>
+        <li>Enhanced queue and caching features</li>
+        <li>More type safety enhancements</li>
+        <li>Performance optimizations</li>
+    </ul>
+
+    <h2>8. Conclusion: Laravel 12.39 Sets New Standards</h2>
+    <p>Laravel 12.39 demonstrates the framework's commitment to developer experience and performance. The @hasStack directive, route filtering capabilities, and type safety improvements make Laravel more powerful and enjoyable to use. Whether you're maintaining existing applications or starting new projects, these features will enhance your development workflow and application quality.</p>
+
+    <p>For more Laravel tips, check out <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization</a> and <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Best Practices</a>.</p>
+
+    <div class="hire-cta">
+        <h3>🚀 Need Laravel 12.39 Migration or Development Help?</h3>
+        <p>Expert Laravel developer with deep knowledge of latest features. Specializing in Laravel 12 upgrades, performance optimization, and modern development practices. Let's build something amazing!</p>
+        <div class="cta-buttons">
+            <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire for Laravel Development →</a>
+            <a href="mailto:kzaman3055@gmail.com?subject=Laravel 12.39 Project Consultation" class="cta-secondary">Get Free Consultation</a>
+        </div>
+        <p class="cta-meta">⚡ Laravel 12 Expert • 📈 Performance Optimization • 🏗️ Modern Architecture</p>
+    </div>
+
+    <div class="author-bio">
+        <strong>About the Author:</strong><br>
+        Kamruzzaman Polash<br>
+        <div class="author-links">
+            <a href="/">Portfolio</a>
+            <a href="https://github.com/pola5h" target="_blank">GitHub</a>
+            <a href="https://linkedin.com/in/pola5h" target="_blank">LinkedIn</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -238,6 +238,77 @@
             color: #fff;
         }
         
+        .hire-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 3rem auto;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 800px;
+        }
+        
+        .hire-cta h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .hire-cta p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-primary {
+            background: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .cta-primary:hover {
+            background: #218838;
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 6px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .cta-meta {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 600px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
@@ -541,6 +612,16 @@ class AuthTest extends TestCase
                 </div>
             </div>
         </article>
+
+        <div class="hire-cta">
+            <h3>🚀 Need Help Building Your Laravel API?</h3>
+            <p>Expert Laravel API developer with 10+ production APIs delivered. I can help you build secure, scalable REST APIs with proper authentication, validation, and documentation.</p>
+            <div class="cta-buttons">
+                <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire for API Development →</a>
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel API Development Project" class="cta-secondary">Get API Consultation</a>
+            </div>
+            <p class="cta-meta">🔐 Secure Auth • 📋 Full Documentation • ⚡ High Performance</p>
+        </div>
 
         <div class="author-bio">
             <h3>About the Author</h3>

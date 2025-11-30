@@ -890,6 +890,11 @@
             animation: fadeInUp 0.8s ease forwards 1s;
         }
         
+        .cta-buttons-horizontal {
+            flex-direction: row;
+            flex-wrap: nowrap;
+        }
+        
         .btn {
             padding: 0.8rem 2rem;
             border: 2px solid var(--accent-blue);
@@ -1451,6 +1456,239 @@
             background: var(--bg-secondary);
         }
         
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .testimonial-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+        }
+        
+        .testimonial-content p {
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .testimonial-content p::before {
+            content: '"';
+            color: var(--accent-purple);
+            font-size: 2rem;
+            position: absolute;
+            top: -10px;
+            left: -15px;
+        }
+        
+        .testimonial-content p::after {
+            content: '"';
+            color: var(--accent-purple);
+            font-size: 2rem;
+            position: absolute;
+            bottom: -30px;
+            right: -15px;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .author-avatar {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border-radius: 50%;
+            border: 2px solid var(--border-color);
+        }
+        
+        .author-info {
+            flex: 1;
+        }
+        
+        .author-name {
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .author-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating {
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+        }
+        
+        /* Contact CTA Grid */
+        .contact-cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .cta-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-green));
+        }
+        
+        .cta-card.primary::before {
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+        }
+        
+        .cta-card.secondary::before {
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue));
+        }
+        
+        .cta-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cta-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-arrow {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover .btn-arrow {
+            transform: translateX(3px);
+        }
+        
+        .btn-success {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+        }
+        
+        .btn-success:hover {
+            background: var(--accent-green);
+            filter: brightness(0.9);
+        }
+        
+        .btn-info {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+        
+        .btn-info:hover {
+            background: var(--accent-blue);
+            filter: brightness(0.9);
+        }
+        
+        .btn-secondary {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--accent-purple);
+            filter: brightness(0.9);
+        }
+        
+        /* Urgency Notice */
+        .urgency-notice {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .urgency-icon {
+            font-size: 2.5rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .urgency-content h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .urgency-content p {
+            margin: 0;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
@@ -1493,6 +1731,42 @@
             .seo-backlinks ul {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-author {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .contact-cta-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .cta-buttons-horizontal {
+                flex-direction: row;
+                gap: 0.5rem;
+                flex-wrap: nowrap;
+            }
+            
+            .cta-buttons-horizontal .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .urgency-notice {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
             }
         }
     </style>
@@ -1872,56 +2146,46 @@
             </div>
         </div>
         
-        <!-- Fiverr Services -->
-        <div style="margin-top: 4rem; text-align: center;">
-            <h3 style="color: var(--accent-green); margin-bottom: 2rem;">Ready to Start Your Project?</h3>
-            <p style="margin-bottom: 2.5rem; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Choose from my specialized Laravel development packages on Fiverr for fast, professional delivery.
-            </p>
-            
-            <div class="skills-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
-                <div class="professional-summary-card" style="text-align: center; padding: 2rem; border-left: 4px solid var(--accent-blue);">
-                    <h4 style="color: var(--accent-blue); margin-bottom: 1rem; font-size: 1.1rem;">Web Applications</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        Full-stack Laravel web applications with custom features
-                    </p>
-                    <a href="https://www.fiverr.com/s/DBj3p9Q" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-block; font-size: 0.85rem; padding: 0.6rem 1.2rem;">
-                        🔗 Order Here
-                    </a>
-                </div>
-                
-                <div class="professional-summary-card" style="text-align: center; padding: 2rem; border-left: 4px solid var(--accent-green);">
-                    <h4 style="color: var(--accent-green); margin-bottom: 1rem; font-size: 1.1rem;">API Development</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        RESTful APIs, integrations, and backend services
-                    </p>
-                    <a href="https://www.fiverr.com/s/5rgBYyz" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-block; font-size: 0.85rem; padding: 0.6rem 1.2rem;">
-                        🔗 Order Here
-                    </a>
-                </div>
-                
-                <div class="professional-summary-card" style="text-align: center; padding: 2rem; border-left: 4px solid var(--accent-purple);">
-                    <h4 style="color: var(--accent-purple); margin-bottom: 1rem; font-size: 1.1rem;">Backend Optimization</h4>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-                        Performance tuning, debugging, and code optimization
-                    </p>
-                    <a href="https://www.fiverr.com/s/42gBm4x" target="_blank" rel="noopener noreferrer" class="btn" style="display: inline-block; font-size: 0.85rem; padding: 0.6rem 1.2rem;">
-                        🔗 Order Here
-                    </a>
-                </div>
-            </div>
-            
-        </div>
-        
         <div class="section-end">professionalSummary()</div>
     </section>
     
     <!-- Contact Section -->
     <section id="contact">
         <div class="section-header">
-            <h2 class="section-title">Contact</h2>
-            <p class="section-subtitle">Let's connect and build something amazing</p>
+            <h2 class="section-title">Ready to Hire Me?</h2>
+            <p class="section-subtitle">Let's discuss your Laravel project and get started today</p>
         </div>
+        
+        <div class="contact-cta-grid">
+            <div class="cta-card primary">
+                <div class="cta-icon">🚀</div>
+                <h3>Start Your Project on Fiverr</h3>
+                <p>Choose from my professional Laravel development packages with fast delivery and satisfaction guarantee.</p>
+                <div class="cta-buttons cta-buttons-horizontal">
+                    <a href="https://www.fiverr.com/kzaman3055" target="_blank" class="btn btn-primary">
+                        <span>View My Gigs</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="cta-card secondary">
+                <div class="cta-icon">💬</div>
+                <h3>Direct Contact</h3>
+                <p>Have a specific project in mind? Let's discuss your requirements and timeline.</p>
+                <div class="cta-buttons">
+                    <a href="mailto:kzaman3055@gmail.com?subject=Laravel Development Project Inquiry&body=Hi Kamruzzaman,%0D%0A%0D%0AI'm interested in Laravel development services for my project.%0D%0A%0D%0AProject Details:%0D%0A- Type: [Web App/API/SaaS/Other]%0D%0A- Timeline: [Your preferred timeline]%0D%0A- Budget: [Your budget range]%0D%0A- Requirements: [Brief description]%0D%0A%0D%0APlease send me a detailed quote.%0D%0A%0D%0AThanks!" class="btn btn-success">
+                        <span>Send Email</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                    <a href="https://wa.me/8801791296967?text=Hi%20Kamruzzaman,%20I'm%20interested%20in%20Laravel%20development%20services.%20Can%20we%20discuss%20my%20project?" target="_blank" class="btn btn-info">
+                        <span>WhatsApp Chat</span>
+                        <span class="btn-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="contact-icon">📧</div>
@@ -1956,7 +2220,13 @@
             </div>
         </div>
 
-
+        <div class="urgency-notice">
+            <div class="urgency-icon">⚡</div>
+            <div class="urgency-content">
+                <h4>Limited Availability - Book Now!</h4>
+                <p>I'm currently accepting new projects with fast turnaround times. Take advantage of competitive rates.</p>
+            </div>
+        </div>
 
         <div class="section-end">contact()</div>
     </section>
@@ -2061,7 +2331,7 @@
         }, observerOptions);
         
         // Observe all animated elements
-            document.querySelectorAll('.section-header, .timeline-item, .project-card, .skill-category, .professional-summary-card, .about-info').forEach(el => {
+            document.querySelectorAll('.section-header, .timeline-item, .project-card, .skill-category, .professional-summary-card, .about-info, .testimonial-card').forEach(el => {
                 observer.observe(el);
             });
             // Set current year in footer
