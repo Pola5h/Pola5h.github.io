@@ -881,6 +881,69 @@
             font-weight: bold;
         }
         
+        .service-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .service-categories .category h4 {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .service-categories .service-features {
+            margin-bottom: 1rem;
+        }
+        
+        .service-categories .service-features li {
+            font-size: 0.9rem;
+            padding-bottom: 0.3rem;
+        }
+        
+        .service-cta {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 96, 0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+        
+        .pricing-cta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+        
+        .pricing-info {
+            text-align: center;
+        }
+        
+        .cta-info {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(0, 242, 96, 0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+        }
+        
+        .cta-info .btn-primary {
+            margin-bottom: 0.5rem;
+        }
+        
+        .cta-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 0;
+            font-style: italic;
+        }
+        
         .price-tag {
             font-size: 1.8rem;
             font-weight: bold;
@@ -1143,6 +1206,34 @@
                 padding: 2rem;
             }
             
+            .service-categories {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-cta-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .service-cta {
+                padding: 1.5rem;
+            }
+            
+            .service-cta .btn-primary {
+                font-size: 1.1rem;
+                padding: 0.9rem 2rem;
+            }
+            
+            .service-cta {
+                padding: 1.5rem;
+            }
+            
+            .service-cta .btn-primary {
+                font-size: 1.1rem;
+                padding: 0.9rem 2rem;
+            }
+            
             .nav-container {
                 padding: 1rem;
             }
@@ -1233,7 +1324,6 @@
             </ul>
             <div style="display: flex; align-items: center;">
                 <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
-                <a href="#contact" class="cta-button">Get Quote</a>
             </div>
         </nav>
     </header>
@@ -1291,61 +1381,63 @@
             </div>
             
             <div class="services-grid">
-                <!-- Custom Laravel Web Applications -->
+                <!-- Comprehensive Laravel Development Services -->
                 <div class="service-card fade-in">
                     <div class="service-icon">🚀</div>
-                    <h3>Custom Laravel Web Applications</h3>
-                    <p>Full-featured web applications built with Laravel framework, featuring modern MVCS architecture, secure authentication, and responsive design.</p>
-                    <ul class="service-features">
-                        <li>Complete CRUD operations</li>
-                        <li>User authentication & authorization</li>
-                        <li>Responsive Bootstrap/Tailwind UI</li>
-                        <li>Database migrations & seeders</li>
-                        <li>Email notifications</li>
-                        <li>Admin dashboard</li>
-                        <li>Multi-language support</li>
-                    </ul>
-                    <div class="price-tag">Starting at $50</div>
-                    <div class="price-note">Responsive Laravel CRUD with Blade UI</div>
-                    <a href="https://www.fiverr.com/s/DBj3p9Q" target="_blank" class="btn-primary">Order on Fiverr</a>
-                </div>
-
-                <!-- REST API Development -->
-                <div class="service-card fade-in">
-                    <div class="service-icon">🔌</div>
-                    <h3>REST API Development & Integration</h3>
-                    <p>Fix or develop up to 3 Laravel API endpoints - auth errors, CRUD issues, slow responses with detailed documentation.</p>
-                    <ul class="service-features">
-                        <li>Fix or develop 3 API endpoints</li>
-                        <li>Authentication error fixes</li>
-                        <li>CRUD operation debugging</li>
-                        <li>Slow response optimization</li>
-                        <li>Bug investigation included</li>
-                        <li>Fix documentation provided</li>
-                        <li>Detailed code comments</li>
-                    </ul>
-                    <div class="price-tag">Starting at $25</div>
-                    <div class="price-note">3 API fixes or new endpoints</div>
-                    <a href="https://www.fiverr.com/s/5rgBYyz" target="_blank" class="btn-primary">Order on Fiverr</a>
-                </div>
-
-                <!-- Performance Optimization -->
-                <div class="service-card fade-in">
-                    <div class="service-icon">⚡</div>
-                    <h3>Backend Performance & Bug Fixes</h3>
-                    <p>Fix 3 backend/API issues including minor bugs, basic security checks, and performance improvements with source code.</p>
-                    <ul class="service-features">
-                        <li>Fix 3 backend/API issues</li>
-                        <li>Minor bugs & error fixes</li>
-                        <li>Basic security checks</li>
-                        <li>Performance improvements</li>
-                        <li>Source code included</li>
-                        <li>Detailed code comments</li>
-                        <li>Professional documentation</li>
-                    </ul>
-                    <div class="price-tag">Starting at $25</div>
-                    <div class="price-note">Backend starter fixation package</div>
-                    <a href="https://www.fiverr.com/s/42gBm4x" target="_blank" class="btn-primary">Order on Fiverr</a>
+                    <h3>Complete Laravel Development Services</h3>
+                    <p>Professional Laravel development solutions including custom web applications, REST API development, performance optimization, and bug fixes. From simple CRUD operations to complex enterprise applications.</p>
+                    
+                    <div class="service-categories">
+                        <div class="category">
+                            <h4>🌐 Web Applications</h4>
+                            <ul class="service-features">
+                                <li>Complete CRUD operations</li>
+                                <li>User authentication & authorization</li>
+                                <li>Responsive Bootstrap/Tailwind UI</li>
+                                <li>Database migrations & seeders</li>
+                                <li>Email notifications</li>
+                                <li>Admin dashboard</li>
+                                <li>Multi-language support</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="category">
+                            <h4>🔌 API Development</h4>
+                            <ul class="service-features">
+                                <li>Fix or develop API endpoints</li>
+                                <li>Authentication error fixes</li>
+                                <li>CRUD operation debugging</li>
+                                <li>Slow response optimization</li>
+                                <li>Bug investigation included</li>
+                                <li>Detailed documentation</li>
+                                <li>Code comments & examples</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="category">
+                            <h4>⚡ Performance & Fixes</h4>
+                            <ul class="service-features">
+                                <li>Backend/API issue fixes</li>
+                                <li>Minor bugs & error fixes</li>
+                                <li>Basic security checks</li>
+                                <li>Performance improvements</li>
+                                <li>Source code included</li>
+                                <li>Professional documentation</li>
+                                <li>Code optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-cta-grid">
+                        <div class="pricing-info">
+                            <div class="price-tag">💰 Affordable Pricing</div>
+                            <div class="price-note">Custom quotes based on your project requirements</div>
+                        </div>
+                        <div class="cta-info">
+                            <a href="https://www.fiverr.com/kzaman3055" target="_blank" class="btn-primary">Hire Now</a>
+                            <p class="cta-subtitle">Get started with professional Laravel development</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
