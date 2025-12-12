@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</title>
+    <meta name="description" content="Learn how to integrate OpenAI ChatGPT and OpenRouter multi-model API into Laravel applications. Complete tutorial with code examples, API setup, model comparison, and best practices from Bangladesh Laravel expert.">
+    <meta name="keywords" content="Laravel AI, Laravel OpenAI, OpenRouter Laravel, ChatGPT Laravel, AI integration, Laravel tutorial, PHP AI, Laravel developer Bangladesh, Multi-model AI">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025">
+    <meta property="og:description" content="Step-by-step tutorial to add AI features to your Laravel app using OpenAI API and OpenRouter multi-model platform">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/">
+    <meta property="og:type" content="article">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel AI Integration with OpenAI & OpenRouter Guide">
+    <meta name="twitter:description" content="Complete guide to integrating AI into Laravel applications with OpenAI and OpenRouter">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+    
+    <!-- FAVICON & APP ICONS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="shortcut icon" href="/favicon.svg">
+    <meta name="apple-mobile-web-app-title" content="Laravel Blog">
+    <meta name="application-name" content="Laravel Development Blog">
+    <meta name="msapplication-TileColor" content="#0d1117">
+    <meta name="theme-color" content="#0d1117">
+    
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025",
+      "description": "Step-by-step tutorial to add AI features to your Laravel app using OpenAI API and OpenRouter multi-model platform",
+      "image": "https://pola5h.github.io/og-image.svg",
+      "author": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash",
+        "url": "https://pola5h.github.io/"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "Kamruzzaman Polash"
+      },
+      "datePublished": "2025-12-12",
+      "dateModified": "2025-12-12",
+      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/",
+      "articleSection": "Technology",
+      "keywords": ["Laravel AI", "OpenAI", "OpenRouter", "ChatGPT", "AI integration", "Laravel tutorial", "Multi-model AI"],
+      "inLanguage": "en-US"
+    }
+    </script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.7; color: #2d3748; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #1a202c; line-height: 1.2; }
+        h2 { font-size: 1.9rem; margin: 2.5rem 0 1.2rem; color: #2d3748; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; }
+        h3 { font-size: 1.4rem; margin: 2rem 0 1rem; color: #4a5568; }
+        p { margin-bottom: 1.5rem; font-size: 1.05rem; }
+        .meta { color: #718096; margin-bottom: 2rem; font-size: 0.95rem; }
+        .meta a { color: #667eea; text-decoration: none; font-weight: 600; }
+        .meta a:hover { text-decoration: underline; }
+        
+        .code-block { 
+            background: #0f1419; 
+            color: #e2e8f0; 
+            border-radius: 12px; 
+            padding: 1.5rem; 
+            margin: 1.5rem 0; 
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace; 
+            overflow-x: auto; 
+            font-size: 0.9rem;
+            line-height: 1.6;
+            border: 1px solid #2d3748;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 12px;
+            height: 12px;
+            background: #ff5f56;
+            border-radius: 50%;
+            box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27ca3f;
+        }
+        
+        .code-block .comment { color: #6b7280; font-style: italic; }
+        .code-block .keyword { color: #c084fc; font-weight: bold; }
+        .code-block .string { color: #34d399; }
+        .code-block .number { color: #fbbf24; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .variable { color: #e2e8f0; }
+        .code-block .class { color: #fbbf24; }
+        .code-block .operator { color: #f87171; }
+        .code-block .bracket { color: #d1d5db; }
+        .code-block .php-tag { color: #f87171; font-weight: bold; }
+        
+        .breadcrumb { 
+            color: #718096; 
+            margin-bottom: 2rem; 
+            font-size: 0.9rem;
+        }
+        .breadcrumb a { 
+            color: #667eea; 
+            text-decoration: none; 
+        }
+        .breadcrumb a:hover { 
+            text-decoration: underline; 
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .highlight-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        ul, ol { 
+            margin: 1rem 0 1.5rem 2rem; 
+        }
+        
+        li { 
+            margin-bottom: 0.8rem; 
+            font-size: 1.05rem;
+        }
+        
+        .author-bio { 
+            background: #f7fafc; 
+            border-radius: 12px; 
+            padding: 2rem; 
+            margin: 3rem 0; 
+            text-align: center; 
+            border: 2px solid #e2e8f0;
+        }
+        
+        .author-bio h3 {
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+        
+        .author-links { 
+            display: flex; 
+            gap: 1rem; 
+            justify-content: center; 
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .author-links a { 
+            color: #667eea; 
+            text-decoration: none; 
+            padding: 0.6rem 1.2rem; 
+            border: 2px solid #667eea; 
+            border-radius: 6px; 
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .author-links a:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .hire-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 3rem 0;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .hire-cta h3 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            color: white;
+            border: none;
+            padding: 0;
+        }
+        
+        .hire-cta p {
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+            font-size: 1.1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .cta-primary {
+            background: #48bb78;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .cta-primary:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border: 2px solid white;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+        
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .cta-meta {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            margin-top: 1rem;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .container { padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: stretch; }
+            .code-block { font-size: 0.85rem; padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel AI Integration
+        </nav>
+
+        <h1>🤖 Laravel AI Integration: OpenAI & OpenRouter Complete Guide 2025</h1>
+        <p class="meta"><strong>Published:</strong> December 12, 2025 by <a href="/">Kamruzzaman Polash</a> • 10 min read</p>
+
+        <p>
+            Artificial Intelligence is transforming web development. In this comprehensive guide, you'll learn how to integrate both OpenAI's powerful ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots, content generation, and automated responses.
+        </p>
+
+        <div class="highlight-box">
+            <strong>🎯 What You'll Learn:</strong>
+            <p>OpenAI & OpenRouter integration, building smart chatbots with multiple AI models, streaming responses, conversation history management, cost comparison, and production-ready best practices.</p>
+        </div>
+
+        <h2>Why Integrate AI in Laravel?</h2>
+        <p>
+            Modern web applications need intelligent features. Whether you're building a customer support chatbot, content generator, or code assistant, AI integration gives your Laravel app superpowers.
+        </p>
+
+        <ul>
+            <li><strong>Automated Customer Support:</strong> Answer user questions 24/7</li>
+            <li><strong>Content Generation:</strong> Create blogs, descriptions, and marketing copy</li>
+            <li><strong>Smart Search:</strong> Semantic search that understands intent</li>
+            <li><strong>Code Assistance:</strong> Help users write and debug code</li>
+            <li><strong>Multi-Model Flexibility:</strong> Switch between GPT-4, Claude, Gemini</li>
+        </ul>
+
+        <h2><span class="step-number">1</span> Prerequisites & Setup</h2>
+        
+        <h3>Get Your API Keys</h3>
+        <p>
+            <strong>For OpenAI:</strong> Sign up at platform.openai.com<br>
+            <strong>For OpenRouter:</strong> Sign up at openrouter.ai
+        </p>
+
+        <h3>Install OpenAI Package</h3>
+        <div class="code-block">
+            <pre><code class="language-bash"><span class="comment"># Install OpenAI PHP Client</span>
+composer require openai-php/laravel
+
+<span class="comment"># Publish configuration</span>
+php artisan vendor:publish --provider="OpenAI\Laravel\ServiceProvider"</code></pre>
+        </div>
+
+        <h3>Configure Environment</h3>
+        <div class="code-block">
+            <pre><code class="language-bash"><span class="comment"># Add to .env</span>
+OPENAI_API_KEY=sk-your-key-here
+
+<span class="comment"># For OpenRouter</span>
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+OPENROUTER_SITE_URL=https://yoursite.com
+OPENROUTER_APP_NAME=YourAppName</code></pre>
+        </div>
+
+        <h2><span class="step-number">2</span> OpenAI Integration</h2>
+        
+        <div class="code-block">
+            <pre><code class="language-php"><span class="comment">// app/Http/Controllers/AIChatController.php</span>
+<span class="php-tag">&lt;?php</span>
+
+<span class="keyword">namespace</span> App\Http\Controllers;
+
+<span class="keyword">use</span> Illuminate\Http\Request;
+<span class="keyword">use</span> OpenAI\Laravel\Facades\OpenAI;
+
+<span class="keyword">class</span> <span class="class">AIChatController</span> <span class="keyword">extends</span> Controller
+<span class="bracket">{</span>
+    <span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chat</span>(Request <span class="variable">$request</span>)
+    <span class="bracket">{</span>
+        <span class="variable">$request</span><span class="operator">-&gt;</span><span class="method">validate</span>(<span class="bracket">[</span>
+            <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="string">'required|string|max:1000'</span>,
+        <span class="bracket">]</span>);
+
+        <span class="keyword">try</span> <span class="bracket">{</span>
+            <span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
+                <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+                <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+                    <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'system'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'You are helpful.'</span><span class="bracket">]</span>,
+                    <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>,
+                <span class="bracket">]</span>,
+                <span class="string">'max_tokens'</span> <span class="operator">=&gt;</span> <span class="number">500</span>,
+            <span class="bracket">]</span>);
+
+            <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
+                <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
+                <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>,
+            <span class="bracket">]</span>);
+
+        <span class="bracket">}</span> <span class="keyword">catch</span> (\Exception <span class="variable">$e</span>) <span class="bracket">{</span>
+            <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
+                <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">false</span>,
+                <span class="string">'error'</span> <span class="operator">=&gt;</span> <span class="string">'AI unavailable'</span>,
+            <span class="bracket">]</span>, <span class="number">500</span>);
+        <span class="bracket">}</span>
+    <span class="bracket">}</span>
+<span class="bracket">}</span></code></pre>
+        </div>
+
+        <h3>Add Routes</h3>
+        <div class="code-block">
+            <pre><code class="language-php"><span class="comment">// routes/api.php</span>
+<span class="keyword">use</span> App\Http\Controllers\AIChatController;
+
+Route<span class="operator">::</span><span class="method">post</span>(<span class="string">'/ai/chat'</span>, <span class="bracket">[</span>AIChatController<span class="operator">::</span><span class="keyword">class</span>, <span class="string">'chat'</span><span class="bracket">]</span>)
+    <span class="operator">-&gt;</span><span class="method">middleware</span>(<span class="string">'throttle:20,1'</span>); <span class="comment">// 20 requests per minute</span></code></pre>
+        </div>
+
+        <h2><span class="step-number">3</span> OpenRouter Integration</h2>
+        
+        <p>OpenRouter gives you access to 100+ AI models through one API!</p>
+
+        <h3>Why OpenRouter?</h3>
+        <ul>
+            <li><strong>100+ Models:</strong> GPT-4, Claude, Gemini, Llama</li>
+            <li><strong>Cost Effective:</strong> Often cheaper than direct APIs</li>
+            <li><strong>No Vendor Lock-in:</strong> Easy model switching</li>
+            <li><strong>Free Models:</strong> Gemini Pro, Mistral for testing</li>
+        </ul>
+
+        <h3>OpenRouter Controller</h3>
+        <div class="code-block">
+            <pre><code class="language-php"><span class="keyword">use</span> Illuminate\Support\Facades\Http;
+
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chatWithOpenRouter</span>(Request <span class="variable">$request</span>)
+<span class="bracket">{</span>
+    <span class="variable">$request</span><span class="operator">-&gt;</span><span class="method">validate</span>(<span class="bracket">[</span>
+        <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="string">'required|string|max:1000'</span>,
+        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'nullable|string'</span>
+    <span class="bracket">]</span>);
+
+    <span class="variable">$model</span> <span class="operator">=</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">model</span> <span class="operator">??</span> <span class="string">'openai/gpt-4o-mini'</span>;
+
+    <span class="keyword">try</span> <span class="bracket">{</span>
+        <span class="variable">$response</span> <span class="operator">=</span> Http<span class="operator">::</span><span class="method">withHeaders</span>(<span class="bracket">[</span>
+            <span class="string">'Authorization'</span> <span class="operator">=&gt;</span> <span class="string">'Bearer '</span> <span class="operator">.</span> env(<span class="string">'OPENROUTER_API_KEY'</span>),
+            <span class="string">'HTTP-Referer'</span> <span class="operator">=&gt;</span> env(<span class="string">'OPENROUTER_SITE_URL'</span>),
+            <span class="string">'X-Title'</span> <span class="operator">=&gt;</span> env(<span class="string">'OPENROUTER_APP_NAME'</span>),
+        <span class="bracket">]</span>)<span class="operator">-&gt;</span><span class="method">timeout</span>(<span class="number">30</span>)<span class="operator">-&gt;</span><span class="method">post</span>(<span class="string">'https://openrouter.ai/api/v1/chat/completions'</span>, <span class="bracket">[</span>
+            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="variable">$model</span>,
+            <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+                <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
+            <span class="bracket">]</span>
+        <span class="bracket">]</span>);
+
+        <span class="variable">$data</span> <span class="operator">=</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="method">json</span>();
+
+        <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
+            <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
+            <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$data</span><span class="bracket">[</span><span class="string">'choices'</span><span class="bracket">][</span><span class="number">0</span><span class="bracket">][</span><span class="string">'message'</span><span class="bracket">][</span><span class="string">'content'</span><span class="bracket">]</span>,
+            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="variable">$model</span>
+        <span class="bracket">]</span>);
+
+    <span class="bracket">}</span> <span class="keyword">catch</span> (\Exception <span class="variable">$e</span>) <span class="bracket">{</span>
+        <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
+            <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">false</span>,
+            <span class="string">'error'</span> <span class="operator">=&gt;</span> <span class="string">'Service unavailable'</span>
+        <span class="bracket">]</span>, <span class="number">500</span>);
+    <span class="bracket">}</span>
+<span class="bracket">}</span></code></pre>
+        </div>
+
+        <h3>Popular OpenRouter Models</h3>
+        <div class="code-block">
+            <pre><code class="language-php"><span class="comment">// Top models in 2025</span>
+<span class="variable">$models</span> <span class="operator">=</span> <span class="bracket">[</span>
+    <span class="string">'openai/gpt-4o-mini'</span> <span class="operator">=&gt;</span> <span class="string">'Cheap &amp; Fast'</span>,
+    <span class="string">'anthropic/claude-3.5-sonnet'</span> <span class="operator">=&gt;</span> <span class="string">'Best Quality'</span>,
+    <span class="string">'google/gemini-pro'</span> <span class="operator">=&gt;</span> <span class="string">'Free Tier'</span>,
+    <span class="string">'meta-llama/llama-3.1-70b'</span> <span class="operator">=&gt;</span> <span class="string">'Open Source'</span>,
+<span class="bracket">]</span>;</code></pre>
+        </div>
+
+        <h2><span class="step-number">4</span> Conversation History</h2>
+        
+        <div class="code-block">
+            <pre><code class="language-bash"><span class="comment"># Create migration</span>
+php artisan make:migration create_conversations_table</code></pre>
+        </div>
+
+        <div class="code-block">
+            <pre><code class="language-php">Schema<span class="operator">::</span><span class="method">create</span>(<span class="string">'conversations'</span>, <span class="keyword">function</span> (Blueprint <span class="variable">$table</span>) <span class="bracket">{</span>
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">id</span>();
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">foreignId</span>(<span class="string">'user_id'</span>)<span class="operator">-&gt;</span><span class="method">constrained</span>();
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">string</span>(<span class="string">'session_id'</span>)<span class="operator">-&gt;</span><span class="method">index</span>();
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">string</span>(<span class="string">'model'</span>);
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">text</span>(<span class="string">'message'</span>);
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">text</span>(<span class="string">'response'</span>);
+    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">timestamps</span>();
+<span class="bracket">}</span>);</code></pre>
+        </div>
+
+        <h3>With History Support</h3>
+        <div class="code-block">
+            <pre><code class="language-php"><span class="keyword">use</span> App\Models\Conversation;
+
+<span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chatWithHistory</span>(Request <span class="variable">$request</span>)
+<span class="bracket">{</span>
+    <span class="variable">$sessionId</span> <span class="operator">=</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">session_id</span> <span class="operator">??</span> Str<span class="operator">::</span><span class="method">uuid</span>();
+
+    <span class="comment">// Get last 10 messages</span>
+    <span class="variable">$history</span> <span class="operator">=</span> Conversation<span class="operator">::</span><span class="method">where</span>(<span class="string">'session_id'</span>, <span class="variable">$sessionId</span>)
+        <span class="operator">-&gt;</span><span class="method">latest</span>()<span class="operator">-&gt;</span><span class="method">take</span>(<span class="number">10</span>)<span class="operator">-&gt;</span><span class="method">get</span>()<span class="operator">-&gt;</span><span class="method">reverse</span>();
+
+    <span class="variable">$messages</span> <span class="operator">=</span> <span class="bracket">[[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'system'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'Helpful assistant'</span><span class="bracket">]]</span>;
+
+    <span class="keyword">foreach</span> (<span class="variable">$history</span> <span class="keyword">as</span> <span class="variable">$conv</span>) <span class="bracket">{</span>
+        <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$conv</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>;
+        <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'assistant'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$conv</span><span class="operator">-&gt;</span><span class="property">response</span><span class="bracket">]</span>;
+    <span class="bracket">}</span>
+
+    <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>;
+
+    <span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
+        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+        <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="variable">$messages</span>,
+    <span class="bracket">]</span>);
+
+    <span class="variable">$response</span> <span class="operator">=</span> <span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>;
+
+    Conversation<span class="operator">::</span><span class="method">create</span>(<span class="bracket">[</span>
+        <span class="string">'user_id'</span> <span class="operator">=&gt;</span> auth()<span class="operator">-&gt;</span><span class="method">id</span>(),
+        <span class="string">'session_id'</span> <span class="operator">=&gt;</span> <span class="variable">$sessionId</span>,
+        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+        <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span>,
+        <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span>,
+    <span class="bracket">]</span>);
+
+    <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
+        <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
+        <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span>,
+        <span class="string">'session_id'</span> <span class="operator">=&gt;</span> <span class="variable">$sessionId</span>,
+    <span class="bracket">]</span>);
+<span class="bracket">}</span></code></pre>
+        </div>
+
+        <h2><span class="step-number">5</span> Streaming Responses</h2>
+        
+        <p>Make your app feel like ChatGPT with streaming:</p>
+
+        <div class="code-block">
+            <pre><code class="language-php"><span class="keyword">public</span> <span class="keyword">function</span> <span class="method">streamChat</span>(Request <span class="variable">$request</span>)
+<span class="bracket">{</span>
+    <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">stream</span>(<span class="keyword">function</span> () <span class="keyword">use</span> (<span class="variable">$request</span>) <span class="bracket">{</span>
+        <span class="variable">$stream</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">createStreamed</span>(<span class="bracket">[</span>
+            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+            <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+                <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
+            <span class="bracket">]</span>,
+        <span class="bracket">]</span>);
+
+        <span class="keyword">foreach</span> (<span class="variable">$stream</span> <span class="keyword">as</span> <span class="variable">$response</span>) <span class="bracket">{</span>
+            <span class="keyword">if</span> (<span class="method">isset</span>(<span class="variable">$response</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">delta</span><span class="operator">-&gt;</span><span class="property">content</span>)) <span class="bracket">{</span>
+                <span class="keyword">echo</span> <span class="string">"data: "</span> <span class="operator">.</span> <span class="method">json_encode</span>(<span class="bracket">[</span>
+                    <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">delta</span><span class="operator">-&gt;</span><span class="property">content</span>
+                <span class="bracket">]</span>) <span class="operator">.</span> <span class="string">"\n\n"</span>;
+                <span class="method">flush</span>();
+            <span class="bracket">}</span>
+        <span class="bracket">}</span>
+    <span class="bracket">}</span>, <span class="number">200</span>, <span class="bracket">[</span>
+        <span class="string">'Content-Type'</span> <span class="operator">=&gt;</span> <span class="string">'text/event-stream'</span>,
+        <span class="string">'Cache-Control'</span> <span class="operator">=&gt;</span> <span class="string">'no-cache'</span>,
+    <span class="bracket">]</span>);
+<span class="bracket">}</span></code></pre>
+        </div>
+
+        <h2><span class="step-number">6</span> Cost Management</h2>
+
+        <div class="highlight-box">
+            <strong>💰 Price Comparison (per 1M tokens):</strong>
+            <p>GPT-4: $30 | GPT-4o Mini: $0.15 | Claude 3.5: $3 | Gemini Pro: Free</p>
+            <p><em><small>Note: AI model prices change frequently. Always check the latest pricing on provider websites.</small></em></p>
+        </div>
+
+        <h3>Best Practices</h3>
+        <ol>
+            <li><strong>Rate Limiting:</strong> throttle:20,1 middleware</li>
+            <li><strong>Caching:</strong> Cache common responses</li>
+            <li><strong>Error Handling:</strong> Always use try-catch</li>
+            <li><strong>Model Selection:</strong> Use cheap models for simple tasks</li>
+            <li><strong>Token Limits:</strong> Set max_tokens to control costs</li>
+        </ol>
+
+        <h3>Caching Example</h3>
+        <div class="code-block">
+            <pre><code class="language-php"><span class="keyword">use</span> Illuminate\Support\Facades\Cache;
+
+<span class="variable">$key</span> <span class="operator">=</span> <span class="string">'ai_'</span> <span class="operator">.</span> <span class="method">md5</span>(<span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span>);
+
+<span class="variable">$response</span> <span class="operator">=</span> Cache<span class="operator">::</span><span class="method">remember</span>(<span class="variable">$key</span>, <span class="number">3600</span>, <span class="keyword">function</span>() <span class="keyword">use</span> (<span class="variable">$request</span>) <span class="bracket">{</span>
+    <span class="keyword">return</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
+        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+        <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+            <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
+        <span class="bracket">]</span>
+    <span class="bracket">]</span>)<span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>;
+<span class="bracket">}</span>);</code></pre>
+        </div>
+
+        <h2>Function Calling</h2>
+        
+        <p>Let AI call your Laravel functions:</p>
+
+        <div class="code-block">
+            <pre><code class="language-php"><span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
+    <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
+    <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+        <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'Weather in Dhaka?'</span><span class="bracket">]</span>
+    <span class="bracket">]</span>,
+    <span class="string">'functions'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+        <span class="bracket">[</span>
+            <span class="string">'name'</span> <span class="operator">=&gt;</span> <span class="string">'get_weather'</span>,
+            <span class="string">'description'</span> <span class="operator">=&gt;</span> <span class="string">'Get weather for a city'</span>,
+            <span class="string">'parameters'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+                <span class="string">'type'</span> <span class="operator">=&gt;</span> <span class="string">'object'</span>,
+                <span class="string">'properties'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
+                    <span class="string">'city'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span><span class="string">'type'</span> <span class="operator">=&gt;</span> <span class="string">'string'</span><span class="bracket">]</span>
+                <span class="bracket">]</span>,
+                <span class="string">'required'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span><span class="string">'city'</span><span class="bracket">]</span>
+            <span class="bracket">]</span>
+        <span class="bracket">]</span>
+    <span class="bracket">]</span>
+<span class="bracket">]</span>);
+
+<span class="keyword">if</span> (<span class="method">isset</span>(<span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">functionCall</span>)) <span class="bracket">{</span>
+    <span class="variable">$args</span> <span class="operator">=</span> <span class="method">json_decode</span>(<span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">functionCall</span><span class="operator">-&gt;</span><span class="property">arguments</span>);
+    <span class="variable">$weather</span> <span class="operator">=</span> <span class="variable">$this</span><span class="operator">-&gt;</span><span class="method">getWeather</span>(<span class="variable">$args</span><span class="operator">-&gt;</span><span class="property">city</span>);
+<span class="bracket">}</span></code></pre>
+        </div>
+
+        <h2>Common Use Cases</h2>
+
+        <h3>1. Content Generation</h3>
+        <p>Blog posts, product descriptions. Use GPT-4o for quality.</p>
+
+        <h3>2. Customer Support</h3>
+        <p>Auto-answer FAQs. Claude 3.5 Sonnet is excellent.</p>
+
+        <h3>3. Code Assistant</h3>
+        <p>Code help and debugging. Claude excels at this.</p>
+
+        <h3>4. Translation</h3>
+        <p>Multi-language support. GPT-4o or Gemini Pro.</p>
+
+        <h2>Troubleshooting</h2>
+
+        <ul>
+            <li><strong>Rate Limits:</strong> Use queues for heavy usage</li>
+            <li><strong>Timeouts:</strong> Increase to 30+ seconds</li>
+            <li><strong>Token Limits:</strong> Summarize long conversations</li>
+            <li><strong>Costs:</strong> Monitor usage daily</li>
+            <li><strong>OpenRouter Errors:</strong> Check HTTP-Referer header</li>
+        </ul>
+
+        <div class="highlight-box">
+            <strong>🚀 Pro Tip:</strong>
+            <p>Start with free OpenRouter models (Gemini Pro) for development. Use GPT-4o Mini for production ($0.15/1M tokens). Upgrade to Claude 3.5 or GPT-4 only when needed.</p>
+        </div>
+
+        <h2>Conclusion</h2>
+        <p>
+            You now know how to integrate both OpenAI and OpenRouter into Laravel. Start with simple chat, then add history, streaming, and advanced features. Monitor costs and choose models wisely.
+        </p>
+
+        <p>
+            The AI revolution is here, and Laravel makes it easy to build intelligent applications that users love!
+        </p>
+
+        <div class="hire-cta">
+            <h3>🚀 Need AI Features in Your Laravel App?</h3>
+            <p>I'm a Laravel expert specializing in AI integration. I can build custom ChatGPT features, intelligent chatbots, content generators, and more.</p>
+            <div class="cta-buttons">
+                <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire Me for AI Development →</a>
+                <a href="mailto:kzaman3055@gmail.com?subject=AI Integration Project" class="cta-secondary">Get Free Quote</a>
+            </div>
+            <p class="cta-meta">⚡ 10+ AI projects • 💰 Affordable rates • 🌍 Remote from Bangladesh</p>
+        </div>
+
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p><strong>Kamruzzaman Polash</strong> - Laravel Developer & AI Enthusiast</p>
+            <p>I build modern web applications with Laravel and cutting-edge AI technologies. Based in Dhaka, Bangladesh, working with clients worldwide.</p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Email Me</a>
+                <a href="https://github.com/pola5h">GitHub</a>
+                <a href="https://www.fiverr.com/kzaman3055">Hire on Fiverr</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
