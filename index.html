@@ -412,7 +412,7 @@
             </div>
             <div class="about-info">
                 <div class="info-item"><span class="info-label">name</span><span class="info-value">"Kamruzzaman Polash"</span></div>
-                <div class="info-item"><span class="info-label">email</span><span class="info-value">"kzaman3055@gmail.com"</span></div>
+                <div class="info-item"><span class="info-label">email</span><span class="info-value">"<a href="mailto:kzaman3055@gmail.com">kzaman3055@gmail.com</a>"</span></div>
                 <div class="info-item"><span class="info-label">education</span><span class="info-value">"BCSE @ IUBAT"</span></div>
                 <div class="info-item"><span class="info-label">location</span><span class="info-value">"Mymensingh, Bangladesh"</span></div>
                 <div class="info-item"><span class="info-label">languages</span><span class="info-value">["Bangla", "English"]</span></div>
@@ -777,9 +777,9 @@
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.section-header, .timeline-item, .project-card, .skill-category, .about-info, .certificate-card').forEach(el => observer.observe(el));
+        document.querySelectorAll('.section-header, .about-info, .skill-category, .timeline-item, .project-card, .certificate-card').forEach(el => observer.observe(el));
 
         document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
