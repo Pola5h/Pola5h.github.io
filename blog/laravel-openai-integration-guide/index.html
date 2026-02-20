@@ -4,279 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</title>
-    <meta name="description" content="Learn how to integrate OpenAI ChatGPT and OpenRouter multi-model API into Laravel applications. Complete tutorial with code examples, API setup, model comparison, and best practices from Bangladesh Laravel expert.">
-    <meta name="keywords" content="Laravel AI, Laravel OpenAI, OpenRouter Laravel, ChatGPT Laravel, AI integration, Laravel tutorial, PHP AI, Laravel developer Bangladesh, Multi-model AI">
-    
+    <meta name="description" content="Learn how to integrate OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots and content generation.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-openai-integration-guide/">
+
     <!-- Open Graph -->
-    <meta property="og:title" content="Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025">
-    <meta property="og:description" content="Step-by-step tutorial to add AI features to your Laravel app using OpenAI API and OpenRouter multi-model platform">
-    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/">
     <meta property="og:type" content="article">
-    
+    <meta property="og:title" content="Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025">
+    <meta property="og:description" content="Learn how to integrate OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots and content generation.">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-openai-integration-guide/">
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="https://pola5h.github.io/">
+    <meta property="article:published_time" content="2025-12-12">
+    <meta property="article:modified_time" content="2025-02-20">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="Laravel">
+    <meta property="article:tag" content="OpenAI">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="PHP">
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel AI Integration with OpenAI & OpenRouter Guide">
-    <meta name="twitter:description" content="Complete guide to integrating AI into Laravel applications with OpenAI and OpenRouter">
+    <meta name="twitter:title" content="Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025">
+    <meta name="twitter:description" content="Learn how to integrate OpenAI and OpenRouter into Laravel to build chatbots, content generators, and other AI-powered features.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-    
-    <!-- FAVICON & APP ICONS -->
+
+    <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="shortcut icon" href="/favicon.svg">
-    <meta name="apple-mobile-web-app-title" content="Laravel Blog">
-    <meta name="application-name" content="Laravel Development Blog">
-    <meta name="msapplication-TileColor" content="#0d1117">
     <meta name="theme-color" content="#0d1117">
-    
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/">
-    
-    <!-- Structured Data -->
+    <meta name="msapplication-TileColor" content="#0d1117">
+
+    <!-- Structured Data: TechArticle -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025",
-      "description": "Step-by-step tutorial to add AI features to your Laravel app using OpenAI API and OpenRouter multi-model platform",
-      "image": "https://pola5h.github.io/og-image.svg",
-      "author": {
-        "@type": "Person",
-        "name": "Kamruzzaman Polash",
-        "url": "https://pola5h.github.io/"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Kamruzzaman Polash"
-      },
-      "datePublished": "2025-12-12",
-      "dateModified": "2025-12-12",
-      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-openai-openrouter-integration-guide/",
-      "articleSection": "Technology",
-      "keywords": ["Laravel AI", "OpenAI", "OpenRouter", "ChatGPT", "AI integration", "Laravel tutorial", "Multi-model AI"],
-      "inLanguage": "en-US"
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025",
+        "description": "Learn how to integrate OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots and content generation.",
+        "image": "https://pola5h.github.io/og-image.svg",
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "datePublished": "2025-12-12",
+        "dateModified": "2025-02-20",
+        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-openai-integration-guide/",
+        "articleSection": "Technology",
+        "keywords": ["Laravel AI", "Laravel OpenAI", "OpenRouter Laravel", "ChatGPT Laravel", "AI integration PHP"],
+        "inLanguage": "en-US",
+        "wordCount": "2200",
+        "timeRequired": "PT10M",
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+                { "@type": "ListItem", "position": 3, "name": "Laravel AI Integration Guide", "item": "https://pola5h.github.io/blog/laravel-openai-integration-guide/" }
+            ]
+        }
     }
     </script>
-    
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I integrate OpenAI into a Laravel application?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Install the openai-php/laravel package via Composer, add your OPENAI_API_KEY to your .env file, publish the config, and use the OpenAI facade to make chat completion requests from your controllers."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is OpenRouter and why use it with Laravel?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OpenRouter is a unified API that gives you access to 100+ AI models including GPT-4, Claude, Gemini, and Llama through a single endpoint. It avoids vendor lock-in and often offers cheaper rates than going directly to each provider."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I implement streaming AI responses in Laravel?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use Laravel's response()->stream() method combined with OpenAI's createStreamed() method. This sends tokens to the client as they're generated, giving a ChatGPT-like real-time typing effect."
+                }
+            }
+        ]
+    }
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui, -apple-system, sans-serif; line-height: 1.7; color: #2d3748; background: #fff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
         .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #1a202c; line-height: 1.2; }
-        h2 { font-size: 1.9rem; margin: 2.5rem 0 1.2rem; color: #2d3748; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; }
-        h3 { font-size: 1.4rem; margin: 2rem 0 1rem; color: #4a5568; }
-        p { margin-bottom: 1.5rem; font-size: 1.05rem; }
-        .meta { color: #718096; margin-bottom: 2rem; font-size: 0.95rem; }
-        .meta a { color: #667eea; text-decoration: none; font-weight: 600; }
-        .meta a:hover { text-decoration: underline; }
-        
-        .code-block { 
-            background: #0f1419; 
-            color: #e2e8f0; 
-            border-radius: 12px; 
-            padding: 1.5rem; 
-            margin: 1.5rem 0; 
-            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace; 
-            overflow-x: auto; 
-            font-size: 0.9rem;
-            line-height: 1.6;
-            border: 1px solid #2d3748;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: relative;
-        }
-        
-        .code-block::before {
-            content: '';
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 12px;
-            height: 12px;
-            background: #ff5f56;
-            border-radius: 50%;
-            box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27ca3f;
-        }
-        
-        .code-block .comment { color: #6b7280; font-style: italic; }
-        .code-block .keyword { color: #c084fc; font-weight: bold; }
-        .code-block .string { color: #34d399; }
-        .code-block .number { color: #fbbf24; }
-        .code-block .function { color: #60a5fa; }
-        .code-block .variable { color: #e2e8f0; }
-        .code-block .class { color: #fbbf24; }
-        .code-block .operator { color: #f87171; }
-        .code-block .bracket { color: #d1d5db; }
-        .code-block .php-tag { color: #f87171; font-weight: bold; }
-        
-        .breadcrumb { 
-            color: #718096; 
-            margin-bottom: 2rem; 
-            font-size: 0.9rem;
-        }
-        .breadcrumb a { 
-            color: #667eea; 
-            text-decoration: none; 
-        }
-        .breadcrumb a:hover { 
-            text-decoration: underline; 
-        }
-        
-        .highlight-box {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border-left: 4px solid #667eea;
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+        .article-meta { color: #6c757d; font-size: 0.9rem; }
+        .article-meta a { color: #007bff; text-decoration: none; }
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; }
+        .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .article-content li { margin-bottom: 0.5rem; }
+        .code-block {
+            background: #0f1419;
+            color: #e2e8f0;
+            border-radius: 8px;
             padding: 1.5rem;
             margin: 2rem 0;
-            border-radius: 8px;
+            font-family: 'Courier New', 'SF Mono', monospace;
+            font-size: 0.88rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.6;
+            border: 1px solid #2d3748;
         }
-        
-        .highlight-box strong {
-            color: #667eea;
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-        
-        ul, ol { 
-            margin: 1rem 0 1.5rem 2rem; 
-        }
-        
-        li { 
-            margin-bottom: 0.8rem; 
-            font-size: 1.05rem;
-        }
-        
-        .author-bio { 
-            background: #f7fafc; 
-            border-radius: 12px; 
-            padding: 2rem; 
-            margin: 3rem 0; 
-            text-align: center; 
-            border: 2px solid #e2e8f0;
-        }
-        
-        .author-bio h3 {
-            margin-bottom: 0.5rem;
-            color: #2d3748;
-        }
-        
-        .author-links { 
-            display: flex; 
-            gap: 1rem; 
-            justify-content: center; 
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .author-links a { 
-            color: #667eea; 
-            text-decoration: none; 
-            padding: 0.6rem 1.2rem; 
-            border: 2px solid #667eea; 
-            border-radius: 6px; 
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-        
-        .author-links a:hover {
-            background: #667eea;
-            color: white;
-        }
-        
-        .hire-cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin: 3rem 0;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-        
-        .hire-cta h3 {
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-            color: white;
-            border: none;
-            padding: 0;
-        }
-        
-        .hire-cta p {
-            margin-bottom: 1.5rem;
-            opacity: 0.95;
-            font-size: 1.1rem;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .cta-primary {
-            background: #48bb78;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 1.05rem;
-        }
-        
-        .cta-primary:hover {
-            background: #38a169;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
-        }
-        
-        .cta-secondary {
-            background: transparent;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border: 2px solid white;
-            border-radius: 8px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 1.05rem;
-        }
-        
-        .cta-secondary:hover {
-            background: white;
-            color: #667eea;
-            transform: translateY(-2px);
-        }
-        
-        .cta-meta {
-            font-size: 0.95rem;
-            opacity: 0.85;
-            margin-top: 1rem;
-        }
-        
-        .step-number {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 32px;
-            font-weight: bold;
-            margin-right: 0.5rem;
-        }
-        
-        @media (max-width: 768px) {
-            body { padding: 1rem; }
-            .container { padding: 1.5rem; }
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.5rem; }
-            .cta-buttons { flex-direction: column; align-items: stretch; }
-            .code-block { font-size: 0.85rem; padding: 1rem; }
-        }
+        .highlight-box { background: #e8f4fd; border-left: 4px solid #2196f3; padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .highlight-box strong { color: #1565c0; display: block; margin-bottom: 0.4rem; }
+        .tip-box { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 1.2rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+        .tip-box strong { color: #2e7d32; display: block; margin-bottom: 0.4rem; }
+        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+        .cta-primary:hover { opacity: 0.85; }
+        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
+        .cta-meta { font-size: 0.85rem; color: #8b949e; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a:hover { background: #007bff; color: #fff; }
+        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
     </style>
 </head>
 <body>
@@ -285,391 +160,279 @@
             <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel AI Integration
         </nav>
 
-        <h1>🤖 Laravel AI Integration: OpenAI & OpenRouter Complete Guide 2025</h1>
-        <p class="meta"><strong>Published:</strong> December 12, 2025 by <a href="/">Kamruzzaman Polash</a> • 10 min read</p>
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel AI</div>
+                <h1>Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · December 12, 2025 · Updated February 2025 · 10 min read</div>
+            </header>
 
-        <p>
-            Artificial Intelligence is transforming web development. In this comprehensive guide, you'll learn how to integrate both OpenAI's powerful ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots, content generation, and automated responses.
-        </p>
+            <div class="article-content">
+                <p>AI features are no longer a nice-to-have — users expect intelligent responses, smart search, and automated assistance. In this guide you'll learn how to integrate both OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel app, covering setup, controllers, conversation history, streaming, and cost management.</p>
 
-        <div class="highlight-box">
-            <strong>🎯 What You'll Learn:</strong>
-            <p>OpenAI & OpenRouter integration, building smart chatbots with multiple AI models, streaming responses, conversation history management, cost comparison, and production-ready best practices.</p>
-        </div>
+                <div class="highlight-box">
+                    <strong>What You'll Learn</strong>
+                    <p>OpenAI and OpenRouter setup, building a chatbot controller, storing conversation history, streaming responses for a real-time feel, function calling, and managing API costs in production.</p>
+                </div>
 
-        <h2>Why Integrate AI in Laravel?</h2>
-        <p>
-            Modern web applications need intelligent features. Whether you're building a customer support chatbot, content generator, or code assistant, AI integration gives your Laravel app superpowers.
-        </p>
+                <h2>Why Use OpenRouter Alongside OpenAI?</h2>
+                <p>OpenAI is the default choice, but OpenRouter gives you access to 100+ models — GPT-4, Claude 3.5, Gemini, Llama — through a single API endpoint. This means no vendor lock-in, easier model comparison, and access to free-tier models for development. Both approaches are covered here so you can choose what fits your project.</p>
 
-        <ul>
-            <li><strong>Automated Customer Support:</strong> Answer user questions 24/7</li>
-            <li><strong>Content Generation:</strong> Create blogs, descriptions, and marketing copy</li>
-            <li><strong>Smart Search:</strong> Semantic search that understands intent</li>
-            <li><strong>Code Assistance:</strong> Help users write and debug code</li>
-            <li><strong>Multi-Model Flexibility:</strong> Switch between GPT-4, Claude, Gemini</li>
-        </ul>
+                <ul>
+                    <li><strong>Automated customer support</strong> — answer user questions 24/7 without adding staff</li>
+                    <li><strong>Content generation</strong> — blogs, product descriptions, marketing copy at scale</li>
+                    <li><strong>Smart search</strong> — semantic search that understands intent, not just keywords</li>
+                    <li><strong>Code assistance</strong> — help users write and debug code within your app</li>
+                </ul>
 
-        <h2><span class="step-number">1</span> Prerequisites & Setup</h2>
-        
-        <h3>Get Your API Keys</h3>
-        <p>
-            <strong>For OpenAI:</strong> Sign up at platform.openai.com<br>
-            <strong>For OpenRouter:</strong> Sign up at openrouter.ai
-        </p>
+                <h2>1. Prerequisites & Setup</h2>
 
-        <h3>Install OpenAI Package</h3>
-        <div class="code-block">
-            <pre><code class="language-bash"><span class="comment"># Install OpenAI PHP Client</span>
-composer require openai-php/laravel
+                <h3>Get your API keys</h3>
+                <p>For OpenAI, sign up at <a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer">platform.openai.com</a>. For OpenRouter, sign up at <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">openrouter.ai</a>. Both offer free trial credits to get started.</p>
 
-<span class="comment"># Publish configuration</span>
-php artisan vendor:publish --provider="OpenAI\Laravel\ServiceProvider"</code></pre>
-        </div>
+                <h3>Install the OpenAI PHP package</h3>
+                <div class="code-block">composer require openai-php/laravel
 
-        <h3>Configure Environment</h3>
-        <div class="code-block">
-            <pre><code class="language-bash"><span class="comment"># Add to .env</span>
+php artisan vendor:publish --provider="OpenAI\Laravel\ServiceProvider"</div>
+
+                <h3>Configure your environment</h3>
+                <div class="code-block"># .env
 OPENAI_API_KEY=sk-your-key-here
 
-<span class="comment"># For OpenRouter</span>
+# OpenRouter (if using)
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
 OPENROUTER_SITE_URL=https://yoursite.com
-OPENROUTER_APP_NAME=YourAppName</code></pre>
-        </div>
+OPENROUTER_APP_NAME=YourAppName</div>
 
-        <h2><span class="step-number">2</span> OpenAI Integration</h2>
-        
-        <div class="code-block">
-            <pre><code class="language-php"><span class="comment">// app/Http/Controllers/AIChatController.php</span>
-<span class="php-tag">&lt;?php</span>
+                <h2>2. OpenAI Integration</h2>
+                <p>A simple chat controller using the OpenAI facade:</p>
 
-<span class="keyword">namespace</span> App\Http\Controllers;
+                <div class="code-block">&lt;?php
+// app/Http/Controllers/AIChatController.php
 
-<span class="keyword">use</span> Illuminate\Http\Request;
-<span class="keyword">use</span> OpenAI\Laravel\Facades\OpenAI;
+namespace App\Http\Controllers;
 
-<span class="keyword">class</span> <span class="class">AIChatController</span> <span class="keyword">extends</span> Controller
-<span class="bracket">{</span>
-    <span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chat</span>(Request <span class="variable">$request</span>)
-    <span class="bracket">{</span>
-        <span class="variable">$request</span><span class="operator">-&gt;</span><span class="method">validate</span>(<span class="bracket">[</span>
-            <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="string">'required|string|max:1000'</span>,
-        <span class="bracket">]</span>);
+use Illuminate\Http\Request;
+use OpenAI\Laravel\Facades\OpenAI;
 
-        <span class="keyword">try</span> <span class="bracket">{</span>
-            <span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
-                <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-                <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-                    <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'system'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'You are helpful.'</span><span class="bracket">]</span>,
-                    <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>,
-                <span class="bracket">]</span>,
-                <span class="string">'max_tokens'</span> <span class="operator">=&gt;</span> <span class="number">500</span>,
-            <span class="bracket">]</span>);
+class AIChatController extends Controller
+{
+    public function chat(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string|max:1000',
+        ]);
 
-            <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
-                <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
-                <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>,
-            <span class="bracket">]</span>);
+        try {
+            $result = OpenAI::chat()->create([
+                'model'      => 'gpt-4o-mini', // Use Mini for cost efficiency
+                'messages'   => [
+                    ['role' => 'system', 'content' => 'You are a helpful assistant.'],
+                    ['role' => 'user',   'content' => $request->message],
+                ],
+                'max_tokens' => 500,
+            ]);
 
-        <span class="bracket">}</span> <span class="keyword">catch</span> (\Exception <span class="variable">$e</span>) <span class="bracket">{</span>
-            <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
-                <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">false</span>,
-                <span class="string">'error'</span> <span class="operator">=&gt;</span> <span class="string">'AI unavailable'</span>,
-            <span class="bracket">]</span>, <span class="number">500</span>);
-        <span class="bracket">}</span>
-    <span class="bracket">}</span>
-<span class="bracket">}</span></code></pre>
-        </div>
+            return response()->json([
+                'success'  => true,
+                'response' => $result->choices[0]->message->content,
+            ]);
 
-        <h3>Add Routes</h3>
-        <div class="code-block">
-            <pre><code class="language-php"><span class="comment">// routes/api.php</span>
-<span class="keyword">use</span> App\Http\Controllers\AIChatController;
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error'   => 'AI service unavailable. Please try again.',
+            ], 500);
+        }
+    }
+}</div>
 
-Route<span class="operator">::</span><span class="method">post</span>(<span class="string">'/ai/chat'</span>, <span class="bracket">[</span>AIChatController<span class="operator">::</span><span class="keyword">class</span>, <span class="string">'chat'</span><span class="bracket">]</span>)
-    <span class="operator">-&gt;</span><span class="method">middleware</span>(<span class="string">'throttle:20,1'</span>); <span class="comment">// 20 requests per minute</span></code></pre>
-        </div>
+                <h3>Register the route</h3>
+                <div class="code-block">// routes/api.php
+use App\Http\Controllers\AIChatController;
 
-        <h2><span class="step-number">3</span> OpenRouter Integration</h2>
-        
-        <p>OpenRouter gives you access to 100+ AI models through one API!</p>
+Route::post('/ai/chat', [AIChatController::class, 'chat'])
+    ->middleware('throttle:20,1'); // 20 requests per minute per user</div>
 
-        <h3>Why OpenRouter?</h3>
-        <ul>
-            <li><strong>100+ Models:</strong> GPT-4, Claude, Gemini, Llama</li>
-            <li><strong>Cost Effective:</strong> Often cheaper than direct APIs</li>
-            <li><strong>No Vendor Lock-in:</strong> Easy model switching</li>
-            <li><strong>Free Models:</strong> Gemini Pro, Mistral for testing</li>
-        </ul>
+                <h2>3. OpenRouter Integration</h2>
+                <p>OpenRouter uses the same OpenAI-compatible API format, so the integration is straightforward via Laravel's HTTP client:</p>
 
-        <h3>OpenRouter Controller</h3>
-        <div class="code-block">
-            <pre><code class="language-php"><span class="keyword">use</span> Illuminate\Support\Facades\Http;
+                <div class="code-block">use Illuminate\Support\Facades\Http;
 
-<span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chatWithOpenRouter</span>(Request <span class="variable">$request</span>)
-<span class="bracket">{</span>
-    <span class="variable">$request</span><span class="operator">-&gt;</span><span class="method">validate</span>(<span class="bracket">[</span>
-        <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="string">'required|string|max:1000'</span>,
-        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'nullable|string'</span>
-    <span class="bracket">]</span>);
+public function chatWithOpenRouter(Request $request)
+{
+    $request->validate([
+        'message' => 'required|string|max:1000',
+        'model'   => 'nullable|string',
+    ]);
 
-    <span class="variable">$model</span> <span class="operator">=</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">model</span> <span class="operator">??</span> <span class="string">'openai/gpt-4o-mini'</span>;
+    $model = $request->model ?? 'openai/gpt-4o-mini';
 
-    <span class="keyword">try</span> <span class="bracket">{</span>
-        <span class="variable">$response</span> <span class="operator">=</span> Http<span class="operator">::</span><span class="method">withHeaders</span>(<span class="bracket">[</span>
-            <span class="string">'Authorization'</span> <span class="operator">=&gt;</span> <span class="string">'Bearer '</span> <span class="operator">.</span> env(<span class="string">'OPENROUTER_API_KEY'</span>),
-            <span class="string">'HTTP-Referer'</span> <span class="operator">=&gt;</span> env(<span class="string">'OPENROUTER_SITE_URL'</span>),
-            <span class="string">'X-Title'</span> <span class="operator">=&gt;</span> env(<span class="string">'OPENROUTER_APP_NAME'</span>),
-        <span class="bracket">]</span>)<span class="operator">-&gt;</span><span class="method">timeout</span>(<span class="number">30</span>)<span class="operator">-&gt;</span><span class="method">post</span>(<span class="string">'https://openrouter.ai/api/v1/chat/completions'</span>, <span class="bracket">[</span>
-            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="variable">$model</span>,
-            <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-                <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
-            <span class="bracket">]</span>
-        <span class="bracket">]</span>);
+    try {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('OPENROUTER_API_KEY'),
+            'HTTP-Referer'  => env('OPENROUTER_SITE_URL'),
+            'X-Title'       => env('OPENROUTER_APP_NAME'),
+        ])->timeout(30)->post('https://openrouter.ai/api/v1/chat/completions', [
+            'model'    => $model,
+            'messages' => [
+                ['role' => 'user', 'content' => $request->message]
+            ],
+        ]);
 
-        <span class="variable">$data</span> <span class="operator">=</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="method">json</span>();
+        $data = $response->json();
 
-        <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
-            <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
-            <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$data</span><span class="bracket">[</span><span class="string">'choices'</span><span class="bracket">][</span><span class="number">0</span><span class="bracket">][</span><span class="string">'message'</span><span class="bracket">][</span><span class="string">'content'</span><span class="bracket">]</span>,
-            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="variable">$model</span>
-        <span class="bracket">]</span>);
+        return response()->json([
+            'success'  => true,
+            'response' => $data['choices'][0]['message']['content'],
+            'model'    => $model,
+        ]);
 
-    <span class="bracket">}</span> <span class="keyword">catch</span> (\Exception <span class="variable">$e</span>) <span class="bracket">{</span>
-        <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
-            <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">false</span>,
-            <span class="string">'error'</span> <span class="operator">=&gt;</span> <span class="string">'Service unavailable'</span>
-        <span class="bracket">]</span>, <span class="number">500</span>);
-    <span class="bracket">}</span>
-<span class="bracket">}</span></code></pre>
-        </div>
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'error'   => 'Service unavailable',
+        ], 500);
+    }
+}</div>
 
-        <h3>Popular OpenRouter Models</h3>
-        <div class="code-block">
-            <pre><code class="language-php"><span class="comment">// Top models in 2025</span>
-<span class="variable">$models</span> <span class="operator">=</span> <span class="bracket">[</span>
-    <span class="string">'openai/gpt-4o-mini'</span> <span class="operator">=&gt;</span> <span class="string">'Cheap &amp; Fast'</span>,
-    <span class="string">'anthropic/claude-3.5-sonnet'</span> <span class="operator">=&gt;</span> <span class="string">'Best Quality'</span>,
-    <span class="string">'google/gemini-pro'</span> <span class="operator">=&gt;</span> <span class="string">'Free Tier'</span>,
-    <span class="string">'meta-llama/llama-3.1-70b'</span> <span class="operator">=&gt;</span> <span class="string">'Open Source'</span>,
-<span class="bracket">]</span>;</code></pre>
-        </div>
+                <h3>Popular OpenRouter models</h3>
+                <div class="code-block">$models = [
+    'openai/gpt-4o-mini'           => 'Cheap & Fast',
+    'anthropic/claude-3.5-sonnet'  => 'Best for reasoning',
+    'google/gemini-pro'            => 'Free tier available',
+    'meta-llama/llama-3.1-70b'     => 'Open source',
+];</div>
 
-        <h2><span class="step-number">4</span> Conversation History</h2>
-        
-        <div class="code-block">
-            <pre><code class="language-bash"><span class="comment"># Create migration</span>
-php artisan make:migration create_conversations_table</code></pre>
-        </div>
+                <h2>4. Conversation History</h2>
+                <p>For a real chatbot, you need to persist conversation context. Start with a migration:</p>
 
-        <div class="code-block">
-            <pre><code class="language-php">Schema<span class="operator">::</span><span class="method">create</span>(<span class="string">'conversations'</span>, <span class="keyword">function</span> (Blueprint <span class="variable">$table</span>) <span class="bracket">{</span>
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">id</span>();
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">foreignId</span>(<span class="string">'user_id'</span>)<span class="operator">-&gt;</span><span class="method">constrained</span>();
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">string</span>(<span class="string">'session_id'</span>)<span class="operator">-&gt;</span><span class="method">index</span>();
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">string</span>(<span class="string">'model'</span>);
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">text</span>(<span class="string">'message'</span>);
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">text</span>(<span class="string">'response'</span>);
-    <span class="variable">$table</span><span class="operator">-&gt;</span><span class="method">timestamps</span>();
-<span class="bracket">}</span>);</code></pre>
-        </div>
+                <div class="code-block">php artisan make:migration create_conversations_table</div>
 
-        <h3>With History Support</h3>
-        <div class="code-block">
-            <pre><code class="language-php"><span class="keyword">use</span> App\Models\Conversation;
+                <div class="code-block">Schema::create('conversations', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained();
+    $table->string('session_id')->index();
+    $table->string('model');
+    $table->text('message');
+    $table->text('response');
+    $table->timestamps();
+});</div>
 
-<span class="keyword">public</span> <span class="keyword">function</span> <span class="method">chatWithHistory</span>(Request <span class="variable">$request</span>)
-<span class="bracket">{</span>
-    <span class="variable">$sessionId</span> <span class="operator">=</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">session_id</span> <span class="operator">??</span> Str<span class="operator">::</span><span class="method">uuid</span>();
+                <h3>Controller with history support</h3>
+                <div class="code-block">use App\Models\Conversation;
 
-    <span class="comment">// Get last 10 messages</span>
-    <span class="variable">$history</span> <span class="operator">=</span> Conversation<span class="operator">::</span><span class="method">where</span>(<span class="string">'session_id'</span>, <span class="variable">$sessionId</span>)
-        <span class="operator">-&gt;</span><span class="method">latest</span>()<span class="operator">-&gt;</span><span class="method">take</span>(<span class="number">10</span>)<span class="operator">-&gt;</span><span class="method">get</span>()<span class="operator">-&gt;</span><span class="method">reverse</span>();
+public function chatWithHistory(Request $request)
+{
+    $sessionId = $request->session_id ?? Str::uuid();
 
-    <span class="variable">$messages</span> <span class="operator">=</span> <span class="bracket">[[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'system'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'Helpful assistant'</span><span class="bracket">]]</span>;
+    // Load last 10 messages for context
+    $history = Conversation::where('session_id', $sessionId)
+        ->latest()->take(10)->get()->reverse();
 
-    <span class="keyword">foreach</span> (<span class="variable">$history</span> <span class="keyword">as</span> <span class="variable">$conv</span>) <span class="bracket">{</span>
-        <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$conv</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>;
-        <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'assistant'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$conv</span><span class="operator">-&gt;</span><span class="property">response</span><span class="bracket">]</span>;
-    <span class="bracket">}</span>
+    $messages = [['role' => 'system', 'content' => 'You are a helpful assistant.']];
 
-    <span class="variable">$messages</span><span class="bracket">[]</span> <span class="operator">=</span> <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>;
+    foreach ($history as $conv) {
+        $messages[] = ['role' => 'user',      'content' => $conv->message];
+        $messages[] = ['role' => 'assistant', 'content' => $conv->response];
+    }
 
-    <span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
-        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-        <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="variable">$messages</span>,
-    <span class="bracket">]</span>);
+    $messages[] = ['role' => 'user', 'content' => $request->message];
 
-    <span class="variable">$response</span> <span class="operator">=</span> <span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>;
+    $result   = OpenAI::chat()->create(['model' => 'gpt-4o-mini', 'messages' => $messages]);
+    $response = $result->choices[0]->message->content;
 
-    Conversation<span class="operator">::</span><span class="method">create</span>(<span class="bracket">[</span>
-        <span class="string">'user_id'</span> <span class="operator">=&gt;</span> auth()<span class="operator">-&gt;</span><span class="method">id</span>(),
-        <span class="string">'session_id'</span> <span class="operator">=&gt;</span> <span class="variable">$sessionId</span>,
-        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-        <span class="string">'message'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span>,
-        <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span>,
-    <span class="bracket">]</span>);
+    Conversation::create([
+        'user_id'    => auth()->id(),
+        'session_id' => $sessionId,
+        'model'      => 'gpt-4o-mini',
+        'message'    => $request->message,
+        'response'   => $response,
+    ]);
 
-    <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">json</span>(<span class="bracket">[</span>
-        <span class="string">'success'</span> <span class="operator">=&gt;</span> <span class="keyword">true</span>,
-        <span class="string">'response'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span>,
-        <span class="string">'session_id'</span> <span class="operator">=&gt;</span> <span class="variable">$sessionId</span>,
-    <span class="bracket">]</span>);
-<span class="bracket">}</span></code></pre>
-        </div>
+    return response()->json([
+        'success'    => true,
+        'response'   => $response,
+        'session_id' => $sessionId,
+    ]);
+}</div>
 
-        <h2><span class="step-number">5</span> Streaming Responses</h2>
-        
-        <p>Make your app feel like ChatGPT with streaming:</p>
+                <h2>5. Streaming Responses</h2>
+                <p>Streaming makes your app feel like ChatGPT — tokens arrive in real time rather than waiting for the full response:</p>
 
-        <div class="code-block">
-            <pre><code class="language-php"><span class="keyword">public</span> <span class="keyword">function</span> <span class="method">streamChat</span>(Request <span class="variable">$request</span>)
-<span class="bracket">{</span>
-    <span class="keyword">return</span> response()<span class="operator">-&gt;</span><span class="method">stream</span>(<span class="keyword">function</span> () <span class="keyword">use</span> (<span class="variable">$request</span>) <span class="bracket">{</span>
-        <span class="variable">$stream</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">createStreamed</span>(<span class="bracket">[</span>
-            <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-            <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-                <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
-            <span class="bracket">]</span>,
-        <span class="bracket">]</span>);
+                <div class="code-block">public function streamChat(Request $request)
+{
+    return response()->stream(function () use ($request) {
+        $stream = OpenAI::chat()->createStreamed([
+            'model'    => 'gpt-4o-mini',
+            'messages' => [['role' => 'user', 'content' => $request->message]],
+        ]);
 
-        <span class="keyword">foreach</span> (<span class="variable">$stream</span> <span class="keyword">as</span> <span class="variable">$response</span>) <span class="bracket">{</span>
-            <span class="keyword">if</span> (<span class="method">isset</span>(<span class="variable">$response</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">delta</span><span class="operator">-&gt;</span><span class="property">content</span>)) <span class="bracket">{</span>
-                <span class="keyword">echo</span> <span class="string">"data: "</span> <span class="operator">.</span> <span class="method">json_encode</span>(<span class="bracket">[</span>
-                    <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$response</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">delta</span><span class="operator">-&gt;</span><span class="property">content</span>
-                <span class="bracket">]</span>) <span class="operator">.</span> <span class="string">"\n\n"</span>;
-                <span class="method">flush</span>();
-            <span class="bracket">}</span>
-        <span class="bracket">}</span>
-    <span class="bracket">}</span>, <span class="number">200</span>, <span class="bracket">[</span>
-        <span class="string">'Content-Type'</span> <span class="operator">=&gt;</span> <span class="string">'text/event-stream'</span>,
-        <span class="string">'Cache-Control'</span> <span class="operator">=&gt;</span> <span class="string">'no-cache'</span>,
-    <span class="bracket">]</span>);
-<span class="bracket">}</span></code></pre>
-        </div>
+        foreach ($stream as $response) {
+            if (isset($response->choices[0]->delta->content)) {
+                echo "data: " . json_encode([
+                    'content' => $response->choices[0]->delta->content
+                ]) . "\n\n";
+                flush();
+            }
+        }
+    }, 200, [
+        'Content-Type'  => 'text/event-stream',
+        'Cache-Control' => 'no-cache',
+    ]);
+}</div>
 
-        <h2><span class="step-number">6</span> Cost Management</h2>
+                <h2>6. Cost Management</h2>
 
-        <div class="highlight-box">
-            <strong>💰 Price Comparison (per 1M tokens):</strong>
-            <p>GPT-4: $30 | GPT-4o Mini: $0.15 | Claude 3.5: $3 | Gemini Pro: Free</p>
-            <p><em><small>Note: AI model prices change frequently. Always check the latest pricing on provider websites.</small></em></p>
-        </div>
+                <div class="highlight-box">
+                    <strong>Approximate pricing per 1M tokens (check provider sites for current rates)</strong>
+                    <p>GPT-4o: ~$5 input | GPT-4o Mini: ~$0.15 input | Claude 3.5 Sonnet: ~$3 input | Gemini Flash: ~$0.075 input</p>
+                </div>
 
-        <h3>Best Practices</h3>
-        <ol>
-            <li><strong>Rate Limiting:</strong> throttle:20,1 middleware</li>
-            <li><strong>Caching:</strong> Cache common responses</li>
-            <li><strong>Error Handling:</strong> Always use try-catch</li>
-            <li><strong>Model Selection:</strong> Use cheap models for simple tasks</li>
-            <li><strong>Token Limits:</strong> Set max_tokens to control costs</li>
-        </ol>
+                <p>The most effective cost controls in production: cache identical or near-identical prompts with Redis, use a cheap model like GPT-4o Mini for simple tasks and only escalate to GPT-4o or Claude when quality demands it, set sensible <code>max_tokens</code> limits, and throttle at the route level so no single user can run up your bill.</p>
 
-        <h3>Caching Example</h3>
-        <div class="code-block">
-            <pre><code class="language-php"><span class="keyword">use</span> Illuminate\Support\Facades\Cache;
+                <div class="code-block">$key = 'ai_' . md5($request->message);
 
-<span class="variable">$key</span> <span class="operator">=</span> <span class="string">'ai_'</span> <span class="operator">.</span> <span class="method">md5</span>(<span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span>);
+$response = Cache::remember($key, 3600, function () use ($request) {
+    return OpenAI::chat()->create([
+        'model'    => 'gpt-4o-mini',
+        'messages' => [['role' => 'user', 'content' => $request->message]],
+    ])->choices[0]->message->content;
+});</div>
 
-<span class="variable">$response</span> <span class="operator">=</span> Cache<span class="operator">::</span><span class="method">remember</span>(<span class="variable">$key</span>, <span class="number">3600</span>, <span class="keyword">function</span>() <span class="keyword">use</span> (<span class="variable">$request</span>) <span class="bracket">{</span>
-    <span class="keyword">return</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
-        <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-        <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-            <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="variable">$request</span><span class="operator">-&gt;</span><span class="property">message</span><span class="bracket">]</span>
-        <span class="bracket">]</span>
-    <span class="bracket">]</span>)<span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">content</span>;
-<span class="bracket">}</span>);</code></pre>
-        </div>
+                <h2>Common Troubleshooting</h2>
+                <p><strong>Rate limit errors</strong> — move heavy AI tasks to queue jobs so they don't block the request cycle. <strong>Timeouts</strong> — set HTTP client timeout to 30+ seconds for longer prompts. <strong>OpenRouter errors</strong> — make sure the <code>HTTP-Referer</code> header matches your registered site URL. <strong>Token limits</strong> — summarise older conversation history rather than sending the full context every time.</p>
 
-        <h2>Function Calling</h2>
-        
-        <p>Let AI call your Laravel functions:</p>
+                <div class="tip-box">
+                    <strong>Start cheap, scale up</strong>
+                    <p>Use free OpenRouter models during development. Switch to GPT-4o Mini for production — it handles the vast majority of use cases well at a fraction of the cost of GPT-4o. Only upgrade when you actually see quality problems.</p>
+                </div>
 
-        <div class="code-block">
-            <pre><code class="language-php"><span class="variable">$result</span> <span class="operator">=</span> OpenAI<span class="operator">::</span><span class="method">chat</span>()<span class="operator">-&gt;</span><span class="method">create</span>(<span class="bracket">[</span>
-    <span class="string">'model'</span> <span class="operator">=&gt;</span> <span class="string">'gpt-4'</span>,
-    <span class="string">'messages'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-        <span class="bracket">[</span><span class="string">'role'</span> <span class="operator">=&gt;</span> <span class="string">'user'</span>, <span class="string">'content'</span> <span class="operator">=&gt;</span> <span class="string">'Weather in Dhaka?'</span><span class="bracket">]</span>
-    <span class="bracket">]</span>,
-    <span class="string">'functions'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-        <span class="bracket">[</span>
-            <span class="string">'name'</span> <span class="operator">=&gt;</span> <span class="string">'get_weather'</span>,
-            <span class="string">'description'</span> <span class="operator">=&gt;</span> <span class="string">'Get weather for a city'</span>,
-            <span class="string">'parameters'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-                <span class="string">'type'</span> <span class="operator">=&gt;</span> <span class="string">'object'</span>,
-                <span class="string">'properties'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span>
-                    <span class="string">'city'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span><span class="string">'type'</span> <span class="operator">=&gt;</span> <span class="string">'string'</span><span class="bracket">]</span>
-                <span class="bracket">]</span>,
-                <span class="string">'required'</span> <span class="operator">=&gt;</span> <span class="bracket">[</span><span class="string">'city'</span><span class="bracket">]</span>
-            <span class="bracket">]</span>
-        <span class="bracket">]</span>
-    <span class="bracket">]</span>
-<span class="bracket">]</span>);
+                <h2>Conclusion</h2>
+                <p>You now have everything you need to add AI to your Laravel application — from a basic chat endpoint to conversation history, streaming, and cost-aware model selection. Start simple, measure your token usage from day one, and add complexity only as your use case demands it.</p>
 
-<span class="keyword">if</span> (<span class="method">isset</span>(<span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">functionCall</span>)) <span class="bracket">{</span>
-    <span class="variable">$args</span> <span class="operator">=</span> <span class="method">json_decode</span>(<span class="variable">$result</span><span class="operator">-&gt;</span><span class="property">choices</span><span class="bracket">[</span><span class="number">0</span><span class="bracket">]</span><span class="operator">-&gt;</span><span class="property">message</span><span class="operator">-&gt;</span><span class="property">functionCall</span><span class="operator">-&gt;</span><span class="property">arguments</span>);
-    <span class="variable">$weather</span> <span class="operator">=</span> <span class="variable">$this</span><span class="operator">-&gt;</span><span class="method">getWeather</span>(<span class="variable">$args</span><span class="operator">-&gt;</span><span class="property">city</span>);
-<span class="bracket">}</span></code></pre>
-        </div>
-
-        <h2>Common Use Cases</h2>
-
-        <h3>1. Content Generation</h3>
-        <p>Blog posts, product descriptions. Use GPT-4o for quality.</p>
-
-        <h3>2. Customer Support</h3>
-        <p>Auto-answer FAQs. Claude 3.5 Sonnet is excellent.</p>
-
-        <h3>3. Code Assistant</h3>
-        <p>Code help and debugging. Claude excels at this.</p>
-
-        <h3>4. Translation</h3>
-        <p>Multi-language support. GPT-4o or Gemini Pro.</p>
-
-        <h2>Troubleshooting</h2>
-
-        <ul>
-            <li><strong>Rate Limits:</strong> Use queues for heavy usage</li>
-            <li><strong>Timeouts:</strong> Increase to 30+ seconds</li>
-            <li><strong>Token Limits:</strong> Summarize long conversations</li>
-            <li><strong>Costs:</strong> Monitor usage daily</li>
-            <li><strong>OpenRouter Errors:</strong> Check HTTP-Referer header</li>
-        </ul>
-
-        <div class="highlight-box">
-            <strong>🚀 Pro Tip:</strong>
-            <p>Start with free OpenRouter models (Gemini Pro) for development. Use GPT-4o Mini for production ($0.15/1M tokens). Upgrade to Claude 3.5 or GPT-4 only when needed.</p>
-        </div>
-
-        <h2>Conclusion</h2>
-        <p>
-            You now know how to integrate both OpenAI and OpenRouter into Laravel. Start with simple chat, then add history, streaming, and advanced features. Monitor costs and choose models wisely.
-        </p>
-
-        <p>
-            The AI revolution is here, and Laravel makes it easy to build intelligent applications that users love!
-        </p>
+                <p>For more on building scalable Laravel backends, see the <a href="/blog/laravel-rest-api-best-practices/">REST API Best Practices guide</a> and <a href="/blog/laravel-performance-optimization/">Performance Optimization guide</a>.</p>
+            </div>
+        </article>
 
         <div class="hire-cta">
-            <h3>🚀 Need AI Features in Your Laravel App?</h3>
-            <p>I'm a Laravel expert specializing in AI integration. I can build custom ChatGPT features, intelligent chatbots, content generators, and more.</p>
+            <h3>Need AI Features Built Into Your Laravel App?</h3>
+            <p>I've integrated OpenAI and OpenRouter into production Laravel applications — chatbots, content generators, and smart search. Happy to help you build something that actually ships.</p>
             <div class="cta-buttons">
-                <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire Me for AI Development →</a>
-                <a href="mailto:kzaman3055@gmail.com?subject=AI Integration Project" class="cta-secondary">Get Free Quote</a>
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel AI Project" class="cta-primary">Get In Touch →</a>
+                <a href="/" class="cta-secondary">View My Portfolio</a>
             </div>
-            <p class="cta-meta">⚡ 10+ AI projects • 💰 Affordable rates • 🌍 Remote from Bangladesh</p>
+            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
         </div>
 
         <div class="author-bio">
             <h3>About the Author</h3>
-            <p><strong>Kamruzzaman Polash</strong> - Laravel Developer & AI Enthusiast</p>
-            <p>I build modern web applications with Laravel and cutting-edge AI technologies. Based in Dhaka, Bangladesh, working with clients worldwide.</p>
+            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
             <div class="author-links">
                 <a href="/">Portfolio</a>
-                <a href="mailto:kzaman3055@gmail.com">Email Me</a>
-                <a href="https://github.com/pola5h">GitHub</a>
-                <a href="https://www.fiverr.com/kzaman3055">Hire on Fiverr</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
         </div>
     </div>

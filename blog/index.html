@@ -4,262 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laravel & PHP Development Blog | Kamruzzaman Polash</title>
-    <meta name="description" content="Expert Laravel and PHP development tutorials, tips, and best practices by Kamruzzaman Polash. Learn REST API development, MySQL optimization, and modern PHP techniques.">
-    <meta name="keywords" content="Laravel tutorials, PHP development, REST API, MySQL optimization, Laravel best practices, PHP tips, Backend development Bangladesh">
-    
+    <meta name="description" content="Practical Laravel and PHP tutorials based on real production experience. REST APIs, MySQL optimization, Docker, Kubernetes, and modern PHP — by Kamruzzaman Polash.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/">
+
     <!-- Open Graph -->
+    <meta property="og:type" content="website">
     <meta property="og:title" content="Laravel & PHP Development Blog | Kamruzzaman Polash">
-    <meta property="og:description" content="Expert Laravel and PHP development tutorials, tips, and best practices">
+    <meta property="og:description" content="Practical Laravel and PHP tutorials based on real production experience.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/">
-    
-    <!-- Canonical -->
-    <link rel="canonical" href="https://pola5h.github.io/blog/">
-    
-    <!-- FAVICON & APP ICONS -->
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel & PHP Development Blog | Kamruzzaman Polash">
+    <meta name="twitter:description" content="Practical Laravel and PHP tutorials based on real production experience.">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+
+    <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="shortcut icon" href="/favicon.svg">
-    <meta name="apple-mobile-web-app-title" content="Laravel Blog">
-    <meta name="application-name" content="Laravel Development Blog">
-    <meta name="msapplication-TileColor" content="#0d1117">
     <meta name="theme-color" content="#0d1117">
-    
+    <meta name="msapplication-TileColor" content="#0d1117">
+
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Blog",
-      "name": "Laravel & PHP Development Blog",
-      "description": "Expert Laravel and PHP development tutorials and best practices",
-      "url": "https://pola5h.github.io/blog/",
-      "author": {
-        "@type": "Person",
-        "name": "Kamruzzaman Polash",
-        "url": "https://pola5h.github.io/"
-      }
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Laravel & PHP Development Blog",
+        "description": "Practical Laravel and PHP tutorials based on real production experience.",
+        "url": "https://pola5h.github.io/blog/",
+        "author": {
+            "@type": "Person",
+            "name": "Kamruzzaman Polash",
+            "url": "https://pola5h.github.io/"
+        }
     }
     </script>
-    
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #f8f9fa;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .header {
-            background: #fff;
-            border-bottom: 1px solid #e9ecef;
-            margin-bottom: 2rem;
-            padding: 1rem 0;
-        }
-        
-        .header h1 {
-            color: #007bff;
-            margin-bottom: 0.5rem;
-        }
-        
-        .breadcrumb {
-            color: #6c757d;
-            margin-bottom: 2rem;
-        }
-        
-        .breadcrumb a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        
-        .post-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .post-card {
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-        
-        .post-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .post-content {
-            padding: 1.5rem;
-        }
-        
-        .post-category {
-            color: #28a745;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-        }
-        
-        .post-title {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-        }
-        
-        .post-title a {
-            color: #333;
-            text-decoration: none;
-        }
-        
-        .post-title a:hover {
-            color: #007bff;
-        }
-        
-        .post-excerpt {
-            color: #6c757d;
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .post-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-        
-        .read-more {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .sidebar {
-            background: #fff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .sidebar h3 {
-            color: #333;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        
-        .sidebar ul {
-            list-style: none;
-        }
-        
-        .sidebar li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .sidebar a {
-            color: #6c757d;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .sidebar a:hover {
-            color: #007bff;
-        }
-        
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .post-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; }
+        .header { background: #fff; border-bottom: 1px solid #e9ecef; padding: 1.5rem 0; margin-bottom: 2rem; }
+        .header .inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .header h1 { color: #2c3e50; margin-bottom: 0.3rem; }
+        .header p { color: #6c757d; }
+        .breadcrumb { color: #6c757d; margin-bottom: 1.5rem; font-size: 0.9rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
+        .post-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
+        .post-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
+        .post-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+        .post-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+        .post-category { color: #28a745; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
+        .post-title { font-size: 1.15rem; margin-bottom: 0.8rem; line-height: 1.4; flex: 1; }
+        .post-title a { color: #2c3e50; text-decoration: none; }
+        .post-title a:hover { color: #007bff; }
+        .post-excerpt { color: #6c757d; margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
+        .post-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #6c757d; margin-top: auto; }
+        .read-more { color: #007bff; text-decoration: none; font-weight: 500; }
+        .read-more:hover { text-decoration: underline; }
+        @media (max-width: 768px) { .container { padding: 0 1rem 2rem; } .post-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="container">
-            <nav class="breadcrumb">
-                <a href="/">Home</a> / Blog
-            </nav>
+        <div class="inner">
+            <nav class="breadcrumb"><a href="/">Home</a> / Blog</nav>
             <h1>Laravel & PHP Development Blog</h1>
-            <p>Expert tutorials, tips, and best practices for modern Laravel and PHP development</p>
+            <p>Practical tutorials and insights from real production experience</p>
         </div>
     </div>
 
     <div class="container">
         <div class="post-grid">
-                <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-category">Laravel AI</div>
-                        <h2 class="post-title">
-                            <a href="/blog/laravel-openai-integration-guide/">Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</a>
-                        </h2>
-                        <p class="post-excerpt">
-                            Artificial Intelligence is transforming web development. In this comprehensive guide, you'll learn how to integrate both OpenAI's powerful ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots, content generation, and automated responses.
-                        </p>
-                        <div class="post-meta">
-                            <span>December 2025</span>
-                            <a href="/blog/laravel-openai-integration-guide/" class="read-more">Read More →</a>
-                        </div>
-                    </div>
-                </article>
+
             <article class="post-card">
-                    <div class="post-content">
-                        <div class="post-category">Laravel 12.39</div>
-                        <h2 class="post-title">
-                            <a href="/blog/laravel-12-39-new-features/">Laravel 12.39 New Features: @hasStack Directive, Route Filtering & Performance Boosts</a>
-                        </h2>
-                        <p class="post-excerpt">
-                            Discover Laravel 12.39's game-changing features: @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations. Plus preview of Laravel 12.40 hot topics including time interval helpers and enhanced queues. Complete guide with examples.
-                        </p>
-                        <div class="post-meta">
-                            <span>November 2025</span>
-                            <a href="/blog/laravel-12-39-new-features/" class="read-more">Read More →</a>
-                        </div>
+                <div class="post-content">
+                    <div class="post-category">Laravel AI</div>
+                    <h2 class="post-title"><a href="/blog/laravel-openai-integration-guide/">Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</a></h2>
+                    <p class="post-excerpt">Learn how to integrate OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots and content generation.</p>
+                    <div class="post-meta">
+                        <span>December 2025</span>
+                        <a href="/blog/laravel-openai-integration-guide/" class="read-more">Read More →</a>
                     </div>
-                </article>
+                </div>
+            </article>
+
+            <article class="post-card">
+                <div class="post-content">
+                    <div class="post-category">Laravel</div>
+                    <h2 class="post-title"><a href="/blog/laravel-12-39-new-features/">Laravel 12.39: @hasStack Directive, Route Filtering & Performance Boosts</a></h2>
+                    <p class="post-excerpt">Discover Laravel 12.39's new features including the @hasStack Blade directive, route:list middleware filtering, type safety improvements, and performance optimizations.</p>
+                    <div class="post-meta">
+                        <span>November 2025</span>
+                        <a href="/blog/laravel-12-39-new-features/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel Performance</div>
-                    <h2 class="post-title">
-                        <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Ultimate guide to Laravel performance optimization: caching, queues, scaling, and best practices for high-traffic applications. Make your Laravel app fast and scalable for a global audience.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025</a></h2>
+                    <p class="post-excerpt">Ultimate guide to Laravel performance: caching strategies, queues, scaling, and best practices for high-traffic applications.</p>
                     <div class="post-meta">
                         <span>October 2025</span>
                         <a href="/blog/laravel-performance-optimization/" class="read-more">Read More →</a>
                     </div>
                 </div>
             </article>
+
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel Tutorial</div>
-                    <h2 class="post-title">
-                        <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Development: Complete Guide & Best Practices</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Learn how to build robust REST APIs in Laravel with proper authentication, validation, error handling, and documentation. Includes code examples and performance optimization tips.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Development: Complete Guide & Best Practices</a></h2>
+                    <p class="post-excerpt">Build robust REST APIs in Laravel with proper authentication, validation, error handling, and documentation. Includes code examples and performance tips.</p>
                     <div class="post-meta">
                         <span>October 2025</span>
                         <a href="/blog/laravel-rest-api-best-practices/" class="read-more">Read More →</a>
@@ -270,12 +136,8 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">PHP Performance</div>
-                    <h2 class="post-title">
-                        <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization in Laravel: Advanced Techniques</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Master database performance in Laravel applications. Learn about N+1 queries, eager loading, indexing strategies, and query caching for better application speed.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization in Laravel: Advanced Techniques</a></h2>
+                    <p class="post-excerpt">Master database performance in Laravel. Learn about N+1 queries, eager loading, indexing strategies, and query caching for faster applications.</p>
                     <div class="post-meta">
                         <span>November 2024</span>
                         <a href="/blog/mysql-query-optimization-laravel/" class="read-more">Read More →</a>
@@ -286,12 +148,8 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">DevOps</div>
-                    <h2 class="post-title">
-                        <a href="/blog/laravel-docker-kubernetes-deployment/">Deploying Laravel Applications with Docker and Kubernetes</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Complete guide to containerizing Laravel applications using Docker and deploying them on Kubernetes clusters. Includes CI/CD pipeline setup and scaling strategies.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/laravel-docker-kubernetes-deployment/">Deploying Laravel with Docker and Kubernetes</a></h2>
+                    <p class="post-excerpt">Complete guide to containerizing Laravel applications using Docker and deploying them on Kubernetes clusters with CI/CD pipeline setup.</p>
                     <div class="post-meta">
                         <span>October 2024</span>
                         <a href="/blog/laravel-docker-kubernetes-deployment/" class="read-more">Read More →</a>
@@ -301,13 +159,9 @@
 
             <article class="post-card">
                 <div class="post-content">
-                    <div class="post-category">Laravel Tips</div>
-                    <h2 class="post-title">
-                        <a href="/blog/laravel-mvcs-architecture-guide/">Understanding MVCS Architecture in Laravel Applications</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Deep dive into Model-View-Controller-Service (MVCS) architecture pattern in Laravel. Learn how to structure your applications for better maintainability and testing.
-                    </p>
+                    <div class="post-category">Laravel Architecture</div>
+                    <h2 class="post-title"><a href="/blog/laravel-mvcs-architecture-guide/">Understanding MVCS Architecture in Laravel Applications</a></h2>
+                    <p class="post-excerpt">Deep dive into the Model-View-Controller-Service pattern in Laravel. Learn how to structure applications for better maintainability and testability.</p>
                     <div class="post-meta">
                         <span>September 2024</span>
                         <a href="/blog/laravel-mvcs-architecture-guide/" class="read-more">Read More →</a>
@@ -318,12 +172,8 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel Security</div>
-                    <h2 class="post-title">
-                        <a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel API Authentication: JWT vs Sanctum Comparison</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Comprehensive comparison of JWT and Laravel Sanctum for API authentication. Learn implementation, security considerations, and when to use each approach.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT: Which Should You Use in 2025?</a></h2>
+                    <p class="post-excerpt">A practical breakdown of Laravel Sanctum vs JWT — when to use each, real code examples, and which one fits your project best.</p>
                     <div class="post-meta">
                         <span>August 2024</span>
                         <a href="/blog/laravel-api-authentication-jwt-sanctum/" class="read-more">Read More →</a>
@@ -334,18 +184,15 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">PHP Development</div>
-                    <h2 class="post-title">
-                        <a href="/blog/php-coding-standards-bangladesh-developers/">PHP Coding Standards Every Bangladesh Developer Should Follow</a>
-                    </h2>
-                    <p class="post-excerpt">
-                        Essential PHP coding standards and best practices tailored for Bangladesh developers. Improve code quality, readability, and team collaboration.
-                    </p>
+                    <h2 class="post-title"><a href="/blog/php-coding-standards-bangladesh-developers/">PHP Coding Standards Every Developer Should Follow</a></h2>
+                    <p class="post-excerpt">Essential PHP coding standards and PSR best practices to improve code quality, readability, and team collaboration.</p>
                     <div class="post-meta">
                         <span>July 2024</span>
                         <a href="/blog/php-coding-standards-bangladesh-developers/" class="read-more">Read More →</a>
                     </div>
                 </div>
             </article>
+
         </div>
     </div>
 </body>

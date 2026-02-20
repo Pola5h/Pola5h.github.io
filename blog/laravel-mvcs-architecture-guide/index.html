@@ -3,210 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel MVCS Architecture: Complete Development Guide 2025</title>
-    <meta name="description" content="Deep dive into Model-View-Controller-Service (MVCS) architecture pattern in Laravel. Learn how to structure applications for better maintainability and scalability.">
-    <meta name="keywords" content="Laravel MVCS, Laravel architecture, Laravel service layer, Laravel design patterns, PHP architecture patterns, Laravel developer Bangladesh">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Laravel MVCS Architecture: Complete Development Guide">
-    <meta property="og:description" content="Master Laravel MVCS architecture patterns for scalable application development">
+    <title>Understanding MVCS Architecture in Laravel Applications</title>
+    <meta name="description" content="Deep dive into Model-View-Controller-Service (MVCS) architecture in Laravel. Learn how to structure applications with a service layer for better maintainability and testability.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Understanding MVCS Architecture in Laravel Applications">
+    <meta property="og:description" content="Learn how to structure Laravel applications with a service layer for better maintainability and testability.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/">
-    <meta property="og:type" content="article">
-    
-    <!-- Twitter Card -->
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="https://pola5h.github.io/">
+    <meta property="article:published_time" content="2024-09-20">
+    <meta property="article:modified_time" content="2025-02-20">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="Laravel">
+    <meta property="article:tag" content="Architecture">
+    <meta property="article:tag" content="PHP">
+
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel MVCS Architecture Guide">
-    <meta name="twitter:description" content="Complete guide to Laravel MVCS architecture and design patterns">
+    <meta name="twitter:title" content="Understanding MVCS Architecture in Laravel Applications">
+    <meta name="twitter:description" content="Learn how to structure Laravel applications with a service layer for better maintainability and testability.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-    
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/">
-    
-    <!-- FAVICON & APP ICONS -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="shortcut icon" href="/favicon.svg">
-    <meta name="apple-mobile-web-app-title" content="Laravel Blog">
-    <meta name="application-name" content="Laravel Development Blog">
-    <meta name="msapplication-TileColor" content="#0d1117">
     <meta name="theme-color" content="#0d1117">
-    
-    <!-- Structured Data -->
+    <meta name="msapplication-TileColor" content="#0d1117">
+
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "Laravel MVCS Architecture: Complete Development Guide",
-      "description": "Deep dive into Model-View-Controller-Service architecture pattern in Laravel applications",
-      "image": "https://pola5h.github.io/og-image.svg",
-      "author": {
-        "@type": "Person",
-        "name": "Kamruzzaman Polash",
-        "url": "https://pola5h.github.io/"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "Kamruzzaman Polash"
-      },
-      "datePublished": "2025-10-02",
-      "dateModified": "2025-10-02",
-      "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/",
-      "articleSection": "Technology",
-      "keywords": ["Laravel MVCS", "Laravel architecture", "service layer", "design patterns"]
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Understanding MVCS Architecture in Laravel Applications",
+        "description": "Deep dive into Model-View-Controller-Service architecture pattern in Laravel applications for better maintainability and testability.",
+        "image": "https://pola5h.github.io/og-image.svg",
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "datePublished": "2024-09-20",
+        "dateModified": "2025-02-20",
+        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/",
+        "articleSection": "Technology",
+        "keywords": ["Laravel MVCS", "Laravel architecture", "service layer", "design patterns", "PHP"],
+        "inLanguage": "en-US",
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+                { "@type": "ListItem", "position": 3, "name": "MVCS Architecture Guide", "item": "https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/" }
+            ]
+        }
     }
     </script>
-    
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.7;
-            color: #333;
-            background: #fff;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .breadcrumb {
-            color: #6c757d;
-            margin-bottom: 2rem;
-        }
-        
-        .breadcrumb a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: #2c3e50;
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
-            color: #2c3e50;
-        }
-        
-        p {
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        
-        .code-block {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-        }
-        
-        .author-bio {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 2rem;
-            margin: 3rem 0;
-            text-align: center;
-        }
-        
-        .author-links {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-        
-        .author-links a {
-            color: #007bff;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid #007bff;
-            border-radius: 4px;
-        }
-        
-        .hire-cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 3rem 0;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .hire-cta h3 {
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .hire-cta p {
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .cta-primary {
-            background: #28a745;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-        
-        .cta-primary:hover {
-            background: #218838;
-        }
-        
-        .cta-secondary {
-            background: transparent;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border: 2px solid white;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .cta-secondary:hover {
-            background: white;
-            color: #667eea;
-        }
-        
-        .cta-meta {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        
-        @media (max-width: 600px) {
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+        .article-meta { color: #6c757d; font-size: 0.9rem; }
+        .article-meta a { color: #007bff; text-decoration: none; }
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; }
+        .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+        .cta-primary:hover { opacity: 0.85; }
+        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
+        .cta-meta { font-size: 0.85rem; color: #8b949e; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a:hover { background: #007bff; color: #fff; }
+        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
     </style>
 </head>
 <body>
@@ -214,75 +100,53 @@
         <nav class="breadcrumb">
             <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel MVCS Architecture
         </nav>
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel Architecture</div>
+                <h1>Understanding MVCS Architecture in Laravel Applications</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · September 20, 2024 · Updated February 2025</div>
+            </header>
+            <div class="article-content">
+                <p>MVCS (Model-View-Controller-Service) extends the traditional MVC pattern by adding a dedicated service layer. This separation keeps controllers thin, models focused on data, and business logic in one testable place — a pattern I use in every production Laravel project.</p>
 
-        <h1>Understanding MVCS Architecture in Laravel Applications</h1>
-        <p><strong>Published:</strong> September 20, 2024 by <a href="/">Kamruzzaman Polash</a></p>
+                <h2>What is MVCS Architecture?</h2>
+                <p>The service layer sits between your controllers and models. Controllers handle HTTP concerns (request, response, validation). Services handle business logic. Models handle data. The result is code that's easier to test, maintain, and reuse.</p>
 
-        <p>
-            MVCS (Model-View-Controller-Service) extends the traditional MVC pattern by adding a service layer. 
-            This separation improves code organization and makes Laravel applications more maintainable.
-        </p>
-
-        <h2>What is MVCS Architecture?</h2>
-        <p>
-            MVCS adds a Service layer between Controllers and Models. Services handle business logic, 
-            keeping controllers thin and models focused on data representation.
-        </p>
-
-        <h2>Service Layer Implementation</h2>
-        <p>Create a service class to handle user registration logic:</p>
-
-        <div class="code-block">
-// app/Services/UserService.php
+                <h2>Service Layer Implementation</h2>
+                <p>Create a service class to handle user registration logic:</p>
+                <div class="code-block">// app/Services/UserService.php
 class UserService
 {
     public function createUser(array $data): User
     {
-        // Business logic here
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        // Send welcome email
         Mail::to($user)->send(new WelcomeEmail($user));
 
         return $user;
     }
-}
-        </div>
+}</div>
 
-        <h2>Controller Using Service</h2>
-        <div class="code-block">
-// app/Http/Controllers/UserController.php
+                <h2>Controller Using the Service</h2>
+                <div class="code-block">// app/Http/Controllers/UserController.php
 class UserController extends Controller
 {
-    protected $userService;
-
-    public function __construct(UserService $userService)
-    {
-        $this->userService = $userService;
-    }
+    public function __construct(protected UserService $userService) {}
 
     public function store(UserRequest $request)
     {
         $user = $this->userService->createUser($request->validated());
-        
         return response()->json(['user' => $user], 201);
     }
-}
-        </div>
+}</div>
 
-        <h2>Benefits of MVCS</h2>
-        <p><strong>1. Separation of Concerns:</strong> Each layer has a specific responsibility</p>
-        <p><strong>2. Testability:</strong> Services can be easily unit tested</p>
-        <p><strong>3. Reusability:</strong> Services can be used across multiple controllers</p>
-        <p><strong>4. Maintainability:</strong> Changes to business logic are isolated</p>
-
-        <h2>Repository Pattern Integration</h2>
-        <div class="code-block">
-// app/Repositories/UserRepository.php
+                <h2>Repository Pattern Integration</h2>
+                <p>For larger applications, add a repository layer between services and models to abstract database access:</p>
+                <div class="code-block">// app/Repositories/UserRepository.php
 class UserRepository
 {
     public function findByEmail(string $email): ?User
@@ -290,37 +154,41 @@ class UserRepository
         return User::where('email', $email)->first();
     }
 
-    public function createUser(array $data): User
+    public function create(array $data): User
     {
         return User::create($data);
     }
-}
-        </div>
+}</div>
 
-        <p>
-            MVCS architecture makes Laravel applications more structured and easier to maintain. 
-            Start by extracting business logic from controllers into service classes.
-        </p>
+                <h2>Benefits of MVCS</h2>
+                <p><strong>Separation of concerns</strong> — each layer has one job and does it well.</p>
+                <p><strong>Testability</strong> — services can be unit tested without HTTP context or database setup.</p>
+                <p><strong>Reusability</strong> — one service method can be called from a controller, a queue job, a command, or an API endpoint.</p>
+                <p><strong>Maintainability</strong> — business logic changes are isolated to one place, not scattered across controllers.</p>
+
+                <h2>When to Use It</h2>
+                <p>MVCS is worth the extra structure from the moment your controller methods exceed 20–30 lines or when multiple controllers share the same business logic. For simple CRUD-only projects, plain MVC is fine. For anything with real business rules, reach for MVCS.</p>
+            </div>
+        </article>
 
         <div class="hire-cta">
-            <h3>🚀 Need Help Implementing MVCS Architecture?</h3>
-            <p>Expert in Laravel architecture patterns with 10+ projects using MVCS. I can help you refactor your codebase with proper service layers, repositories, and clean architecture.</p>
+            <h3>Need Help Structuring Your Laravel App?</h3>
+            <p>I've used MVCS architecture across 10+ production projects — payroll systems, SaaS platforms, and e-commerce APIs. Happy to help you refactor or architect your codebase cleanly.</p>
             <div class="cta-buttons">
-                <a href="https://www.fiverr.com/kzaman3055" class="cta-primary" target="_blank">Hire for Architecture Consulting →</a>
-                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Architecture Refactoring Project" class="cta-secondary">Get Code Review</a>
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Architecture Project" class="cta-primary">Get In Touch →</a>
+                <a href="/" class="cta-secondary">View My Portfolio</a>
             </div>
-            <p class="cta-meta">🏗️ Clean Architecture • 🔧 Code Refactoring • 📈 Scalable Design</p>
+            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
         </div>
 
         <div class="author-bio">
             <h3>About the Author</h3>
-            <p>
-                <strong>Kamruzzaman Polash</strong>
-            </p>
+            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
             <div class="author-links">
                 <a href="/">Portfolio</a>
                 <a href="mailto:kzaman3055@gmail.com">Contact</a>
-                <a href="https://github.com/pola5h">GitHub</a>
+                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
         </div>
     </div>
