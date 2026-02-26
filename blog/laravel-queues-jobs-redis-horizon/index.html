@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)</title>
+    <meta name="description" content="Master Laravel queues and background jobs with Redis and Horizon. Learn how to create jobs, configure workers, handle failures, and monitor queues in production — with real code examples.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)">
+    <meta property="og:description" content="Master Laravel queues and background jobs with Redis and Horizon. Real code examples, production tips, and failure handling.">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="https://pola5h.github.io/">
+    <meta property="article:published_time" content="2026-02-26">
+    <meta property="article:modified_time" content="2026-02-26">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="Laravel">
+    <meta property="article:tag" content="Redis">
+    <meta property="article:tag" content="Queues">
+    <meta property="article:tag" content="PHP">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)">
+    <meta name="twitter:description" content="Master Laravel queues and background jobs with Redis and Horizon. Real code examples and production tips.">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="theme-color" content="#0d1117">
+    <meta name="msapplication-TileColor" content="#0d1117">
+
+    <!-- Structured Data: TechArticle -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)",
+        "description": "Master Laravel queues and background jobs with Redis and Horizon. Learn how to create jobs, configure workers, handle failures, and monitor queues in production.",
+        "image": "https://pola5h.github.io/og-image.svg",
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "datePublished": "2026-02-26",
+        "dateModified": "2026-02-26",
+        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/",
+        "articleSection": "Technology",
+        "keywords": ["Laravel queues", "Laravel jobs", "Laravel Redis queue", "Laravel Horizon", "background jobs Laravel", "PHP queue"],
+        "inLanguage": "en-US",
+        "wordCount": "2500",
+        "timeRequired": "PT12M",
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+                { "@type": "ListItem", "position": 3, "name": "Laravel Queues & Jobs Guide", "item": "https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/" }
+            ]
+        }
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a Laravel queue?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A Laravel queue lets you defer slow or heavy tasks — like sending emails or generating reports — to run in the background after the HTTP response has already been returned. This keeps your app fast and responsive for users."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I use Redis with Laravel queues?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Set QUEUE_CONNECTION=redis in your .env file, install the predis/predis package or the phpredis extension, then dispatch jobs normally. Redis stores jobs in memory making it much faster than the database queue driver."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Laravel Horizon?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Laravel Horizon is an official dashboard for monitoring Redis-backed queues. It shows real-time job throughput, failed jobs, worker status, and wait times. Install it with composer require laravel/horizon."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I handle failed jobs in Laravel?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Laravel automatically stores failed jobs in the failed_jobs table. You can retry them with php artisan queue:retry all, or handle failure logic inside your job's failed() method. Set a $tries property to control how many times a job is retried before failing."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+        .article-meta { color: #6c757d; font-size: 0.9rem; }
+        .article-meta a { color: #007bff; text-decoration: none; }
+        .related-links { background: #f8f9fa; border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: #6c757d; }
+        .related-links a { color: #007bff; text-decoration: none; margin: 0 0.3rem; }
+        .related-links a:hover { text-decoration: underline; }
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
+        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .article-content li { margin-bottom: 0.6rem; }
+        .code-block { background: #1e2530; color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
+        .code-block .comment { color: #5c6370; }
+        .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
+        .tip-box strong { color: #1b5e20; }
+        .warning-box { background: #fff8e1; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
+        .warning-box strong { color: #e65100; }
+        .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .step-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.2rem; border-top: 3px solid #28a745; }
+        .step-card .step-num { font-size: 0.8rem; font-weight: 700; color: #28a745; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        .step-card .step-title { font-weight: 700; color: #2c3e50; margin-bottom: 0.4rem; }
+        .step-card .step-desc { font-size: 0.9rem; color: #6c757d; }
+        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+        .cta-primary:hover { opacity: 0.85; }
+        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
+        .cta-meta { font-size: 0.85rem; color: #8b949e; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a:hover { background: #007bff; color: #fff; }
+        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Queues & Jobs Guide
+        </nav>
+
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel Performance</div>
+                <h1>Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · February 26, 2026 · 12 min read</div>
+            </header>
+
+            <div class="related-links">
+                <strong>Related:</strong>
+                <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization</a> |
+                <a href="/blog/laravel-rest-api-best-practices/">REST API Best Practices</a> |
+                <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization</a>
+            </div>
+
+            <div class="article-content">
+
+                <p>If your Laravel app is sending emails, generating PDFs, calling third-party APIs, or processing uploads synchronously — users are waiting for all of that before they get a response. Queues fix this. They let you push slow work into the background and return a response immediately, making your app feel instant even when it's doing heavy lifting behind the scenes.</p>
+
+                <p>This guide covers everything from basic setup to production-grade queue management with Redis and Horizon — the stack I use on every serious Laravel project.</p>
+
+                <h2>1. How Laravel Queues Work</h2>
+
+                <p>The concept is simple: instead of doing work now, you push it onto a queue and a background worker picks it up and processes it asynchronously. The HTTP request finishes immediately, and the user never waits.</p>
+
+                <div class="step-grid">
+                    <div class="step-card">
+                        <div class="step-num">Step 1</div>
+                        <div class="step-title">Create a Job</div>
+                        <div class="step-desc">A job class holds the logic you want to run in the background</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Step 2</div>
+                        <div class="step-title">Dispatch It</div>
+                        <div class="step-desc">Push the job onto a queue driver (Redis, database, SQS)</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Step 3</div>
+                        <div class="step-title">Worker Runs It</div>
+                        <div class="step-desc">A queue worker process picks up the job and executes it</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Step 4</div>
+                        <div class="step-title">Monitor & Retry</div>
+                        <div class="step-desc">Failed jobs are stored and can be retried via Horizon or Artisan</div>
+                    </div>
+                </div>
+
+                <h2>2. Setting Up Redis as Your Queue Driver</h2>
+
+                <p>Laravel supports several queue drivers — database, Redis, Amazon SQS, and others. For production, Redis is the right choice. It's in-memory, extremely fast, and integrates perfectly with Laravel Horizon.</p>
+
+                <div class="code-block"><span class="comment"># Install Redis PHP client</span>
+composer require predis/predis
+
+<span class="comment"># .env — switch queue driver to Redis</span>
+QUEUE_CONNECTION=redis
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379</div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> If you're on Laravel 10+ and using PHP 8.1+, you can use the native <code>phpredis</code> extension instead of predis for better performance. Install it with <code>sudo apt install php-redis</code> on Linux.
+                </div>
+
+                <h2>3. Creating Your First Job</h2>
+
+                <p>Use Artisan to generate a job class. Let's create one that sends a welcome email after a user registers — a classic use case that should never run synchronously.</p>
+
+                <div class="code-block">php artisan make:job SendWelcomeEmail</div>
+
+                <p>This creates <code>app/Jobs/SendWelcomeEmail.php</code>. Open it and add your logic:</p>
+
+                <div class="code-block">&lt;?php
+
+namespace App\Jobs;
+
+use App\Models\User;
+use App\Mail\WelcomeMail;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
+
+class SendWelcomeEmail implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    <span class="comment">// Retry up to 3 times if the job fails</span>
+    public int $tries = 3;
+
+    <span class="comment">// Timeout in seconds — kill the job if it takes too long</span>
+    public int $timeout = 60;
+
+    public function __construct(
+        public readonly User $user
+    ) {}
+
+    public function handle(): void
+    {
+        Mail::to($this->user->email)
+            ->send(new WelcomeMail($this->user));
+    }
+
+    <span class="comment">// Called when all retries are exhausted</span>
+    public function failed(\Throwable $exception): void
+    {
+        \Log::error("SendWelcomeEmail failed for user {$this->user->id}: {$exception->getMessage()}");
+    }
+}</div>
+
+                <div class="warning-box">
+                    <strong>Important:</strong> Always implement <code>ShouldQueue</code> on jobs you want to run asynchronously. Without it, the job runs synchronously even if you dispatch it — a common gotcha that's easy to miss.
+                </div>
+
+                <h2>4. Dispatching Jobs</h2>
+
+                <p>Once the job class exists, dispatching it is one line. Call it from your controller, service, or wherever the triggering event happens:</p>
+
+                <div class="code-block"><span class="comment">// Dispatch immediately to the queue</span>
+SendWelcomeEmail::dispatch($user);
+
+<span class="comment">// Delay the job — run it 5 minutes from now</span>
+SendWelcomeEmail::dispatch($user)->delay(now()->addMinutes(5));
+
+<span class="comment">// Send to a specific queue name</span>
+SendWelcomeEmail::dispatch($user)->onQueue('emails');
+
+<span class="comment">// Dispatch synchronously (bypass the queue — useful for testing)</span>
+SendWelcomeEmail::dispatchSync($user);
+
+<span class="comment">// Dispatch only if a condition is true</span>
+SendWelcomeEmail::dispatchIf($user->wants_emails, $user);</div>
+
+                <h2>5. Running Queue Workers</h2>
+
+                <p>Jobs sitting on the queue don't run themselves — you need a worker process consuming the queue. Start one with:</p>
+
+                <div class="code-block"><span class="comment"># Process all queues</span>
+php artisan queue:work
+
+<span class="comment"># Process a specific queue</span>
+php artisan queue:work --queue=emails,default
+
+<span class="comment"># Set max jobs before worker restarts (prevents memory leaks)</span>
+php artisan queue:work --max-jobs=500
+
+<span class="comment"># Set memory limit in MB</span>
+php artisan queue:work --memory=256
+
+<span class="comment"># Run once — process a single job then exit (good for cron-based setups)</span>
+php artisan queue:work --once</div>
+
+                <div class="warning-box">
+                    <strong>Production note:</strong> <code>queue:work</code> keeps the application bootstrapped in memory. After deploying new code, run <code>php artisan queue:restart</code> to gracefully restart all workers — otherwise they'll be running your old code.
+                </div>
+
+                <h2>6. Keeping Workers Running with Supervisor</h2>
+
+                <p>In production, you need a process manager to keep your queue workers alive if they crash or the server restarts. Supervisor is the standard solution on Linux servers.</p>
+
+                <div class="code-block"><span class="comment"># Install Supervisor</span>
+sudo apt install supervisor
+
+<span class="comment"># Create config file: /etc/supervisor/conf.d/laravel-worker.conf</span>
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-data
+numprocs=4
+redirect_stderr=true
+stdout_logfile=/var/www/html/storage/logs/worker.log
+stopwaitsecs=3600</div>
+
+                <div class="code-block"><span class="comment"># Load and start Supervisor</span>
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*</div>
+
+                <p>The <code>numprocs=4</code> setting runs 4 parallel worker processes — adjust this based on your server's CPU cores and job volume.</p>
+
+                <h2>7. Installing and Using Laravel Horizon</h2>
+
+                <p>Horizon is the official Redis queue dashboard from the Laravel team. It replaces basic Supervisor config with a code-driven approach and gives you a beautiful real-time dashboard for monitoring everything.</p>
+
+                <div class="code-block"><span class="comment"># Install Horizon</span>
+composer require laravel/horizon
+php artisan horizon:install
+php artisan migrate</div>
+
+                <p>Configure your workers in <code>config/horizon.php</code>:</p>
+
+                <div class="code-block"><span class="comment">// config/horizon.php</span>
+'environments' => [
+    'production' => [
+        'supervisor-1' => [
+            'maxProcesses' => 10,
+            'balanceMaxShift' => 1,
+            'balanceCooldown' => 3,
+        ],
+        'emails' => [
+            'connection' => 'redis',
+            'queue' => ['emails'],
+            'balance' => 'auto',     <span class="comment">// auto-scales workers based on load</span>
+            'minProcesses' => 1,
+            'maxProcesses' => 5,
+            'tries' => 3,
+        ],
+    ],
+    'local' => [
+        'supervisor-1' => [
+            'maxProcesses' => 3,
+        ],
+    ],
+],</div>
+
+                <div class="code-block"><span class="comment"># Start Horizon (replaces queue:work in production)</span>
+php artisan horizon
+
+<span class="comment"># Check Horizon status</span>
+php artisan horizon:status
+
+<span class="comment"># Gracefully restart after deployment</span>
+php artisan horizon:terminate</div>
+
+                <p>Access the dashboard at <code>https://yoursite.com/horizon</code>. You'll see live throughput graphs, failed jobs, wait times, and worker status.</p>
+
+                <div class="tip-box">
+                    <strong>Security:</strong> Protect the Horizon dashboard in production. By default it's only accessible in local — configure the gate in <code>app/Providers/HorizonServiceProvider.php</code> to restrict access to admin users only.
+                </div>
+
+                <h2>8. Handling Failed Jobs</h2>
+
+                <p>Jobs fail. The key is handling failures gracefully so nothing gets silently lost.</p>
+
+                <div class="code-block"><span class="comment"># Create the failed_jobs table</span>
+php artisan queue:failed-table
+php artisan migrate
+
+<span class="comment"># List all failed jobs</span>
+php artisan queue:failed
+
+<span class="comment"># Retry a specific failed job by ID</span>
+php artisan queue:retry 5
+
+<span class="comment"># Retry all failed jobs</span>
+php artisan queue:retry all
+
+<span class="comment"># Delete a failed job</span>
+php artisan queue:forget 5
+
+<span class="comment"># Clear all failed jobs</span>
+php artisan queue:flush</div>
+
+                <p>For automatic retry with backoff — waiting longer between each retry attempt — add this to your job class:</p>
+
+                <div class="code-block">class SendWelcomeEmail implements ShouldQueue
+{
+    public int $tries = 5;
+
+    <span class="comment">// Wait 1 min, then 5 min, then 10 min between retries</span>
+    public function backoff(): array
+    {
+        return [60, 300, 600];
+    }
+
+    <span class="comment">// Don't retry if it's a permanent error</span>
+    public function failed(\Throwable $exception): void
+    {
+        if ($exception instanceof PermanentException) {
+            $this->fail($exception); <span class="comment">// marks as permanently failed, no more retries</span>
+        }
+    }
+}</div>
+
+                <h2>9. Queue Best Practices for Production</h2>
+
+                <h3>Use dedicated queues by priority</h3>
+                <p>Don't dump everything into the default queue. Separate jobs by urgency so critical work isn't held up behind a slow report generation job:</p>
+
+                <div class="code-block"><span class="comment">// Assign jobs to specific queues</span>
+SendPasswordReset::dispatch($user)->onQueue('critical');
+SendWelcomeEmail::dispatch($user)->onQueue('emails');
+GenerateMonthlyReport::dispatch()->onQueue('reports');
+
+<span class="comment">// Worker processes critical first, then emails, then reports</span>
+php artisan queue:work --queue=critical,emails,reports</div>
+
+                <h3>Keep jobs small and focused</h3>
+                <p>A job should do one thing. Avoid passing large objects — pass IDs and re-fetch from the database inside the job. Laravel's <code>SerializesModels</code> trait handles Eloquent models cleanly, but large nested data structures can cause serialization issues.</p>
+
+                <h3>Set realistic timeouts</h3>
+                <p>Every job should have a <code>$timeout</code> value. Without it, a stuck job can block a worker indefinitely. A reasonable default is 60–120 seconds for most jobs, longer for heavy report generation.</p>
+
+                <h3>Always restart workers after deployment</h3>
+                <div class="code-block"><span class="comment"># Add to your deployment script</span>
+php artisan queue:restart   <span class="comment"># for basic queue:work</span>
+php artisan horizon:terminate <span class="comment"># for Horizon</span></div>
+
+                <h2>10. Conclusion</h2>
+                <p>Queues are one of the highest-impact improvements you can make to any Laravel application. Moving emails, notifications, report generation, and third-party API calls off the request cycle immediately makes your app feel faster — without touching a single database query or adding a CDN.</p>
+
+                <p>Start with the database driver locally, move to Redis in production, and add Horizon once you need visibility into what's happening. The setup takes under an hour and the performance gains are immediate.</p>
+
+                <p>For related reading, check out the <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization guide</a> which covers caching and horizontal scaling — the natural next steps after you've got queues working.</p>
+
+            </div>
+        </article>
+
+        <div class="hire-cta">
+            <h3>Need Help Setting Up Laravel Queues?</h3>
+            <p>I've implemented Redis queue architecture in production SaaS platforms, payroll systems, and e-commerce APIs. Happy to help you design the right queue setup for your application's scale and requirements.</p>
+            <div class="cta-buttons">
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Queue Setup" class="cta-primary">Get In Touch →</a>
+                <a href="/" class="cta-secondary">View My Portfolio</a>
+            </div>
+            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
+        </div>
+
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -61,6 +61,7 @@
         .post-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; }
         .post-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
         .post-card:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+        .post-card.new { border-top: 3px solid #28a745; }
         .post-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
         .post-category { color: #28a745; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
         .post-title { font-size: 1.15rem; margin-bottom: 0.8rem; line-height: 1.4; flex: 1; }
@@ -68,6 +69,7 @@
         .post-title a:hover { color: #007bff; }
         .post-excerpt { color: #6c757d; margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.6; }
         .post-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #6c757d; margin-top: auto; }
+        .new-badge { background: #d4edda; color: #155724; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
         .read-more { color: #007bff; text-decoration: none; font-weight: 500; }
         .read-more:hover { text-decoration: underline; }
         @media (max-width: 768px) { .container { padding: 0 1rem 2rem; } .post-grid { grid-template-columns: 1fr; } }
@@ -85,10 +87,49 @@
     <div class="container">
         <div class="post-grid">
 
+            <!-- NEW -->
+            <article class="post-card new">
+                <div class="post-content">
+                    <div class="post-category">Laravel Broadcasting</div>
+                    <h2 class="post-title"><a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/">Laravel Real-Time Notifications: Pusher vs FCM vs Soketi vs Ably (2026)</a></h2>
+                    <p class="post-excerpt">Compare every Laravel real-time notification option — Pusher, FCM, Laravel Echo, Soketi, Ably, and Reverb. Pricing breakdown, best use cases, and which one is actually free.</p>
+                    <div class="post-meta">
+                        <span>February 2026 <span class="new-badge">New</span></span>
+                        <a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- NEW -->
+            <article class="post-card new">
+                <div class="post-content">
+                    <div class="post-category">Laravel Performance</div>
+                    <h2 class="post-title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues & Jobs: Complete Guide with Redis & Horizon (2026)</a></h2>
+                    <p class="post-excerpt">Master Laravel queues and background jobs with Redis and Horizon. Learn how to create jobs, configure workers, handle failures, and monitor queues in production.</p>
+                    <div class="post-meta">
+                        <span>February 2026 <span class="new-badge">New</span></span>
+                        <a href="/blog/laravel-queues-jobs-redis-horizon/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- NEW: Updated Sanctum vs JWT title -->
+            <article class="post-card new">
+                <div class="post-content">
+                    <div class="post-category">Laravel Security</div>
+                    <h2 class="post-title"><a href="/blog/laravel-api-authentication-jwt-sanctum/">Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2026)</a></h2>
+                    <p class="post-excerpt">No — Laravel Sanctum does not use JWT by default. It uses opaque tokens stored in the database. Here's the key difference and which one to use for your project.</p>
+                    <div class="post-meta">
+                        <span>August 2024 · Updated Feb 2026 <span class="new-badge">Updated</span></span>
+                        <a href="/blog/laravel-api-authentication-jwt-sanctum/" class="read-more">Read More →</a>
+                    </div>
+                </div>
+            </article>
+
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel AI</div>
-                    <h2 class="post-title"><a href="/blog/laravel-openai-integration-guide/">Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2025</a></h2>
+                    <h2 class="post-title"><a href="/blog/laravel-openai-integration-guide/">Laravel AI Integration with OpenAI & OpenRouter: Complete Guide 2026</a></h2>
                     <p class="post-excerpt">Learn how to integrate OpenAI's ChatGPT API and OpenRouter's multi-model platform into your Laravel applications to build intelligent features like chatbots and content generation.</p>
                     <div class="post-meta">
                         <span>December 2025</span>
@@ -112,7 +153,7 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel Performance</div>
-                    <h2 class="post-title"><a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025</a></h2>
+                    <h2 class="post-title"><a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization: Caching, Queues & Scaling Guide 2026</a></h2>
                     <p class="post-excerpt">Ultimate guide to Laravel performance: caching strategies, queues, scaling, and best practices for high-traffic applications.</p>
                     <div class="post-meta">
                         <span>October 2025</span>
@@ -124,7 +165,7 @@
             <article class="post-card">
                 <div class="post-content">
                     <div class="post-category">Laravel Tutorial</div>
-                    <h2 class="post-title"><a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Development: Complete Guide & Best Practices</a></h2>
+                    <h2 class="post-title"><a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Development: Complete Guide & Best Practices 2026</a></h2>
                     <p class="post-excerpt">Build robust REST APIs in Laravel with proper authentication, validation, error handling, and documentation. Includes code examples and performance tips.</p>
                     <div class="post-meta">
                         <span>October 2025</span>
@@ -165,18 +206,6 @@
                     <div class="post-meta">
                         <span>September 2024</span>
                         <a href="/blog/laravel-mvcs-architecture-guide/" class="read-more">Read More →</a>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post-card">
-                <div class="post-content">
-                    <div class="post-category">Laravel Security</div>
-                    <h2 class="post-title"><a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT: Which Should You Use in 2025?</a></h2>
-                    <p class="post-excerpt">A practical breakdown of Laravel Sanctum vs JWT — when to use each, real code examples, and which one fits your project best.</p>
-                    <div class="post-meta">
-                        <span>August 2024</span>
-                        <a href="/blog/laravel-api-authentication-jwt-sanctum/" class="read-more">Read More →</a>
                     </div>
                 </div>
             </article>
