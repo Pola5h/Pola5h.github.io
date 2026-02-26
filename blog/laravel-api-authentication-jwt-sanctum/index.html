@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- FIXED: More specific, compelling title that stands out from generic "JWT vs Sanctum" articles -->
-    <title>Laravel Sanctum vs JWT: Which Should You Use in 2025?</title>
-    <meta name="description" content="A practical breakdown of Laravel Sanctum vs JWT authentication — when to use each, real code examples, and which one fits your project. By a Laravel developer who's used both in production.">
-
-    <!-- REMOVED: meta keywords — Google ignores it, Bing may penalise it -->
-
+    <title>Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2025)</title>
+    <meta name="description" content="No — Laravel Sanctum does not use JWT by default. It uses opaque tokens stored in the database. Here's the key difference between Sanctum and JWT, and which one you should use.">
     <meta name="author" content="Kamruzzaman Polash">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel Sanctum vs JWT: Which Should You Use in 2025?">
-    <meta property="og:description" content="A practical breakdown of Laravel Sanctum vs JWT — when to use each, real code examples, and which fits your project.">
+    <meta property="og:title" content="Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2025)">
+    <meta property="og:description" content="No — Laravel Sanctum does not use JWT by default. It uses opaque tokens stored in the database. Here's the key difference and which one to use.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/">
     <meta property="og:site_name" content="Kamruzzaman Polash">
     <meta property="og:locale" content="en_US">
     <meta property="article:author" content="https://pola5h.github.io/">
     <meta property="article:published_time" content="2024-08-10">
-    <meta property="article:modified_time" content="2025-02-20">
+    <meta property="article:modified_time" content="2025-02-26">
     <meta property="article:section" content="Technology">
     <meta property="article:tag" content="Laravel">
-    <meta property="article:tag" content="API Authentication">
+    <meta property="article:tag" content="Sanctum">
+    <meta property="article:tag" content="JWT">
     <meta property="article:tag" content="PHP">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel Sanctum vs JWT: Which Should You Use in 2025?">
-    <meta name="twitter:description" content="A practical breakdown of Laravel Sanctum vs JWT — when to use each, real code examples, and which fits your project.">
+    <meta name="twitter:title" content="Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2025)">
+    <meta name="twitter:description" content="No — Laravel Sanctum does not use JWT by default. It uses opaque tokens. Here's the difference and which one to use.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
 
     <!-- Favicons -->
@@ -44,231 +40,271 @@
     <meta name="theme-color" content="#0d1117">
     <meta name="msapplication-TileColor" content="#0d1117">
 
-    <!-- FIXED: Structured data updated to match new title + added wordCount signal -->
+    <!-- Structured Data: TechArticle -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Laravel Sanctum vs JWT: Which Should You Use in 2025?",
-        "description": "A practical breakdown of Laravel Sanctum vs JWT authentication — when to use each, real code examples, and which one fits your project.",
+        "headline": "Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2025)",
+        "description": "No — Laravel Sanctum does not use JWT by default. It uses opaque tokens stored in the database. Here's the key difference between Sanctum and JWT, and which one you should use.",
         "image": "https://pola5h.github.io/og-image.svg",
-        "author": {
-            "@type": "Person",
-            "name": "Kamruzzaman Polash",
-            "url": "https://pola5h.github.io/"
-        },
-        "publisher": {
-            "@type": "Person",
-            "name": "Kamruzzaman Polash",
-            "url": "https://pola5h.github.io/"
-        },
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
         "datePublished": "2024-08-10",
-        "dateModified": "2025-02-20",
+        "dateModified": "2025-02-26",
         "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/",
         "articleSection": "Technology",
-        "keywords": ["Laravel Sanctum", "JWT", "API authentication", "Laravel security", "PHP"],
+        "keywords": ["Laravel Sanctum", "JWT", "does Sanctum use JWT", "Laravel API authentication", "PHP"],
         "inLanguage": "en-US",
+        "wordCount": "1200",
+        "timeRequired": "PT6M",
         "breadcrumb": {
             "@type": "BreadcrumbList",
             "itemListElement": [
                 { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
                 { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-                { "@type": "ListItem", "position": 3, "name": "Laravel Sanctum vs JWT", "item": "https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/" }
+                { "@type": "ListItem", "position": 3, "name": "Does Laravel Sanctum Use JWT?", "item": "https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/" }
             ]
         }
     }
     </script>
 
+    <!-- FAQ Schema — directly matches the search queries -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Does Laravel Sanctum use JWT tokens?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Laravel Sanctum does not use JWT by default. Sanctum uses opaque tokens — random strings stored in the personal_access_tokens database table. Every request does a database lookup to validate the token. JWT tokens are self-contained and stateless, requiring no database lookup."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between Laravel Sanctum and JWT?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sanctum uses opaque tokens stored in the database — simple to set up, easy to revoke, requires a DB query per request. JWT is stateless — the token carries the user data itself, no database query needed, but revocation is harder. Use Sanctum for most Laravel APIs. Use JWT when you need stateless cross-service authentication."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should I use Laravel Sanctum or JWT for my API?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use Sanctum for most Laravel projects — it's the official package, easier to set up, and tokens are easy to revoke. Use JWT only if you're building microservices that need stateless authentication across multiple independent services."
+                }
+            }
+        ]
+    }
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: system-ui; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; }
-        h1 { font-size: 2.5rem; margin-bottom: 2rem; color: #2c3e50; }
-        h2 { font-size: 1.8rem; margin: 2rem 0 1rem; color: #2c3e50; }
-        p { margin-bottom: 1.5rem; }
-        ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-        li { margin-bottom: 0.4rem; }
-        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: monospace; overflow-x: auto; white-space: pre; font-size: 0.9rem; }
-        .breadcrumb { color: #6c757d; margin-bottom: 2rem; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
         .breadcrumb a { color: #007bff; text-decoration: none; }
-        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-links { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
-        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; }
-
-        /* FIXED: Replaced Fiverr CTA with a professional direct-contact CTA -->
-        /* No "gig worker" messaging — positions as a professional developer */
-        .hire-cta {
-            background: #0d1117;
-            color: #c9d1d9;
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 3rem 0;
-            text-align: center;
-            border: 1px solid #30363d;
-            border-left: 4px solid #3fb950;
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+        .article-meta { color: #6c757d; font-size: 0.9rem; }
+        .article-meta a { color: #007bff; text-decoration: none; }
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; }
+        .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .article-content ul { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .article-content li { margin-bottom: 0.5rem; }
+        .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; }
+        /* Direct answer box — visually prominent, matches featured snippet format */
+        .direct-answer {
+            background: #e8f5e9;
+            border-left: 5px solid #28a745;
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem 1.8rem;
+            margin: 0 0 2.5rem 0;
+            font-size: 1.05rem;
         }
-
-        .hire-cta h3 {
-            margin-bottom: 0.8rem;
-            font-size: 1.4rem;
-            color: #3fb950;
-        }
-
-        .hire-cta p {
-            margin-bottom: 1.5rem;
-            color: #8b949e;
-            font-size: 0.95rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .cta-primary {
-            background: #3fb950;
-            color: #0d1117;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: opacity 0.2s ease;
-        }
-
+        .direct-answer strong { display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: #1b5e20; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
+        .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
+        .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #e9ecef; }
+        .comparison-table tr:nth-child(even) td { background: #f8f9fa; }
+        .yes { color: #28a745; font-weight: 600; }
+        .no { color: #dc3545; font-weight: 600; }
+        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
         .cta-primary:hover { opacity: 0.85; }
-
-        .cta-secondary {
-            background: transparent;
-            color: #58a6ff;
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border: 2px solid #58a6ff;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: all 0.2s ease;
-        }
-
+        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
         .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-
         .cta-meta { font-size: 0.85rem; color: #8b949e; }
-
-        @media (max-width: 600px) {
-            body { padding: 1rem; }
-            h1 { font-size: 1.8rem; }
-            .cta-buttons { flex-direction: column; align-items: center; }
-        }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a:hover { background: #007bff; color: #fff; }
+        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } .comparison-table { font-size: 0.85rem; } }
     </style>
 </head>
 <body>
-    <nav class="breadcrumb">
-        <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Sanctum vs JWT
-    </nav>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Does Laravel Sanctum Use JWT?
+        </nav>
 
-    <!-- FIXED: Title is now a question format — higher CTR than "Complete Guide" -->
-    <h1>Laravel Sanctum vs JWT: Which Should You Use in 2025?</h1>
-    <p><strong>Published:</strong> August 10, 2024 · Updated February 2025 · by <a href="/">Kamruzzaman Polash</a></p>
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel Security</div>
+                <h1>Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained (2025)</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · August 10, 2024 · Updated February 2025 · 6 min read</div>
+            </header>
 
-    <p>
-        Choosing the right authentication method for your Laravel API isn't just a technical decision — it affects
-        your app's scalability, security model, and maintenance overhead. I've used both in production and here's
-        my honest take on when each one makes sense.
-    </p>
+            <!-- Direct answer box — targets featured snippet + matches search intent -->
+            <div class="direct-answer">
+                <strong>Short answer: No, Laravel Sanctum does not use JWT.</strong>
+                Sanctum uses <em>opaque tokens</em> — random strings stored in your database. Every request validates the token with a DB lookup. JWT is stateless and self-contained — no database needed. They solve the same problem in fundamentally different ways.
+            </div>
 
-    <h2>Laravel Sanctum</h2>
-    <p>The official Laravel package for API token and SPA authentication. Simple, well-maintained, and the right
-    default choice for most Laravel projects.</p>
+            <div class="article-content">
+                <h2>How Laravel Sanctum Tokens Actually Work</h2>
+                <p>When a user authenticates with Sanctum, Laravel generates a random token string and stores a hashed version in the <code>personal_access_tokens</code> table. On each request, the plain token is sent in the <code>Authorization</code> header, Laravel hashes it, and looks it up in the database to find the associated user.</p>
 
-    <div class="code-block">// Install Sanctum
+                <p>This is the opposite of JWT. There is no payload, no signature verification, no expiry baked into the token itself — all of that lives in the database record.</p>
+
+                <div class="code-block">// Install Sanctum
 composer require laravel/sanctum
+php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
 
-// Create a token
-$user = Auth::user();
+// Issue a token on login
 $token = $user->createToken('api-token')->plainTextToken;
+// Returns: "1|abc123randomstring..."
+// The "1" is the token ID in personal_access_tokens table
 
 // Protect routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', fn(Request $r) => $r->user());
 });</div>
 
-    <h2>JWT (JSON Web Tokens)</h2>
-    <p>Stateless tokens that encode user data directly inside the token — no database lookup needed to verify them.
-    Popular in microservice architectures and when you need tokens to work across multiple services.</p>
+                <h2>How JWT Tokens Work</h2>
+                <p>A JWT is a base64-encoded string with three parts: a header, a payload (user data/claims), and a cryptographic signature. The server validates the signature on every request — no database lookup needed. The token itself proves who the user is.</p>
 
-    <div class="code-block">// Install tymon/jwt-auth
+                <div class="code-block">// Install tymon/jwt-auth
 composer require tymon/jwt-auth
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
 
-// Generate a token
-$token = JWTAuth::attempt($credentials);
+// Issue a JWT on login
+$token = JWTAuth::attempt(['email' => $email, 'password' => $password]);
+// Returns: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+// Self-contained — user data is encoded inside the token
 
-// Verify and get the user
-$user = JWTAuth::parseToken()->authenticate();</div>
+// Protect routes
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', fn() => auth()->user());
+});</div>
 
-    <h2>Sanctum vs JWT — Side by Side</h2>
+                <h2>Sanctum vs JWT — Full Comparison</h2>
 
-    <p><strong>Laravel Sanctum</strong></p>
-    <ul>
-        <li>Official Laravel package — first-class support and documentation</li>
-        <li>Dead simple to set up and manage</li>
-        <li>Built-in token revocation (delete from DB)</li>
-        <li>CSRF protection out of the box for SPAs</li>
-        <li>Requires a database lookup per request</li>
-    </ul>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Sanctum</th>
+                            <th>JWT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Token type</td>
+                            <td>Opaque (random string)</td>
+                            <td>Self-contained (encoded payload)</td>
+                        </tr>
+                        <tr>
+                            <td>Database lookup per request</td>
+                            <td class="no">Yes</td>
+                            <td class="yes">No — stateless</td>
+                        </tr>
+                        <tr>
+                            <td>Token revocation</td>
+                            <td class="yes">Easy — delete DB row</td>
+                            <td class="no">Hard — needs denylist</td>
+                        </tr>
+                        <tr>
+                            <td>Official Laravel package</td>
+                            <td class="yes">Yes</td>
+                            <td class="no">No (tymon/jwt-auth)</td>
+                        </tr>
+                        <tr>
+                            <td>SPA / cookie auth support</td>
+                            <td class="yes">Yes — built in</td>
+                            <td class="no">No</td>
+                        </tr>
+                        <tr>
+                            <td>Cross-service / microservices</td>
+                            <td class="no">Limited</td>
+                            <td class="yes">Yes — ideal</td>
+                        </tr>
+                        <tr>
+                            <td>Setup complexity</td>
+                            <td class="yes">Simple</td>
+                            <td class="no">More config needed</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <p><strong>JWT</strong></p>
-    <ul>
-        <li>Stateless — no database query needed to authenticate</li>
-        <li>Token carries user data (claims) directly</li>
-        <li>Industry standard, works across services and languages</li>
-        <li>Token revocation is tricky — requires a denylist</li>
-        <li>Third-party package (tymon/jwt-auth), not officially maintained by Laravel</li>
-    </ul>
+                <h2>Which One Should You Use?</h2>
 
-    <h2>Which One Should You Pick?</h2>
+                <h3>Use Sanctum when:</h3>
+                <ul>
+                    <li>Building a standard Laravel REST API or SPA</li>
+                    <li>You need token revocation to work reliably (logout, ban user, rotate tokens)</li>
+                    <li>You want official Laravel support and long-term stability</li>
+                    <li>Your app is a single service, not a distributed system</li>
+                </ul>
 
-    <p><strong>Use Sanctum when:</strong></p>
-    <ul>
-        <li>Building a standard Laravel API or SPA</li>
-        <li>You need simple, revocable tokens</li>
-        <li>You want official Laravel support and long-term stability</li>
-    </ul>
+                <h3>Use JWT when:</h3>
+                <ul>
+                    <li>Building microservices where multiple independent services need to validate the same token</li>
+                    <li>You need stateless auth with zero database reads on every request</li>
+                    <li>Integrating with non-Laravel systems that expect standard JWT</li>
+                    <li>You need to embed custom claims in the token itself</li>
+                </ul>
 
-    <p><strong>Use JWT when:</strong></p>
-    <ul>
-        <li>Building microservices that need stateless auth</li>
-        <li>Your tokens must be validated by multiple independent services</li>
-        <li>You're integrating with non-Laravel systems that expect JWT</li>
-    </ul>
+                <p>For the vast majority of Laravel projects — including every API I've built professionally — Sanctum is the right choice. It's simpler, safer by default, and token revocation just works. Reach for JWT only when you genuinely need stateless cross-service authentication, not just because it sounds more sophisticated.</p>
 
-    <p>
-        For the vast majority of Laravel projects — including every API I've built professionally — Sanctum is the
-        right choice. It's simpler, safer by default, and you won't hit its limitations unless you're building
-        a distributed system. Reach for JWT when you genuinely need stateless cross-service authentication,
-        not just because it sounds more sophisticated.
-    </p>
+                <h2>Can You Use JWT with Sanctum?</h2>
+                <p>Not natively — they are separate packages with different approaches. However, you can configure Sanctum to work alongside JWT if needed, or use a package like <a href="https://github.com/PHPOpenDocs/sanctum-jwt" target="_blank" rel="noopener noreferrer">sanctum-jwt</a> that adds JWT-style tokens to Sanctum. In practice, very few projects need this hybrid approach.</p>
+            </div>
+        </article>
 
-    <!-- FIXED: Removed Fiverr link. Direct contact CTA positions as professional developer, not gig worker. -->
-    <div class="hire-cta">
-        <h3>Working on a Laravel API?</h3>
-        <p>I've implemented Sanctum and JWT in production systems including payroll platforms, SaaS inventory tools, and e-commerce APIs. If you need a hand with your implementation or architecture, feel free to reach out.</p>
-        <div class="cta-buttons">
-            <a href="mailto:kzaman3055@gmail.com?subject=Laravel API Project" class="cta-primary">Get In Touch →</a>
-            <a href="/" class="cta-secondary">View My Portfolio</a>
+        <div class="hire-cta">
+            <h3>Working on a Laravel API?</h3>
+            <p>I've implemented Sanctum and JWT in production systems including payroll platforms, SaaS tools, and e-commerce APIs. Happy to help with your authentication architecture or implementation.</p>
+            <div class="cta-buttons">
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel API Project" class="cta-primary">Get In Touch →</a>
+                <a href="/" class="cta-secondary">View My Portfolio</a>
+            </div>
+            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
         </div>
-        <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
-    </div>
 
-    <div class="author-bio">
-        <h3>About the Author</h3>
-        <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-        <div class="author-links">
-            <a href="/">Portfolio</a>
-            <a href="mailto:kzaman3055@gmail.com">Contact</a>
-            <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
         </div>
     </div>
 </body>
