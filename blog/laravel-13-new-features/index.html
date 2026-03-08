@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel 13 New Features: Everything You Need to Know (March 2026)</title>
+  <meta name="description" content="Laravel 13 releases March 17, 2026. Complete guide to every new feature — PHP Attributes, Cache::touch(), Reverb database driver, Passkeys, Laravel AI SDK stable, and zero breaking changes.">
+  <meta name="author" content="Kamruzzaman Polash">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <link rel="canonical" href="https://pola5h.github.io/blog/laravel-13-new-features/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Laravel 13 New Features: Everything You Need to Know (March 2026)">
+  <meta property="og:description" content="Laravel 13 releases March 17, 2026. PHP Attributes, Cache::touch(), Reverb database driver, Passkeys, Laravel AI SDK stable — zero breaking changes.">
+  <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+  <meta property="og:url" content="https://pola5h.github.io/blog/laravel-13-new-features/">
+  <meta property="og:site_name" content="Kamruzzaman Polash">
+  <meta property="og:locale" content="en_US">
+  <meta property="article:author" content="https://pola5h.github.io/">
+  <meta property="article:published_time" content="2026-03-08">
+  <meta property="article:modified_time" content="2026-03-08">
+  <meta property="article:section" content="Technology">
+  <meta property="article:tag" content="Laravel">
+  <meta property="article:tag" content="Laravel 13">
+  <meta property="article:tag" content="PHP 8.3">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Laravel 13 New Features: Everything You Need to Know (March 2026)">
+  <meta name="twitter:description" content="Laravel 13 releases March 17, 2026. Complete guide to every new feature with code examples.">
+  <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="msapplication-TileColor" content="#0d1117">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Laravel 13 New Features: Everything You Need to Know (March 2026)",
+    "description": "Laravel 13 releases March 17, 2026. Complete guide to every new feature — PHP Attributes, Cache::touch(), Reverb database driver, Passkeys, Laravel AI SDK stable, and zero breaking changes.",
+    "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+    "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+    "datePublished": "2026-03-08",
+    "dateModified": "2026-03-08",
+    "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-13-new-features/",
+    "articleSection": "Technology",
+    "keywords": ["laravel 13", "laravel 13 new features", "laravel 13 release", "laravel 13 php attributes", "laravel 13 cache touch", "what's new laravel 13"],
+    "inLanguage": "en-US",
+    "wordCount": "1800",
+    "timeRequired": "PT10M",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+        { "@type": "ListItem", "position": 3, "name": "Laravel 13 New Features", "item": "https://pola5h.github.io/blog/laravel-13-new-features/" }
+      ]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "When is Laravel 13 released?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Laravel 13 releases on March 17, 2026, as announced by Taylor Otwell at Laracon EU 2026." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Laravel 13 have breaking changes?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Laravel 13 has zero breaking changes to application code. All new features like PHP Attributes are optional and fully backward compatible. The only requirement change is PHP 8.3 minimum." }
+      },
+      {
+        "@type": "Question",
+        "name": "What PHP version does Laravel 13 require?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Laravel 13 requires PHP 8.3 as the minimum version, up from PHP 8.2 in Laravel 12." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Cache::touch() in Laravel 13?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Cache::touch() extends a cached item's TTL without fetching or rewriting the value. Under the hood it sends a single EXPIRE command to Redis, saving unnecessary network round trips." }
+      },
+      {
+        "@type": "Question",
+        "name": "Should I upgrade to Laravel 13 right away?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No rush. Laravel 12 receives bug fixes until August 2026 and security fixes until February 2027. Test on staging first, then upgrade when ready." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+    .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
+    .breadcrumb a { color: #007bff; text-decoration: none; }
+    .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+    .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+    h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+    .article-meta { color: #6c757d; font-size: 0.9rem; }
+    .article-meta a { color: #007bff; text-decoration: none; }
+    .release-banner { background: #fff3cd; border: 1px solid #ffc107; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1rem 1.5rem; margin: 0 0 2.5rem 0; font-size: 1rem; color: #856404; font-weight: 500; }
+    .release-banner strong { display: block; font-size: 1.1rem; margin-bottom: 0.3rem; color: #533f03; }
+    .direct-answer { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.5rem 1.8rem; margin: 0 0 2.5rem 0; font-size: 1.05rem; }
+    .direct-answer strong { display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: #1b5e20; }
+    .article-content { font-size: 1.05rem; line-height: 1.8; }
+    .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; }
+    .article-content h3 { font-size: 1.2rem; margin: 1.8rem 0 0.8rem; color: #34495e; }
+    .article-content p { margin-bottom: 1.5rem; }
+    .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+    .article-content li { margin-bottom: 0.5rem; }
+    .article-content a { color: #007bff; text-decoration: none; }
+    .article-content a:hover { text-decoration: underline; }
+    .article-content code { background: #f1f3f5; padding: 0.15rem 0.4rem; border-radius: 4px; font-family: 'Courier New', monospace; font-size: 0.88em; color: #c7254e; }
+    .article-content hr { border: none; border-top: 1px solid #e9ecef; margin: 2.5rem 0; }
+    .code-label { font-size: 0.78rem; color: #6c757d; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; display: block; }
+    .code-block { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.5rem; margin: 0 0 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
+    .note { background: #e8f4fd; border-left: 4px solid #007bff; border-radius: 0 6px 6px 0; padding: 1rem 1.3rem; margin: 0 0 1.5rem 0; font-size: 0.95rem; color: #555; }
+    .note strong { color: #004085; }
+    .warning { background: #fff8e1; border-left: 4px solid #ffc107; border-radius: 0 6px 6px 0; padding: 1rem 1.3rem; margin: 0 0 1.5rem 0; font-size: 0.95rem; color: #555; }
+    .warning strong { color: #856404; }
+    .features-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
+    .features-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
+    .features-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #e9ecef; }
+    .features-table tr:nth-child(even) td { background: #f8f9fa; }
+    .badge-new { background: #d4edda; color: #155724; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
+    .badge-improved { background: #cce5ff; color: #004085; font-size: 0.75rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 20px; }
+    .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+    .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+    .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+    .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+    .cta-primary:hover { opacity: 0.85; }
+    .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+    .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
+    .cta-meta { font-size: 0.85rem; color: #8b949e; }
+    .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+    .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+    .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+    .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+    .author-links a:hover { background: #007bff; color: #fff; }
+    @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } .features-table { font-size: 0.82rem; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel 13 New Features
+    </nav>
+
+    <article>
+      <header class="article-header">
+        <div class="article-category">Laravel</div>
+        <h1>Laravel 13 New Features: Everything You Need to Know (March 2026)</h1>
+        <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · March 8, 2026 · 10 min read</div>
+      </header>
+
+      <div class="release-banner">
+        <strong>🚀 Laravel 13 releases March 17, 2026</strong>
+        Announced by Taylor Otwell at Laracon EU 2026. Zero breaking changes — smoothest upgrade in Laravel's history.
+      </div>
+
+      <div class="direct-answer">
+        <strong>What's new in Laravel 13?</strong>
+        PHP 8.3 minimum · Native PHP Attributes across 15+ locations · <code>Cache::touch()</code> for TTL extension without re-fetching · Reverb database driver (no Redis needed) · Passkey authentication · Laravel AI SDK goes stable · Zero breaking changes.
+      </div>
+
+      <div class="article-content">
+
+        <p>Laravel 13 drops on March 17, 2026 — and it's one of the most developer-friendly releases yet. No architectural rewrites, no migration nightmares. Two headline features that clean up patterns you write every day, a PHP version bump, and several well-considered quality-of-life improvements across the framework.</p>
+
+        <p>Here's every confirmed feature with before/after code examples.</p>
+
+        <h2>Laravel 13 — Feature Summary</h2>
+
+        <table class="features-table">
+          <thead>
+            <tr><th>Feature</th><th>Type</th><th>Breaking?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>PHP 8.3 minimum requirement</td><td><span class="badge-improved">Requirement</span></td><td>Runtime only</td></tr>
+            <tr><td>PHP Attributes (15+ locations)</td><td><span class="badge-new">New</span></td><td>No — optional</td></tr>
+            <tr><td><code>Cache::touch()</code></td><td><span class="badge-new">New</span></td><td>No</td></tr>
+            <tr><td>Reverb database driver</td><td><span class="badge-new">New</span></td><td>No</td></tr>
+            <tr><td>Passkey authentication</td><td><span class="badge-new">New</span></td><td>No</td></tr>
+            <tr><td>Laravel AI SDK stable</td><td><span class="badge-new">New</span></td><td>No</td></tr>
+            <tr><td>Teams support in starter kits</td><td><span class="badge-new">New</span></td><td>No</td></tr>
+            <tr><td>MySQL DELETE…JOIN with ORDER BY / LIMIT</td><td><span class="badge-improved">Improved</span></td><td>No</td></tr>
+            <tr><td>HTTP pool concurrency default = 2</td><td><span class="badge-improved">Improved</span></td><td>No</td></tr>
+            <tr><td>Symfony 7.4 and 8.0 support</td><td><span class="badge-improved">Improved</span></td><td>No</td></tr>
+          </tbody>
+        </table>
+
+        <h2>1. PHP 8.3 Minimum Requirement</h2>
+
+        <p>Laravel 13 drops PHP 8.2 and requires PHP 8.3 as the minimum. This is the only change that affects your infrastructure — everything else is application-level and non-breaking.</p>
+
+        <p>PHP 8.3 brings typed class constants, improved <code>json_validate()</code>, readonly property improvements, and JIT optimizations. Laravel 13 removes old polyfills and backcompat code that existed purely to support PHP 8.2, making the framework leaner and faster.</p>
+
+        <div class="warning">
+          <strong>⚠️ Action required:</strong> If your server runs PHP 8.2, you must upgrade it before upgrading to Laravel 13. Check with <code>php -v</code>. Laravel 12 stays supported until August 2026 — no rush.
+        </div>
+
+        <h2>2. PHP Attributes — The Headline Feature</h2>
+
+        <p>This is the biggest developer experience change in Laravel 13. Instead of cluttering your models, jobs, and commands with a wall of class property declarations, you can now use native PHP <code>#[Attribute]</code> syntax. Fully optional, fully backward compatible — your existing code works exactly as before.</p>
+
+        <h3>Models</h3>
+
+        <span class="code-label">Before — Laravel 12</span>
+        <div class="code-block">class Invoice extends Model
+{
+    protected $table = 'invoices';
+    protected $primaryKey = 'invoice_id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $fillable = ['amount', 'status', 'user_id'];
+    protected $hidden = ['internal_notes'];
+
+    // Your actual model logic starts way down here...
+}</div>
+
+        <span class="code-label">After — Laravel 13</span>
+        <div class="code-block">use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+
+#[Table('invoices', key: 'invoice_id', keyType: 'string', incrementing: false)]
+#[Fillable('amount', 'status', 'user_id')]
+#[Hidden('internal_notes')]
+class Invoice extends Model
+{
+    // Clean. Your real logic is immediately visible.
+}</div>
+
+        <h3>Jobs</h3>
+
+        <span class="code-label">Before — Laravel 12</span>
+        <div class="code-block">class ProcessPayment implements ShouldQueue
+{
+    public $connection = 'redis';
+    public $queue = 'payments';
+    public $tries = 3;
+    public $timeout = 60;
+}</div>
+
+        <span class="code-label">After — Laravel 13</span>
+        <div class="code-block">use Illuminate\Queue\Attributes\WithQueue;
+
+#[WithQueue(connection: 'redis', queue: 'payments', tries: 3, timeout: 60)]
+class ProcessPayment implements ShouldQueue
+{
+    // Queue config declared, not buried in properties
+}</div>
+
+        <h3>Commands</h3>
+
+        <span class="code-label">Before — Laravel 12</span>
+        <div class="code-block">class SendReportCommand extends Command
+{
+    protected $signature = 'report:send {--force}';
+    protected $description = 'Send the weekly report email';
+
+    public function handle() { ... }
+}</div>
+
+        <span class="code-label">After — Laravel 13</span>
+        <div class="code-block">use Illuminate\Console\Attributes\Command;
+
+#[Command(signature: 'report:send {--force}', description: 'Send the weekly report email')]
+class SendReportCommand extends Command
+{
+    public function handle() { ... }
+}</div>
+
+        <div class="note">
+          <strong>Also applies to:</strong> listeners, notifications, mailables, broadcast events, requests, and more — around 15 locations total across the framework.
+        </div>
+
+        <h2>3. Cache::touch() — Extend TTL Without Re-Fetching</h2>
+
+        <p>Before Laravel 13, extending a cache item's expiry meant fetching the full value, then re-storing it — two network round trips and full payload transfer just to update a timestamp.</p>
+
+        <span class="code-label">Before — Laravel 12 (inefficient)</span>
+        <div class="code-block">// Three operations: get value, hold in memory, put it back
+$value = Cache::get('user_session:123');
+Cache::put('user_session:123', $value, now()->addHour());</div>
+
+        <span class="code-label">After — Laravel 13</span>
+        <div class="code-block">// One operation: just update the expiry
+Cache::touch('user_session:123', 3600);
+
+// Also works on specific store
+Cache::store('redis')->touch('user_session:123', 3600);</div>
+
+        <p>Under the hood: Redis gets a single <code>EXPIRE</code> command. Memcached uses native <code>TOUCH</code>. Database driver runs a single <code>UPDATE</code>. No value retrieval, no payload transfer, no wasted bandwidth.</p>
+
+        <p><strong>Where this matters most:</strong> sliding session expiration, active subscription windows, hot dashboard data, API rate limit windows — anything where you extend TTL on every request at scale.</p>
+
+        <h2>4. Reverb Database Driver — Real-Time Without Redis</h2>
+
+        <p>Previously, scaling Laravel Reverb horizontally required Redis as a message broker. Laravel 13 introduces a database driver — horizontal scaling using your existing MySQL or PostgreSQL database instead.</p>
+
+        <span class="code-label">config/broadcasting.php</span>
+        <div class="code-block">'reverb' => [
+    'driver' => 'reverb',
+    'scaling' => [
+        'driver' => 'database', // New in Laravel 13, previously required Redis
+    ],
+],</div>
+
+        <div class="note">
+          <strong>Note:</strong> For high-throughput apps with thousands of concurrent WebSocket connections, Redis is still recommended. The database driver is ideal for small-to-medium projects that want to minimize infrastructure.
+        </div>
+
+        <h2>5. Passkey Authentication</h2>
+
+        <p>Passkeys — WebAuthn-based passwordless authentication — are now integrated into Laravel's starter kits and Fortify. Users authenticate with biometrics (Face ID, fingerprint) or hardware keys instead of passwords. Available out of the box on new Laravel 13 applications, no third-party packages required.</p>
+
+        <h2>6. Laravel AI SDK — Out of Beta</h2>
+
+        <p>The Laravel AI SDK moves from beta to stable on March 17, alongside Laravel 13. It provides a first-class interface for integrating LLMs (OpenAI, Anthropic, and others) into Laravel applications — with proper queue support, error handling, and Laravel-native conventions.</p>
+
+        <h2>7. Teams Support Returns to Starter Kits</h2>
+
+        <p>Jetstream had Teams — the new starter kits didn't. Laravel 13 brings team-based multi-tenancy back to the official starter kits, with a cleaner implementation than Jetstream's version.</p>
+
+        <h2>8. Other Improvements</h2>
+
+        <h3>MySQL DELETE…JOIN with ORDER BY / LIMIT</h3>
+        <p>Laravel's MySQL grammar now compiles full <code>DELETE…JOIN</code> queries including <code>ORDER BY</code> and <code>LIMIT</code> clauses. Previously these were silently ignored, forcing developers to write raw SQL for complex delete operations.</p>
+
+        <span class="code-label">Now works correctly in Laravel 13</span>
+        <div class="code-block">// ORDER BY and LIMIT now apply correctly on DELETE...JOIN
+User::join('orders', 'users.id', '=', 'orders.user_id')
+    ->where('orders.status', 'cancelled')
+    ->orderBy('users.created_at')
+    ->limit(100)
+    ->delete();</div>
+
+        <h3>HTTP Pool Concurrency Default = 2</h3>
+        <p>Previously, <code>Http::pool()</code> left concurrency at <code>null</code>, causing pooled requests to run serially — a silent footgun. Laravel 13 defaults concurrency to <code>2</code>, so pooled requests are actually concurrent out of the box.</p>
+
+        <h3>Symfony 7.4 and 8.0 Support</h3>
+        <p>Laravel 13 supports Symfony 7.4 and 8.0, keeping the dependency chain modern and future-proof.</p>
+
+        <h2>How to Upgrade to Laravel 13</h2>
+
+        <span class="code-label">1. Update composer.json</span>
+        <div class="code-block">"require": {
+    "php": "^8.3",
+    "laravel/framework": "^13.0"
+}</div>
+
+        <span class="code-label">2. Run the upgrade</span>
+        <div class="code-block">composer update
+
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear</div>
+
+        <div class="warning">
+          <strong>⚠️ Upgrade PHP first:</strong> Make sure your server runs PHP 8.3 before running <code>composer update</code> or Composer will fail immediately. Always test on staging before upgrading production.
+        </div>
+
+        <p>You can also use <a href="https://laravelshift.com" target="_blank" rel="noopener noreferrer">Laravel Shift</a> for automated upgrades.</p>
+
+        <hr>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <h3>When is Laravel 13 released?</h3>
+        <p>March 17, 2026 — announced by Taylor Otwell at Laracon EU 2026.</p>
+
+        <h3>Does Laravel 13 have breaking changes?</h3>
+        <p>No breaking changes to application code. The only requirement change is PHP 8.3 minimum. All new features including PHP Attributes are optional and fully backward compatible.</p>
+
+        <h3>Should I upgrade immediately?</h3>
+        <p>No rush. Laravel 12 receives bug fixes until August 2026 and security fixes until February 2027. Test on staging, upgrade production when ready.</p>
+
+        <h3>Will my packages break on Laravel 13?</h3>
+        <p>Most major packages — Livewire, Inertia, Filament, Spatie — will have Laravel 13 support ready on or shortly after launch. Check each package's GitHub releases before upgrading.</p>
+
+      </div>
+    </article>
+
+    <div class="hire-cta">
+      <h3>Building a Laravel API?</h3>
+      <p>My Laravel API Starter Kit is built on Laravel 12 with a Laravel 13 update coming March 17. Sanctum auth, Spatie roles, API versioning, and pagination all pre-configured. Saves hours on every new project.</p>
+      <div class="cta-buttons">
+        <a href="https://pola5h.github.io/laravel-api-starter-kit/" class="cta-primary">Laravel API Starter Kit →</a>
+        <a href="/" class="cta-secondary">View My Portfolio</a>
+      </div>
+      <p class="cta-meta">Laravel 13 update on March 17 · Sanctum pre-configured · $19</p>
+    </div>
+
+    <div class="author-bio">
+      <h3>About the Author</h3>
+      <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
+      <div class="author-links">
+        <a href="/">Portfolio</a>
+        <a href="mailto:kzaman3055@gmail.com">Contact</a>
+        <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
