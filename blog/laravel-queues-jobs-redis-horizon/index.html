@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel queue:work --max-jobs & --max-time: Complete Queue Guide (2026)</title>
-    <meta name="description" content="How to use php artisan queue:work --max-jobs and --max-time to prevent memory leaks in production. Complete Laravel queue guide with Redis, Horizon, Supervisor, and best practices.">
+    <title>Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)</title>
+    <meta name="description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
     <meta name="author" content="Kamruzzaman Polash">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel queue:work --max-jobs & --max-time: Complete Queue Guide (2026)">
-    <meta property="og:description" content="How to use php artisan queue:work --max-jobs and --max-time to prevent memory leaks. Complete Laravel queue guide with Redis, Horizon, and Supervisor.">
+    <meta property="og:title" content="Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)">
+    <meta property="og:description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
     <meta property="og:site_name" content="Kamruzzaman Polash">
     <meta property="og:locale" content="en_US">
     <meta property="article:author" content="https://pola5h.github.io/">
     <meta property="article:published_time" content="2026-02-26">
-    <meta property="article:modified_time" content="2026-03-05">
+    <meta property="article:modified_time" content="2026-03-09">
     <meta property="article:section" content="Technology">
     <meta property="article:tag" content="Laravel">
     <meta property="article:tag" content="Redis">
@@ -28,8 +28,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel queue:work --max-jobs & --max-time: Complete Queue Guide (2026)">
-    <meta name="twitter:description" content="How to use php artisan queue:work --max-jobs and --max-time to prevent memory leaks. Complete guide with Redis, Horizon, and Supervisor.">
+    <meta name="twitter:title" content="Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)">
+    <meta name="twitter:description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
 
     <!-- Favicons -->
@@ -45,16 +45,16 @@
     {
         "@context": "https://schema.org",
         "@type": "TechArticle",
-        "headline": "Laravel queue:work --max-jobs & --max-time: Complete Queue Guide (2026)",
-        "description": "How to use php artisan queue:work --max-jobs and --max-time to prevent memory leaks in production. Complete Laravel queue guide with Redis, Horizon, Supervisor, and best practices.",
+        "headline": "Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)",
+        "description": "Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.",
         "image": "https://pola5h.github.io/og-image.svg",
         "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
         "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
         "datePublished": "2026-02-26",
-        "dateModified": "2026-03-05",
+        "dateModified": "2026-03-09",
         "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/",
         "articleSection": "Technology",
-        "keywords": ["laravel queue:work --max-jobs", "laravel queue:work --max-time", "php artisan queue:work", "Laravel queues", "Laravel Horizon", "Laravel Redis queue", "Laravel background jobs"],
+        "keywords": ["laravel queue:work --max-jobs", "laravel queue:work --max-time", "laravel queue memory leak", "php artisan queue:work", "Laravel queues", "Laravel Horizon", "Laravel Redis queue", "Laravel background jobs"],
         "inLanguage": "en-US",
         "wordCount": "2600",
         "timeRequired": "PT12M",
@@ -187,8 +187,8 @@
         <article>
             <header class="article-header">
                 <div class="article-category">Laravel Performance</div>
-                <h1>Laravel queue:work --max-jobs & --max-time: Complete Queue Guide (2026)</h1>
-                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · February 26, 2026 · Updated March 5, 2026 · 12 min read</div>
+                <h1>Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · February 26, 2026 · Updated March 9, 2026 · 12 min read</div>
             </header>
 
             <!-- Direct answer box — targets featured snippet -->
@@ -544,7 +544,7 @@ php artisan horizon:terminate  <span class="comment"># for Horizon</span></div>
             <h3>Need Help Setting Up Laravel Queues?</h3>
             <p>I've implemented Redis queue architecture in production SaaS platforms, payroll systems, and e-commerce APIs. Happy to help you design the right queue setup for your application's scale and requirements.</p>
             <div class="cta-buttons">
-                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Queue Setup" class="cta-primary">Get In Touch →</a>
+                <a href="/cdn-cgi/l/email-protection#cea5b4afa3afa0fdfefbfb8ea9a3afa7a2e0ada1a3f1bdbbaca4abadbaf382afbcafb8aba2ee9fbbabbbabee9dabbabbbe" class="cta-primary">Get In Touch →</a>
                 <a href="/" class="cta-secondary">View My Portfolio</a>
             </div>
             <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
@@ -555,7 +555,7 @@ php artisan horizon:terminate  <span class="comment"># for Horizon</span></div>
             <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
             <div class="author-links">
                 <a href="/">Portfolio</a>
-                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="/cdn-cgi/l/email-protection#523928333f333c6162676712353f333b3e7c313d3f">Contact</a>
                 <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
