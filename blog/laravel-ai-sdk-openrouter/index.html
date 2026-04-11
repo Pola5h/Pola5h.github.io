@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)</title>
+    <meta name="description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)">
+    <meta property="og:description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
+    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="https://pola5h.github.io/">
+    <meta property="article:published_time" content="2026-04-11">
+    <meta property="article:modified_time" content="2026-04-11">
+    <meta property="article:section" content="Technology">
+    <meta property="article:tag" content="Laravel">
+    <meta property="article:tag" content="Laravel 13">
+    <meta property="article:tag" content="AI">
+    <meta property="article:tag" content="Laravel AI SDK">
+    <meta property="article:tag" content="OpenRouter">
+    <meta property="article:tag" content="PHP">
+    <meta property="article:tag" content="Agents">
+    <meta property="article:tag" content="LLM">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)">
+    <meta name="twitter:description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
+    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <meta name="theme-color" content="#0d1117">
+    <meta name="msapplication-TileColor" content="#0d1117">
+
+    <!-- Structured Data: TechArticle -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)",
+        "description": "The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.",
+        "image": "https://pola5h.github.io/og-image.svg",
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "datePublished": "2026-04-11",
+        "dateModified": "2026-04-11",
+        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/",
+        "articleSection": "Technology",
+        "keywords": ["laravel ai sdk", "laravel openrouter", "laravel 13 ai", "laravel ai agent", "openrouter laravel integration", "laravel ai sdk tutorial", "laravel 13 new features", "php ai integration"],
+        "inLanguage": "en-US",
+        "wordCount": "2800",
+        "timeRequired": "PT14M",
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+                { "@type": "ListItem", "position": 3, "name": "Laravel AI SDK Guide", "item": "https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/" }
+            ]
+        }
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Laravel AI SDK?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Laravel AI SDK is a first-party package that shipped stable with Laravel 13 on March 17, 2026. It provides a unified, provider-agnostic interface for AI features — text generation, tool-calling agents, image creation, audio synthesis, and embeddings. It handles retry logic, error normalization, and queue integration automatically."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I use OpenRouter with the Laravel AI SDK?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Configure OpenRouter as a custom base URL in config/ai.php: set the driver to 'openai', add your OpenRouter API key, and set the url to https://openrouter.ai/api/v1. This lets you access 100+ models through a single API key while using the full Laravel AI SDK agent system."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I still need the openai-php/laravel package in Laravel 13?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. The Laravel AI SDK replaces third-party packages like openai-php/laravel and Prism for most use cases. It provides the same functionality — plus agents, structured output, testable fakes, and queue integration — all maintained by the Laravel team."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I switch AI providers without rewriting my code?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. That's the main advantage of the Laravel AI SDK. Your agent classes reference a provider name from config — not a provider-specific SDK. Switching from OpenAI to Anthropic or OpenRouter is a one-line config change with zero application code changes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I test Laravel AI agents?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Laravel AI SDK ships with built-in fakes. Call Agent::fake() in your test and it intercepts all agent calls without hitting any real API. You can assert prompts were sent, responses were handled, and structured output was parsed — all without API keys or network requests."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
+        .breadcrumb a { color: #007bff; text-decoration: none; }
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
+        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+        .article-meta { color: #6c757d; font-size: 0.9rem; }
+        .article-meta a { color: #007bff; text-decoration: none; }
+        .related-links { background: #f8f9fa; border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: #6c757d; }
+        .related-links a { color: #007bff; text-decoration: none; margin: 0 0.3rem; }
+        .related-links a:hover { text-decoration: underline; }
+        .answer-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.5rem; margin: 0 0 2rem; }
+        .answer-box .answer-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #1b5e20; margin-bottom: 0.6rem; }
+        .answer-box p { margin: 0 0 0.6rem; color: #1b5e20; font-size: 0.97rem; line-height: 1.7; }
+        .answer-box p:last-child { margin-bottom: 0; }
+        .answer-box code { background: #c8e6c9; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.9em; }
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
+        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content p { margin-bottom: 1.5rem; }
+        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        .article-content li { margin-bottom: 0.6rem; }
+        .code-block { background: #1e2530; color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
+        .code-block .comment { color: #5c6370; }
+        .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
+        .tip-box strong { color: #1b5e20; }
+        .warning-box { background: #fff8e1; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
+        .warning-box strong { color: #e65100; }
+        .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .step-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 1.2rem; border-top: 3px solid #28a745; }
+        .step-card .step-num { font-size: 0.8rem; font-weight: 700; color: #28a745; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        .step-card .step-title { font-weight: 700; color: #2c3e50; margin-bottom: 0.4rem; }
+        .step-card .step-desc { font-size: 0.9rem; color: #6c757d; }
+        .options-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9rem; overflow-x: auto; display: block; }
+        .options-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; white-space: nowrap; }
+        .options-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #e9ecef; }
+        .options-table tr:nth-child(even) td { background: #f8f9fa; }
+        .options-table code { background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.85em; font-family: 'Courier New', monospace; }
+        .tag-rec { background: #d4edda; color: #155724; font-size: 0.73rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 20px; margin-left: 0.3rem; }
+        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
+        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
+        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
+        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
+        .cta-primary:hover { opacity: 0.85; }
+        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
+        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
+        .cta-meta { font-size: 0.85rem; color: #8b949e; }
+        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a:hover { background: #007bff; color: #fff; }
+        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel AI SDK Guide
+        </nav>
+
+        <article>
+            <header class="article-header">
+                <div class="article-category">Laravel AI</div>
+                <h1>Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)</h1>
+                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · April 11, 2026 · 14 min read</div>
+            </header>
+
+            <!-- Direct answer box — targets featured snippet -->
+            <div class="answer-box">
+                <div class="answer-label">Quick Answer</div>
+                <p><strong>The Laravel AI SDK shipped stable with Laravel 13 on March 17, 2026.</strong> It's a first-party, provider-agnostic package for building AI features inside any Laravel app.</p>
+                <p>To use it with OpenRouter, install the package, then configure OpenRouter as a custom base URL provider in <code>config/ai.php</code>. You get access to 100+ models through one API key — with agents, streaming, queues, and testable fakes all built in.</p>
+                <p><code>composer require laravel/ai</code> — then point it at OpenRouter and you're building agents in minutes.</p>
+            </div>
+
+            <div class="related-links">
+                <strong>Related:</strong>
+                <a href="/blog/laravel-openai-integration-guide/">Laravel OpenAI &amp; OpenRouter (the old way)</a> |
+                <a href="/blog/laravel-13-new-features/">Laravel 13 New Features</a> |
+                <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Horizon</a>
+            </div>
+
+            <div class="article-content">
+
+                <p>Before Laravel 13, adding AI to a Laravel app meant picking a provider, installing their SDK, writing a custom service class to wrap it, and hoping that abstraction held when you needed to swap models mid-sprint. Most teams ended up with a fat service that knew too much, a leaky wrapper that only worked for one provider, or raw <code>Http::post()</code> calls buried in controllers.</p>
+
+                <p>I went through this myself — I integrated OpenRouter into a production SaaS using the manual approach documented in my <a href="/blog/laravel-openai-integration-guide/">earlier guide</a>. It worked. But it required building and maintaining your own abstraction layer.</p>
+
+                <p>Laravel 13 changes this completely. The Laravel AI SDK is now first-party, production-stable, and ships with the framework itself. This guide covers everything from setup to agents, streaming, provider failover with OpenRouter, and how to properly test AI features.</p>
+
+                <h2>1. What the Laravel AI SDK actually is</h2>
+
+                <p>Taylor Otwell described the motivation during the Laracon EU 2026 announcement: "It felt like we needed a first-party opinion on interacting with AI providers — just like we have opinions on sending email or queuing jobs."</p>
+
+                <p>That framing is exactly right. The SDK isn't a thin wrapper around one API. It's a full architectural layer — the same way Eloquent is a full layer on top of SQL, not just a query shortcut.</p>
+
+                <div class="step-grid">
+                    <div class="step-card">
+                        <div class="step-num">Text &amp; Agents</div>
+                        <div class="step-title">Generate &amp; reason</div>
+                        <div class="step-desc">Tool-calling agents with instructions, memory, structured output, and multi-step reasoning</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Images &amp; Audio</div>
+                        <div class="step-title">Create &amp; transcribe</div>
+                        <div class="step-desc">Generate images from prompts, synthesize audio, and transcribe voice to text</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Embeddings &amp; Search</div>
+                        <div class="step-title">Semantic search</div>
+                        <div class="step-desc">Generate embeddings and run vector similarity queries directly in Eloquent</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-num">Provider-agnostic</div>
+                        <div class="step-title">One config switch</div>
+                        <div class="step-desc">Switch between OpenAI, Anthropic, Gemini, OpenRouter — zero application code changes</div>
+                    </div>
+                </div>
+
+                <p>The SDK also handles retry logic, error normalization, and queue integration automatically. You don't write that yourself anymore.</p>
+
+                <h2>2. Where OpenRouter fits in</h2>
+
+                <p>OpenRouter is a unified API gateway for 100+ AI models. You send requests to one endpoint with one API key, and OpenRouter routes them to the underlying provider — GPT-4o, Claude, Gemini, Llama, Mistral, and many more.</p>
+
+                <p>The Laravel AI SDK supports OpenRouter natively via a custom base URL. This combination gives you the best of both worlds: Laravel's first-party agent system with OpenRouter's model flexibility and cost advantages.</p>
+
+                <p>In practice this means:</p>
+                <ul>
+                    <li>Use free OpenRouter models during local development — zero API cost</li>
+                    <li>Use GPT-4o Mini in production for general tasks at a fraction of GPT-4o cost</li>
+                    <li>Upgrade to Claude or GPT-4o for specific agents that need it — one config line</li>
+                    <li>Automatic failover if a provider goes down — without touching application code</li>
+                </ul>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> OpenRouter uses the same OpenAI-compatible API format, so the Laravel AI SDK integrates with it seamlessly via the <code>url</code> override in <code>config/ai.php</code>. No special driver required.
+                </div>
+
+                <h2>3. Installation</h2>
+
+                <div class="code-block"><span class="comment"># Install the Laravel AI SDK</span>
+composer require laravel/ai
+
+<span class="comment"># Publish config and migration files</span>
+php artisan vendor:publish --provider="Laravel\Ai\AiServiceProvider"
+
+<span class="comment"># Run migrations (creates agent_conversations and agent_conversation_messages tables)</span>
+php artisan migrate</div>
+
+                <div class="warning-box">
+                    <strong>Requirements:</strong> The Laravel AI SDK requires Laravel 13 and PHP 8.3 or higher. If you're still on Laravel 12, see my <a href="/blog/laravel-openai-integration-guide/">previous guide</a> for the manual OpenRouter approach, or upgrade first — it's a 10-minute process with zero breaking changes.
+                </div>
+
+                <h2>4. Configuring OpenRouter as your provider</h2>
+
+                <p>Open <code>config/ai.php</code> and add OpenRouter as a named provider. The key insight is that OpenRouter is OpenAI-compatible — so you use the <code>openai</code> driver and override the base URL.</p>
+
+                <div class="code-block"><span class="comment">// config/ai.php</span>
+'default' => env('AI_PROVIDER', 'openrouter'),
+
+'providers' => [
+
+    'openrouter' => [
+        'driver' => 'openai',
+        'key'    => env('OPENROUTER_API_KEY'),
+        'url'    => 'https://openrouter.ai/api/v1',
+    ],
+
+    <span class="comment">// Keep OpenAI as a fallback if needed</span>
+    'openai' => [
+        'driver' => 'openai',
+        'key'    => env('OPENAI_API_KEY'),
+    ],
+
+    <span class="comment">// Or use Anthropic directly</span>
+    'anthropic' => [
+        'driver' => 'anthropic',
+        'key'    => env('ANTHROPIC_API_KEY'),
+    ],
+
+],</div>
+
+                <div class="code-block"><span class="comment"># .env</span>
+AI_PROVIDER=openrouter
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+
+<span class="comment"># Optional fallbacks</span>
+OPENAI_API_KEY=sk-your-openai-key
+ANTHROPIC_API_KEY=sk-ant-your-anthropic-key</div>
+
+                <div class="tip-box">
+                    <strong>Getting an OpenRouter key:</strong> Sign up at <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">openrouter.ai</a> — it's free to start. You only pay for usage above the free tier. During local development, models like <code>meta-llama/llama-3.1-8b-instruct:free</code> are completely free.
+                </div>
+
+                <h2>5. Creating your first Agent</h2>
+
+                <p>Agents are the core abstraction in the Laravel AI SDK. Each agent is a dedicated PHP class that holds the instructions, context, tools, and output schema for a specific AI task. Think of it as a specialized assistant you configure once and use throughout your app.</p>
+
+                <div class="code-block"><span class="comment"># Generate an agent class</span>
+php artisan make:agent SupportAgent</div>
+
+                <div class="code-block">&lt;?php
+
+namespace App\Ai\Agents;
+
+use Laravel\Ai\Agent;
+use Laravel\Ai\Attributes\Model;
+use Laravel\Ai\Attributes\Provider;
+use Laravel\Ai\Attributes\Temperature;
+
+#[Provider('openrouter')]
+#[Model('openai/gpt-4o-mini')]
+#[Temperature(0.4)]
+class SupportAgent extends Agent
+{
+    public function instructions(): string
+    {
+        return 'You are a helpful customer support assistant for an e-commerce platform. '
+               . 'Answer questions about orders, shipping, and returns clearly and concisely. '
+               . 'If you cannot help, politely direct the user to contact support. '
+               . 'Always respond in the same language the user writes in.';
+    }
+}</div>
+
+                <div class="code-block"><span class="comment">// In your controller</span>
+use App\Ai\Agents\SupportAgent;
+
+public function chat(Request $request): JsonResponse
+{
+    $request->validate(['message' => 'required|string|max:1000']);
+
+    $response = SupportAgent::make()
+        ->prompt($request->message);
+
+    return response()->json([
+        'reply' => (string) $response,
+    ]);
+}</div>
+
+                <p>That's it. No HTTP client setup, no JSON parsing, no error handling boilerplate. The SDK manages all of that behind the scenes.</p>
+
+                <h2>6. Structured output — getting JSON back reliably</h2>
+
+                <p>One of the most common AI integration problems is parsing unstructured text responses. The SDK solves this with a JSON schema definition on the agent. The model is constrained to return exactly the structure you define.</p>
+
+                <div class="code-block"><span class="comment"># Generate an agent with structured output</span>
+php artisan make:agent ProductDescriptionAgent --structured</div>
+
+                <div class="code-block">&lt;?php
+
+namespace App\Ai\Agents;
+
+use Laravel\Ai\Agent;
+use Laravel\Ai\Attributes\Model;
+use Laravel\Ai\Attributes\Provider;
+use Illuminate\Contracts\JsonSchema\JsonSchema;
+
+#[Provider('openrouter')]
+#[Model('openai/gpt-4o-mini')]
+class ProductDescriptionAgent extends Agent
+{
+    public function instructions(): string
+    {
+        return 'You are an e-commerce copywriter. Generate a product title, 
+                a short description (max 80 words), and 3 bullet point features.';
+    }
+
+    public function schema(JsonSchema $schema): array
+    {
+        return [
+            'title'       => $schema->string()->required(),
+            'description' => $schema->string()->required(),
+            'features'    => $schema->array(
+                $schema->string()
+            )->required(),
+        ];
+    }
+}</div>
+
+                <div class="code-block"><span class="comment">// Usage — response is already parsed into a typed object</span>
+$result = ProductDescriptionAgent::make()
+    ->prompt("Write a product description for: {$product->name}. Category: {$product->category}.");
+
+$title       = $result->title;        <span class="comment">// string</span>
+$description = $result->description;  <span class="comment">// string</span>
+$features    = $result->features;     <span class="comment">// array of strings</span>
+
+$product->update([
+    'ai_title'       => $title,
+    'ai_description' => $description,
+    'ai_features'    => $features,
+]);</div>
+
+                <div class="tip-box">
+                    <strong>Tip:</strong> Structured output is the right approach for any AI feature where you need to store or display specific fields. It eliminates regex parsing and JSON decoding errors — the SDK guarantees the response matches your schema or throws a typed exception you can catch.
+                </div>
+
+                <h2>7. Streaming responses to the frontend</h2>
+
+                <p>Streaming makes AI features feel instant even when the model is still generating. Instead of waiting for the full response before showing anything, the frontend renders tokens as they arrive.</p>
+
+                <div class="code-block">&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Ai\Agents\SupportAgent;
+use Illuminate\Http\Request;
+
+class ChatController extends Controller
+{
+    public function stream(Request $request)
+    {
+        $request->validate(['message' => 'required|string|max:1000']);
+
+        return response()->stream(function () use ($request) {
+
+            $stream = SupportAgent::make()
+                ->stream($request->message);
+
+            foreach ($stream as $chunk) {
+                echo "data: " . json_encode(['text' => $chunk]) . "\n\n";
+                ob_flush();
+                flush();
+            }
+
+            echo "data: [DONE]\n\n";
+            ob_flush();
+            flush();
+
+        }, 200, [
+            'Content-Type'      => 'text/event-stream',
+            'Cache-Control'     => 'no-cache',
+            'X-Accel-Buffering' => 'no',
+        ]);
+    }
+}</div>
+
+                <div class="code-block"><span class="comment">// Frontend JavaScript — consuming the stream</span>
+const source = new EventSource('/chat/stream?message=' + encodeURIComponent(input));
+let output = '';
+
+source.onmessage = (event) => {
+    if (event.data === '[DONE]') {
+        source.close();
+        return;
+    }
+    const chunk = JSON.parse(event.data);
+    output += chunk.text;
+    document.getElementById('response').textContent = output;
+};</div>
+
+                <h2>8. Queuing heavy AI jobs</h2>
+
+                <p>Not every AI task needs to be synchronous. Generating product descriptions for a whole catalogue, summarizing uploaded documents, or processing batches overnight — these belong in the queue. The SDK integrates with Laravel's queue system natively.</p>
+
+                <div class="code-block">php artisan make:job GenerateProductDescriptions</div>
+
+                <div class="code-block">&lt;?php
+
+namespace App\Jobs;
+
+use App\Ai\Agents\ProductDescriptionAgent;
+use App\Models\Product;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+
+class GenerateProductDescriptions implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable;
+
+    public int $tries   = 3;
+    public int $timeout = 120;
+
+    public function __construct(
+        public readonly int $productId
+    ) {}
+
+    public function handle(): void
+    {
+        $product = Product::findOrFail($this->productId);
+
+        $result = ProductDescriptionAgent::make()
+            ->prompt("Product: {$product->name}. Category: {$product->category}.");
+
+        $product->update([
+            'ai_title'       => $result->title,
+            'ai_description' => $result->description,
+            'ai_features'    => $result->features,
+            'ai_generated_at' => now(),
+        ]);
+    }
+
+    public function failed(\Throwable $exception): void
+    {
+        \Log::error("AI generation failed for product {$this->productId}: {$exception->getMessage()}");
+    }
+}</div>
+
+                <div class="code-block"><span class="comment">// Dispatch for a single product</span>
+GenerateProductDescriptions::dispatch($product->id);
+
+<span class="comment">// Dispatch for all products missing AI content</span>
+Product::whereNull('ai_generated_at')
+    ->each(fn ($product) => GenerateProductDescriptions::dispatch($product->id)->onQueue('ai'));</div>
+
+                <div class="warning-box">
+                    <strong>Important:</strong> AI API calls can be slow — often 5–30 seconds for complex prompts. Always set a <code>$timeout</code> on jobs that call AI agents. The default Laravel job timeout is 60 seconds, which is often too short for structured output or multi-step agents. Set it to 120 or higher depending on your use case.
+                </div>
+
+                <h2>9. Provider failover with OpenRouter</h2>
+
+                <p>This is where the combination of the Laravel AI SDK and OpenRouter becomes particularly powerful for production. You can configure multiple providers and the SDK will automatically fall back if one fails.</p>
+
+                <div class="code-block"><span class="comment">// config/ai.php — configure failover providers</span>
+'providers' => [
+
+    'openrouter' => [
+        'driver' => 'openai',
+        'key'    => env('OPENROUTER_API_KEY'),
+        'url'    => 'https://openrouter.ai/api/v1',
+    ],
+
+    'anthropic' => [
+        'driver' => 'anthropic',
+        'key'    => env('ANTHROPIC_API_KEY'),
+    ],
+
+],</div>
+
+                <div class="code-block"><span class="comment">// In your agent — list providers in priority order</span>
+use Laravel\Ai\Attributes\Provider;
+
+#[Provider(['openrouter', 'anthropic'])]  <span class="comment">// tries openrouter first, anthropic if it fails</span>
+#[Model('openai/gpt-4o-mini')]
+class SupportAgent extends Agent
+{
+    <span class="comment">// ...</span>
+}</div>
+
+                <p>If OpenRouter is unavailable or rate-limited, the SDK automatically retries with Anthropic — no error surfaced to the user, no code change required. For production SaaS where uptime matters, this is a meaningful safety net.</p>
+
+                <h2>10. Provider and model comparison</h2>
+
+                <table class="options-table">
+                    <thead>
+                        <tr><th>Use case</th><th>Recommended model (via OpenRouter)</th><th>Why</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Local development</td>
+                            <td><code>meta-llama/llama-3.1-8b-instruct:free</code></td>
+                            <td>Free tier, good enough for dev <span class="tag-rec">Zero cost</span></td>
+                        </tr>
+                        <tr>
+                            <td>General production tasks</td>
+                            <td><code>openai/gpt-4o-mini</code></td>
+                            <td>Fast, cheap, handles most use cases well</td>
+                        </tr>
+                        <tr>
+                            <td>Complex reasoning / agents</td>
+                            <td><code>openai/gpt-4o</code></td>
+                            <td>Best tool use and structured output reliability</td>
+                        </tr>
+                        <tr>
+                            <td>Long documents / analysis</td>
+                            <td><code>anthropic/claude-3-5-sonnet</code></td>
+                            <td>200K context window, excellent instruction following</td>
+                        </tr>
+                        <tr>
+                            <td>Embeddings</td>
+                            <td><code>openai/text-embedding-3-small</code></td>
+                            <td>Cheapest per token, works well for semantic search</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>11. Testing AI features properly</h2>
+
+                <p>This is the part most tutorials skip, but it's essential for production code. The Laravel AI SDK ships with built-in fakes so you can write real tests without hitting any API.</p>
+
+                <div class="code-block">&lt;?php
+
+namespace Tests\Feature;
+
+use App\Ai\Agents\SupportAgent;
+use App\Http\Controllers\ChatController;
+use Laravel\Ai\Testing\AgentFake;
+use Tests\TestCase;
+
+class ChatControllerTest extends TestCase
+{
+    public function test_chat_returns_agent_response(): void
+    {
+        <span class="comment">// Intercept all agent calls — no real API requests</span>
+        AgentFake::make(SupportAgent::class)
+            ->withResponse('I can help you track your order.');
+
+        $response = $this->postJson('/chat', [
+            'message' => 'Where is my order?',
+        ]);
+
+        $response->assertOk()
+                 ->assertJsonPath('reply', 'I can help you track your order.');
+
+        <span class="comment">// Assert the agent was actually called with the right prompt</span>
+        AgentFake::assertPrompted(SupportAgent::class, 'Where is my order?');
+    }
+
+    public function test_structured_output_is_saved_to_product(): void
+    {
+        $product = Product::factory()->create();
+
+        AgentFake::make(ProductDescriptionAgent::class)
+            ->withStructuredResponse([
+                'title'       => 'Premium Wireless Headphones',
+                'description' => 'Crystal clear audio with 40-hour battery life.',
+                'features'    => ['40hr battery', 'Noise cancelling', 'Foldable design'],
+            ]);
+
+        GenerateProductDescriptions::dispatchSync($product->id);
+
+        $this->assertDatabaseHas('products', [
+            'id'          => $product->id,
+            'ai_title'    => 'Premium Wireless Headphones',
+        ]);
+    }
+}</div>
+
+                <div class="tip-box">
+                    <strong>Why this matters:</strong> Without fakes, your CI pipeline makes real API calls on every test run — adding cost, latency, and flakiness. The fake intercepts everything at the agent layer, so your tests run fast and reliably with no API keys required in the CI environment.
+                </div>
+
+                <h2>12. Semantic search with embeddings (bonus)</h2>
+
+                <p>Laravel 13 adds native vector query support to the query builder. Combined with the AI SDK's embedding generation, you can build semantic search without any external vector database — just PostgreSQL with the pgvector extension.</p>
+
+                <div class="code-block"><span class="comment">// Generate and store an embedding when a product is created</span>
+use Laravel\Ai\Embeddings;
+
+$embedding = Embeddings::of($product->name . ' ' . $product->description)
+    ->generate()
+    ->vector();
+
+$product->update(['embedding' => $embedding]);</div>
+
+                <div class="code-block"><span class="comment">// Search semantically — finds conceptually related products, not just keyword matches</span>
+$results = DB::table('products')
+    ->whereVectorSimilarTo('embedding', $request->query)
+    ->limit(10)
+    ->get();</div>
+
+                <div class="warning-box">
+                    <strong>Note:</strong> Vector search requires PostgreSQL with the pgvector extension enabled. It does not work with MySQL. If you're on MySQL, you'll need a separate vector store like Pinecone or Qdrant for this feature specifically — but everything else in this guide works with any database.
+                </div>
+
+                <h2>13. The old way vs the new way — a quick comparison</h2>
+
+                <p>If you read my <a href="/blog/laravel-openai-integration-guide/">previous OpenRouter integration guide</a>, here's how the two approaches compare now:</p>
+
+                <table class="options-table">
+                    <thead>
+                        <tr><th></th><th>Manual approach (Laravel 12)</th><th>AI SDK (Laravel 13)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Setup</td>
+                            <td>Install 3rd-party package, write service class</td>
+                            <td><code>composer require laravel/ai</code></td>
+                        </tr>
+                        <tr>
+                            <td>Provider switch</td>
+                            <td>Rewrite service class</td>
+                            <td>Change one config value <span class="tag-rec">Zero code change</span></td>
+                        </tr>
+                        <tr>
+                            <td>Structured output</td>
+                            <td>Parse JSON manually, handle failures</td>
+                            <td>Schema definition, typed response object</td>
+                        </tr>
+                        <tr>
+                            <td>Testing</td>
+                            <td>Mock HTTP client manually</td>
+                            <td><code>AgentFake::make()</code> built in</td>
+                        </tr>
+                        <tr>
+                            <td>Retry logic</td>
+                            <td>Write it yourself</td>
+                            <td>Handled automatically</td>
+                        </tr>
+                        <tr>
+                            <td>Failover</td>
+                            <td>Not available</td>
+                            <td>Multi-provider array on the agent</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>14. Conclusion</h2>
+
+                <p>The Laravel AI SDK removes all the reasons to delay adding AI features to your application. There's no abstraction layer to write, no provider-specific SDK gymnastics, and no gap between "it works locally" and "it's testable in CI." It's the same pattern as email or queues — configure the driver, use the facade, write tests with the fake.</p>
+
+                <p>OpenRouter on top of it gives you model flexibility and cost control without any additional complexity. Switch models by changing a string. Access free models in development. Fall back automatically when a provider has issues.</p>
+
+                <p>If you're on Laravel 12, the <a href="/blog/laravel-openai-integration-guide/">manual approach</a> still works — but upgrading to Laravel 13 is worth it for this alone. The upgrade is zero breaking changes, and this guide is waiting for you on the other side.</p>
+
+            </div>
+        </article>
+
+        <div class="hire-cta">
+            <h3>Need Help Adding AI to Your Laravel App?</h3>
+            <p>I've integrated OpenRouter and LLM features into production SaaS platforms — from chatbots and content generators to automated e-commerce workflows. Happy to help you design the right AI architecture for your product.</p>
+            <div class="cta-buttons">
+                <a href="mailto:kzaman3055@gmail.com" class="cta-primary">Get In Touch →</a>
+                <a href="/" class="cta-secondary">View My Portfolio</a>
+            </div>
+            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
+        </div>
+
+        <div class="author-bio">
+            <h3>About the Author</h3>
+            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
+            <div class="author-links">
+                <a href="/">Portfolio</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
+                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
