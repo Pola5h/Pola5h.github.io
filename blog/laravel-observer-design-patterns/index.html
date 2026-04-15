@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laravel Observer Pattern: Audit Logging Done Right | Kamruzzaman Polash</title>
+    <meta name="description" content="Learn how the Observer Pattern works in Laravel with a real-world audit logging example. Understand when to use Observers vs MySQL Triggers and why this is industry standard.">
+    <meta name="author" content="Kamruzzaman Polash">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Laravel Observer Pattern: Audit Logging Done Right">
+    <meta property="og:description" content="Learn how the Observer Pattern works in Laravel with a real-world audit logging example. Understand when to use Observers vs MySQL Triggers and why this is industry standard.">
+    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/">
+    <meta property="og:site_name" content="Kamruzzaman Polash">
+    <meta property="og:locale" content="en_US">
+    <meta property="article:author" content="https://pola5h.github.io/">
+    <meta property="article:published_time" content="2026-04-15">
+    <meta property="article:section" content="Laravel">
+    <meta property="article:tag" content="Laravel">
+    <meta property="article:tag" content="Observer Pattern">
+    <meta property="article:tag" content="Design Patterns">
+    <meta property="article:tag" content="Audit Log">
+    <meta property="article:tag" content="PHP">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Laravel Observer Pattern: Audit Logging Done Right">
+    <meta name="twitter:description" content="Learn how the Observer Pattern works in Laravel with a real-world audit logging example. Understand when to use Observers vs MySQL Triggers.">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Laravel Observer Pattern: Audit Logging Done Right",
+        "description": "Learn how the Observer Pattern works in Laravel with a real-world audit logging example. Understand when to use Observers vs MySQL Triggers and why this is industry standard.",
+        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
+        "datePublished": "2026-04-15",
+        "dateModified": "2026-04-15",
+        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/",
+        "articleSection": "Laravel",
+        "keywords": ["laravel observer", "observer pattern", "audit log laravel", "laravel design patterns", "mysql trigger vs observer", "laravel model observer"],
+        "inLanguage": "en-US",
+        "wordCount": "1800",
+        "timeRequired": "PT9M",
+        "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
+                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
+                { "@type": "ListItem", "position": 3, "name": "Laravel Observer Pattern", "item": "https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/" }
+            ]
+        }
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Observer Pattern in Laravel?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Observer Pattern in Laravel allows you to watch a model for changes and automatically run code whenever a create, update, or delete happens, no matter which controller or service triggers it. You register the observer once and it fires everywhere."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should I use a Laravel Observer or a MySQL Trigger for audit logging?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use a Laravel Observer for most projects. Observers know who made the change via auth()->id(), can send emails or queue jobs, are testable, and live in your codebase. Use a MySQL Trigger only if multiple systems write to the same database and you need logging regardless of where the change came from."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is using an Observer for audit logging industry standard?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Audit logging via model observers is one of the most common patterns in production Laravel applications. All major frameworks including Symfony, Django, Rails, and Spring have an equivalent concept."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #faf9f7;
+            --surface: #ffffff;
+            --border: #e8e4df;
+            --text: #1a1a1a;
+            --muted: #6b6660;
+            --accent: #16a34a;
+            --accent-light: #f0fdf4;
+            --accent-border: #bbf7d0;
+            --warning-bg: #fffbeb;
+            --warning-border: #fcd34d;
+            --code-bg: #0f1117;
+            --code-text: #e2e8f0;
+            --heading: #111827;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.75;
+        }
+
+        .nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+        .nav-inner {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--muted);
+        }
+        .nav-inner a { color: var(--accent); text-decoration: none; }
+        .nav-inner a:hover { text-decoration: underline; }
+        .nav-sep { color: var(--border); }
+
+        .article-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem 2.5rem;
+        }
+        .header-inner { max-width: 780px; margin: 0 auto; }
+
+        .category-tag {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            border: 1px solid var(--accent-border);
+            margin-bottom: 1.25rem;
+        }
+
+        h1 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--heading);
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .article-meta {
+            color: var(--muted);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+        }
+        .article-meta a { color: var(--accent); text-decoration: none; }
+        .meta-dot { width: 3px; height: 3px; background: var(--border); border-radius: 50%; }
+
+        .answer-box {
+            background: var(--accent-light);
+            border: 1px solid var(--accent-border);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1.5rem 1.75rem;
+            margin: 2rem 0;
+        }
+        .answer-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+        .answer-box p {
+            color: #14532d;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+        .answer-box p:last-child { margin-bottom: 0; }
+        .answer-box code {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+        }
+
+        .main { max-width: 780px; margin: 0 auto; padding: 2.5rem 2rem 4rem; }
+
+        .article-content { font-size: 1.05rem; line-height: 1.8; }
+
+        .article-content h2 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--heading);
+            margin: 3rem 0 1.25rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--border);
+            letter-spacing: -0.01em;
+        }
+
+        .article-content h3 {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--heading);
+            margin: 2.25rem 0 0.75rem;
+        }
+
+        .article-content p { margin-bottom: 1.5rem; color: #374151; }
+
+        .code-wrap {
+            background: var(--code-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            border: 1px solid #1e2433;
+        }
+        .code-header {
+            background: #161b27;
+            padding: 0.6rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #1e2433;
+        }
+        .code-lang {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: #4ade80;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .code-dots { display: flex; gap: 0.4rem; }
+        .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .code-dot.red { background: #ff5f57; }
+        .code-dot.yellow { background: #febc2e; }
+        .code-dot.green { background: #28c840; }
+
+        pre { padding: 1.5rem; overflow-x: auto; margin: 0; }
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--code-text);
+            line-height: 1.7;
+        }
+        .c  { color: #4b5563; }
+        .kw { color: #93c5fd; }
+        .fn { color: #86efac; }
+        .st { color: #fcd34d; }
+        .cl { color: #67e8f9; }
+
+        p code, li code {
+            background: #f1f0ee;
+            color: #374151;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.83em;
+            border: 1px solid #e5e3e0;
+        }
+
+        .tip-box {
+            background: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        .tip-box strong { color: #14532d; }
+        .tip-box p { color: #14532d; margin: 0; }
+
+        .warning-box {
+            background: var(--warning-bg);
+            border-left: 4px solid var(--warning-border);
+            border-radius: 0 8px 8px 0;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        .warning-box strong { color: #92400e; }
+        .warning-box p { color: #78350f; margin: 0; }
+
+        .flow-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .flow-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+        }
+        .flow-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            flex-wrap: wrap;
+            row-gap: 1rem;
+        }
+        .flow-node {
+            background: var(--heading);
+            color: #fff;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .flow-node.green { background: var(--accent); }
+        .flow-arrow { color: var(--muted); font-size: 1.2rem; padding: 0 0.75rem; }
+        .flow-branches { display: flex; flex-direction: column; gap: 0.6rem; }
+        .flow-branch { display: flex; align-items: center; gap: 0.5rem; }
+        .flow-branch-node {
+            background: #f0fdf4;
+            border: 1px solid var(--accent-border);
+            color: #14532d;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        .table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 10px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        thead tr { background: var(--heading); }
+        thead th { color: #fff; padding: 0.9rem 1.1rem; text-align: left; font-weight: 600; white-space: nowrap; }
+        tbody td { padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--border); color: #374151; vertical-align: top; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:nth-child(even) td { background: #f9f8f6; }
+        .yes { color: var(--accent); font-weight: 600; }
+        .no  { color: #dc2626; font-weight: 600; }
+        .warn { color: #d97706; font-weight: 600; }
+
+        /* LinkedIn card */
+        .linkedin-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 3rem 0;
+        }
+        .linkedin-header {
+            background: #0a66c2;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .linkedin-icon {
+            width: 28px; height: 28px;
+            background: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 900;
+            color: #0a66c2;
+            flex-shrink: 0;
+        }
+        .linkedin-header span { color: #fff; font-weight: 600; font-size: 0.9rem; }
+        .linkedin-body { padding: 1.5rem; }
+        .li-profile { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+        .li-avatar {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, #16a34a, #0a66c2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .li-name { font-weight: 600; font-size: 0.9rem; color: var(--heading); }
+        .li-sub { font-size: 0.78rem; color: var(--muted); }
+        .li-post { font-size: 0.92rem; line-height: 1.8; color: #374151; white-space: pre-line; }
+        .li-post strong { color: var(--heading); }
+        .li-actions {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 1.5rem;
+        }
+        .li-action { font-size: 0.8rem; color: var(--muted); font-weight: 500; cursor: pointer; }
+        .li-action:hover { color: #0a66c2; }
+
+        .hire-cta {
+            background: var(--heading);
+            color: #e5e7eb;
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 3.5rem 0;
+            text-align: center;
+            border-left: 4px solid var(--accent);
+        }
+        .hire-cta h3 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+        .hire-cta p { color: #9ca3af; font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover { opacity: 0.85; }
+        .btn-secondary {
+            background: transparent;
+            color: #93c5fd;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid #93c5fd;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { background: #93c5fd; color: #0f1117; }
+        .cta-meta { font-size: 0.82rem; color: #6b7280; margin-top: 1rem; }
+
+        .author-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.75rem;
+            text-align: center;
+        }
+        .author-box h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .author-box p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1rem; }
+        .author-links { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+        .author-link {
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.4rem 0.9rem;
+            border: 1px solid var(--accent-border);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .author-link:hover { background: var(--accent); color: #fff; }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 1.75rem; }
+            .main { padding: 1.5rem 1rem 3rem; }
+            .article-header { padding: 2rem 1rem 1.75rem; }
+            .nav { padding: 1rem; }
+            pre { padding: 1rem; }
+            pre code { font-size: 0.78rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/">Home</a>
+        <span class="nav-sep">/</span>
+        <a href="/blog/">Blog</a>
+        <span class="nav-sep">/</span>
+        <span>Observer Pattern</span>
+    </div>
+</nav>
+
+<header class="article-header">
+    <div class="header-inner">
+        <div class="category-tag">Laravel Design Patterns</div>
+        <h1>Observer Pattern in Laravel: Audit Logging Done Right</h1>
+        <div class="article-meta">
+            <span>By <a href="/">Kamruzzaman Polash</a></span>
+            <span class="meta-dot"></span>
+            <span>April 15, 2026</span>
+            <span class="meta-dot"></span>
+            <span>9 min read</span>
+        </div>
+    </div>
+</header>
+
+<main class="main">
+
+    <div class="answer-box">
+        <div class="answer-label">Quick Answer</div>
+        <p><strong>The Observer Pattern lets you watch a model for changes and react automatically</strong> without touching controllers or services. In Laravel, you create an Observer class, define what happens on <code>created</code>, <code>updated</code>, or <code>deleted</code>, and register it once. From that point on, it fires everywhere automatically.</p>
+        <p>For audit logging, this is the correct and industry-standard approach. It is cleaner than MySQL Triggers for single-app projects because it knows who made the change, can queue follow-up jobs, and lives in your version-controlled codebase.</p>
+    </div>
+
+    <article class="article-content">
+
+        <h2>The Problem It Solves</h2>
+
+        <p>Imagine you have an <code>AuditLog</code> table. Every time a user record changes, you want to save what changed, who changed it, and when.</p>
+
+        <p>The naive approach is to write the log call directly inside every controller method:</p>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-lang">PHP</div>
+            </div>
+            <pre><code><span class="c">// Bad approach: you repeat this in every controller that touches User</span>
+<span class="kw">public function</span> <span class="fn">update</span>(Request $request, User $user): JsonResponse
+{
+    $user-><span class="fn">update</span>($request-><span class="fn">all</span>());
+
+    <span class="c">// You manually log here</span>
+    AuditLog::<span class="fn">create</span>([...]);
+}
+
+<span class="kw">public function</span> <span class="fn">destroy</span>(User $user): JsonResponse
+{
+    $user-><span class="fn">delete</span>();
+
+    <span class="c">// You manually log here again, hoping you remembered</span>
+    AuditLog::<span class="fn">create</span>([...]);
+}</code></pre>
+        </div>
+
+        <p>This gets messy fast. What if one developer forgets to add it? What if a queued job deletes the user in the background? The log gets missed entirely. You are relying on everyone remembering to do the right thing in every place.</p>
+
+        <p>The Observer Pattern removes that risk. Instead of calling the log yourself, you tell Laravel: <em>whenever anything happens to this model, anywhere in the codebase, run this automatically.</em></p>
+
+        <h2>How It Works</h2>
+
+        <div class="flow-box">
+            <div class="flow-title">Observer Pattern Flow</div>
+            <div class="flow-nodes">
+                <div class="flow-node">User model<br><small style="opacity:0.6;font-size:0.75rem">save() / delete()</small></div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-node green">Laravel fires event<br><small style="opacity:0.8;font-size:0.75rem">created / updated / deleted</small></div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-branches">
+                    <div class="flow-branch">
+                        <div class="flow-branch-node">UserObserver::created()</div>
+                    </div>
+                    <div class="flow-branch">
+                        <div class="flow-branch-node">UserObserver::updated()</div>
+                    </div>
+                    <div class="flow-branch">
+                        <div class="flow-branch-node">UserObserver::deleted()</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>Three things are involved: the <strong>Subject</strong> (the model being watched), the <strong>Observer</strong> (your listener class), and the <strong>Event</strong> (the trigger like <code>created</code> or <code>updated</code>). Laravel handles wiring them together. You just define what to do when each event fires.</p>
+
+        <h2>Laravel Implementation</h2>
+
+        <h3>Step 1 — Generate the Observer</h3>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-lang">Bash</div>
+            </div>
+            <pre><code>php artisan make:observer UserObserver --model=User</code></pre>
+        </div>
+
+        <h3>Step 2 — Write the logic</h3>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-lang">PHP &mdash; app/Observers/UserObserver.php</div>
+            </div>
+            <pre><code><span class="kw">namespace</span> App\Observers;
+
+<span class="kw">use</span> <span class="cl">App\Models\AuditLog</span>;
+<span class="kw">use</span> <span class="cl">App\Models\User</span>;
+
+<span class="kw">class</span> <span class="cl">UserObserver</span>
+{
+    <span class="kw">public function</span> <span class="fn">created</span>(<span class="cl">User</span> $user): <span class="kw">void</span>
+    {
+        $this-><span class="fn">log</span>(<span class="st">'created'</span>, $user);
+    }
+
+    <span class="kw">public function</span> <span class="fn">updated</span>(<span class="cl">User</span> $user): <span class="kw">void</span>
+    {
+        <span class="c">// getChanges() returns only fields that were actually saved to the DB</span>
+        $this-><span class="fn">log</span>(<span class="st">'updated'</span>, $user, $user-><span class="fn">getChanges</span>());
+    }
+
+    <span class="kw">public function</span> <span class="fn">deleted</span>(<span class="cl">User</span> $user): <span class="kw">void</span>
+    {
+        $this-><span class="fn">log</span>(<span class="st">'deleted'</span>, $user);
+    }
+
+    <span class="kw">private function</span> <span class="fn">log</span>(<span class="kw">string</span> $action, <span class="cl">User</span> $user, <span class="kw">array</span> $changes = []): <span class="kw">void</span>
+    {
+        <span class="cl">AuditLog</span>::<span class="fn">create</span>([
+            <span class="st">'model'</span>      => <span class="st">'User'</span>,
+            <span class="st">'model_id'</span>   => $user->id,
+            <span class="st">'action'</span>     => $action,
+            <span class="st">'old_values'</span> => <span class="fn">json_encode</span>($user-><span class="fn">getOriginal</span>()),
+            <span class="st">'new_values'</span> => <span class="fn">json_encode</span>($changes),
+            <span class="st">'changed_by'</span> => <span class="fn">auth</span>()-><span class="fn">id</span>(),
+            <span class="st">'changed_at'</span> => <span class="fn">now</span>(),
+        ]);
+    }
+}</code></pre>
+        </div>
+
+        <h3>Step 3 — Register it once</h3>
+
+        <div class="code-wrap">
+            <div class="code-header">
+                <div class="code-dots">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                </div>
+                <div class="code-lang">PHP &mdash; app/Providers/AppServiceProvider.php</div>
+            </div>
+            <pre><code><span class="kw">public function</span> <span class="fn">boot</span>(): <span class="kw">void</span>
+{
+    <span class="cl">User</span>::<span class="fn">observe</span>(<span class="cl">UserObserver</span>::<span class="kw">class</span>);
+}</code></pre>
+        </div>
+
+        <p>That is the entire setup. Now forget about it. Every create, update, or delete on the <code>User</code> model, whether it comes from a controller, a queued job, an artisan command, or an API endpoint written six months from now, is logged automatically.</p>
+
+        <div class="tip-box">
+            <p><strong>Pro tip:</strong> Use <code>getChanges()</code> on the <code>updated</code> event, not <code>getDirty()</code>. The difference is that <code>getChanges()</code> only returns fields that were actually saved to the database, while <code>getDirty()</code> returns fields that were changed in memory but may not have been persisted yet.</p>
+        </div>
+
+        <h2>Is This Industry Standard?</h2>
+
+        <p>Yes, fully. Audit logging via model observers is one of the most common patterns in production Laravel applications. Every major framework has an equivalent: Symfony uses Doctrine Event Listeners, Django has Signals, Rails has ActiveRecord Callbacks, and Spring uses Application Events. The concept is universal.</p>
+
+        <p>It maps directly to the <strong>Single Responsibility Principle</strong>: your controller is responsible for handling the request, and your observer is responsible for reacting to model changes. Neither one knows about the other, which is exactly how it should be.</p>
+
+        <h2>Observer vs MySQL Triggers</h2>
+
+        <p>A MySQL Trigger can also log changes at the database level. Here is when each one actually makes sense:</p>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capability</th>
+                        <th>Laravel Observer</th>
+                        <th>MySQL Trigger</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Know who made the change</td>
+                        <td><span class="yes">Yes</span> via <code>auth()->id()</code></td>
+                        <td><span class="no">No</span> — no app context</td>
+                    </tr>
+                    <tr>
+                        <td>Send emails or queue jobs</td>
+                        <td><span class="yes">Yes</span></td>
+                        <td><span class="no">No</span></td>
+                    </tr>
+                    <tr>
+                        <td>Unit testable</td>
+                        <td><span class="yes">Yes</span></td>
+                        <td><span class="no">Hard</span></td>
+                    </tr>
+                    <tr>
+                        <td>Visible in codebase</td>
+                        <td><span class="yes">Yes</span> — version controlled</td>
+                        <td><span class="warn">No</span> — hidden in DB</td>
+                    </tr>
+                    <tr>
+                        <td>Works if Eloquent is bypassed</td>
+                        <td><span class="no">No</span> — raw SQL skips it</td>
+                        <td><span class="yes">Yes</span></td>
+                    </tr>
+                    <tr>
+                        <td>Works across multiple apps</td>
+                        <td><span class="no">No</span></td>
+                        <td><span class="yes">Yes</span></td>
+                    </tr>
+                    <tr>
+                        <td>Performance overhead</td>
+                        <td><span class="warn">Slight PHP overhead</span></td>
+                        <td><span class="yes">Faster (in-DB)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tip-box">
+            <p><strong>Rule of thumb:</strong> Use a Laravel Observer when your app is the only thing writing to the database, which covers most Laravel projects. Use a MySQL Trigger when multiple systems write to the same table and you need logging regardless of source.</p>
+        </div>
+
+        <div class="warning-box">
+            <p><strong>Watch out:</strong> Observer methods do not fire when you use mass-update or mass-delete queries like <code>User::where(...)->update([...])</code> or <code>User::where(...)->delete()</code>. These bypass Eloquent entirely. Always use model instances if you need observers to fire.</p>
+        </div>
+
+        <h2>Summary</h2>
+
+        <p>The Observer Pattern is not a trick or an over-engineered solution. It is the correct tool for the job when you need to react consistently to model changes across your entire application. You write the logic once, register it once, and it works everywhere forever.</p>
+
+        <p>For audit logging specifically: use a Laravel Observer. It knows who made the change, lives in your codebase, is easy to test, and follows the same pattern every serious Laravel project uses. MySQL Triggers are only the right call in multi-system architectures where you cannot rely on Eloquent being in the picture.</p>
+
+    </article>
+
+    <div class="hire-cta">
+        <h3>Need Help with Your Laravel Architecture?</h3>
+        <p>I build clean, maintainable Laravel backends for SaaS products including REST APIs, queue systems, and production-ready patterns like this one.</p>
+        <div class="cta-row">
+            <a href="mailto:kzaman3055@gmail.com" class="btn-primary">Get In Touch</a>
+            <a href="/" class="btn-secondary">View Portfolio</a>
+        </div>
+        <p class="cta-meta">Based in Bangladesh &middot; Remote worldwide</p>
+    </div>
+
+    <div class="author-box">
+        <h3>Kamruzzaman Polash</h3>
+        <p>Software Engineer focused on Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
+        <div class="author-links">
+            <a href="/" class="author-link">Portfolio</a>
+            <a href="mailto:kzaman3055@gmail.com" class="author-link">Contact</a>
+            <a href="https://github.com/pola5h" class="author-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://linkedin.com/in/pola5h" class="author-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>
