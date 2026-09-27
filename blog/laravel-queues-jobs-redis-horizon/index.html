@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)</title>
-    <meta name="description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
+    <title>Why Laravel Queue Workers Die in Production &amp; How to Fix It (2026 Guide)</title>
+    <meta name="description" content="Fix memory leaks, worker crashes, and job timeouts in Laravel. Step-by-step production guide to --max-jobs, --max-time, Supervisor, Redis, and Horizon configuration.">
     <meta name="author" content="Kamruzzaman Polash">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <link rel="canonical" href="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)">
-    <meta property="og:description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
+    <meta property="og:title" content="Why Laravel Queue Workers Die in Production &amp; How to Fix It (2026 Guide)">
+    <meta property="og:description" content="Fix memory leaks, worker crashes, and job timeouts in Laravel. Step-by-step production guide to --max-jobs, --max-time, Supervisor, Redis, and Horizon configuration.">
     <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
     <meta property="og:url" content="https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/">
     <meta property="og:site_name" content="Kamruzzaman Polash">
@@ -28,8 +28,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Why Your Laravel Queue Workers Die (and How to Fix It with --max-time & --max-jobs)">
-    <meta name="twitter:description" content="Your Laravel queue worker is leaking memory and restarting. Here's exactly what --max-jobs and --max-time do, the production command that fixes it, and how to set up Supervisor properly.">
+    <meta name="twitter:title" content="Why Laravel Queue Workers Die in Production &amp; How to Fix It (2026 Guide)">
+    <meta name="twitter:description" content="Fix memory leaks, worker crashes, and job timeouts in Laravel. Step-by-step production guide to --max-jobs, --max-time, Supervisor, Redis, and Horizon.">
     <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
 
     <!-- Favicons -->
@@ -180,9 +180,12 @@
 </head>
 <body>
     <div class="container">
-        <nav class="breadcrumb">
-            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Queue Guide
-        </nav>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 0.8rem;">
+            <nav class="breadcrumb" style="margin-bottom: 0;">
+                <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Queue Guide
+            </nav>
+            <a href="/services/hire-laravel-developer/" style="background: #28a745; color: #fff; padding: 0.45rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem;">⚡ Hire Laravel Developer</a>
+        </div>
 
         <article>
             <header class="article-header">
@@ -542,13 +545,13 @@ php artisan horizon:terminate  <span class="comment"># for Horizon</span></div>
         </article>
 
         <div class="hire-cta">
-            <h3>Need Help Setting Up Laravel Queues?</h3>
-            <p>I've implemented Redis queue architecture in production SaaS platforms, payroll systems, and e-commerce APIs. Happy to help you design the right queue setup for your application's scale and requirements.</p>
+            <h3>Queue Workers Crashing or Horizon Dropping Jobs in Production?</h3>
+            <p>I've designed and scaled Redis queue architectures for high-throughput SaaS platforms, payroll batch systems, and e-commerce APIs. If you have memory leaks, stuck jobs, or high latency — I can audit your queue architecture and fix it under a fixed price.</p>
             <div class="cta-buttons">
-                <a href="/cdn-cgi/l/email-protection#cea5b4afa3afa0fdfefbfb8ea9a3afa7a2e0ada1a3f1bdbbaca4abadbaf382afbcafb8aba2ee9fbbabbbabee9dabbabbbe" class="cta-primary">Get In Touch →</a>
-                <a href="/" class="cta-secondary">View My Portfolio</a>
+                <a href="/services/hire-laravel-developer/" class="cta-primary">Hire Me for Fixed Price →</a>
+                <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20saw%20your%20Laravel%20Queue%20guide%20and%20need%20help%20with%20a%20project." target="_blank" rel="noopener noreferrer" class="cta-secondary">Chat on WhatsApp ↗</a>
             </div>
-            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
+            <p class="cta-meta">Fixed-price milestones · No hourly runaway billing · Replies within 4 hours</p>
         </div>
 
         <div class="author-bio">
@@ -556,7 +559,8 @@ php artisan horizon:terminate  <span class="comment"># for Horizon</span></div>
             <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
             <div class="author-links">
                 <a href="/">Portfolio</a>
-                <a href="/cdn-cgi/l/email-protection#523928333f333c6162676712353f333b3e7c313d3f">Contact</a>
+                <a href="/services/hire-laravel-developer/">Hire Me</a>
+                <a href="mailto:kzaman3055@gmail.com">Contact</a>
                 <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
                 <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
             </div>
