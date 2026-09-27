@@ -3,4 +3,5 @@ User-agent: *
 Allow: /
 
 Sitemap: https://pola5h.github.io/sitemap.xml
+Sitemap: https://pola5h.github.io/sitemap.txt
 Sitemap: https://pola5h.github.io/rss.xml
