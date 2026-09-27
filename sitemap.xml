@@ -12,12 +12,19 @@
   <!-- Blog index -->
   <url>
     <loc>https://pola5h.github.io/blog/</loc>
-    <lastmod>2026-03-30</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <!-- Blog posts — newest first -->
+
+  <url>
+    <loc>https://pola5h.github.io/blog/laravel-queue-worker-docker-production/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
 
   <url>
     <loc>https://pola5h.github.io/blog/laravel-queue-vs-defer/</loc>
