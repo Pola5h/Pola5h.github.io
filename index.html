@@ -115,6 +115,9 @@
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"></noscript>
 
+    <!-- SHARED DESIGN SYSTEM -->
+    <link rel="stylesheet" href="/shared.css">
+
     <!-- GOOGLE ANALYTICS -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
     <script>
@@ -370,7 +373,7 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#certificates">Certificates</a></li>
                 <li><a href="/blog/">Blog</a></li>
-                <li><a href="/services/hire-laravel-developer/" style="color: var(--accent-green); font-weight: 700;">Hire Me ⚡</a></li>
+                <li><a href="/services/hire-laravel-developer/" class="nav-hire">Hire Me ⚡</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div style="display: flex; gap: 1rem; align-items: center;">
@@ -395,7 +398,7 @@
                 Passionate about building scalable solutions and delivering quality code. Completed and delivered 10+ projects.
             </p>
             <div class="cta-buttons">
-                <a href="/services/hire-laravel-developer/" class="btn btn-primary">Hire Me (Fixed Price) ⚡</a>
+                <a href="/services/hire-laravel-developer/" class="btn btn-primary">Hire Me ⚡</a>
                 <a href="#projects" class="btn">View Projects</a>
             </div>
         </div>
@@ -776,8 +779,9 @@
 
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        htmlElement.setAttribute('data-theme', savedTheme);
+        // Use same key as shared-nav.js for consistency across all pages
+        const savedTheme = localStorage.getItem('pola5h-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+        if (savedTheme === 'light') { htmlElement.setAttribute('data-theme', 'light'); } else { htmlElement.removeAttribute('data-theme'); }
         updateThemeToggle(savedTheme);
 
         function updateThemeToggle(theme) {
@@ -786,9 +790,10 @@
         }
 
         themeToggle.addEventListener('click', () => {
-            const newTheme = htmlElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            htmlElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
+            const isDark = htmlElement.getAttribute('data-theme') !== 'light';
+            const newTheme = isDark ? 'light' : 'dark';
+            if (newTheme === 'light') { htmlElement.setAttribute('data-theme', 'light'); } else { htmlElement.removeAttribute('data-theme'); }
+            localStorage.setItem('pola5h-theme', newTheme);
             updateThemeToggle(newTheme);
         });
 

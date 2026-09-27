@@ -117,25 +117,25 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: var(--sans);
       line-height: 1.7;
-      color: #333;
-      background: #fff;
+      color: var(--text-primary);
+      background-color: var(--bg-primary);
     }
 
     .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
 
-    .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
-    .breadcrumb a { color: #007bff; text-decoration: none; }
+    .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
+    .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
 
     .article-header {
       margin-bottom: 2.5rem;
       padding-bottom: 2rem;
-      border-bottom: 1px solid #e9ecef;
+      border-bottom: 1px solid var(--border-color);
     }
 
     .article-category {
-      color: #28a745;
+      color: var(--accent-green);
       font-size: 0.85rem;
       font-weight: 700;
       text-transform: uppercase;
@@ -143,10 +143,10 @@
       margin-bottom: 0.8rem;
     }
 
-    h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
+    h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
 
-    .article-meta { color: #6c757d; font-size: 0.9rem; }
-    .article-meta a { color: #007bff; text-decoration: none; }
+    .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
+    .article-meta a { color: var(--accent-blue); text-decoration: none; }
 
     .direct-answer {
       background: #e8f5e9;
@@ -159,12 +159,12 @@
     .direct-answer strong { display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: #1b5e20; }
 
     .article-content { font-size: 1.05rem; line-height: 1.8; }
-    .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; }
-    .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: #34495e; }
+    .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); }
+    .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
     .article-content p { margin-bottom: 1.5rem; }
     .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
     .article-content li { margin-bottom: 0.5rem; }
-    .article-content a { color: #007bff; text-decoration: none; }
+    .article-content a { color: var(--accent-blue); text-decoration: none; }
     .article-content a:hover { text-decoration: underline; }
     .article-content code {
       background: #f1f3f5;
@@ -174,11 +174,11 @@
       font-size: 0.88em;
       color: #c7254e;
     }
-    .article-content hr { border: none; border-top: 1px solid #e9ecef; margin: 2.5rem 0; }
+    .article-content hr { border: none; border-top: 1px solid var(--border-color); margin: 2.5rem 0; }
 
     .code-label {
       font-size: 0.78rem;
-      color: #6c757d;
+      color: var(--text-secondary);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -187,8 +187,8 @@
     }
 
     .code-block {
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 1.5rem;
       margin: 0 0 2rem 0;
@@ -212,9 +212,9 @@
 
     .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
     .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
-    .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #e9ecef; }
-    .comparison-table tr:nth-child(even) td { background: #f8f9fa; }
-    .yes { color: #28a745; font-weight: 600; }
+    .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); }
+    .comparison-table tr:nth-child(even) td { background: var(--bg-secondary); }
+    .yes { color: var(--accent-green); font-weight: 600; }
     .no { color: #dc3545; font-weight: 600; }
 
     .hire-cta {
@@ -236,10 +236,10 @@
     .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
     .cta-meta { font-size: 0.85rem; color: #8b949e; }
 
-    .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-    .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+    .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+    .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
     .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-    .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+    .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
     .author-links a:hover { background: #007bff; color: #fff; }
 
     @media (max-width: 600px) {
@@ -249,6 +249,16 @@
       .comparison-table { font-size: 0.82rem; }
     }
   </style>
+    <!-- Shared Design System -->
+    <link rel="stylesheet" href="/shared.css">
+    <script>
+        // Prevent dark/light flash
+        (function() {
+            var t = localStorage.getItem('pola5h-theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        })();
+    </script>
 </head>
 <body>
   <div class="container">
@@ -257,7 +267,7 @@
       <nav class="breadcrumb" style="margin-bottom: 0;">
         <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Sanctum Setup Tutorial
       </nav>
-      <a href="/services/hire-laravel-developer/" style="background: #28a745; color: #fff; padding: 0.45rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 0.3rem;">⚡ Hire Laravel Developer</a>
+      
     </div>
 
     <article>
@@ -538,14 +548,14 @@ $user->tokens()->where('name', 'mobile-app')->delete();</div>
       </div>
     </article>
 
-    <div class="hire-cta">
+    <div class="hire-cta-box">
       <h3>Need Secure API Authentication for Your Web or Mobile App?</h3>
       <p>I build production-grade, secure REST APIs with Sanctum, Spatie roles, two-factor auth, and rate limiting. 10+ projects delivered for international founders. Fixed price, complete Postman documentation, fast turnaround.</p>
-      <div class="cta-buttons">
-        <a href="/services/hire-laravel-developer/" class="cta-primary">Hire Me for Fixed Price →</a>
-        <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20saw%20your%20Laravel%20Sanctum%20guide%20and%20need%20help%20with%20an%20API%20project." target="_blank" rel="noopener noreferrer" class="cta-secondary">Chat on WhatsApp ↗</a>
+      <div class="cta-btn-group">
+        <a href="/services/hire-laravel-developer/" class="btn-hire-primary">Hire Me →</a>
+        <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20saw%20your%20Laravel%20Sanctum%20guide%20and%20need%20help%20with%20an%20API%20project." target="_blank" rel="noopener noreferrer" class="btn-hire-secondary">Chat on WhatsApp ↗</a>
       </div>
-      <p class="cta-meta">Fixed-price milestones · No hourly runaway billing · Replies within 4 hours</p>
+      <p class="cta-meta-text">Fixed-price milestones · No hourly runaway billing · Replies within 4 hours</p>
     </div>
 
     <div class="author-bio">
@@ -561,5 +571,6 @@ $user->tokens()->where('name', 'mobile-app')->delete();</div>
     </div>
 
   </div>
+    <script src="/shared-nav.js" defer></script>
 </body>
 </html>

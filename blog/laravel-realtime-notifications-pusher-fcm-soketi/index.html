@@ -114,25 +114,25 @@
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #333; background: #fff; }
+        body { font-family: var(--sans); line-height: 1.7; color: var(--text-primary); background-color: var(--bg-primary); }
         .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .breadcrumb { color: #6c757d; margin-bottom: 2rem; font-size: 0.9rem; }
-        .breadcrumb a { color: #007bff; text-decoration: none; }
-        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #e9ecef; }
-        .article-category { color: #28a745; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: #2c3e50; }
-        .article-meta { color: #6c757d; font-size: 0.9rem; }
-        .article-meta a { color: #007bff; text-decoration: none; }
-        .related-links { background: #f8f9fa; border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: #6c757d; }
-        .related-links a { color: #007bff; text-decoration: none; margin: 0 0.3rem; }
+        .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
+        .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
+        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
+        .article-category { color: var(--accent-green); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
+        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
+        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
+        .article-meta a { color: var(--accent-blue); text-decoration: none; }
+        .related-links { background: var(--bg-secondary); border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .related-links a { color: var(--accent-blue); text-decoration: none; margin: 0 0.3rem; }
         .related-links a:hover { text-decoration: underline; }
         .article-content { font-size: 1.05rem; line-height: 1.8; }
-        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: #2c3e50; border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
-        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: #34495e; }
+        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
+        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
         .article-content p { margin-bottom: 1.5rem; }
         .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
         .article-content li { margin-bottom: 0.6rem; }
-        .code-block { background: #1e2530; color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
+        .code-block { background: var(--bg-secondary); color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
         .code-comment { color: #5c6370; }
         .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
         .tip-box strong { color: #1b5e20; }
@@ -140,44 +140,44 @@
         .warning-box strong { color: #e65100; }
 
         /* Option cards */
-        .option-card { border: 1px solid #e9ecef; border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-top: 4px solid #007bff; }
-        .option-card.free { border-top-color: #28a745; }
+        .option-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 1.5rem; margin: 1.5rem 0; border-top: 4px solid #007bff; }
+        .option-card.free { border-top-color: var(--accent-green); }
         .option-card.paid { border-top-color: #fd7e14; }
         .option-card.mobile { border-top-color: #e83e8c; }
         .option-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.8rem; }
-        .option-name { font-size: 1.3rem; font-weight: 700; color: #2c3e50; }
+        .option-name { font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
         .option-badge { font-size: 0.78rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 20px; }
         .badge-free { background: #d4edda; color: #155724; }
         .badge-paid { background: #fff3cd; color: #856404; }
         .badge-freemium { background: #cce5ff; color: #004085; }
-        .option-desc { color: #6c757d; margin-bottom: 1rem; font-size: 0.95rem; }
+        .option-desc { color: var(--text-secondary); margin-bottom: 1rem; font-size: 0.95rem; }
         .option-meta { display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.9rem; }
         .option-meta-item { color: #495057; }
-        .option-meta-item strong { color: #2c3e50; display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem; }
+        .option-meta-item strong { color: var(--text-primary); display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.2rem; }
 
         /* Big comparison table */
         .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9rem; overflow-x: auto; display: block; }
         .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; white-space: nowrap; }
-        .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid #e9ecef; vertical-align: top; }
-        .comparison-table tr:nth-child(even) td { background: #f8f9fa; }
+        .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+        .comparison-table tr:nth-child(even) td { background: var(--bg-secondary); }
         .comparison-table tr:hover td { background: #e9f5ff; }
-        .tag-free { color: #28a745; font-weight: 600; }
+        .tag-free { color: var(--accent-green); font-weight: 600; }
         .tag-paid { color: #fd7e14; font-weight: 600; }
-        .tag-yes { color: #28a745; }
+        .tag-yes { color: var(--accent-green); }
         .tag-no { color: #dc3545; }
         .tag-partial { color: #fd7e14; }
 
         /* Scenario picker */
         .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .scenario-card { background: #f8f9fa; border-radius: 8px; padding: 1.2rem; border-left: 4px solid #007bff; }
-        .scenario-card.green { border-left-color: #28a745; }
+        .scenario-card { background: var(--bg-secondary); border-radius: 8px; padding: 1.2rem; border-left: 4px solid #007bff; }
+        .scenario-card.green { border-left-color: var(--accent-green); }
         .scenario-card.orange { border-left-color: #fd7e14; }
         .scenario-card.pink { border-left-color: #e83e8c; }
         .scenario-card.purple { border-left-color: #6f42c1; }
-        .scenario-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #6c757d; margin-bottom: 0.4rem; }
-        .scenario-title { font-weight: 700; color: #2c3e50; margin-bottom: 0.4rem; }
+        .scenario-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-bottom: 0.4rem; }
+        .scenario-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
         .scenario-pick { font-size: 0.92rem; color: #495057; }
-        .scenario-pick strong { color: #28a745; }
+        .scenario-pick strong { color: var(--accent-green); }
 
         .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
         .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
@@ -188,13 +188,23 @@
         .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
         .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
         .cta-meta { font-size: 0.85rem; color: #8b949e; }
-        .author-bio { background: #f8f9fa; border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-bio p { margin-bottom: 1rem; color: #6c757d; }
+        .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
+        .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
         .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-        .author-links a { color: #007bff; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
+        .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
         .author-links a:hover { background: #007bff; color: #fff; }
         @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.7rem; } .cta-buttons { flex-direction: column; align-items: center; } .option-meta { flex-direction: column; gap: 0.5rem; } }
     </style>
+    <!-- Shared Design System -->
+    <link rel="stylesheet" href="/shared.css">
+    <script>
+        // Prevent dark/light flash
+        (function() {
+            var t = localStorage.getItem('pola5h-theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        })();
+    </script>
 </head>
 <body>
     <div class="container">
@@ -665,14 +675,14 @@ Broadcast::channel('orders.{userId}', function ($user, $userId) {
             </div>
         </article>
 
-        <div class="hire-cta">
+        <div class="hire-cta-box">
             <h3>Need Real-Time Features in Your Laravel App?</h3>
             <p>I've implemented WebSocket broadcasting and FCM push notifications in production SaaS platforms and e-commerce systems. Happy to help you choose and set up the right stack for your project.</p>
-            <div class="cta-buttons">
-                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Real-Time Setup" class="cta-primary">Get In Touch →</a>
-                <a href="/" class="cta-secondary">View My Portfolio</a>
+            <div class="cta-btn-group">
+                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Real-Time Setup" class="btn-hire-primary">Get In Touch →</a>
+                <a href="/" class="btn-hire-secondary">View My Portfolio</a>
             </div>
-            <p class="cta-meta">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
+            <p class="cta-meta-text">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
         </div>
 
         <div class="author-bio">
@@ -686,5 +696,6 @@ Broadcast::channel('orders.{userId}', function ($user, $userId) {
             </div>
         </div>
     </div>
+    <script src="/shared-nav.js" defer></script>
 </body>
 </html>

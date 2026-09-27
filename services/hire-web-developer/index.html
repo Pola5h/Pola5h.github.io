@@ -47,7 +47,7 @@
         {
           "@type": "Question",
           "name": "How much does it cost to hire a web developer?",
-          "acceptedAnswer": {"@type": "Answer", "text": "I charge a fixed price per project — you know the total cost before work starts. A simple business website starts from $150. An online store starts from $250. A booking system or dashboard starts from $300. A full web application starts from $400. These rates are 50–70% less than US or UK web developers."}
+          "acceptedAnswer": {"@type": "Answer", "text": "Every project is scoped and priced individually — you know the full cost before work starts. No hourly billing. My rates are 50–70% less than US or UK web developers with the same quality. Contact me for a free, no-commitment quote."}
         },
         {
           "@type": "Question",
@@ -387,7 +387,39 @@ footer {
   footer { justify-content: center; text-align: center; }
   .footer-links { justify-content: center; flex-wrap: wrap; }
 }
+
+/* Hide old nav — shared nav is injected by shared-nav.js */
+body > nav { display: none !important; }
+body > footer { display: none !important; }
+
+/* === Dark theme override for this page === */
+:root, [data-theme="dark"] {
+    --white: var(--bg-primary);
+    --off: var(--bg-secondary);
+    --bg2: var(--bg-tertiary);
+    --ink: var(--text-primary);
+    --ink2: var(--text-primary);
+    --muted: var(--text-secondary);
+    --muted2: var(--text-secondary);
+    --border: var(--border-color);
+    --border2: rgba(255,255,255,0.05);
+    --green: var(--accent-green);
+    --green-light: rgba(63,185,80,0.1);
+    --gold: var(--accent-orange);
+    --gold-light: rgba(255,155,94,0.1);
+    --accent: var(--accent-blue);
+}
+
 </style>
+    <!-- Shared Design System -->
+    <link rel="stylesheet" href="/shared.css">
+    <script>
+        (function() {
+            var t = localStorage.getItem('pola5h-theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        })();
+    </script>
 </head>
 <body>
 
@@ -437,23 +469,23 @@ footer {
         <div class="card-items">
           <div class="card-item">
             <span class="card-item-name">Business Website</span>
-            <span class="card-item-price">from $150</span>
+            <span class="card-item-price">Get Quote</span>
           </div>
           <div class="card-item">
             <span class="card-item-name">Online Store</span>
-            <span class="card-item-price">from $250</span>
+            <span class="card-item-price">Get Quote</span>
           </div>
           <div class="card-item">
             <span class="card-item-name">Booking System</span>
-            <span class="card-item-price">from $300</span>
+            <span class="card-item-price">Get Quote</span>
           </div>
           <div class="card-item">
             <span class="card-item-name">Business Dashboard</span>
-            <span class="card-item-price">from $300</span>
+            <span class="card-item-price">Get Quote</span>
           </div>
           <div class="card-item">
             <span class="card-item-name">Custom Web App</span>
-            <span class="card-item-price">from $400</span>
+            <span class="card-item-price">Get Quote</span>
           </div>
         </div>
         <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20need%20a%20website%20or%20web%20app%20built." target="_blank" rel="noopener" class="card-cta-btn">
@@ -476,37 +508,37 @@ footer {
       <div class="build-icon">🏢</div>
       <h3>Business Website</h3>
       <p>A professional website for your company — services, about, contact, portfolio. Fast, mobile-ready, and easy to update yourself.</p>
-      <div class="build-price mono">from $150</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
     <div class="build-card">
       <div class="build-icon">🛒</div>
       <h3>Online Store</h3>
       <p>Sell your products online. Shopping cart, payment processing, inventory management, and order tracking — all in one place.</p>
-      <div class="build-price mono">from $250</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
     <div class="build-card">
       <div class="build-icon">📅</div>
       <h3>Booking System</h3>
       <p>Let customers book appointments, services, or reservations online. Automated confirmations, reminders, and a management dashboard for you.</p>
-      <div class="build-price mono">from $300</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
     <div class="build-card">
       <div class="build-icon">📊</div>
       <h3>Business Dashboard</h3>
       <p>A private web system where your team can manage data, generate reports, track orders, or run your operations — tailored exactly to how your business works.</p>
-      <div class="build-price mono">from $300</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
     <div class="build-card">
       <div class="build-icon">🔌</div>
       <h3>API & Integrations</h3>
       <p>Connect your systems. Link your website to payment gateways, delivery services, CRMs, or accounting software. Make everything talk to everything.</p>
-      <div class="build-price mono">from $150</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
     <div class="build-card">
       <div class="build-icon">🚀</div>
       <h3>Custom Web Application</h3>
       <p>A fully custom web platform for your specific business — membership systems, SaaS products, marketplaces, or anything that needs to be built from the ground up.</p>
-      <div class="build-price mono">from $400</div>
+      <div class="build-price mono">Custom quote</div>
     </div>
   </div>
 </section>
@@ -720,5 +752,6 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 </script>
+    <script src="/shared-nav.js" defer></script>
 </body>
 </html>

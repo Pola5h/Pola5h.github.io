@@ -492,6 +492,16 @@
             pre code { font-size: 0.78rem; }
         }
     </style>
+    <!-- Shared Design System -->
+    <link rel="stylesheet" href="/shared.css">
+    <script>
+        // Prevent dark/light flash
+        (function() {
+            var t = localStorage.getItem('pola5h-theme');
+            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        })();
+    </script>
 </head>
 <body>
 
@@ -754,14 +764,14 @@
 
     </article>
 
-    <div class="hire-cta">
+    <div class="hire-cta-box">
         <h3>Need Help with Your Laravel Architecture?</h3>
         <p>I build clean, maintainable Laravel backends for SaaS products including REST APIs, queue systems, and production-ready patterns like this one.</p>
         <div class="cta-row">
             <a href="mailto:kzaman3055@gmail.com" class="btn-primary">Get In Touch</a>
             <a href="/" class="btn-secondary">View Portfolio</a>
         </div>
-        <p class="cta-meta">Based in Bangladesh &middot; Remote worldwide</p>
+        <p class="cta-meta-text">Based in Bangladesh &middot; Remote worldwide</p>
     </div>
 
     <div class="author-box">
@@ -777,5 +787,6 @@
 
 </main>
 
+    <script src="/shared-nav.js" defer></script>
 </body>
 </html>
