@@ -1,488 +1,488 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel REST API Authentication & Best Practices: Complete Guide (2026)</title>
-    <meta name="description" content="How to build and authenticate Laravel REST APIs with Sanctum — including routing, validation, error handling, versioning, and testing. Real production code examples.">
-    <meta name="author" content="Kamruzzaman Polash">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel REST API Authentication & Best Practices: Complete Guide (2026)">
-    <meta property="og:description" content="How to build and authenticate Laravel REST APIs with Sanctum — routing, validation, error handling, versioning, and testing with real code examples.">
-    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
-    <meta property="og:site_name" content="Kamruzzaman Polash">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="https://pola5h.github.io/">
-    <meta property="article:published_time" content="2024-10-02">
-    <meta property="article:modified_time" content="2026-03-05">
-    <meta property="article:section" content="Technology">
-    <meta property="article:tag" content="Laravel">
-    <meta property="article:tag" content="REST API">
-    <meta property="article:tag" content="PHP">
-    <meta property="article:tag" content="Sanctum">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel REST API Authentication & Best Practices: Complete Guide (2026)">
-    <meta name="twitter:description" content="How to build and authenticate Laravel REST APIs with Sanctum — routing, validation, error handling, and testing with real code examples.">
-    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <meta name="theme-color" content="#0d1117">
-    <meta name="msapplication-TileColor" content="#0d1117">
-
-    <!-- Structured Data: TechArticle -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Laravel REST API Authentication & Best Practices: Complete Guide (2026)",
-        "description": "How to build and authenticate Laravel REST APIs with Sanctum — including routing, validation, error handling, versioning, and testing.",
-        "image": "https://pola5h.github.io/og-image.svg",
-        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "datePublished": "2024-10-02",
-        "dateModified": "2026-03-05",
-        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-rest-api-best-practices/",
-        "articleSection": "Technology",
-        "keywords": ["Laravel REST API authentication", "Laravel API auth", "Laravel Sanctum API", "Laravel auth token", "Laravel API best practices", "api authentication laravel"],
-        "inLanguage": "en-US",
-        "wordCount": "2800",
-        "timeRequired": "PT15M",
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-                { "@type": "ListItem", "position": 3, "name": "Laravel REST API Guide", "item": "https://pola5h.github.io/blog/laravel-rest-api-best-practices/" }
-            ]
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How do I authenticate a Laravel REST API?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The simplest way is Laravel Sanctum — install it with composer require laravel/sanctum, run php artisan vendor:publish and php artisan migrate, then use $user->createToken('auth_token')->plainTextToken to issue tokens on login. Protect routes with the auth:sanctum middleware. Sanctum is the recommended default for most Laravel APIs."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is a Laravel auth token?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "A Laravel auth token is a Bearer token issued by Laravel Sanctum or Passport that authenticates API requests. After login, the server returns a token string. The client sends this token in the Authorization header as 'Bearer {token}' on every subsequent request."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Should I use Sanctum or Passport for Laravel API authentication?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Use Sanctum for most projects — it's simpler, lighter, and covers SPA authentication, mobile apps, and simple token-based APIs. Use Passport only if you need full OAuth2 support (third-party app authorization, authorization codes, refresh tokens). Sanctum is the right default for 90% of Laravel APIs."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What are the best practices for Laravel REST API development?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Key best practices: use Sanctum for authentication, implement API versioning (/api/v1/), use Form Requests for validation, return consistent JSON responses with a base controller, handle exceptions globally in Handler.php, add rate limiting, use API Resources for data transformation, and write feature tests with RefreshDatabase."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--sans); line-height: 1.7; color: var(--text-primary); background-color: var(--bg-primary); }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-        .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-        .article-category { color: var(--accent-green); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-        .article-meta a { color: var(--accent-blue); text-decoration: none; }
-        .answer-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.5rem; margin: 0 0 2rem; }
-        .answer-box .answer-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #1b5e20; margin-bottom: 0.6rem; }
-        .answer-box p { margin: 0 0 0.6rem; color: #1b5e20; font-size: 0.97rem; line-height: 1.7; }
-        .answer-box p:last-child { margin-bottom: 0; }
-        .answer-box code { background: #c8e6c9; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.9em; }
-        .related-links { background: var(--bg-secondary); border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-secondary); }
-        .related-links a { color: var(--accent-blue); text-decoration: none; margin: 0 0.3rem; }
-        .related-links a:hover { text-decoration: underline; }
-        .article-content { font-size: 1.05rem; line-height: 1.8; }
-        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
-        .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-        .article-content p { margin-bottom: 1.5rem; }
-        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        .article-content li { margin-bottom: 0.5rem; }
-        .code-block { background: var(--bg-secondary); color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
-        .code-block .comment { color: #5c6370; }
-        .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .tip-box strong { color: #1b5e20; }
-        .warning-box { background: #fff8e1; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .warning-box strong { color: #e65100; }
-        .toc { background: var(--bg-secondary); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
-        .toc h3 { margin-bottom: 1rem; color: #495057; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
-        .toc ul { list-style: none; padding: 0; }
-        .toc li { margin-bottom: 0.5rem; }
-        .toc a { color: var(--accent-blue); text-decoration: none; font-size: 0.95rem; }
-        .toc a:hover { text-decoration: underline; }
-        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
-        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-        .cta-primary:hover { opacity: 0.85; }
-        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-        .cta-meta { font-size: 0.85rem; color: #8b949e; }
-        .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-        .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-        .author-links a:hover { background: #007bff; color: #fff; }
-        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
-    </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel REST API: Auth &amp; Best Practices Guide</title>
+<meta name="description" content="Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
+<meta property="og:title" content="Laravel REST API: Auth &amp; Best Practices Guide">
+<meta property="og:description" content="Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2024-10-02">
+<meta property="article:modified_time" content="2026-03-05">
+<meta property="article:section" content="APIs">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-rest-api-best-practices/">
+<meta name="twitter:title" content="Laravel REST API: Auth &amp; Best Practices Guide">
+<meta name="twitter:description" content="Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-rest-api-best-practices/#article","headline":"Laravel REST API: Auth &amp; Best Practices Guide","description":"Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.","url":"https://pola5h.github.io/blog/laravel-rest-api-best-practices/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-rest-api-best-practices/"},"datePublished":"2024-10-02","dateModified":"2026-03-05","timeRequired":"PT15M","articleSection":"APIs","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel REST API: Auth &amp; Best Practices Guide","item":"https://pola5h.github.io/blog/laravel-rest-api-best-practices/"}]}]}</script>
 </head>
 <body>
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel REST API Guide
-        </nav>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
 
-        <article>
-            <header class="article-header">
-                <div class="article-category">Laravel Tutorial</div>
-                <h1>Laravel REST API Authentication & Best Practices: Complete Guide (2026)</h1>
-                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · October 2, 2024 · Updated March 5, 2026 · 15 min read</div>
-            </header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel REST API: Auth &amp; Best Practices Guide</span></div></div>
 
-            <!-- Direct answer box -->
-            <div class="answer-box">
-                <div class="answer-label">Quick Answer — Laravel API Authentication</div>
-                <p><strong>Use Laravel Sanctum for most REST APIs.</strong> Install it, run migrations, then issue tokens on login:</p>
-                <p><code>$token = $user->createToken('auth_token')->plainTextToken;</code></p>
-                <p>Protect routes with <code>middleware(['auth:sanctum'])</code>. The client sends the token as <code>Authorization: Bearer {token}</code> on every request. Full setup walkthrough below.</p>
-            </div>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">APIs</span><span class="label">15 min read</span></div>
+    <h1 class="article-head__title">Laravel REST API: Auth &amp; Best Practices Guide</h1>
+    <p class="article-head__desc">Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">October 2, 2024 · updated March 5, 2026</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-            <div class="related-links">
-                <strong>Related:</strong>
-                <a href="/blog/laravel-api-authentication-jwt-sanctum/">Sanctum vs JWT Explained</a> |
-                <a href="/blog/laravel-performance-optimization/">Performance Optimization</a> |
-                <a href="/blog/laravel-queues-jobs-redis-horizon/">Queues & Background Jobs</a>
-            </div>
-
-            <div class="toc">
-                <h3>Table of Contents</h3>
-                <ul>
-                    <li><a href="#setup">Project Setup & Configuration</a></li>
-                    <li><a href="#routing">API Routing & Versioning</a></li>
-                    <li><a href="#authentication">Authentication with Sanctum</a></li>
-                    <li><a href="#validation">Request Validation</a></li>
-                    <li><a href="#error-handling">Consistent Error Handling</a></li>
-                    <li><a href="#documentation">API Documentation</a></li>
-                    <li><a href="#testing">Testing Your API</a></li>
-                    <li><a href="#performance">Performance Tips</a></li>
-                    <li><a href="#conclusion">Conclusion</a></li>
-                </ul>
-            </div>
-
-            <div class="article-content">
-
-                <p>Building robust REST APIs is one of the most in-demand Laravel skills in 2026. Getting authentication right, returning consistent responses, and following RESTful conventions from day one saves enormous pain when your API grows.</p>
-
-                <p>This guide covers everything from project setup to production-grade authentication — the same patterns I use across 10+ production APIs.</p>
-
-                <h2 id="setup">1. Project Setup & Configuration</h2>
-
-                <div class="code-block"><span class="comment"># Create new Laravel project</span>
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article"><p>Building robust REST APIs is one of the most in-demand Laravel skills in 2026. Getting authentication right, returning consistent responses, and following RESTful conventions from day one saves enormous pain when your API grows.</p>
+<p>This guide covers everything from project setup to production-grade authentication — the same patterns I use across 10+ production APIs.</p>
+<h2 id="1-project-setup-configuration">1. Project Setup &amp; Configuration</h2>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Create new Laravel project</span>
 composer create-project laravel/laravel api-project
-cd api-project
+<span class="hljs-built_in">cd</span> api-project
 
-<span class="comment"># Install Sanctum for API authentication</span>
+<span class="hljs-comment"># Install Sanctum for API authentication</span>
 composer require laravel/sanctum
-php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
-php artisan migrate</div>
+php artisan vendor:publish --provider=<span class="hljs-string">&quot;Laravel\Sanctum\SanctumServiceProvider&quot;</span>
+php artisan migrate</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// config/app.php — always use UTC for APIs</span>
+<span class="hljs-string">&#x27;timezone&#x27;</span> =&gt; <span class="hljs-string">&#x27;UTC&#x27;</span>,
 
-                <div class="code-block"><span class="comment">// config/app.php — always use UTC for APIs</span>
-'timezone' => 'UTC',
-
-<span class="comment">// .env</span>
+<span class="hljs-comment">// .env</span>
 API_VERSION=v1
-API_RATE_LIMIT=60</div>
+API_RATE_LIMIT=<span class="hljs-number">60</span></code></pre>
+</figure><h2 id="2-api-routing-versioning">2. API Routing &amp; Versioning</h2>
+<p>Always version your API from day one. Changing <code>/api/products</code> to <code>/api/v2/products</code> later breaks every client. Starting with <code>/api/v1/</code> costs nothing upfront.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// routes/api.php</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">V1</span>\<span class="hljs-title">AuthController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">V1</span>\<span class="hljs-title">UserController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">V1</span>\<span class="hljs-title">ProductController</span>;
 
-                <h2 id="routing">2. API Routing & Versioning</h2>
+<span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">prefix</span>(<span class="hljs-string">&#x27;v1&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+    <span class="hljs-comment">// Public routes — no auth required</span>
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;/register&#x27;</span>, [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;register&#x27;</span>]);
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;/login&#x27;</span>,    [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;login&#x27;</span>]);
 
-                <p>Always version your API from day one. Changing <code>/api/products</code> to <code>/api/v2/products</code> later breaks every client. Starting with <code>/api/v1/</code> costs nothing upfront.</p>
-
-                <div class="code-block"><span class="comment">// routes/api.php</span>
-use App\Http\Controllers\Api\V1\AuthController;
-use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\Api\V1\ProductController;
-
-Route::prefix('v1')->group(function () {
-    <span class="comment">// Public routes — no auth required</span>
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login',    [AuthController::class, 'login']);
-
-    <span class="comment">// Protected routes — Sanctum auth required</span>
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::post('/logout',   [AuthController::class, 'logout']);
-        Route::get('/profile',   [UserController::class, 'profile']);
-        Route::apiResource('products', ProductController::class);
+    <span class="hljs-comment">// Protected routes — Sanctum auth required</span>
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">middleware</span>([<span class="hljs-string">&#x27;auth:sanctum&#x27;</span>])-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;/logout&#x27;</span>,   [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;logout&#x27;</span>]);
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;/profile&#x27;</span>,   [<span class="hljs-title class_">UserController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;profile&#x27;</span>]);
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">apiResource</span>(<span class="hljs-string">&#x27;products&#x27;</span>, <span class="hljs-title class_">ProductController</span>::<span class="hljs-variable language_">class</span>);
     });
-});</div>
-
-                <h2 id="authentication">3. Authentication with Sanctum</h2>
-
-                <p>Laravel Sanctum is the right choice for most REST APIs — it's lightweight, official, and handles token-based authentication cleanly. Here's the full implementation:</p>
-
-                <div class="code-block"><span class="comment">// app/Http/Controllers/Api/V1/AuthController.php</span>
-class AuthController extends Controller
-{
-    public function register(RegisterRequest $request)
-    {
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+});</code></pre>
+</figure><h2 id="3-authentication-with-sanctum">3. Authentication with Sanctum</h2>
+<p>Laravel Sanctum is the right choice for most REST APIs — it&#39;s lightweight, official, and handles token-based authentication cleanly. Here&#39;s the full implementation:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// app/Http/Controllers/Api/V1/AuthController.php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span>(<span class="hljs-params">RegisterRequest <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$user</span> = <span class="hljs-title class_">User</span>::<span class="hljs-title function_ invoke__">create</span>([
+            <span class="hljs-string">&#x27;name&#x27;</span>     =&gt; <span class="hljs-variable">$request</span>-&gt;name,
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-variable">$request</span>-&gt;email,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-title class_">Hash</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-variable">$request</span>-&gt;password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        <span class="hljs-variable">$token</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">createToken</span>(<span class="hljs-string">&#x27;auth_token&#x27;</span>)-&gt;plainTextToken;
 
-        return $this->successResponse([
-            'user'       => $user,
-            'token'      => $token,
-            'token_type' => 'Bearer',
-        ], 'User registered successfully', 201);
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">successResponse</span>([
+            <span class="hljs-string">&#x27;user&#x27;</span>       =&gt; <span class="hljs-variable">$user</span>,
+            <span class="hljs-string">&#x27;token&#x27;</span>      =&gt; <span class="hljs-variable">$token</span>,
+            <span class="hljs-string">&#x27;token_type&#x27;</span> =&gt; <span class="hljs-string">&#x27;Bearer&#x27;</span>,
+        ], <span class="hljs-string">&#x27;User registered successfully&#x27;</span>, <span class="hljs-number">201</span>);
     }
 
-    public function login(LoginRequest $request)
-    {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return $this->errorResponse('Invalid credentials', 401);
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params">LoginRequest <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-keyword">if</span> (!<span class="hljs-title class_">Auth</span>::<span class="hljs-title function_ invoke__">attempt</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">only</span>(<span class="hljs-string">&#x27;email&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>))) {
+            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">errorResponse</span>(<span class="hljs-string">&#x27;Invalid credentials&#x27;</span>, <span class="hljs-number">401</span>);
         }
 
-        $user  = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        <span class="hljs-variable">$user</span>  = <span class="hljs-title class_">Auth</span>::<span class="hljs-title function_ invoke__">user</span>();
+        <span class="hljs-variable">$token</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">createToken</span>(<span class="hljs-string">&#x27;auth_token&#x27;</span>)-&gt;plainTextToken;
 
-        return $this->successResponse([
-            'user'       => $user,
-            'token'      => $token,
-            'token_type' => 'Bearer',
-        ], 'Login successful');
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">successResponse</span>([
+            <span class="hljs-string">&#x27;user&#x27;</span>       =&gt; <span class="hljs-variable">$user</span>,
+            <span class="hljs-string">&#x27;token&#x27;</span>      =&gt; <span class="hljs-variable">$token</span>,
+            <span class="hljs-string">&#x27;token_type&#x27;</span> =&gt; <span class="hljs-string">&#x27;Bearer&#x27;</span>,
+        ], <span class="hljs-string">&#x27;Login successful&#x27;</span>);
     }
 
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
-        return $this->successResponse(null, 'Logged out successfully');
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logout</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>()-&gt;<span class="hljs-title function_ invoke__">currentAccessToken</span>()-&gt;<span class="hljs-title function_ invoke__">delete</span>();
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">successResponse</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">&#x27;Logged out successfully&#x27;</span>);
     }
-}</div>
-
-                <div class="tip-box">
-                    <strong>How the client uses the token:</strong> After login, store the token and send it on every request as <code>Authorization: Bearer {token}</code>. Laravel's <code>auth:sanctum</code> middleware validates it automatically.
-                </div>
-
-                <div class="code-block"><span class="comment"># Example request with Bearer token</span>
+}</code></pre>
+</figure><p><strong>How the client uses the token:</strong> After login, store the token and send it on every request as <code>Authorization: Bearer {token}</code>. Laravel&#39;s <code>auth:sanctum</code> middleware validates it automatically.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Example request with Bearer token</span>
 curl -X GET https://yourapi.com/api/v1/profile \
-  -H "Authorization: Bearer 1|abc123yourtoken" \
-  -H "Accept: application/json"</div>
+  -H <span class="hljs-string">&quot;Authorization: Bearer 1|abc123yourtoken&quot;</span> \
+  -H <span class="hljs-string">&quot;Accept: application/json&quot;</span></code></pre>
+</figure><h2 id="4-request-validation">4. Request Validation</h2>
+<p>Always use Form Requests for validation — never validate inline in controllers. It keeps controllers clean and makes validation reusable.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// app/Http/Requests/RegisterRequest.php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegisterRequest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">FormRequest</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorize</span>(<span class="hljs-params"></span>): <span class="hljs-title">bool</span> </span>{ <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; }
 
-                <h2 id="validation">4. Request Validation</h2>
-
-                <p>Always use Form Requests for validation — never validate inline in controllers. It keeps controllers clean and makes validation reusable.</p>
-
-                <div class="code-block"><span class="comment">// app/Http/Requests/RegisterRequest.php</span>
-class RegisterRequest extends FormRequest
-{
-    public function authorize(): bool { return true; }
-
-    public function rules(): array
-    {
-        return [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rules</span>(<span class="hljs-params"></span>): <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">&#x27;name&#x27;</span>     =&gt; <span class="hljs-string">&#x27;required|string|max:255&#x27;</span>,
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-string">&#x27;required|email|unique:users,email&#x27;</span>,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-string">&#x27;required|string|min:8|confirmed&#x27;</span>,
         ];
     }
 
-    public function messages(): array
-    {
-        return [
-            'email.unique'       => 'This email is already registered.',
-            'password.confirmed' => 'Password confirmation does not match.',
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">messages</span>(<span class="hljs-params"></span>): <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">&#x27;email.unique&#x27;</span>       =&gt; <span class="hljs-string">&#x27;This email is already registered.&#x27;</span>,
+            <span class="hljs-string">&#x27;password.confirmed&#x27;</span> =&gt; <span class="hljs-string">&#x27;Password confirmation does not match.&#x27;</span>,
         ];
     }
-}</div>
-
-                <h2 id="error-handling">5. Consistent Error Handling</h2>
-
-                <p>Nothing frustrates API consumers more than inconsistent response formats. Build a base controller with standard response methods used everywhere:</p>
-
-                <div class="code-block"><span class="comment">// app/Http/Controllers/Controller.php</span>
-class Controller extends BaseController
-{
-    protected function successResponse($data, string $message = 'Success', int $code = 200)
-    {
-        return response()->json([
-            'success' => true,
-            'message' => $message,
-            'data'    => $data,
-        ], $code);
+}</code></pre>
+</figure><h2 id="5-consistent-error-handling">5. Consistent Error Handling</h2>
+<p>Nothing frustrates API consumers more than inconsistent response formats. Build a base controller with standard response methods used everywhere:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// app/Http/Controllers/Controller.php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Controller</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseController</span>
+</span>{
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">successResponse</span>(<span class="hljs-params"><span class="hljs-variable">$data</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$message</span> = <span class="hljs-string">&#x27;Success&#x27;</span>, <span class="hljs-keyword">int</span> <span class="hljs-variable">$code</span> = <span class="hljs-number">200</span></span>)
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+            <span class="hljs-string">&#x27;success&#x27;</span> =&gt; <span class="hljs-literal">true</span>,
+            <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-variable">$message</span>,
+            <span class="hljs-string">&#x27;data&#x27;</span>    =&gt; <span class="hljs-variable">$data</span>,
+        ], <span class="hljs-variable">$code</span>);
     }
 
-    protected function errorResponse(string $message, int $code = 400, $errors = null)
-    {
-        return response()->json(array_filter([
-            'success' => false,
-            'message' => $message,
-            'errors'  => $errors,
-        ]), $code);
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">errorResponse</span>(<span class="hljs-params"><span class="hljs-keyword">string</span> <span class="hljs-variable">$message</span>, <span class="hljs-keyword">int</span> <span class="hljs-variable">$code</span> = <span class="hljs-number">400</span>, <span class="hljs-variable">$errors</span> = <span class="hljs-literal">null</span></span>)
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>(<span class="hljs-title function_ invoke__">array_filter</span>([
+            <span class="hljs-string">&#x27;success&#x27;</span> =&gt; <span class="hljs-literal">false</span>,
+            <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-variable">$message</span>,
+            <span class="hljs-string">&#x27;errors&#x27;</span>  =&gt; <span class="hljs-variable">$errors</span>,
+        ]), <span class="hljs-variable">$code</span>);
     }
-}</div>
-
-                <div class="code-block"><span class="comment">// app/Exceptions/Handler.php — global JSON error handling</span>
-public function render($request, Throwable $exception)
-{
-    if ($request->expectsJson()) {
-        if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['success' => false, 'message' => 'Resource not found'], 404);
+}</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// app/Exceptions/Handler.php — global JSON error handling</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span>(<span class="hljs-params"><span class="hljs-variable">$request</span>, <span class="hljs-built_in">Throwable</span> <span class="hljs-variable">$exception</span></span>)
+</span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">expectsJson</span>()) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$exception</span> <span class="hljs-keyword">instanceof</span> ModelNotFoundException) {
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([<span class="hljs-string">&#x27;success&#x27;</span> =&gt; <span class="hljs-literal">false</span>, <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Resource not found&#x27;</span>], <span class="hljs-number">404</span>);
         }
-        if ($exception instanceof AuthenticationException) {
-            return response()->json(['success' => false, 'message' => 'Unauthenticated'], 401);
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$exception</span> <span class="hljs-keyword">instanceof</span> AuthenticationException) {
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([<span class="hljs-string">&#x27;success&#x27;</span> =&gt; <span class="hljs-literal">false</span>, <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Unauthenticated&#x27;</span>], <span class="hljs-number">401</span>);
         }
-        if ($exception instanceof ValidationException) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors'  => $exception->errors(),
-            ], 422);
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$exception</span> <span class="hljs-keyword">instanceof</span> ValidationException) {
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+                <span class="hljs-string">&#x27;success&#x27;</span> =&gt; <span class="hljs-literal">false</span>,
+                <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Validation failed&#x27;</span>,
+                <span class="hljs-string">&#x27;errors&#x27;</span>  =&gt; <span class="hljs-variable">$exception</span>-&gt;<span class="hljs-title function_ invoke__">errors</span>(),
+            ], <span class="hljs-number">422</span>);
         }
     }
-    return parent::render($request, $exception);
-}</div>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">parent</span>::<span class="hljs-title function_ invoke__">render</span>(<span class="hljs-variable">$request</span>, <span class="hljs-variable">$exception</span>);
+}</code></pre>
+</figure><h2 id="6-api-documentation">6. API Documentation</h2>
+<p>Use <a href="https://scribe.knuckle.dev" target="_blank" rel="noopener noreferrer">Scribe</a> for simple auto-generated docs, or <a href="https://github.com/DarkaOnLine/L5-Swagger" target="_blank" rel="noopener noreferrer">L5-Swagger</a> for full OpenAPI/Swagger support. Always include a Postman collection for your API consumers — it removes the biggest barrier to adoption.</p>
+<h2 id="7-testing-your-api">7. Testing Your API</h2>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// tests/Feature/AuthTest.php</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TestCase</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">RefreshDatabase</span>;
 
-                <h2 id="documentation">6. API Documentation</h2>
-
-                <p>Use <a href="https://scribe.knuckle.dev" target="_blank" rel="noopener noreferrer">Scribe</a> for simple auto-generated docs, or <a href="https://github.com/DarkaOnLine/L5-Swagger" target="_blank" rel="noopener noreferrer">L5-Swagger</a> for full OpenAPI/Swagger support. Always include a Postman collection for your API consumers — it removes the biggest barrier to adoption.</p>
-
-                <h2 id="testing">7. Testing Your API</h2>
-
-                <div class="code-block"><span class="comment">// tests/Feature/AuthTest.php</span>
-class AuthTest extends TestCase
-{
-    use RefreshDatabase;
-
-    public function test_user_can_register(): void
-    {
-        $response = $this->postJson('/api/v1/register', [
-            'name'                  => 'John Doe',
-            'email'                 => 'john@example.com',
-            'password'              => 'password123',
-            'password_confirmation' => 'password123',
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test_user_can_register</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-variable">$response</span> = <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">postJson</span>(<span class="hljs-string">&#x27;/api/v1/register&#x27;</span>, [
+            <span class="hljs-string">&#x27;name&#x27;</span>                  =&gt; <span class="hljs-string">&#x27;John Doe&#x27;</span>,
+            <span class="hljs-string">&#x27;email&#x27;</span>                 =&gt; <span class="hljs-string">&#x27;john@example.com&#x27;</span>,
+            <span class="hljs-string">&#x27;password&#x27;</span>              =&gt; <span class="hljs-string">&#x27;password123&#x27;</span>,
+            <span class="hljs-string">&#x27;password_confirmation&#x27;</span> =&gt; <span class="hljs-string">&#x27;password123&#x27;</span>,
         ]);
 
-        $response->assertStatus(201)
-                 ->assertJsonStructure([
-                     'success', 'message',
-                     'data' => ['user', 'token', 'token_type']
+        <span class="hljs-variable">$response</span>-&gt;<span class="hljs-title function_ invoke__">assertStatus</span>(<span class="hljs-number">201</span>)
+                 -&gt;<span class="hljs-title function_ invoke__">assertJsonStructure</span>([
+                     <span class="hljs-string">&#x27;success&#x27;</span>, <span class="hljs-string">&#x27;message&#x27;</span>,
+                     <span class="hljs-string">&#x27;data&#x27;</span> =&gt; [<span class="hljs-string">&#x27;user&#x27;</span>, <span class="hljs-string">&#x27;token&#x27;</span>, <span class="hljs-string">&#x27;token_type&#x27;</span>]
                  ]);
 
-        $this->assertDatabaseHas('users', ['email' => 'john@example.com']);
+        <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">assertDatabaseHas</span>(<span class="hljs-string">&#x27;users&#x27;</span>, [<span class="hljs-string">&#x27;email&#x27;</span> =&gt; <span class="hljs-string">&#x27;john@example.com&#x27;</span>]);
     }
 
-    public function test_user_can_login(): void
-    {
-        $user = User::factory()->create(['password' => Hash::make('password123')]);
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test_user_can_login</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-variable">$user</span> = <span class="hljs-title class_">User</span>::<span class="hljs-title function_ invoke__">factory</span>()-&gt;<span class="hljs-title function_ invoke__">create</span>([<span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-title class_">Hash</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-string">&#x27;password123&#x27;</span>)]);
 
-        $response = $this->postJson('/api/v1/login', [
-            'email'    => $user->email,
-            'password' => 'password123',
+        <span class="hljs-variable">$response</span> = <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">postJson</span>(<span class="hljs-string">&#x27;/api/v1/login&#x27;</span>, [
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-variable">$user</span>-&gt;email,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-string">&#x27;password123&#x27;</span>,
         ]);
 
-        $response->assertStatus(200)
-                 ->assertJsonPath('success', true)
-                 ->assertJsonStructure(['data' => ['token']]);
+        <span class="hljs-variable">$response</span>-&gt;<span class="hljs-title function_ invoke__">assertStatus</span>(<span class="hljs-number">200</span>)
+                 -&gt;<span class="hljs-title function_ invoke__">assertJsonPath</span>(<span class="hljs-string">&#x27;success&#x27;</span>, <span class="hljs-literal">true</span>)
+                 -&gt;<span class="hljs-title function_ invoke__">assertJsonStructure</span>([<span class="hljs-string">&#x27;data&#x27;</span> =&gt; [<span class="hljs-string">&#x27;token&#x27;</span>]]);
     }
-}</div>
-
-                <h2 id="performance">8. Performance Tips</h2>
-
-                <p>The five highest-impact performance improvements for Laravel APIs: eager loading to eliminate N+1 queries, Redis caching for frequently accessed data, rate limiting to protect against abuse, API Resources for consistent data transformation, and offloading heavy operations to queue jobs.</p>
-
-                <div class="code-block"><span class="comment">// Add rate limiting to routes/api.php</span>
-Route::middleware(['auth:sanctum', 'throttle:60,1'])->group(function () {
-    Route::apiResource('products', ProductController::class);
+}</code></pre>
+</figure><h2 id="8-performance-tips">8. Performance Tips</h2>
+<p>The five highest-impact performance improvements for Laravel APIs: eager loading to eliminate N+1 queries, Redis caching for frequently accessed data, rate limiting to protect against abuse, API Resources for consistent data transformation, and offloading heavy operations to queue jobs.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Add rate limiting to routes/api.php</span>
+<span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">middleware</span>([<span class="hljs-string">&#x27;auth:sanctum&#x27;</span>, <span class="hljs-string">&#x27;throttle:60,1&#x27;</span>])-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">apiResource</span>(<span class="hljs-string">&#x27;products&#x27;</span>, <span class="hljs-title class_">ProductController</span>::<span class="hljs-variable language_">class</span>);
 });
 
-<span class="comment">// Use API Resources for consistent response format</span>
+<span class="hljs-comment">// Use API Resources for consistent response format</span>
 php artisan make:resource ProductResource
 
-<span class="comment">// Eager load to prevent N+1 — always check with Laravel Debugbar</span>
-$products = Product::with(['category', 'tags'])->paginate(15);</div>
-
-                <h2 id="conclusion">9. Conclusion</h2>
-
-                <p>The foundation of a good Laravel REST API is consistent authentication with Sanctum, versioned routes, Form Request validation, and standardised JSON responses. Build these in from day one — retrofitting them into a large codebase later is far more painful than getting them right upfront.</p>
-
-                <p>For the full authentication comparison, see <a href="/blog/laravel-api-authentication-jwt-sanctum/">Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained</a>. For handling background tasks in your API, check the <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues & Jobs guide</a>.</p>
-
-            </div>
-        </article>
-
-        <div class="hire-cta-box">
-            <h3>Need Help Building Your Laravel API?</h3>
-            <p>I've built and shipped 10+ production APIs — e-commerce platforms, SaaS backends, and payroll systems. Happy to help you build something solid.</p>
-            <div class="cta-btn-group">
-                <a href="mailto:kzaman3055@gmail.com?subject=Laravel API Project" class="btn-hire-primary">Get In Touch →</a>
-                <a href="/" class="btn-hire-secondary">View My Portfolio</a>
-            </div>
-            <p class="cta-meta-text">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
-        </div>
-
-        <div class="author-bio">
-            <h3>About the Author</h3>
-            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-            <div class="author-links">
-                <a href="/">Portfolio</a>
-                <a href="mailto:kzaman3055@gmail.com">Contact</a>
-                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-        </div>
+<span class="hljs-comment">// Eager load to prevent N+1 — always check with Laravel Debugbar</span>
+<span class="hljs-variable">$products</span> = <span class="hljs-title class_">Product</span>::<span class="hljs-title function_ invoke__">with</span>([<span class="hljs-string">&#x27;category&#x27;</span>, <span class="hljs-string">&#x27;tags&#x27;</span>])-&gt;<span class="hljs-title function_ invoke__">paginate</span>(<span class="hljs-number">15</span>);</code></pre>
+</figure><h2 id="9-conclusion">9. Conclusion</h2>
+<p>The foundation of a good Laravel REST API is consistent authentication with Sanctum, versioned routes, Form Request validation, and standardised JSON responses. Build these in from day one — retrofitting them into a large codebase later is far more painful than getting them right upfront.</p>
+<p>For the full authentication comparison, see <a href="/blog/laravel-api-authentication-jwt-sanctum/">Does Laravel Sanctum Use JWT? Sanctum vs JWT Explained</a>. For handling background tasks in your API, check the <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Jobs guide</a>.</p></article>
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need help with your Laravel architecture?</h2>
+        <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
+        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
+      </div>
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
+      </div>
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/laravel-mvcs-architecture-guide/"><span>← Previous</span><b>MVCS Architecture in Laravel, Explained</b></a>
+        <a href="/blog/laravel-docker-kubernetes-deployment/" style="text-align:right"><span>Next →</span><b>Deploy Laravel with Docker &amp; Kubernetes</b></a>
+      </nav>
     </div>
-    <script src="/shared-nav.js" defer></script>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-project-setup-configuration" data-toc-link>1. Project Setup &amp; Configuration</a><a href="#2-api-routing-versioning" data-toc-link>2. API Routing &amp; Versioning</a><a href="#3-authentication-with-sanctum" data-toc-link>3. Authentication with Sanctum</a><a href="#4-request-validation" data-toc-link>4. Request Validation</a><a href="#5-consistent-error-handling" data-toc-link>5. Consistent Error Handling</a><a href="#6-api-documentation" data-toc-link>6. API Documentation</a><a href="#7-testing-your-api" data-toc-link>7. Testing Your API</a><a href="#8-performance-tips" data-toc-link>8. Performance Tips</a><a href="#9-conclusion" data-toc-link>9. Conclusion</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-observer-pattern-audit-log/">Laravel Observer Pattern: Audit Logging Done Right</a></h3><p class="post-row__desc">How the Observer pattern works in Laravel, with a real audit-logging example and when to use observers instead of MySQL triggers.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">AI</span><span class="post-row__time">14 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-ai-sdk-openrouter/">Laravel AI SDK + OpenRouter: A Complete Guide</a></h3><p class="post-row__desc">Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer & SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

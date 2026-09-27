@@ -1,0 +1,26 @@
+{
+  "name": "Kamruzzaman Polash — Backend Engineer",
+  "short_name": "KP",
+  "description": "Backend Software Engineer & SaaS Architect",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#100f0e",
+  "theme_color": "#100f0e",
+  "icons": [
+    {
+      "src": "/assets/images/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/images/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

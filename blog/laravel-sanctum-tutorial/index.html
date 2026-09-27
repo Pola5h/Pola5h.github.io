@@ -1,576 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Laravel Sanctum Setup Tutorial: Complete API Authentication Guide (2026)</title>
-  <meta name="description" content="Step-by-step Laravel Sanctum tutorial — install Sanctum, protect API routes, issue tokens, and authenticate requests. Complete setup guide for Laravel 12 with working code examples.">
-  <meta name="author" content="Kamruzzaman Polash">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <link rel="canonical" href="https://pola5h.github.io/blog/laravel-sanctum-tutorial/">
-
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Laravel Sanctum Setup Tutorial: Complete API Authentication Guide (2026)">
-  <meta property="og:description" content="Step-by-step Laravel Sanctum tutorial — install, configure, protect routes, issue tokens, and authenticate API requests. Laravel 12 ready.">
-  <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-  <meta property="og:url" content="https://pola5h.github.io/blog/laravel-sanctum-tutorial/">
-  <meta property="og:site_name" content="Kamruzzaman Polash">
-  <meta property="og:locale" content="en_US">
-  <meta property="article:author" content="https://pola5h.github.io/">
-  <meta property="article:published_time" content="2026-03-08">
-  <meta property="article:modified_time" content="2026-03-08">
-  <meta property="article:section" content="Technology">
-  <meta property="article:tag" content="Laravel">
-  <meta property="article:tag" content="Sanctum">
-  <meta property="article:tag" content="API Authentication">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Laravel Sanctum Setup Tutorial: Complete API Authentication Guide (2026)">
-  <meta name="twitter:description" content="Step-by-step Laravel Sanctum tutorial with working code. Install, configure, protect routes, issue tokens.">
-  <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <meta name="theme-color" content="#0d1117">
-  <meta name="msapplication-TileColor" content="#0d1117">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Laravel Sanctum Setup Tutorial: Complete API Authentication Guide (2026)",
-    "description": "Step-by-step Laravel Sanctum tutorial — install Sanctum, protect API routes, issue tokens, and authenticate requests. Complete setup guide for Laravel 12.",
-    "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-    "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-    "datePublished": "2026-03-08",
-    "dateModified": "2026-03-08",
-    "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-sanctum-tutorial/",
-    "articleSection": "Technology",
-    "keywords": ["laravel sanctum tutorial", "laravel sanctum setup", "laravel sanctum api authentication", "laravel api token", "laravel 12 sanctum"],
-    "inLanguage": "en-US",
-    "wordCount": "1500",
-    "timeRequired": "PT10M",
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-        { "@type": "ListItem", "position": 3, "name": "Laravel Sanctum Tutorial", "item": "https://pola5h.github.io/blog/laravel-sanctum-tutorial/" }
-      ]
-    }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "How do I install Laravel Sanctum?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Run: composer require laravel/sanctum. Then publish the config: php artisan vendor:publish --provider='Laravel\\Sanctum\\SanctumServiceProvider'. Then run migrations: php artisan migrate. Laravel 11 and 12 include Sanctum by default."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does Laravel Sanctum authentication work?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Sanctum issues plain-text API tokens stored in a personal_access_tokens database table. When a user logs in, you generate a token with $user->createToken('name')->plainTextToken and return it to the client. The client sends this token in the Authorization: Bearer header on all subsequent requests."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I protect API routes with Laravel Sanctum?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Add the auth:sanctum middleware to your routes: Route::middleware('auth:sanctum')->group(function () { // protected routes }). Any request to these routes must include a valid Bearer token."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Does Laravel Sanctum use JWT tokens?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Laravel Sanctum does not use JWT. It uses plain-text tokens stored in your database. This is simpler and works well for most Laravel APIs. If you need stateless JWT tokens, consider tymon/jwt-auth instead."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How do I set token expiry in Laravel Sanctum?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Set the expiration value in config/sanctum.php in minutes. For example, 60 * 24 * 60 expires tokens after 60 days. Set to null for tokens that never expire."
-        }
-      }
-    ]
-  }
-  </script>
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--sans);
-      line-height: 1.7;
-      color: var(--text-primary);
-      background-color: var(--bg-primary);
-    }
-
-    .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-
-    .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-    .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-
-    .article-header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .article-category {
-      color: var(--accent-green);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.8rem;
-    }
-
-    h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-
-    .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-    .article-meta a { color: var(--accent-blue); text-decoration: none; }
-
-    .direct-answer {
-      background: #e8f5e9;
-      border-left: 5px solid #28a745;
-      border-radius: 0 8px 8px 0;
-      padding: 1.5rem 1.8rem;
-      margin: 0 0 2.5rem 0;
-      font-size: 1.05rem;
-    }
-    .direct-answer strong { display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: #1b5e20; }
-
-    .article-content { font-size: 1.05rem; line-height: 1.8; }
-    .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); }
-    .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-    .article-content p { margin-bottom: 1.5rem; }
-    .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-    .article-content li { margin-bottom: 0.5rem; }
-    .article-content a { color: var(--accent-blue); text-decoration: none; }
-    .article-content a:hover { text-decoration: underline; }
-    .article-content code {
-      background: #f1f3f5;
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.88em;
-      color: #c7254e;
-    }
-    .article-content hr { border: none; border-top: 1px solid var(--border-color); margin: 2.5rem 0; }
-
-    .code-label {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-
-    .code-block {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin: 0 0 2rem 0;
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem;
-      overflow-x: auto;
-      white-space: pre;
-      line-height: 1.6;
-    }
-
-    .note {
-      background: #fff8e1;
-      border-left: 4px solid #ffc107;
-      border-radius: 0 6px 6px 0;
-      padding: 1rem 1.3rem;
-      margin: 0 0 1.5rem 0;
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .note strong { color: #856404; }
-
-    .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
-    .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
-    .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); }
-    .comparison-table tr:nth-child(even) td { background: var(--bg-secondary); }
-    .yes { color: var(--accent-green); font-weight: 600; }
-    .no { color: #dc3545; font-weight: 600; }
-
-    .hire-cta {
-      background: #0d1117;
-      color: #c9d1d9;
-      padding: 2rem;
-      border-radius: 12px;
-      margin: 3rem 0;
-      text-align: center;
-      border: 1px solid #30363d;
-      border-left: 4px solid #3fb950;
-    }
-    .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-    .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-    .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-    .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-    .cta-primary:hover { opacity: 0.85; }
-    .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-    .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-    .cta-meta { font-size: 0.85rem; color: #8b949e; }
-
-    .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-    .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-    .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-    .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-    .author-links a:hover { background: #007bff; color: #fff; }
-
-    @media (max-width: 600px) {
-      .container { padding: 1rem; }
-      h1 { font-size: 1.8rem; }
-      .cta-buttons { flex-direction: column; align-items: center; }
-      .comparison-table { font-size: 0.82rem; }
-    }
-  </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel Sanctum Tutorial: API Auth, Step by Step</title>
+<meta name="description" content="A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-sanctum-tutorial/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-sanctum-tutorial/">
+<meta property="og:title" content="Laravel Sanctum Tutorial: API Auth, Step by Step">
+<meta property="og:description" content="A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2026-03-08">
+<meta property="article:modified_time" content="2026-03-08">
+<meta property="article:section" content="Security">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-sanctum-tutorial/">
+<meta name="twitter:title" content="Laravel Sanctum Tutorial: API Auth, Step by Step">
+<meta name="twitter:description" content="A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-sanctum-tutorial/#article","headline":"Laravel Sanctum Tutorial: API Auth, Step by Step","description":"A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.","url":"https://pola5h.github.io/blog/laravel-sanctum-tutorial/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-sanctum-tutorial/"},"datePublished":"2026-03-08","dateModified":"2026-03-08","timeRequired":"PT10M","articleSection":"Security","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Sanctum Tutorial: API Auth, Step by Step","item":"https://pola5h.github.io/blog/laravel-sanctum-tutorial/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does Laravel Sanctum use JWT tokens?","acceptedAnswer":{"@type":"Answer","text":"No. Sanctum uses plain-text tokens stored in your database, not JWT. JWT tokens are stateless and self-contained; Sanctum tokens require a database lookup on each request. The trade-off is that Sanctum tokens are much easier to revoke instantly. See the full breakdown in Laravel Sanctum vs JWT ."}},{"@type":"Question","name":"When should I use Sanctum vs Passport?","acceptedAnswer":{"@type":"Answer","text":"Use Sanctum when you&#39;re building an API for your own frontend — SPA or mobile app. Use Passport only when you need a full OAuth2 server to issue tokens to third-party developers. Passport is significantly more complex to set up and maintain."}},{"@type":"Question","name":"Can I use Sanctum for SPA cookie authentication?","acceptedAnswer":{"@type":"Answer","text":"Yes — Sanctum also supports cookie-based SPA authentication using CSRF tokens. For a REST API or mobile backend, token-based authentication as shown in this tutorial is the standard approach."}}]}]}</script>
 </head>
 <body>
-  <div class="container">
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 0.8rem;">
-      <nav class="breadcrumb" style="margin-bottom: 0;">
-        <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Sanctum Setup Tutorial
-      </nav>
-      
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     </div>
+  </div>
+</header>
 
-    <article>
-      <header class="article-header">
-        <div class="article-category">Laravel Security</div>
-        <h1>Laravel Sanctum Setup Tutorial: Complete API Authentication Guide (2026)</h1>
-        <div class="article-meta">
-          By <a href="/">Kamruzzaman Polash</a> · March 8, 2026 · 10 min read
-        </div>
-      </header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Sanctum Tutorial: API Auth, Step by Step</span></div></div>
 
-      <div class="direct-answer">
-        <strong>Quick Setup: Laravel Sanctum in 5 steps</strong>
-        Run <code>composer require laravel/sanctum</code> → publish config → <code>php artisan migrate</code> → add <code>HasApiTokens</code> to User model → protect routes with <code>auth:sanctum</code> middleware → issue tokens on login with <code>$user->createToken('token-name')->plainTextToken</code>.
-      </div>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Security</span><span class="label">10 min read</span></div>
+    <h1 class="article-head__title">Laravel Sanctum Tutorial: API Auth, Step by Step</h1>
+    <p class="article-head__desc">A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">March 8, 2026</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-      <div class="article-content">
-
-        <p>Laravel Sanctum is the official, lightweight API authentication package built into Laravel. It handles token issuance, route protection, and token revocation with minimal setup — making it the right choice for almost every Laravel REST API and mobile backend.</p>
-
-        <p>This tutorial covers a complete Sanctum setup from scratch: installation, User model configuration, protected routes, a full AuthController, and how to make authenticated requests. All examples work with Laravel 12.</p>
-
-        <h2>What is Laravel Sanctum?</h2>
-
-        <p>Sanctum provides API token authentication using plain-text tokens stored in a <code>personal_access_tokens</code> database table. Unlike JWT, tokens aren't self-contained — each request does a quick database lookup to validate. The trade-off is instant, reliable token revocation.</p>
-
-        <table class="comparison-table">
-          <thead>
-            <tr><th>Feature</th><th>Sanctum</th><th>Passport</th><th>JWT (tymon)</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Best for</td><td>Your own API</td><td>OAuth2 / third-party</td><td>Stateless / microservices</td></tr>
-            <tr><td>Token storage</td><td>Database</td><td>Database</td><td>Client-side only</td></tr>
-            <tr><td>Setup complexity</td><td class="yes">Simple</td><td class="no">Complex</td><td>Medium</td></tr>
-            <tr><td>Built into Laravel</td><td class="yes">✅ Yes</td><td class="no">❌ No</td><td class="no">❌ No</td></tr>
-            <tr><td>Token revocation</td><td class="yes">✅ Easy</td><td class="yes">✅ Yes</td><td class="no">⚠️ Hard</td></tr>
-            <tr><td>SPA cookie auth</td><td class="yes">✅ Yes</td><td class="no">No</td><td class="no">No</td></tr>
-          </tbody>
-        </table>
-
-        <p>For most Laravel REST APIs, Sanctum is the right choice. Use Passport only when you need a full OAuth2 server for third-party developers.</p>
-
-        <h2>Step 1: Install Laravel Sanctum</h2>
-
-        <p>On Laravel 11 and 12, Sanctum is included by default. For Laravel 10 and below, install it manually:</p>
-
-        <span class="code-label">Terminal</span>
-        <div class="code-block"># Laravel 10 and below — install manually
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article"><p>Laravel Sanctum is the official, lightweight API authentication package built into Laravel. It handles token issuance, route protection, and token revocation with minimal setup — making it the right choice for almost every Laravel REST API and mobile backend.</p>
+<p>This tutorial covers a complete Sanctum setup from scratch: installation, User model configuration, protected routes, a full AuthController, and how to make authenticated requests. All examples work with Laravel 12.</p>
+<h2 id="what-is-laravel-sanctum">What is Laravel Sanctum?</h2>
+<p>Sanctum provides API token authentication using plain-text tokens stored in a <code>personal_access_tokens</code> database table. Unlike JWT, tokens aren&#39;t self-contained — each request does a quick database lookup to validate. The trade-off is instant, reliable token revocation.</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Feature</th>
+<th>Sanctum</th>
+<th>Passport</th>
+<th>JWT (tymon)</th>
+</tr></thead><tbody>
+<tr>
+<td>Best for</td>
+<td>Your own API</td>
+<td>OAuth2 / third-party</td>
+<td>Stateless / microservices</td>
+</tr>
+<tr>
+<td>Token storage</td>
+<td>Database</td>
+<td>Database</td>
+<td>Client-side only</td>
+</tr>
+<tr>
+<td>Setup complexity</td>
+<td>Simple</td>
+<td>Complex</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Built into Laravel</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+</tr>
+<tr>
+<td>Token revocation</td>
+<td>Easy</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td>Hard</td>
+</tr>
+<tr>
+<td>SPA cookie auth</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+</tr>
+</tbody></table></div>
+<p>For most Laravel REST APIs, Sanctum is the right choice. Use Passport only when you need a full OAuth2 server for third-party developers.</p>
+<h2 id="step-1-install-laravel-sanctum">Step 1: Install Laravel Sanctum</h2>
+<p>On Laravel 11 and 12, Sanctum is included by default. For Laravel 10 and below, install it manually:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">terminal</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-terminal"><span class="hljs-comment"># Laravel 10 and below — install manually</span>
 composer require laravel/sanctum
 
-php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan vendor:publish --provider=<span class="hljs-string">&quot;Laravel\Sanctum\SanctumServiceProvider&quot;</span>
 
-php artisan migrate</div>
+php artisan migrate</code></pre>
+</figure><p><strong>Laravel 11 / 12:</strong> Sanctum is already installed. Just run <code>php artisan migrate</code> if you haven&#39;t already — the <code>personal_access_tokens</code> table migration is included.</p>
+<h2 id="step-2-add-hasapitokens-to-the-user-model">Step 2: Add HasApiTokens to the User Model</h2>
+<p>Add the <code>HasApiTokens</code> trait to your User model. This gives the model the <code>createToken()</code>, <code>tokens()</code>, and <code>currentAccessToken()</code> methods:</p>
+<p>app/Models/User.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-        <div class="note">
-          <strong>Laravel 11 / 12:</strong> Sanctum is already installed. Just run <code>php artisan migrate</code> if you haven't already — the <code>personal_access_tokens</code> table migration is included.
-        </div>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Models</span>;
 
-        <h2>Step 2: Add HasApiTokens to the User Model</h2>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Auth</span>\<span class="hljs-title">User</span> <span class="hljs-keyword">as</span> <span class="hljs-title">Authenticatable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Sanctum</span>\<span class="hljs-title">HasApiTokens</span>;
 
-        <p>Add the <code>HasApiTokens</code> trait to your User model. This gives the model the <code>createToken()</code>, <code>tokens()</code>, and <code>currentAccessToken()</code> methods:</p>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Authenticatable</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">HasApiTokens</span>;
 
-        <span class="code-label">app/Models/User.php</span>
-        <div class="code-block">&lt;?php
+    <span class="hljs-comment">// rest of your model...</span>
+}</code></pre>
+</figure><h2 id="step-3-set-up-api-routes">Step 3: Set Up API Routes</h2>
+<p>Define your public and protected routes in <code>routes/api.php</code>. The <code>auth:sanctum</code> middleware guards any route that requires a valid token:</p>
+<p>routes/api.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">AuthController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Api</span>\<span class="hljs-title">UserController</span>;
 
-namespace App\Models;
+<span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">prefix</span>(<span class="hljs-string">&#x27;v1&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens;
-
-class User extends Authenticatable
-{
-    use HasApiTokens;
-
-    // rest of your model...
-}</div>
-
-        <h2>Step 3: Set Up API Routes</h2>
-
-        <p>Define your public and protected routes in <code>routes/api.php</code>. The <code>auth:sanctum</code> middleware guards any route that requires a valid token:</p>
-
-        <span class="code-label">routes/api.php</span>
-        <div class="code-block">use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-
-Route::prefix('v1')->group(function () {
-
-    // Public routes — no token required
-    Route::prefix('auth')->group(function () {
-        Route::post('register', [AuthController::class, 'register']);
-        Route::post('login',    [AuthController::class, 'login']);
+    <span class="hljs-comment">// Public routes — no token required</span>
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">prefix</span>(<span class="hljs-string">&#x27;auth&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;register&#x27;</span>, [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;register&#x27;</span>]);
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;login&#x27;</span>,    [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;login&#x27;</span>]);
     });
 
-    // Protected routes — valid Sanctum token required
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('auth/logout', [AuthController::class, 'logout']);
-        Route::get('auth/me',     [AuthController::class, 'me']);
-        Route::get('users',       [UserController::class, 'index']);
+    <span class="hljs-comment">// Protected routes — valid Sanctum token required</span>
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">middleware</span>(<span class="hljs-string">&#x27;auth:sanctum&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;auth/logout&#x27;</span>, [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;logout&#x27;</span>]);
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;auth/me&#x27;</span>,     [<span class="hljs-title class_">AuthController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;me&#x27;</span>]);
+        <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;users&#x27;</span>,       [<span class="hljs-title class_">UserController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;index&#x27;</span>]);
     });
 
-});</div>
+});</code></pre>
+</figure><h2 id="step-4-build-the-authcontroller">Step 4: Build the AuthController</h2>
+<p>This controller handles registration, login, logout, and the authenticated user endpoint. The key line is <code>createToken()-&gt;plainTextToken</code> — this generates and returns the token the client will store and send on future requests:</p>
+<p>app/Http/Controllers/Api/AuthController.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-        <h2>Step 4: Build the AuthController</h2>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Http</span>\<span class="hljs-title class_">Controllers</span>\<span class="hljs-title class_">Api</span>;
 
-        <p>This controller handles registration, login, logout, and the authenticated user endpoint. The key line is <code>createToken()->plainTextToken</code> — this generates and returns the token the client will store and send on future requests:</p>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">Controller</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">User</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Auth</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Hash</span>;
 
-        <span class="code-label">app/Http/Controllers/Api/AuthController.php</span>
-        <div class="code-block">&lt;?php
-
-namespace App\Http\Controllers\Api;
-
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-
-class AuthController extends Controller
-{
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">register</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validate</span>([
+            <span class="hljs-string">&#x27;name&#x27;</span>     =&gt; <span class="hljs-string">&#x27;required|string|max:255&#x27;</span>,
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-string">&#x27;required|email|unique:users&#x27;</span>,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-string">&#x27;required|min:8|confirmed&#x27;</span>,
         ]);
 
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
+        <span class="hljs-variable">$user</span> = <span class="hljs-title class_">User</span>::<span class="hljs-title function_ invoke__">create</span>([
+            <span class="hljs-string">&#x27;name&#x27;</span>     =&gt; <span class="hljs-variable">$request</span>-&gt;name,
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-variable">$request</span>-&gt;email,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-title class_">Hash</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-variable">$request</span>-&gt;password),
         ]);
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        <span class="hljs-variable">$token</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">createToken</span>(<span class="hljs-string">&#x27;auth_token&#x27;</span>)-&gt;plainTextToken;
 
-        return response()->json([
-            'user'  => $user,
-            'token' => $token,
-        ], 201);
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+            <span class="hljs-string">&#x27;user&#x27;</span>  =&gt; <span class="hljs-variable">$user</span>,
+            <span class="hljs-string">&#x27;token&#x27;</span> =&gt; <span class="hljs-variable">$token</span>,
+        ], <span class="hljs-number">201</span>);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required',
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validate</span>([
+            <span class="hljs-string">&#x27;email&#x27;</span>    =&gt; <span class="hljs-string">&#x27;required|email&#x27;</span>,
+            <span class="hljs-string">&#x27;password&#x27;</span> =&gt; <span class="hljs-string">&#x27;required&#x27;</span>,
         ]);
 
-        if (! Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid credentials'
-            ], 401);
+        <span class="hljs-keyword">if</span> (! <span class="hljs-title class_">Auth</span>::<span class="hljs-title function_ invoke__">attempt</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">only</span>(<span class="hljs-string">&#x27;email&#x27;</span>, <span class="hljs-string">&#x27;password&#x27;</span>))) {
+            <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+                <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Invalid credentials&#x27;</span>
+            ], <span class="hljs-number">401</span>);
         }
 
-        $user  = Auth::user();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        <span class="hljs-variable">$user</span>  = <span class="hljs-title class_">Auth</span>::<span class="hljs-title function_ invoke__">user</span>();
+        <span class="hljs-variable">$token</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">createToken</span>(<span class="hljs-string">&#x27;auth_token&#x27;</span>)-&gt;plainTextToken;
 
-        return response()->json([
-            'user'  => $user,
-            'token' => $token,
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+            <span class="hljs-string">&#x27;user&#x27;</span>  =&gt; <span class="hljs-variable">$user</span>,
+            <span class="hljs-string">&#x27;token&#x27;</span> =&gt; <span class="hljs-variable">$token</span>,
         ]);
     }
 
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logout</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>()-&gt;<span class="hljs-title function_ invoke__">currentAccessToken</span>()-&gt;<span class="hljs-title function_ invoke__">delete</span>();
 
-        return response()->json([
-            'message' => 'Logged out successfully'
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+            <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Logged out successfully&#x27;</span>
         ]);
     }
 
-    public function me(Request $request)
-    {
-        return response()->json($request->user());
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">me</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>());
     }
-}</div>
-
-        <h2>Step 5: Make Authenticated Requests</h2>
-
-        <p>After login, the client receives a plain-text token. Send it in the <code>Authorization</code> header as a Bearer token on every protected request:</p>
-
-        <span class="code-label">HTTP Requests</span>
-        <div class="code-block"># 1. Login — get your token
+}</code></pre>
+</figure><h2 id="step-5-make-authenticated-requests">Step 5: Make Authenticated Requests</h2>
+<p>After login, the client receives a plain-text token. Send it in the <code>Authorization</code> header as a Bearer token on every protected request:</p>
+<p>HTTP Requests</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">http</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-http"># 1. Login — get your token
 POST /api/v1/auth/login
-Content-Type: application/json
+<span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/json
 
 {
-  "email":    "user@example.com",
-  "password": "yourpassword"
+  &quot;email&quot;:    &quot;user@example.com&quot;,
+  &quot;password&quot;: &quot;yourpassword&quot;
 }
 
 # Response
 {
-  "user":  { "id": 1, "name": "John", ... },
-  "token": "1|abc123yourtokenhere..."
+  &quot;user&quot;:  { &quot;id&quot;: 1, &quot;name&quot;: &quot;John&quot;, ... },
+  &quot;token&quot;: &quot;1|abc123yourtokenhere...&quot;
 }
 
 # 2. Use the token on protected requests
 GET /api/v1/auth/me
-Authorization: Bearer 1|abc123yourtokenhere...</div>
+<span class="hljs-attribute">Authorization</span><span class="hljs-punctuation">: </span>Bearer 1|abc123yourtokenhere...</code></pre>
+</figure><p><strong>Token format:</strong> Sanctum tokens look like <code>1|randomstring</code>. The number before the pipe is the token ID in the database. Always send the full string including the numeric prefix.</p>
+<h2 id="token-abilities-optional-scopes">Token Abilities (Optional Scopes)</h2>
+<p>Sanctum supports token abilities — a simple alternative to OAuth scopes. You can restrict what each token is allowed to do:</p>
+<p>Token abilities</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Issue a token with specific abilities</span>
+<span class="hljs-variable">$token</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">createToken</span>(<span class="hljs-string">&#x27;mobile-app&#x27;</span>, [<span class="hljs-string">&#x27;read&#x27;</span>, <span class="hljs-string">&#x27;write&#x27;</span>])-&gt;plainTextToken;
 
-        <div class="note">
-          <strong>Token format:</strong> Sanctum tokens look like <code>1|randomstring</code>. The number before the pipe is the token ID in the database. Always send the full string including the numeric prefix.
-        </div>
-
-        <h2>Token Abilities (Optional Scopes)</h2>
-
-        <p>Sanctum supports token abilities — a simple alternative to OAuth scopes. You can restrict what each token is allowed to do:</p>
-
-        <span class="code-label">Token abilities</span>
-        <div class="code-block">// Issue a token with specific abilities
-$token = $user->createToken('mobile-app', ['read', 'write'])->plainTextToken;
-
-// Check ability in a controller
-if ($request->user()->tokenCan('write')) {
-    // allowed
+<span class="hljs-comment">// Check ability in a controller</span>
+<span class="hljs-keyword">if</span> (<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>()-&gt;<span class="hljs-title function_ invoke__">tokenCan</span>(<span class="hljs-string">&#x27;write&#x27;</span>)) {
+    <span class="hljs-comment">// allowed</span>
 }
 
-// Or enforce via middleware
-Route::middleware(['auth:sanctum', 'ability:write'])->group(function () {
-    Route::post('posts', [PostController::class, 'store']);
-});</div>
+<span class="hljs-comment">// Or enforce via middleware</span>
+<span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">middleware</span>([<span class="hljs-string">&#x27;auth:sanctum&#x27;</span>, <span class="hljs-string">&#x27;ability:write&#x27;</span>])-&gt;<span class="hljs-title function_ invoke__">group</span>(function () {
+    <span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;posts&#x27;</span>, [<span class="hljs-title class_">PostController</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;store&#x27;</span>]);
+});</code></pre>
+</figure><h2 id="revoking-tokens">Revoking Tokens</h2>
+<p>Because tokens are stored in the database, revocation is instant. This is one of Sanctum&#39;s biggest advantages over JWT — no denylist needed, just delete the row:</p>
+<p>Revocation options</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Revoke the current token (standard logout)</span>
+<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>()-&gt;<span class="hljs-title function_ invoke__">currentAccessToken</span>()-&gt;<span class="hljs-title function_ invoke__">delete</span>();
 
-        <h2>Revoking Tokens</h2>
+<span class="hljs-comment">// Revoke all tokens — logout from every device</span>
+<span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">tokens</span>()-&gt;<span class="hljs-title function_ invoke__">delete</span>();
 
-        <p>Because tokens are stored in the database, revocation is instant. This is one of Sanctum's biggest advantages over JWT — no denylist needed, just delete the row:</p>
+<span class="hljs-comment">// Revoke tokens by name</span>
+<span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">tokens</span>()-&gt;<span class="hljs-title function_ invoke__">where</span>(<span class="hljs-string">&#x27;name&#x27;</span>, <span class="hljs-string">&#x27;mobile-app&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">delete</span>();</code></pre>
+</figure><h2 id="setting-token-expiry">Setting Token Expiry</h2>
+<p>Set the <code>expiration</code> value in <code>config/sanctum.php</code>. The value is in minutes:</p>
+<p>config/sanctum.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Expire tokens after 60 days</span>
+<span class="hljs-string">&#x27;expiration&#x27;</span> =&gt; <span class="hljs-number">60</span> * <span class="hljs-number">24</span> * <span class="hljs-number">60</span>,
 
-        <span class="code-label">Revocation options</span>
-        <div class="code-block">// Revoke the current token (standard logout)
-$request->user()->currentAccessToken()->delete();
-
-// Revoke all tokens — logout from every device
-$user->tokens()->delete();
-
-// Revoke tokens by name
-$user->tokens()->where('name', 'mobile-app')->delete();</div>
-
-        <h2>Setting Token Expiry</h2>
-
-        <p>Set the <code>expiration</code> value in <code>config/sanctum.php</code>. The value is in minutes:</p>
-
-        <span class="code-label">config/sanctum.php</span>
-        <div class="code-block">// Expire tokens after 60 days
-'expiration' => 60 * 24 * 60,
-
-// Tokens that never expire
-'expiration' => null,</div>
-
-        <h2>Common Issues & Fixes</h2>
-
-        <h3>401 Unauthenticated on every request</h3>
-        <p>Make sure you're sending the token as <code>Authorization: Bearer YOUR_TOKEN</code> — not as a query parameter or cookie. Also confirm the <code>HasApiTokens</code> trait is on your User model and migrations have run.</p>
-
-        <h3>CORS errors from a frontend SPA</h3>
-        <p>Add your frontend URL to <code>config/cors.php</code>:</p>
-
-        <span class="code-label">config/cors.php</span>
-        <div class="code-block">'allowed_origins'      => ['https://yourfrontend.com'],
-'supports_credentials' => true,</div>
-
-        <h3>Missing personal_access_tokens table</h3>
-        <p>Run <code>php artisan migrate</code> and confirm the table exists in your database. On Laravel 11/12 this migration is included automatically.</p>
-
-        <hr>
-
-        <h2>Frequently Asked Questions</h2>
-
-        <h3>Does Laravel Sanctum use JWT tokens?</h3>
-        <p>No. Sanctum uses plain-text tokens stored in your database, not JWT. JWT tokens are stateless and self-contained; Sanctum tokens require a database lookup on each request. The trade-off is that Sanctum tokens are much easier to revoke instantly. See the full breakdown in <a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT</a>.</p>
-
-        <h3>When should I use Sanctum vs Passport?</h3>
-        <p>Use Sanctum when you're building an API for your own frontend — SPA or mobile app. Use Passport only when you need a full OAuth2 server to issue tokens to third-party developers. Passport is significantly more complex to set up and maintain.</p>
-
-        <h3>Can I use Sanctum for SPA cookie authentication?</h3>
-        <p>Yes — Sanctum also supports cookie-based SPA authentication using CSRF tokens. For a REST API or mobile backend, token-based authentication as shown in this tutorial is the standard approach.</p>
-
+<span class="hljs-comment">// Tokens that never expire</span>
+<span class="hljs-string">&#x27;expiration&#x27;</span> =&gt; <span class="hljs-literal">null</span>,</code></pre>
+</figure><h2 id="common-issues-fixes">Common Issues &amp; Fixes</h2>
+<h3 id="401-unauthenticated-on-every-request">401 Unauthenticated on every request</h3>
+<p>Make sure you&#39;re sending the token as <code>Authorization: Bearer YOUR_TOKEN</code> — not as a query parameter or cookie. Also confirm the <code>HasApiTokens</code> trait is on your User model and migrations have run.</p>
+<h3 id="cors-errors-from-a-frontend-spa">CORS errors from a frontend SPA</h3>
+<p>Add your frontend URL to <code>config/cors.php</code>:</p>
+<p>config/cors.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-string">&#x27;allowed_origins&#x27;</span>      =&gt; [<span class="hljs-string">&#x27;https://yourfrontend.com&#x27;</span>],
+<span class="hljs-string">&#x27;supports_credentials&#x27;</span> =&gt; <span class="hljs-literal">true</span>,</code></pre>
+</figure><h3 id="missing-personalaccesstokens-table">Missing personal_access_tokens table</h3>
+<p>Run <code>php artisan migrate</code> and confirm the table exists in your database. On Laravel 11/12 this migration is included automatically.</p>
+<hr>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<h3 id="does-laravel-sanctum-use-jwt-tokens">Does Laravel Sanctum use JWT tokens?</h3>
+<p>No. Sanctum uses plain-text tokens stored in your database, not JWT. JWT tokens are stateless and self-contained; Sanctum tokens require a database lookup on each request. The trade-off is that Sanctum tokens are much easier to revoke instantly. See the full breakdown in <a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT</a>.</p>
+<h3 id="when-should-i-use-sanctum-vs-passport">When should I use Sanctum vs Passport?</h3>
+<p>Use Sanctum when you&#39;re building an API for your own frontend — SPA or mobile app. Use Passport only when you need a full OAuth2 server to issue tokens to third-party developers. Passport is significantly more complex to set up and maintain.</p>
+<h3 id="can-i-use-sanctum-for-spa-cookie-authentication">Can I use Sanctum for SPA cookie authentication?</h3>
+<p>Yes — Sanctum also supports cookie-based SPA authentication using CSRF tokens. For a REST API or mobile backend, token-based authentication as shown in this tutorial is the standard approach.</p></article>
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need help with your Laravel architecture?</h2>
+        <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
+        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
       </div>
-    </article>
-
-    <div class="hire-cta-box">
-      <h3>Need Secure API Authentication for Your Web or Mobile App?</h3>
-      <p>I build production-grade, secure REST APIs with Sanctum, Spatie roles, two-factor auth, and rate limiting. 10+ projects delivered for international founders. Fixed price, complete Postman documentation, fast turnaround.</p>
-      <div class="cta-btn-group">
-        <a href="/services/hire-laravel-developer/" class="btn-hire-primary">Hire Me →</a>
-        <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20saw%20your%20Laravel%20Sanctum%20guide%20and%20need%20help%20with%20an%20API%20project." target="_blank" rel="noopener noreferrer" class="btn-hire-secondary">Chat on WhatsApp ↗</a>
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
       </div>
-      <p class="cta-meta-text">Fixed-price milestones · No hourly runaway billing · Replies within 4 hours</p>
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/laravel-13-new-features/"><span>← Previous</span><b>Laravel 13 New Features: The Complete Guide</b></a>
+        <a href="/blog/laravel-queue-vs-defer/" style="text-align:right"><span>Next →</span><b>Laravel Queue vs defer(): When to Use Each</b></a>
+      </nav>
     </div>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#what-is-laravel-sanctum" data-toc-link>What is Laravel Sanctum?</a><a href="#step-1-install-laravel-sanctum" data-toc-link>Step 1: Install Laravel Sanctum</a><a href="#step-2-add-hasapitokens-to-the-user-model" data-toc-link>Step 2: Add HasApiTokens to the User Model</a><a href="#step-3-set-up-api-routes" data-toc-link>Step 3: Set Up API Routes</a><a href="#step-4-build-the-authcontroller" data-toc-link>Step 4: Build the AuthController</a><a href="#step-5-make-authenticated-requests" data-toc-link>Step 5: Make Authenticated Requests</a><a href="#token-abilities-optional-scopes" data-toc-link>Token Abilities (Optional Scopes)</a><a href="#revoking-tokens" data-toc-link>Revoking Tokens</a><a href="#setting-token-expiry" data-toc-link>Setting Token Expiry</a><a href="#common-issues-fixes" data-toc-link>Common Issues &amp; Fixes</a><a href="#401-unauthenticated-on-every-request" data-toc-link class="is-sub">401 Unauthenticated on every request</a><a href="#cors-errors-from-a-frontend-spa" data-toc-link class="is-sub">CORS errors from a frontend SPA</a><a href="#missing-personalaccesstokens-table" data-toc-link class="is-sub">Missing personal_access_tokens table</a><a href="#frequently-asked-questions" data-toc-link>Frequently Asked Questions</a><a href="#does-laravel-sanctum-use-jwt-tokens" data-toc-link class="is-sub">Does Laravel Sanctum use JWT tokens?</a><a href="#when-should-i-use-sanctum-vs-passport" data-toc-link class="is-sub">When should I use Sanctum vs Passport?</a><a href="#can-i-use-sanctum-for-spa-cookie-authentication" data-toc-link class="is-sub">Can I use Sanctum for SPA cookie authentication?</a></nav></aside>
+  </div></div></div>
 
-    <div class="author-bio">
-      <h3>About the Author</h3>
-      <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-      <div class="author-links">
-        <a href="/">Portfolio</a>
-        <a href="/services/hire-laravel-developer/">Hire Me</a>
-        <a href="mailto:kzaman3055@gmail.com">Contact</a>
-        <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Security</span><span class="post-row__time">6 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-api-authentication-jwt-sanctum/">Does Laravel Sanctum Use JWT? Sanctum vs JWT</a></h3><p class="post-row__desc">Sanctum does not use JWT by default. Here is how its opaque database tokens differ from JWT, and which one your API should use.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-observer-pattern-audit-log/">Laravel Observer Pattern: Audit Logging Done Right</a></h3><p class="post-row__desc">How the Observer pattern works in Laravel, with a real audit-logging example and when to use observers instead of MySQL triggers.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">AI</span><span class="post-row__time">14 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-ai-sdk-openrouter/">Laravel AI SDK + OpenRouter: A Complete Guide</a></h3><p class="post-row__desc">Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer & SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
       </div>
     </div>
-
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
   </div>
-    <script src="/shared-nav.js" defer></script>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

@@ -1,8 +1,6 @@
-# robots.txt — pola5h.github.io
-
+# robots.txt — https://pola5h.github.io
 User-agent: *
 Allow: /
-Disallow: /client-demo/
 
-# Sitemaps
 Sitemap: https://pola5h.github.io/sitemap.xml
+Sitemap: https://pola5h.github.io/rss.xml

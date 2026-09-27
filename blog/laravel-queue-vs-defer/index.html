@@ -1,662 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Laravel Queue vs defer(): When to Use Each (Laravel 11, 12 & 13)</title>
-  <meta name="description" content="Laravel's defer() runs a closure after the HTTP response — no queue worker needed. But queues still win for retries, delays, and heavy jobs. Here's exactly when to use each.">
-  <meta name="author" content="Kamruzzaman Polash">
-  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <link rel="canonical" href="https://pola5h.github.io/blog/laravel-queue-vs-defer/">
-
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Laravel Queue vs defer(): When to Use Each (Laravel 11, 12 & 13)">
-  <meta property="og:description" content="Laravel's defer() runs code after the HTTP response with zero infrastructure. Queues give you retries, delays, and monitoring. Here's the clear decision guide.">
-  <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-  <meta property="og:url" content="https://pola5h.github.io/blog/laravel-queue-vs-defer/">
-  <meta property="og:site_name" content="Kamruzzaman Polash">
-  <meta property="og:locale" content="en_US">
-  <meta property="article:author" content="https://pola5h.github.io/">
-  <meta property="article:published_time" content="2026-03-30">
-  <meta property="article:modified_time" content="2026-03-30">
-  <meta property="article:section" content="Technology">
-  <meta property="article:tag" content="Laravel">
-  <meta property="article:tag" content="Queues">
-  <meta property="article:tag" content="Performance">
-  <meta property="article:tag" content="PHP">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Laravel Queue vs defer(): When to Use Each (Laravel 11, 12 & 13)">
-  <meta name="twitter:description" content="defer() needs zero infrastructure. Queues need workers. Here's when each one is the right call — with real production examples.">
-  <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <meta name="theme-color" content="#0d1117">
-  <meta name="msapplication-TileColor" content="#0d1117">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": "Laravel Queue vs defer(): When to Use Each (Laravel 11, 12 & 13)",
-    "description": "Laravel's defer() runs a closure after the HTTP response with zero infrastructure. Queues give you retries, delays, and monitoring. A practical guide to choosing between them.",
-    "image": "https://pola5h.github.io/og-image.svg",
-    "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-    "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-    "datePublished": "2026-03-30",
-    "dateModified": "2026-03-30",
-    "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-queue-vs-defer/",
-    "articleSection": "Technology",
-    "keywords": ["laravel queue vs defer", "laravel defer function", "laravel defer after response", "laravel 11 defer helper", "laravel defer vs queue job", "when to use defer laravel", "laravel queue worker alternative"],
-    "inLanguage": "en-US",
-    "wordCount": "2200",
-    "timeRequired": "PT11M",
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-        { "@type": "ListItem", "position": 3, "name": "Laravel Queue vs defer()", "item": "https://pola5h.github.io/blog/laravel-queue-vs-defer/" }
-      ]
-    }
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is the difference between Laravel Queue and defer()?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Laravel Queue dispatches a job to a persistent queue (Redis, database, SQS) processed by a separate long-running worker process. defer() runs a PHP closure in the same process after the HTTP response has been sent to the user — no worker needed, no persistence, no retries. Use defer() for lightweight fire-and-forget tasks. Use queues for anything that must be reliable, retried on failure, or run after a delay."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which Laravel versions support defer()?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Laravel's defer() helper was introduced in Laravel 11.0 (released March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Does Laravel defer() need a queue worker?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. Laravel defer() does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent. This is its biggest advantage over queues for simple tasks."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What happens to deferred functions if the response fails?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "By default, deferred functions only execute if the HTTP response completes successfully. If a 4xx or 5xx error occurs, the deferred function is skipped. To force it to always run, chain ->always() on the defer() call: defer(fn() => doWork())->always();"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can defer() replace queues in Laravel?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "No. defer() is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job."
-        }
-      }
-    ]
-  }
-  </script>
-
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--sans);
-      line-height: 1.7;
-      color: var(--text-primary);
-      background-color: var(--bg-primary);
-    }
-
-    .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-
-    .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-    .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-
-    .article-header {
-      margin-bottom: 2.5rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .article-category {
-      color: var(--accent-green);
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.8rem;
-    }
-
-    h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-
-    .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-    .article-meta a { color: var(--accent-blue); text-decoration: none; }
-
-    .direct-answer {
-      background: #e8f5e9;
-      border-left: 5px solid #28a745;
-      border-radius: 0 8px 8px 0;
-      padding: 1.5rem 1.8rem;
-      margin: 0 0 2.5rem 0;
-      font-size: 1.05rem;
-    }
-    .direct-answer strong { display: block; font-size: 1.1rem; margin-bottom: 0.5rem; color: #1b5e20; }
-
-    .article-content { font-size: 1.05rem; line-height: 1.8; }
-    .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); }
-    .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-    .article-content p { margin-bottom: 1.5rem; }
-    .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-    .article-content li { margin-bottom: 0.5rem; }
-    .article-content a { color: var(--accent-blue); text-decoration: none; }
-    .article-content a:hover { text-decoration: underline; }
-    .article-content code {
-      background: #f1f3f5;
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.88em;
-      color: #c7254e;
-    }
-    .article-content hr { border: none; border-top: 1px solid var(--border-color); margin: 2.5rem 0; }
-
-    .code-label {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-
-    .code-block {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin: 0 0 2rem 0;
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem;
-      overflow-x: auto;
-      white-space: pre;
-      line-height: 1.6;
-    }
-
-    .note {
-      background: #fff8e1;
-      border-left: 4px solid #ffc107;
-      border-radius: 0 6px 6px 0;
-      padding: 1rem 1.3rem;
-      margin: 0 0 1.5rem 0;
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .note strong { color: #856404; }
-
-    .danger-note {
-      background: #fdecea;
-      border-left: 4px solid #dc3545;
-      border-radius: 0 6px 6px 0;
-      padding: 1rem 1.3rem;
-      margin: 0 0 1.5rem 0;
-      font-size: 0.95rem;
-      color: #555;
-    }
-    .danger-note strong { color: #842029; }
-
-    .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
-    .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
-    .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
-    .comparison-table tr:nth-child(even) td { background: var(--bg-secondary); }
-    .yes  { color: var(--accent-green); font-weight: 600; }
-    .no   { color: #dc3545; font-weight: 600; }
-    .warn { color: #856404; font-weight: 600; }
-
-    .decision-box {
-      background: #e3f2fd;
-      border-left: 5px solid #1976d2;
-      border-radius: 0 8px 8px 0;
-      padding: 1.5rem 1.8rem;
-      margin: 2rem 0;
-    }
-    .decision-box h3 { margin: 0 0 0.8rem; color: #0d47a1; font-size: 1.15rem; }
-    .decision-box ul { margin: 0; padding-left: 1.5rem; }
-    .decision-box li { margin-bottom: 0.4rem; font-size: 0.98rem; }
-
-    .hire-cta {
-      background: #0d1117;
-      color: #c9d1d9;
-      padding: 2rem;
-      border-radius: 12px;
-      margin: 3rem 0;
-      text-align: center;
-      border: 1px solid #30363d;
-      border-left: 4px solid #3fb950;
-    }
-    .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-    .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-    .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-    .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-    .cta-primary:hover { opacity: 0.85; }
-    .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-    .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-    .cta-meta { font-size: 0.85rem; color: #8b949e; }
-
-    .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-    .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-    .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-    .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-    .author-links a:hover { background: #007bff; color: #fff; }
-
-    @media (max-width: 600px) {
-      .container { padding: 1rem; }
-      h1 { font-size: 1.8rem; }
-      .cta-buttons { flex-direction: column; align-items: center; }
-      .comparison-table { font-size: 0.82rem; }
-      .comparison-table th, .comparison-table td { padding: 0.6rem 0.7rem; }
-    }
-  </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel Queue vs defer(): When to Use Each</title>
+<meta name="description" content="Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-queue-vs-defer/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-queue-vs-defer/">
+<meta property="og:title" content="Laravel Queue vs defer(): When to Use Each">
+<meta property="og:description" content="Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2026-03-30">
+<meta property="article:modified_time" content="2026-03-30">
+<meta property="article:section" content="Performance">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-queue-vs-defer/">
+<meta name="twitter:title" content="Laravel Queue vs defer(): When to Use Each">
+<meta name="twitter:description" content="Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-queue-vs-defer/#article","headline":"Laravel Queue vs defer(): When to Use Each","description":"Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.","url":"https://pola5h.github.io/blog/laravel-queue-vs-defer/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-queue-vs-defer/"},"datePublished":"2026-03-30","dateModified":"2026-03-30","timeRequired":"PT11M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue vs defer(): When to Use Each","item":"https://pola5h.github.io/blog/laravel-queue-vs-defer/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between Laravel Queue and defer()?","acceptedAnswer":{"@type":"Answer","text":"A Queue Job is serialized and pushed into a persistent store (Redis, database, SQS) processed by a separate worker. defer() runs a PHP closure in the same process, after the HTTP response has been sent — no worker needed, no persistence, no retries. Use defer() for lightweight fire-and-forget tasks. Use queues for anything that must be reliable or retried on failure."}},{"@type":"Question","name":"Which Laravel versions support defer()?","acceptedAnswer":{"@type":"Answer","text":"defer() was introduced in Laravel 11.0 (March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier."}},{"@type":"Question","name":"Does Laravel defer() need a queue worker?","acceptedAnswer":{"@type":"Answer","text":"No. defer() does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent — making it ideal for simple apps that don&#39;t want to manage queue infrastructure."}},{"@type":"Question","name":"What happens to deferred functions if the response fails?","acceptedAnswer":{"@type":"Answer","text":"By default, deferred functions only execute if the HTTP response completes successfully. A 4xx or 5xx response will skip them. To force them to always run, chain -&gt;always() : defer(fn () =&gt; doWork())-&gt;always();"}},{"@type":"Question","name":"Can defer() replace queues in Laravel?","acceptedAnswer":{"@type":"Answer","text":"No. defer() is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job. See also: Why Your Laravel Queue Workers Die (and How to Fix It) ."}}]}]}</script>
 </head>
 <body>
-  <div class="container">
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
 
-    <nav class="breadcrumb">
-      <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Queue vs defer()
-    </nav>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Queue vs defer(): When to Use Each</span></div></div>
 
-    <article>
-      <header class="article-header">
-        <div class="article-category">Laravel Performance</div>
-        <h1>Laravel Queue vs defer(): When to Use Each (Laravel 11, 12 &amp; 13)</h1>
-        <div class="article-meta">
-          By <a href="/">Kamruzzaman Polash</a> · March 30, 2026 · 11 min read
-        </div>
-      </header>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Performance</span><span class="label">11 min read</span></div>
+    <h1 class="article-head__title">Laravel Queue vs defer(): When to Use Each</h1>
+    <p class="article-head__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">March 30, 2026</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-      <div class="direct-answer">
-        <strong>Short answer: they solve different problems</strong>
-        Use <code>defer()</code> for lightweight fire-and-forget tasks that run in the same request lifecycle — no worker, no Redis needed. Use a <strong>Queue Job</strong> when you need retries on failure, delayed execution, heavy processing, or reliable delivery. <code>defer()</code> is available from Laravel 11 onward.
-      </div>
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article"><p>Laravel 11 quietly introduced one of the most practical helpers in years: <code>defer()</code>. It lets you run code <em>after</em> the HTTP response has been sent to the user, with absolutely zero queue infrastructure. No Redis. No worker processes. No Supervisor config.</p>
+<p>But it <strong>does not replace queues</strong>. They&#39;re designed for different jobs. This guide explains how both work, the exact tradeoffs, and a clear decision framework for every scenario you&#39;ll encounter in production.</p>
+<h2 id="how-laravel-queues-work">How Laravel Queues Work</h2>
+<p>A queued job is serialized and pushed into a persistent store — Redis, a database table, Amazon SQS, or Beanstalkd. A separate long-running PHP process (the queue worker) picks jobs from that store and executes them, independently of any HTTP request.</p>
+<p>app/Jobs/SendWelcomeEmail.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-      <div class="article-content">
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Jobs</span>;
 
-        <p>Laravel 11 quietly introduced one of the most practical helpers in years: <code>defer()</code>. It lets you run code <em>after</em> the HTTP response has been sent to the user, with absolutely zero queue infrastructure. No Redis. No worker processes. No Supervisor config.</p>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">User</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Mail</span>\<span class="hljs-title">WelcomeEmail</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Contracts</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">ShouldQueue</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">Queueable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">Facades</span>\<span class="hljs-title">Mail</span>;
 
-        <p>But it <strong>does not replace queues</strong>. They're designed for different jobs. This guide explains how both work, the exact tradeoffs, and a clear decision framework for every scenario you'll encounter in production.</p>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SendWelcomeEmail</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ShouldQueue</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">Queueable</span>;
 
-        <h2>How Laravel Queues Work</h2>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-variable">$tries</span> = <span class="hljs-number">3</span>;          <span class="hljs-comment">// retry up to 3 times on failure</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-variable">$timeout</span> = <span class="hljs-number">60</span>;       <span class="hljs-comment">// kill the job after 60 seconds</span>
 
-        <p>A queued job is serialized and pushed into a persistent store — Redis, a database table, Amazon SQS, or Beanstalkd. A separate long-running PHP process (the queue worker) picks jobs from that store and executes them, independently of any HTTP request.</p>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> User <span class="hljs-variable">$user</span></span>) </span>{}
 
-        <span class="code-label">app/Jobs/SendWelcomeEmail.php</span>
-        <div class="code-block">&lt;?php
-
-namespace App\Jobs;
-
-use App\Models\User;
-use App\Mail\WelcomeEmail;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Mail;
-
-class SendWelcomeEmail implements ShouldQueue
-{
-    use Queueable;
-
-    public int $tries = 3;          // retry up to 3 times on failure
-    public int $timeout = 60;       // kill the job after 60 seconds
-
-    public function __construct(public User $user) {}
-
-    public function handle(): void
-    {
-        Mail::to($this->user)->send(new WelcomeEmail($this->user));
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-title class_">Mail</span>::<span class="hljs-title function_ invoke__">to</span>(<span class="hljs-variable">$this</span>-&gt;user)-&gt;<span class="hljs-title function_ invoke__">send</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">WelcomeEmail</span>(<span class="hljs-variable">$this</span>-&gt;user));
     }
-}</div>
+}</code></pre>
+</figure><p>Dispatching the job from a controller</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Dispatches to queue — controller returns immediately</span>
+<span class="hljs-title class_">SendWelcomeEmail</span>::<span class="hljs-title function_ invoke__">dispatch</span>(<span class="hljs-variable">$user</span>);
 
-        <span class="code-label">Dispatching the job from a controller</span>
-        <div class="code-block">// Dispatches to queue — controller returns immediately
-SendWelcomeEmail::dispatch($user);
+<span class="hljs-comment">// Dispatch with a 5-minute delay</span>
+<span class="hljs-title class_">SendWelcomeEmail</span>::<span class="hljs-title function_ invoke__">dispatch</span>(<span class="hljs-variable">$user</span>)-&gt;<span class="hljs-title function_ invoke__">delay</span>(<span class="hljs-title function_ invoke__">now</span>()-&gt;<span class="hljs-title function_ invoke__">addMinutes</span>(<span class="hljs-number">5</span>));
 
-// Dispatch with a 5-minute delay
-SendWelcomeEmail::dispatch($user)->delay(now()->addMinutes(5));
+<span class="hljs-comment">// Dispatch to a specific queue</span>
+<span class="hljs-title class_">SendWelcomeEmail</span>::<span class="hljs-title function_ invoke__">dispatch</span>(<span class="hljs-variable">$user</span>)-&gt;<span class="hljs-title function_ invoke__">onQueue</span>(<span class="hljs-string">&#x27;emails&#x27;</span>);</code></pre>
+</figure><p>The controller returns the HTTP response right away. The job runs later, in a separate process. If the job fails, Laravel automatically retries it according to your <code>$tries</code> setting and records it in the <code>failed_jobs</code> table.</p>
+<h2 id="how-laravel-defer-works">How Laravel defer() Works</h2>
+<p><code>defer()</code> was introduced in <strong>Laravel 11.0</strong> (released March 2024) and is also available in Laravel 12 and 13. It takes a closure and defers its execution until <em>after</em> the HTTP response has been sent to the browser — all within the same PHP process.</p>
+<p>Basic defer() usage (Laravel 11+)</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-keyword">use</span> <span class="hljs-keyword">function</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">defer</span>;
 
-// Dispatch to a specific queue
-SendWelcomeEmail::dispatch($user)->onQueue('emails');</div>
+<span class="hljs-title class_">Route</span>::<span class="hljs-title function_ invoke__">post</span>(<span class="hljs-string">&#x27;/orders&#x27;</span>, function (Request <span class="hljs-variable">$request</span>) {
 
-        <p>The controller returns the HTTP response right away. The job runs later, in a separate process. If the job fails, Laravel automatically retries it according to your <code>$tries</code> setting and records it in the <code>failed_jobs</code> table.</p>
+    <span class="hljs-variable">$order</span> = <span class="hljs-title class_">Order</span>::<span class="hljs-title function_ invoke__">create</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validated</span>());
 
-        <h2>How Laravel defer() Works</h2>
+    <span class="hljs-comment">// This runs AFTER the response is sent to the user</span>
+    <span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">Metrics</span>::<span class="hljs-title function_ invoke__">recordOrder</span>(<span class="hljs-variable">$order</span>));
 
-        <p><code>defer()</code> was introduced in <strong>Laravel 11.0</strong> (released March 2024) and is also available in Laravel 12 and 13. It takes a closure and defers its execution until <em>after</em> the HTTP response has been sent to the browser — all within the same PHP process.</p>
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>(<span class="hljs-variable">$order</span>, <span class="hljs-number">201</span>); <span class="hljs-comment">// returned immediately</span>
+});</code></pre>
+</figure><p>The user gets the JSON response in milliseconds. The <code>Metrics::recordOrder()</code> call happens after, without blocking the response. No worker, no Redis, no extra config needed.</p>
+<aside class="callout callout--warn">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span>
+  <div><p class="callout__label">Important</p><div class="callout__body"><p>By default, deferred functions only run if the response completes <em>successfully</em>. A <code>4xx</code> or <code>5xx</code> response will skip them. Chain <code>-&gt;always()</code> to override this.
+defer() options</p></div></div>
+</aside>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-keyword">use</span> <span class="hljs-keyword">function</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">defer</span>;
 
-        <span class="code-label">Basic defer() usage (Laravel 11+)</span>
-        <div class="code-block">use function Illuminate\Support\defer;
+<span class="hljs-comment">// Run only on successful responses (default)</span>
+<span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">Metrics</span>::<span class="hljs-title function_ invoke__">recordOrder</span>(<span class="hljs-variable">$order</span>));
 
-Route::post('/orders', function (Request $request) {
+<span class="hljs-comment">// Always run, even if the response is a 4xx or 5xx</span>
+<span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">AuditLog</span>::<span class="hljs-title function_ invoke__">write</span>(<span class="hljs-variable">$event</span>))-&gt;<span class="hljs-title function_ invoke__">always</span>();
 
-    $order = Order::create($request->validated());
+<span class="hljs-comment">// Named defer — so you can cancel it later if needed</span>
+<span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">Cache</span>::<span class="hljs-title function_ invoke__">warmUp</span>(<span class="hljs-variable">$user</span>), <span class="hljs-string">&#x27;warm-cache&#x27;</span>);
+<span class="hljs-title function_ invoke__">defer</span>()-&gt;<span class="hljs-title function_ invoke__">forget</span>(<span class="hljs-string">&#x27;warm-cache&#x27;</span>); <span class="hljs-comment">// cancel before it runs</span></code></pre>
+</figure><h2 id="version-support">Version Support</h2>
+<p><code>defer()</code> is available starting from <strong>Laravel 11</strong>. It does not exist in Laravel 10 or any earlier version. All currently supported versions of Laravel include it:</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Laravel Version</th>
+<th>defer() Available?</th>
+<th>Queue Jobs Available?</th>
+</tr></thead><tbody>
+<tr>
+<td>Laravel 13 (current)</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Laravel 12</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Laravel 11</td>
+<td><span class="badge badge--yes">✓ Yes</span> <span style="font-size:.8em;color:var(--muted)">(introduced)</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Laravel 10</td>
+<td><span class="badge badge--no">✕ No</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Laravel 9 / 8</td>
+<td><span class="badge badge--no">✕ No</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+</tbody></table></div>
+<h2 id="queue-vs-defer-full-comparison">Queue vs defer() — Full Comparison</h2>
+<div class="table-scroll"><table><thead><tr>
+<th>Feature</th>
+<th>Queue Job</th>
+<th>defer()</th>
+</tr></thead><tbody>
+<tr>
+<td>Runs in same PHP process</td>
+<td><span class="badge badge--no">✕ No</span> <span style="color:var(--muted)">— separate worker</span></td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Needs queue worker (Artisan)</td>
+<td>Required</td>
+<td>Not needed</td>
+</tr>
+<tr>
+<td>Needs Redis / DB queue driver</td>
+<td>Required</td>
+<td>Not needed</td>
+</tr>
+<tr>
+<td>Persisted to storage</td>
+<td><span class="badge badge--yes">✓ Yes</span> <span style="color:var(--muted)">— survives restarts</span></td>
+<td><span class="badge badge--no">✕ No</span> <span style="color:var(--muted)">— lost on crash</span></td>
+</tr>
+<tr>
+<td>Automatic retries on failure</td>
+<td><span class="badge badge--yes">✓ Yes</span> <span style="color:var(--muted)">(configurable)</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+</tr>
+<tr>
+<td>Delayed / scheduled execution</td>
+<td><span class="badge badge--yes">✓ Yes</span> <span style="color:var(--muted)">— any delay</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+</tr>
+<tr>
+<td>Monitoring (Horizon / Telescope)</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--no">✕ No</span></td>
+</tr>
+<tr>
+<td>Cross-server execution</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+<td><span class="badge badge--no">✕ No</span> <span style="color:var(--muted)">— same server</span></td>
+</tr>
+<tr>
+<td>Run after response is sent</td>
+<td>Separate process</td>
+<td><span class="badge badge--yes">✓ Yes</span></td>
+</tr>
+<tr>
+<td>Setup complexity</td>
+<td>Medium <span style="color:var(--muted)">(worker + Supervisor)</span></td>
+<td>Zero <span style="color:var(--muted)">(just call defer)</span></td>
+</tr>
+<tr>
+<td>Laravel version required</td>
+<td>Any version</td>
+<td>Laravel 11+</td>
+</tr>
+</tbody></table></div>
+<h2 id="when-to-use-defer">When to Use defer()</h2>
+<p><code>defer()</code> is the right tool when:</p>
+<ul>
+<li>The task is <strong>non-critical</strong> — losing it on a crash is acceptable</li>
+<li>The task is <strong>lightweight</strong> — a quick database write, counter increment, or cache update</li>
+<li>You want to <strong>avoid queue infrastructure</strong> entirely (small apps, staging environments)</li>
+<li>The task only makes sense on a <strong>successful response</strong></li>
+<li>You don&#39;t need <strong>retries</strong> if it fails</li>
+</ul>
+<h3 id="good-use-cases-for-defer">Good use cases for defer()</h3>
+<ul>
+<li>Recording analytics or metrics after an order (e.g., <code>Metrics::reportOrder($order)</code>)</li>
+<li>Writing a non-critical audit trail entry</li>
+<li>Incrementing a page view or &quot;last seen&quot; counter</li>
+<li>Warming up a cache entry after a resource is created</li>
+<li>Sending a non-critical Slack notification to an internal channel</li>
+<li>Firing a webhook to a monitoring service (where loss is tolerable)</li>
+</ul>
+<p>Real-world defer() examples</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-keyword">use</span> <span class="hljs-keyword">function</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Support</span>\<span class="hljs-title">defer</span>;
 
-    // This runs AFTER the response is sent to the user
-    defer(fn () => Metrics::recordOrder($order));
+<span class="hljs-comment">// 1. Record analytics after an API response</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">store</span>(<span class="hljs-params">OrderRequest <span class="hljs-variable">$request</span></span>)
+</span>{
+    <span class="hljs-variable">$order</span> = <span class="hljs-variable language_">$this</span>-&gt;orderService-&gt;<span class="hljs-title function_ invoke__">create</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validated</span>());
 
-    return response()->json($order, 201); // returned immediately
-});</div>
-
-        <p>The user gets the JSON response in milliseconds. The <code>Metrics::recordOrder()</code> call happens after, without blocking the response. No worker, no Redis, no extra config needed.</p>
-
-        <div class="note">
-          <strong>Important:</strong> By default, deferred functions only run if the response completes <em>successfully</em>. A <code>4xx</code> or <code>5xx</code> response will skip them. Chain <code>-&gt;always()</code> to override this.
-        </div>
-
-        <span class="code-label">defer() options</span>
-        <div class="code-block">use function Illuminate\Support\defer;
-
-// Run only on successful responses (default)
-defer(fn () => Metrics::recordOrder($order));
-
-// Always run, even if the response is a 4xx or 5xx
-defer(fn () => AuditLog::write($event))->always();
-
-// Named defer — so you can cancel it later if needed
-defer(fn () => Cache::warmUp($user), 'warm-cache');
-defer()->forget('warm-cache'); // cancel before it runs</div>
-
-        <h2>Version Support</h2>
-
-        <p><code>defer()</code> is available starting from <strong>Laravel 11</strong>. It does not exist in Laravel 10 or any earlier version. All currently supported versions of Laravel include it:</p>
-
-        <table class="comparison-table">
-          <thead>
-            <tr><th>Laravel Version</th><th>defer() Available?</th><th>Queue Jobs Available?</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Laravel 13 (current)</td><td class="yes">✅ Yes</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Laravel 12</td><td class="yes">✅ Yes</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Laravel 11</td><td class="yes">✅ Yes (introduced here)</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Laravel 10</td><td class="no">❌ No</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Laravel 9 / 8</td><td class="no">❌ No</td><td class="yes">✅ Yes</td></tr>
-          </tbody>
-        </table>
-
-        <h2>Queue vs defer() — Full Comparison</h2>
-
-        <table class="comparison-table">
-          <thead>
-            <tr><th>Feature</th><th>Queue Job</th><th>defer()</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Runs in same PHP process</td><td class="no">❌ No — separate worker</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Needs queue worker (Artisan)</td><td class="no">✅ Required</td><td class="yes">❌ Not needed</td></tr>
-            <tr><td>Needs Redis / DB queue driver</td><td class="no">✅ Required</td><td class="yes">❌ Not needed</td></tr>
-            <tr><td>Persisted to storage</td><td class="yes">✅ Yes — survives restarts</td><td class="no">❌ No — lost on crash</td></tr>
-            <tr><td>Automatic retries on failure</td><td class="yes">✅ Yes (configurable)</td><td class="no">❌ No</td></tr>
-            <tr><td>Delayed / scheduled execution</td><td class="yes">✅ Yes — any delay</td><td class="no">❌ No</td></tr>
-            <tr><td>Monitoring (Horizon / Telescope)</td><td class="yes">✅ Yes</td><td class="no">❌ No</td></tr>
-            <tr><td>Cross-server execution</td><td class="yes">✅ Yes</td><td class="no">❌ No — same server</td></tr>
-            <tr><td>Run after response is sent</td><td class="warn">⚠️ Different process, not tied to response</td><td class="yes">✅ Yes</td></tr>
-            <tr><td>Setup complexity</td><td class="warn">⚠️ Medium — driver + worker + Supervisor</td><td class="yes">✅ Zero — just call defer()</td></tr>
-            <tr><td>Laravel version required</td><td>Any version</td><td>Laravel 11+</td></tr>
-          </tbody>
-        </table>
-
-        <h2>When to Use defer()</h2>
-
-        <p><code>defer()</code> is the right tool when:</p>
-
-        <ul>
-          <li>The task is <strong>non-critical</strong> — losing it on a crash is acceptable</li>
-          <li>The task is <strong>lightweight</strong> — a quick database write, counter increment, or cache update</li>
-          <li>You want to <strong>avoid queue infrastructure</strong> entirely (small apps, staging environments)</li>
-          <li>The task only makes sense on a <strong>successful response</strong></li>
-          <li>You don't need <strong>retries</strong> if it fails</li>
-        </ul>
-
-        <div class="decision-box">
-          <h3>Good use cases for defer()</h3>
-          <ul>
-            <li>Recording analytics or metrics after an order (e.g., <code>Metrics::reportOrder($order)</code>)</li>
-            <li>Writing a non-critical audit trail entry</li>
-            <li>Incrementing a page view or "last seen" counter</li>
-            <li>Warming up a cache entry after a resource is created</li>
-            <li>Sending a non-critical Slack notification to an internal channel</li>
-            <li>Firing a webhook to a monitoring service (where loss is tolerable)</li>
-          </ul>
-        </div>
-
-        <span class="code-label">Real-world defer() examples</span>
-        <div class="code-block">use function Illuminate\Support\defer;
-
-// 1. Record analytics after an API response
-public function store(OrderRequest $request)
-{
-    $order = $this->orderService->create($request->validated());
-
-    defer(fn () => Analytics::track('order_created', [
-        'user_id'  => $order->user_id,
-        'amount'   => $order->total,
-        'currency' => $order->currency,
+    <span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">Analytics</span>::<span class="hljs-title function_ invoke__">track</span>(<span class="hljs-string">&#x27;order_created&#x27;</span>, [
+        <span class="hljs-string">&#x27;user_id&#x27;</span>  =&gt; <span class="hljs-variable">$order</span>-&gt;user_id,
+        <span class="hljs-string">&#x27;amount&#x27;</span>   =&gt; <span class="hljs-variable">$order</span>-&gt;total,
+        <span class="hljs-string">&#x27;currency&#x27;</span> =&gt; <span class="hljs-variable">$order</span>-&gt;currency,
     ]));
 
-    return OrderResource::make($order);
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">OrderResource</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-variable">$order</span>);
 }
 
-// 2. Update a cached leaderboard after a score is saved
-public function submitScore(ScoreRequest $request)
-{
-    $score = Score::create($request->validated());
+<span class="hljs-comment">// 2. Update a cached leaderboard after a score is saved</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">submitScore</span>(<span class="hljs-params">ScoreRequest <span class="hljs-variable">$request</span></span>)
+</span>{
+    <span class="hljs-variable">$score</span> = <span class="hljs-title class_">Score</span>::<span class="hljs-title function_ invoke__">create</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validated</span>());
 
-    defer(fn () => Cache::forget("leaderboard:{$score->game_id}"));
+    <span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-title class_">Cache</span>::<span class="hljs-title function_ invoke__">forget</span>(<span class="hljs-string">&quot;leaderboard:<span class="hljs-subst">{$score-&gt;game_id}</span>&quot;</span>));
 
-    return response()->json(['message' => 'Score saved']);
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([<span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Score saved&#x27;</span>]);
 }
 
-// 3. Log a "last active" timestamp without slowing the request
-public function show(User $user)
-{
-    defer(fn () => $user->update(['last_active_at' => now()]));
+<span class="hljs-comment">// 3. Log a &quot;last active&quot; timestamp without slowing the request</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span></span>)
+</span>{
+    <span class="hljs-title function_ invoke__">defer</span>(fn () =&gt; <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">update</span>([<span class="hljs-string">&#x27;last_active_at&#x27;</span> =&gt; <span class="hljs-title function_ invoke__">now</span>()]));
 
-    return UserResource::make($user);
-}</div>
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">UserResource</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-variable">$user</span>);
+}</code></pre>
+</figure><h2 id="when-to-use-queue-jobs">When to Use Queue Jobs</h2>
+<p>Queue jobs are the right tool when:</p>
+<ul>
+<li>The task <strong>must not be lost</strong> — it needs to survive server restarts and crashes</li>
+<li>The task <strong>must retry</strong> on failure (sending emails, calling payment APIs)</li>
+<li>The task should run <strong>after a delay</strong> (e.g., a follow-up email 24 hours later)</li>
+<li>The task is <strong>CPU or memory heavy</strong> (image processing, report generation, PDF rendering)</li>
+<li>You need <strong>visibility and monitoring</strong> via Horizon or Telescope</li>
+<li>The task should run on a <strong>dedicated worker server</strong> separately from the web server</li>
+</ul>
+<h3 id="good-use-cases-for-queue-jobs">Good use cases for Queue Jobs</h3>
+<ul>
+<li>Sending transactional emails (welcome email, password reset, invoice)</li>
+<li>Processing file uploads (image resizing, video transcoding, CSV imports)</li>
+<li>Calling third-party APIs that may fail or be slow (payment gateway, SMS, shipping)</li>
+<li>Sending push notifications or bulk WhatsApp/FCM messages</li>
+<li>Generating and storing PDF reports</li>
+<li>Scheduled/delayed tasks (e.g., &quot;send reminder 3 days after sign-up&quot;)</li>
+<li>Syncing data to external systems (CRM, ERP, analytics platform)</li>
+</ul>
+<p><strong>Never use defer() for emails or payments.</strong> If your PHP process crashes between sending the response and executing the deferred closure, the task is silently lost. For anything that must be delivered — use a queue job with retries.</p>
+<h2 id="defer-in-laravel-13-what-changed">defer() in Laravel 13: What Changed?</h2>
+<p>Laravel 13 did not change the <code>defer()</code> API — <strong>it works identically to Laravel 11 and 12</strong>. The function signature, behaviour, <code>-&gt;always()</code>, named deferral, and test helpers are all the same across all three versions.</p>
+<p>What <em>did</em> change in Laravel 13 is the surrounding ecosystem. The new <strong>Reverb database driver</strong> makes it possible to run real-time broadcasts without Redis, and <strong>PHP Attributes</strong> replace the repetitive boilerplate in queue jobs — but the <code>defer()</code> function itself is unchanged.</p>
+<p>Laravel 13: PHP Attribute syntax for queue jobs</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Laravel 13 — use PHP Attributes instead of class properties</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">WithoutOverlapping</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">OnQueue</span>;
 
-        <h2>When to Use Queue Jobs</h2>
+<span class="hljs-meta">#[OnQueue</span>(<span class="hljs-string">&#x27;emails&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-meta">#[WithoutOverlapping</span><span class="hljs-meta">]</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SendWelcomeEmail</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ShouldQueue</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">Queueable</span>;
 
-        <p>Queue jobs are the right tool when:</p>
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"><span class="hljs-keyword">public</span> User <span class="hljs-variable">$user</span></span>) </span>{}
 
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-title class_">Mail</span>::<span class="hljs-title function_ invoke__">to</span>(<span class="hljs-variable">$this</span>-&gt;user)-&gt;<span class="hljs-title function_ invoke__">send</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">WelcomeEmail</span>(<span class="hljs-variable">$this</span>-&gt;user));
+    }
+}</code></pre>
+</figure><h2 id="practical-decision-guide">Practical Decision Guide</h2>
+<p>Ask yourself these questions when choosing:</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Question</th>
+<th>If YES → Use</th>
+</tr></thead><tbody>
+<tr>
+<td>Can I tolerate losing this task if the server crashes?</td>
+<td>defer()</td>
+</tr>
+<tr>
+<td>Must this task retry if it fails?</td>
+<td>Queue Job</td>
+</tr>
+<tr>
+<td>Is this task longer than ~1 second?</td>
+<td>Queue Job</td>
+</tr>
+<tr>
+<td>Does this task run after a time delay (minutes/hours)?</td>
+<td>Queue Job</td>
+</tr>
+<tr>
+<td>Does this task call an external API (email, payment, SMS)?</td>
+<td>Queue Job</td>
+</tr>
+<tr>
+<td>Is this a quick write (counter, metric, cache bust)?</td>
+<td>defer()</td>
+</tr>
+<tr>
+<td>Am I on Laravel 10 or earlier?</td>
+<td>Queue Job</td>
+</tr>
+<tr>
+<td>Do I want zero infrastructure for this?</td>
+<td>defer()</td>
+</tr>
+</tbody></table></div>
+<h2 id="testing-deferred-functions">Testing Deferred Functions</h2>
+<p>By default, deferred functions execute asynchronously after the response. In tests this can cause timing issues. Laravel provides <code>withoutDefer()</code> to run them synchronously during tests:</p>
+<p>PHPUnit test</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderControllerTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TestCase</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test_order_records_metrics</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-comment">// Make deferred functions execute immediately in this test</span>
+        <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">withoutDefer</span>();
+
+        <span class="hljs-title class_">Metrics</span>::<span class="hljs-title function_ invoke__">shouldReceive</span>(<span class="hljs-string">&#x27;recordOrder&#x27;</span>)-&gt;<span class="hljs-title function_ invoke__">once</span>();
+
+        <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">postJson</span>(<span class="hljs-string">&#x27;/api/orders&#x27;</span>, [<span class="hljs-string">&#x27;product_id&#x27;</span> =&gt; <span class="hljs-number">1</span>, <span class="hljs-string">&#x27;qty&#x27;</span> =&gt; <span class="hljs-number">2</span>])
+             -&gt;<span class="hljs-title function_ invoke__">assertStatus</span>(<span class="hljs-number">201</span>);
+    }
+}</code></pre>
+</figure><p>To disable defer for all tests in a test case, override <code>setUp()</code> in your base <code>TestCase</code> class:</p>
+<p>tests/TestCase.php</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestCase</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseTestCase</span>
+</span>{
+    <span class="hljs-keyword">protected</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setUp</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-built_in">parent</span>::<span class="hljs-title function_ invoke__">setUp</span>();
+        <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">withoutDefer</span>(); <span class="hljs-comment">// All deferred functions run immediately</span>
+    }
+}</code></pre>
+</figure><h2 id="swoole-frankenphp-warning">Swoole / FrankenPHP Warning</h2>
+<p>If you&#39;re using the Swoole PHP extension or FrankenPHP, be aware that Swoole has its own global <code>defer()</code> function that conflicts with Laravel&#39;s. Always import Laravel&#39;s helper explicitly to avoid a hard-to-debug collision:</p>
+<p>Always use the explicit import when running Swoole</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">javascript</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-javascript"><span class="hljs-comment">// WRONG on Swoole — calls Swoole&#x27;s defer(), not Laravel&#x27;s</span>
+<span class="hljs-title function_">defer</span>(<span class="hljs-title function_">fn</span> () =&gt; <span class="hljs-title class_">Metrics</span>::<span class="hljs-title function_">record</span>($data));
+
+<span class="hljs-comment">// CORRECT — explicitly use Laravel&#x27;s namespace</span>
+use <span class="hljs-keyword">function</span> <span class="hljs-title class_">Illuminate</span>\<span class="hljs-title class_">Support</span>\defer;
+
+<span class="hljs-title function_">defer</span>(<span class="hljs-title function_">fn</span> () =&gt; <span class="hljs-title class_">Metrics</span>::<span class="hljs-title function_">record</span>($data));</code></pre>
+</figure><aside class="callout callout--tip">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg></span>
+  <div><p class="callout__label">Best Practice</p><div class="callout__body"><p>Always use <code>use function Illuminate\Support\defer;</code> at the top of any file that calls <code>defer()</code>, regardless of your server environment. It makes the code self-documenting and safe across all configurations.</p></div></div>
+</aside>
+<hr>
+<h2 id="frequently-asked-questions">Frequently Asked Questions</h2>
+<h3 id="what-is-the-difference-between-laravel-queue-and-defer">What is the difference between Laravel Queue and defer()?</h3>
+<p>A Queue Job is serialized and pushed into a persistent store (Redis, database, SQS) processed by a separate worker. <code>defer()</code> runs a PHP closure in the same process, after the HTTP response has been sent — no worker needed, no persistence, no retries. Use <code>defer()</code> for lightweight fire-and-forget tasks. Use queues for anything that must be reliable or retried on failure.</p>
+<h3 id="which-laravel-versions-support-defer">Which Laravel versions support defer()?</h3>
+<p><code>defer()</code> was introduced in <strong>Laravel 11.0</strong> (March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier.</p>
+<h3 id="does-laravel-defer-need-a-queue-worker">Does Laravel defer() need a queue worker?</h3>
+<p>No. <code>defer()</code> does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent — making it ideal for simple apps that don&#39;t want to manage queue infrastructure.</p>
+<h3 id="what-happens-to-deferred-functions-if-the-response-fails">What happens to deferred functions if the response fails?</h3>
+<p>By default, deferred functions only execute if the HTTP response completes successfully. A <code>4xx</code> or <code>5xx</code> response will skip them. To force them to always run, chain <code>-&gt;always()</code>: <code>defer(fn () =&gt; doWork())-&gt;always();</code></p>
+<h3 id="can-defer-replace-queues-in-laravel">Can defer() replace queues in Laravel?</h3>
+<p>No. <code>defer()</code> is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job. See also: <a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and How to Fix It)</a>.</p></article>
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need help with your Laravel architecture?</h2>
+        <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
+        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
+      </div>
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
+      </div>
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/laravel-sanctum-tutorial/"><span>← Previous</span><b>Laravel Sanctum Tutorial: API Auth, Step by Step</b></a>
+        <a href="/blog/laravel-ai-sdk-openrouter/" style="text-align:right"><span>Next →</span><b>Laravel AI SDK + OpenRouter: A Complete Guide</b></a>
+      </nav>
+    </div>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#how-laravel-queues-work" data-toc-link>How Laravel Queues Work</a><a href="#how-laravel-defer-works" data-toc-link>How Laravel defer() Works</a><a href="#version-support" data-toc-link>Version Support</a><a href="#queue-vs-defer-full-comparison" data-toc-link>Queue vs defer() — Full Comparison</a><a href="#when-to-use-defer" data-toc-link>When to Use defer()</a><a href="#good-use-cases-for-defer" data-toc-link class="is-sub">Good use cases for defer()</a><a href="#when-to-use-queue-jobs" data-toc-link>When to Use Queue Jobs</a><a href="#good-use-cases-for-queue-jobs" data-toc-link class="is-sub">Good use cases for Queue Jobs</a><a href="#defer-in-laravel-13-what-changed" data-toc-link>defer() in Laravel 13: What Changed?</a><a href="#practical-decision-guide" data-toc-link>Practical Decision Guide</a><a href="#testing-deferred-functions" data-toc-link>Testing Deferred Functions</a><a href="#swoole-frankenphp-warning" data-toc-link>Swoole / FrankenPHP Warning</a><a href="#frequently-asked-questions" data-toc-link>Frequently Asked Questions</a><a href="#what-is-the-difference-between-laravel-queue-and-defer" data-toc-link class="is-sub">What is the difference between Laravel Queue and defer()?</a><a href="#which-laravel-versions-support-defer" data-toc-link class="is-sub">Which Laravel versions support defer()?</a><a href="#does-laravel-defer-need-a-queue-worker" data-toc-link class="is-sub">Does Laravel defer() need a queue worker?</a><a href="#what-happens-to-deferred-functions-if-the-response-fails" data-toc-link class="is-sub">What happens to deferred functions if the response fails?</a><a href="#can-defer-replace-queues-in-laravel" data-toc-link class="is-sub">Can defer() replace queues in Laravel?</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and the Fix)</a></h3><p class="post-row__desc">Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-performance-optimization/">Laravel Performance Optimisation Guide</a></h3><p class="post-row__desc">A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimisation in Laravel</a></h3><p class="post-row__desc">Fix N+1 queries, add the right composite indexes, read EXPLAIN output and stop full table scans in your Laravel Eloquent code.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer & SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
         <ul>
-          <li>The task <strong>must not be lost</strong> — it needs to survive server restarts and crashes</li>
-          <li>The task <strong>must retry</strong> on failure (sending emails, calling payment APIs)</li>
-          <li>The task should run <strong>after a delay</strong> (e.g., a follow-up email 24 hours later)</li>
-          <li>The task is <strong>CPU or memory heavy</strong> (image processing, report generation, PDF rendering)</li>
-          <li>You need <strong>visibility and monitoring</strong> via Horizon or Telescope</li>
-          <li>The task should run on a <strong>dedicated worker server</strong> separately from the web server</li>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
         </ul>
-
-        <div class="decision-box">
-          <h3>Good use cases for Queue Jobs</h3>
-          <ul>
-            <li>Sending transactional emails (welcome email, password reset, invoice)</li>
-            <li>Processing file uploads (image resizing, video transcoding, CSV imports)</li>
-            <li>Calling third-party APIs that may fail or be slow (payment gateway, SMS, shipping)</li>
-            <li>Sending push notifications or bulk WhatsApp/FCM messages</li>
-            <li>Generating and storing PDF reports</li>
-            <li>Scheduled/delayed tasks (e.g., "send reminder 3 days after sign-up")</li>
-            <li>Syncing data to external systems (CRM, ERP, analytics platform)</li>
-          </ul>
-        </div>
-
-        <div class="danger-note">
-          <strong>Never use defer() for emails or payments.</strong> If your PHP process crashes between sending the response and executing the deferred closure, the task is silently lost. For anything that must be delivered — use a queue job with retries.
-        </div>
-
-        <h2>defer() in Laravel 13: What Changed?</h2>
-
-        <p>Laravel 13 did not change the <code>defer()</code> API — <strong>it works identically to Laravel 11 and 12</strong>. The function signature, behaviour, <code>->always()</code>, named deferral, and test helpers are all the same across all three versions.</p>
-
-        <p>What <em>did</em> change in Laravel 13 is the surrounding ecosystem. The new <strong>Reverb database driver</strong> makes it possible to run real-time broadcasts without Redis, and <strong>PHP Attributes</strong> replace the repetitive boilerplate in queue jobs — but the <code>defer()</code> function itself is unchanged.</p>
-
-        <span class="code-label">Laravel 13: PHP Attribute syntax for queue jobs</span>
-        <div class="code-block">// Laravel 13 — use PHP Attributes instead of class properties
-use Illuminate\Queue\Attributes\WithoutOverlapping;
-use Illuminate\Queue\Attributes\OnQueue;
-
-#[OnQueue('emails')]
-#[WithoutOverlapping]
-class SendWelcomeEmail implements ShouldQueue
-{
-    use Queueable;
-
-    public function __construct(public User $user) {}
-
-    public function handle(): void
-    {
-        Mail::to($this->user)->send(new WelcomeEmail($this->user));
-    }
-}</div>
-
-        <h2>Practical Decision Guide</h2>
-
-        <p>Ask yourself these questions when choosing:</p>
-
-        <table class="comparison-table">
-          <thead>
-            <tr><th>Question</th><th>If YES → Use</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Can I tolerate losing this task if the server crashes?</td><td class="yes">defer()</td></tr>
-            <tr><td>Must this task retry if it fails?</td><td>Queue Job</td></tr>
-            <tr><td>Is this task longer than ~1 second?</td><td>Queue Job</td></tr>
-            <tr><td>Does this task run after a time delay (minutes/hours)?</td><td>Queue Job</td></tr>
-            <tr><td>Does this task call an external API (email, payment, SMS)?</td><td>Queue Job</td></tr>
-            <tr><td>Is this a quick write (counter, metric, cache bust)?</td><td class="yes">defer()</td></tr>
-            <tr><td>Am I on Laravel 10 or earlier?</td><td>Queue Job</td></tr>
-            <tr><td>Do I want zero infrastructure for this?</td><td class="yes">defer()</td></tr>
-          </tbody>
-        </table>
-
-        <h2>Testing Deferred Functions</h2>
-
-        <p>By default, deferred functions execute asynchronously after the response. In tests this can cause timing issues. Laravel provides <code>withoutDefer()</code> to run them synchronously during tests:</p>
-
-        <span class="code-label">PHPUnit test</span>
-        <div class="code-block">&lt;?php
-
-class OrderControllerTest extends TestCase
-{
-    public function test_order_records_metrics(): void
-    {
-        // Make deferred functions execute immediately in this test
-        $this->withoutDefer();
-
-        Metrics::shouldReceive('recordOrder')->once();
-
-        $this->postJson('/api/orders', ['product_id' => 1, 'qty' => 2])
-             ->assertStatus(201);
-    }
-}</div>
-
-        <p>To disable defer for all tests in a test case, override <code>setUp()</code> in your base <code>TestCase</code> class:</p>
-
-        <span class="code-label">tests/TestCase.php</span>
-        <div class="code-block">abstract class TestCase extends BaseTestCase
-{
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->withoutDefer(); // All deferred functions run immediately
-    }
-}</div>
-
-        <h2>Swoole / FrankenPHP Warning</h2>
-
-        <p>If you're using the Swoole PHP extension or FrankenPHP, be aware that Swoole has its own global <code>defer()</code> function that conflicts with Laravel's. Always import Laravel's helper explicitly to avoid a hard-to-debug collision:</p>
-
-        <span class="code-label">Always use the explicit import when running Swoole</span>
-        <div class="code-block">// WRONG on Swoole — calls Swoole's defer(), not Laravel's
-defer(fn () => Metrics::record($data));
-
-// CORRECT — explicitly use Laravel's namespace
-use function Illuminate\Support\defer;
-
-defer(fn () => Metrics::record($data));</div>
-
-        <div class="note">
-          <strong>Best practice:</strong> Always use <code>use function Illuminate\Support\defer;</code> at the top of any file that calls <code>defer()</code>, regardless of your server environment. It makes the code self-documenting and safe across all configurations.
-        </div>
-
-        <hr>
-
-        <h2>Frequently Asked Questions</h2>
-
-        <h3>What is the difference between Laravel Queue and defer()?</h3>
-        <p>A Queue Job is serialized and pushed into a persistent store (Redis, database, SQS) processed by a separate worker. <code>defer()</code> runs a PHP closure in the same process, after the HTTP response has been sent — no worker needed, no persistence, no retries. Use <code>defer()</code> for lightweight fire-and-forget tasks. Use queues for anything that must be reliable or retried on failure.</p>
-
-        <h3>Which Laravel versions support defer()?</h3>
-        <p><code>defer()</code> was introduced in <strong>Laravel 11.0</strong> (March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier.</p>
-
-        <h3>Does Laravel defer() need a queue worker?</h3>
-        <p>No. <code>defer()</code> does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent — making it ideal for simple apps that don't want to manage queue infrastructure.</p>
-
-        <h3>What happens to deferred functions if the response fails?</h3>
-        <p>By default, deferred functions only execute if the HTTP response completes successfully. A <code>4xx</code> or <code>5xx</code> response will skip them. To force them to always run, chain <code>-&gt;always()</code>: <code>defer(fn () =&gt; doWork())-&gt;always();</code></p>
-
-        <h3>Can defer() replace queues in Laravel?</h3>
-        <p>No. <code>defer()</code> is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job. See also: <a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and How to Fix It)</a>.</p>
-
       </div>
-    </article>
-
-    <div class="hire-cta-box">
-      <h3>Need Help with Laravel Performance?</h3>
-      <p>I've implemented background processing — queues, defer, Horizon, Supervisor — across production SaaS platforms and e-commerce backends. Let's get your app running faster.</p>
-      <div class="cta-btn-group">
-        <a href="/services/hire-laravel-developer/" class="btn-hire-primary">Hire Me →</a>
-        <a href="/" class="btn-hire-secondary">View Portfolio</a>
-      </div>
-      <p class="cta-meta-text">Fixed price · Reply within 4 hours · Remote worldwide</p>
-    </div>
-
-    <div class="author-bio">
-      <h3>About the Author</h3>
-      <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-      <div class="author-links">
-        <a href="/">Portfolio</a>
-        <a href="mailto:kzaman3055@gmail.com">Contact</a>
-        <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
       </div>
     </div>
-
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
   </div>
-    <script src="/shared-nav.js" defer></script>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

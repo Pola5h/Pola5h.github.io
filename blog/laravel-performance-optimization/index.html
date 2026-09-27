@@ -1,316 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025</title>
-    <meta name="description" content="Ultimate guide to Laravel performance optimization: caching strategies, queue management, horizontal scaling, and best practices for high-traffic applications in 2025.">
-    <meta name="author" content="Kamruzzaman Polash">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-performance-optimization/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025">
-    <meta property="og:description" content="Ultimate guide to Laravel performance optimization: caching strategies, queue management, horizontal scaling, and best practices for high-traffic applications.">
-    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-performance-optimization/">
-    <meta property="og:site_name" content="Kamruzzaman Polash">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="https://pola5h.github.io/">
-    <meta property="article:published_time" content="2025-10-06">
-    <meta property="article:modified_time" content="2025-02-20">
-    <meta property="article:section" content="Technology">
-    <meta property="article:tag" content="Laravel">
-    <meta property="article:tag" content="Performance">
-    <meta property="article:tag" content="Redis">
-    <meta property="article:tag" content="PHP">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025">
-    <meta name="twitter:description" content="Ultimate guide to Laravel performance: caching, queues, scaling, and best practices for high-traffic applications.">
-    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <meta name="theme-color" content="#0d1117">
-    <meta name="msapplication-TileColor" content="#0d1117">
-
-    <!-- Structured Data: TechArticle -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025",
-        "description": "Ultimate guide to Laravel performance optimization: caching strategies, queue management, horizontal scaling, and best practices for high-traffic applications.",
-        "image": "https://pola5h.github.io/og-image.svg",
-        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "datePublished": "2025-10-06",
-        "dateModified": "2025-02-20",
-        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-performance-optimization/",
-        "articleSection": "Technology",
-        "keywords": ["Laravel performance", "Laravel caching", "Laravel queues", "Laravel scaling", "Redis Laravel", "PHP optimization"],
-        "inLanguage": "en-US",
-        "wordCount": "2000",
-        "timeRequired": "PT10M",
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-                { "@type": "ListItem", "position": 3, "name": "Laravel Performance Optimization", "item": "https://pola5h.github.io/blog/laravel-performance-optimization/" }
-            ]
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "How do I optimize Laravel performance for high traffic?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Use Redis caching for config, routes, views, and data. Offload heavy tasks to queues, fix N+1 queries with eager loading, add database indexes, and scale horizontally with a load balancer."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the best cache driver for Laravel?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Redis is the best cache driver for production Laravel applications — it's in-memory, extremely fast, and supports advanced features like cache tags and pub/sub."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How can I monitor Laravel queues in production?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Use Laravel Horizon for real-time queue monitoring, throughput analytics, failed job management, and worker configuration. It provides a clean dashboard accessible at /horizon."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How do I scale a Laravel application horizontally?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Deploy multiple app servers behind a load balancer (Nginx or AWS ELB), use Redis or database for sessions and cache instead of file drivers, and serve assets through a CDN."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--sans); line-height: 1.7; color: var(--text-primary); background-color: var(--bg-primary); }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-        .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-        .article-category { color: var(--accent-green); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-        h1 { font-size: 2.4rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-        .article-meta a { color: var(--accent-blue); text-decoration: none; }
-        .related-links { background: var(--bg-secondary); border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-secondary); }
-        .related-links a { color: var(--accent-blue); text-decoration: none; margin: 0 0.3rem; }
-        .related-links a:hover { text-decoration: underline; }
-        .article-content { font-size: 1.05rem; line-height: 1.8; }
-        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); }
-        .article-content h3 { font-size: 1.3rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-        .article-content p { margin-bottom: 1.5rem; }
-        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        .article-content li { margin-bottom: 0.5rem; }
-        .code-block { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; }
-        .highlight { background: #d4edda; padding: 1rem 1.2rem; border-left: 4px solid #28a745; margin: 2rem 0; border-radius: 0 4px 4px 0; }
-        .tip-box { background: #fff3cd; padding: 1rem 1.2rem; border-left: 4px solid #ffc107; margin: 2rem 0; border-radius: 0 4px 4px 0; }
-        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
-        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-        .cta-primary:hover { opacity: 0.85; }
-        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-        .cta-meta { font-size: 0.85rem; color: #8b949e; }
-        .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-        .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-        .author-links a:hover { background: #007bff; color: #fff; }
-        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
-    </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel Performance Optimisation Guide</title>
+<meta name="description" content="A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-performance-optimization/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-performance-optimization/">
+<meta property="og:title" content="Laravel Performance Optimisation Guide">
+<meta property="og:description" content="A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2025-10-06">
+<meta property="article:modified_time" content="2025-10-06">
+<meta property="article:section" content="Performance">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-performance-optimization/">
+<meta name="twitter:title" content="Laravel Performance Optimisation Guide">
+<meta name="twitter:description" content="A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-performance-optimization/#article","headline":"Laravel Performance Optimisation Guide","description":"A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.","url":"https://pola5h.github.io/blog/laravel-performance-optimization/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-performance-optimization/"},"datePublished":"2025-10-06","dateModified":"2025-10-06","timeRequired":"PT10M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Performance Optimisation Guide","item":"https://pola5h.github.io/blog/laravel-performance-optimization/"}]}]}</script>
 </head>
 <body>
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Performance Optimization
-        </nav>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
 
-        <article>
-            <header class="article-header">
-                <div class="article-category">Laravel Performance</div>
-                <h1>Laravel Performance Optimization: Caching, Queues & Scaling Guide 2025</h1>
-                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · October 6, 2025 · Updated February 2025 · 10 min read</div>
-            </header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Performance Optimisation Guide</span></div></div>
 
-            <div class="related-links">
-                <strong>Related:</strong>
-                <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Best Practices</a> |
-                <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization</a> |
-                <a href="/blog/laravel-docker-kubernetes-deployment/">Docker & Kubernetes Deployment</a>
-            </div>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Performance</span><span class="label">10 min read</span></div>
+    <h1 class="article-head__title">Laravel Performance Optimisation Guide</h1>
+    <p class="article-head__desc">A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">October 6, 2025</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-            <div class="article-content">
-                <p>A slow Laravel app costs you users, rankings, and money. The good news is that most performance problems come from the same handful of causes — uncached bootstrapping, blocking operations in the request cycle, and unoptimised queries. This guide covers the fixes I apply to every production Laravel project.</p>
-
-                <h2>1. Caching Strategies</h2>
-
-                <h3>Config, route, and view caching</h3>
-                <p>These three Artisan commands are the easiest wins and should be part of every production deployment script. They compile your config files, route definitions, and Blade templates into single cached files so Laravel doesn't re-parse them on every request:</p>
-
-                <div class="code-block">php artisan config:cache
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article"><p>A slow Laravel app costs you users, rankings, and money. The good news is that most performance problems come from the same handful of causes — uncached bootstrapping, blocking operations in the request cycle, and unoptimised queries. This guide covers the fixes I apply to every production Laravel project.</p>
+<h2 id="1-caching-strategies">1. Caching Strategies</h2>
+<h3 id="config-route-and-view-caching">Config, route, and view caching</h3>
+<p>These three Artisan commands are the easiest wins and should be part of every production deployment script. They compile your config files, route definitions, and Blade templates into single cached files so Laravel doesn&#39;t re-parse them on every request:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash">php artisan config:cache
 php artisan route:cache
-php artisan view:cache</div>
+php artisan view:cache</code></pre>
+</figure><p>Run these after every deployment. If you change a config or route file locally, clear the cache with <code>php artisan optimize:clear</code> before testing.</p>
+<h3 id="redis-for-data-caching">Redis for data caching</h3>
+<p>Redis is the right choice for application-level caching in production — it&#39;s in-memory, extremely fast, and supports advanced features like cache tags. Set it as your cache driver and use <code>Cache::remember()</code> for expensive operations:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">ini</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-ini"><span class="hljs-comment"># .env</span>
+<span class="hljs-attr">CACHE_DRIVER</span>=redis</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Basic put/get</span>
+<span class="hljs-title class_">Cache</span>::<span class="hljs-title function_ invoke__">put</span>(<span class="hljs-string">&#x27;key&#x27;</span>, <span class="hljs-string">&#x27;value&#x27;</span>, <span class="hljs-number">600</span>);
+<span class="hljs-variable">$value</span> = <span class="hljs-title class_">Cache</span>::<span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;key&#x27;</span>);
 
-                <p>Run these after every deployment. If you change a config or route file locally, clear the cache with <code>php artisan optimize:clear</code> before testing.</p>
-
-                <h3>Redis for data caching</h3>
-                <p>Redis is the right choice for application-level caching in production — it's in-memory, extremely fast, and supports advanced features like cache tags. Set it as your cache driver and use <code>Cache::remember()</code> for expensive operations:</p>
-
-                <div class="code-block"># .env
-CACHE_DRIVER=redis</div>
-
-                <div class="code-block">// Basic put/get
-Cache::put('key', 'value', 600);
-$value = Cache::get('key');
-
-// Cache and compute in one call — the most common pattern
-$users = Cache::remember('users.active', 3600, function () {
-    return User::where('active', true)->get();
-});</div>
-
-                <div class="highlight">
-                    <strong>Important:</strong> Always invalidate or update the cache when the underlying data changes. Stale cache is worse than no cache — users get wrong data and you'll spend hours debugging it.
-                </div>
-
-                <h2>2. Queue Optimization</h2>
-
-                <h3>Move blocking work off the request cycle</h3>
-                <p>Any task that doesn't need to complete before you return a response should be a queued job — emails, notifications, report generation, image processing, third-party API calls. This is the single biggest improvement for perceived performance.</p>
-
-                <div class="code-block"># Set queue driver
-QUEUE_CONNECTION=redis</div>
-
-                <div class="code-block"># Create a job
+<span class="hljs-comment">// Cache and compute in one call — the most common pattern</span>
+<span class="hljs-variable">$users</span> = <span class="hljs-title class_">Cache</span>::<span class="hljs-title function_ invoke__">remember</span>(<span class="hljs-string">&#x27;users.active&#x27;</span>, <span class="hljs-number">3600</span>, function () {
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">User</span>::<span class="hljs-title function_ invoke__">where</span>(<span class="hljs-string">&#x27;active&#x27;</span>, <span class="hljs-literal">true</span>)-&gt;<span class="hljs-title function_ invoke__">get</span>();
+});</code></pre>
+</figure><blockquote>
+<p>Important: Always invalidate or update the cache when the underlying data changes. Stale cache is worse than no cache — users get wrong data and you&#39;ll spend hours debugging it.</p>
+</blockquote>
+<h2 id="2-queue-optimization">2. Queue Optimization</h2>
+<h3 id="move-blocking-work-off-the-request-cycle">Move blocking work off the request cycle</h3>
+<p>Any task that doesn&#39;t need to complete before you return a response should be a queued job — emails, notifications, report generation, image processing, third-party API calls. This is the single biggest improvement for perceived performance.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">ini</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-ini"><span class="hljs-comment"># Set queue driver</span>
+<span class="hljs-attr">QUEUE_CONNECTION</span>=redis</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Create a job</span>
 php artisan make:job SendWelcomeEmail
 
-# Dispatch it
-SendWelcomeEmail::dispatch($user);
+<span class="hljs-comment"># Dispatch it</span>
+SendWelcomeEmail::dispatch(<span class="hljs-variable">$user</span>);
 
-# Run the worker
-php artisan queue:work --tries=3</div>
-
-                <p>In production, use <a href="http://supervisord.org" target="_blank" rel="noopener noreferrer">Supervisor</a> to keep queue workers running and automatically restart them if they crash.</p>
-
-                <h3>Laravel Horizon for monitoring</h3>
-                <p>Horizon gives you a real-time dashboard for queue throughput, failed jobs, and worker status. It's essential once you're running queues in production:</p>
-
-                <div class="code-block">composer require laravel/horizon
+<span class="hljs-comment"># Run the worker</span>
+php artisan queue:work --tries=3</code></pre>
+</figure><p>In production, use <a href="http://supervisord.org" target="_blank" rel="noopener noreferrer">Supervisor</a> to keep queue workers running and automatically restart them if they crash.</p>
+<h3 id="laravel-horizon-for-monitoring">Laravel Horizon for monitoring</h3>
+<p>Horizon gives you a real-time dashboard for queue throughput, failed jobs, and worker status. It&#39;s essential once you&#39;re running queues in production:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash">composer require laravel/horizon
 php artisan horizon:install
-php artisan horizon</div>
-
-                <p>Access the dashboard at <code>/horizon</code>. Make sure to protect it with the <code>gate</code> in <code>HorizonServiceProvider</code> so it's not publicly accessible.</p>
-
-                <h2>3. Scaling for High Traffic</h2>
-
-                <h3>Horizontal scaling</h3>
-                <p>For high-traffic apps, you need to scale out rather than up. Run multiple Laravel app servers behind a load balancer (Nginx or AWS ELB). The key requirement is that your app must be stateless — no session or cache data stored on the local filesystem. Use Redis for both:</p>
-
-                <div class="code-block"># .env — required for multi-server setup
-SESSION_DRIVER=redis
-CACHE_DRIVER=redis
-QUEUE_CONNECTION=redis</div>
-
-                <h3>Database optimisation</h3>
-                <p>Add indexes to every column used in <code>WHERE</code>, <code>ORDER BY</code>, and <code>JOIN</code> clauses. Fix N+1 queries with eager loading. For read-heavy applications, set up a read replica and point Laravel's read connection at it — this splits query load across two servers with almost no code changes.</p>
-
-                <div class="code-block"># config/database.php — read/write split
-'mysql' => [
-    'read'  => ['host' => env('DB_READ_HOST')],
-    'write' => ['host' => env('DB_HOST')],
+php artisan horizon</code></pre>
+</figure><p>Access the dashboard at <code>/horizon</code>. Make sure to protect it with the <code>gate</code> in <code>HorizonServiceProvider</code> so it&#39;s not publicly accessible.</p>
+<h2 id="3-scaling-for-high-traffic">3. Scaling for High Traffic</h2>
+<h3 id="horizontal-scaling">Horizontal scaling</h3>
+<p>For high-traffic apps, you need to scale out rather than up. Run multiple Laravel app servers behind a load balancer (Nginx or AWS ELB). The key requirement is that your app must be stateless — no session or cache data stored on the local filesystem. Use Redis for both:</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">ini</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-ini"><span class="hljs-comment"># .env — required for multi-server setup</span>
+<span class="hljs-attr">SESSION_DRIVER</span>=redis
+<span class="hljs-attr">CACHE_DRIVER</span>=redis
+<span class="hljs-attr">QUEUE_CONNECTION</span>=redis</code></pre>
+</figure><h3 id="database-optimisation">Database optimisation</h3>
+<p>Add indexes to every column used in <code>WHERE</code>, <code>ORDER BY</code>, and <code>JOIN</code> clauses. Fix N+1 queries with eager loading. For read-heavy applications, set up a read replica and point Laravel&#39;s read connection at it — this splits query load across two servers with almost no code changes.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment"># config/database.php — read/write split</span>
+<span class="hljs-string">&#x27;mysql&#x27;</span> =&gt; [
+    <span class="hljs-string">&#x27;read&#x27;</span>  =&gt; [<span class="hljs-string">&#x27;host&#x27;</span> =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;DB_READ_HOST&#x27;</span>)],
+    <span class="hljs-string">&#x27;write&#x27;</span> =&gt; [<span class="hljs-string">&#x27;host&#x27;</span> =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;DB_HOST&#x27;</span>)],
     ...
-]</div>
-
-                <h3>CDN for static assets</h3>
-                <p>Serve images, CSS, and JS through a CDN like Cloudflare or AWS CloudFront. This reduces load on your origin server and dramatically improves load times for users far from your server location. Set your <code>ASSET_URL</code> in <code>.env</code> to point at your CDN.</p>
-
-                <h2>4. Additional Best Practices</h2>
-
-                <h3>Runtime optimisations</h3>
-                <p>Enable PHP OPcache on your server — it caches compiled PHP bytecode and is one of the highest-impact single changes you can make. Always run the latest stable PHP version. Use <code>composer install --no-dev --optimize-autoloader</code> in production to minimise the autoloader overhead.</p>
-
-                <h3>Common mistakes to avoid</h3>
-                <ul>
-                    <li>Leaving <code>APP_DEBUG=true</code> in production — exposes stack traces and kills performance</li>
-                    <li>Using file-based sessions or cache in a multi-server setup — requests hit different servers and lose context</li>
-                    <li>Not running <code>config:cache</code> and <code>route:cache</code> after deployment</li>
-                    <li>Ignoring failed queue jobs — they pile up silently and can indicate bigger problems</li>
-                    <li>Skipping query profiling — use <a href="https://github.com/barryvdh/laravel-debugbar" target="_blank" rel="noopener noreferrer">Laravel Debugbar</a> or <a href="https://laravel.com/docs/telescope" target="_blank" rel="noopener noreferrer">Telescope</a> in development to catch slow queries early</li>
-                </ul>
-
-                <div class="tip-box">
-                    <strong>Profiling tip:</strong> Don't optimise blindly. Use Debugbar or Telescope to measure first — you'll almost always find that 80% of the slowness comes from 2–3 queries or one blocking operation. Fix those before anything else.
-                </div>
-
-                <h2>Conclusion</h2>
-                <p>Start with the quick wins — config/route/view caching and moving blocking tasks to queues. Then add Redis for data caching and fix your N+1 queries. By the time you need horizontal scaling, you'll have already eliminated most of the performance bottlenecks that would limit you anyway.</p>
-
-                <p>For more on database performance specifically, see the <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization guide</a>. For deployment infrastructure, see <a href="/blog/laravel-docker-kubernetes-deployment/">Deploying Laravel with Docker and Kubernetes</a>.</p>
-            </div>
-        </article>
-
-        <div class="hire-cta-box">
-            <h3>Need Help Optimizing Your Laravel Application?</h3>
-            <p>I've helped production apps handle significantly more traffic through caching, queue architecture, and infrastructure improvements. Happy to audit your stack and identify the biggest wins.</p>
-            <div class="cta-btn-group">
-                <a href="mailto:kzaman3055@gmail.com?subject=Laravel Performance Audit" class="btn-hire-primary">Get In Touch →</a>
-                <a href="/" class="btn-hire-secondary">View My Portfolio</a>
-            </div>
-            <p class="cta-meta-text">Based in Bangladesh · Remote worldwide · Fast turnaround</p>
-        </div>
-
-        <div class="author-bio">
-            <h3>About the Author</h3>
-            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-            <div class="author-links">
-                <a href="/">Portfolio</a>
-                <a href="mailto:kzaman3055@gmail.com">Contact</a>
-                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-        </div>
+]</code></pre>
+</figure><h3 id="cdn-for-static-assets">CDN for static assets</h3>
+<p>Serve images, CSS, and JS through a CDN like Cloudflare or AWS CloudFront. This reduces load on your origin server and dramatically improves load times for users far from your server location. Set your <code>ASSET_URL</code> in <code>.env</code> to point at your CDN.</p>
+<h2 id="4-additional-best-practices">4. Additional Best Practices</h2>
+<h3 id="runtime-optimisations">Runtime optimisations</h3>
+<p>Enable PHP OPcache on your server — it caches compiled PHP bytecode and is one of the highest-impact single changes you can make. Always run the latest stable PHP version. Use <code>composer install --no-dev --optimize-autoloader</code> in production to minimise the autoloader overhead.</p>
+<h3 id="common-mistakes-to-avoid">Common mistakes to avoid</h3>
+<ul>
+<li>Leaving <code>APP_DEBUG=true</code> in production — exposes stack traces and kills performance</li>
+<li>Using file-based sessions or cache in a multi-server setup — requests hit different servers and lose context</li>
+<li>Not running <code>config:cache</code> and <code>route:cache</code> after deployment</li>
+<li>Ignoring failed queue jobs — they pile up silently and can indicate bigger problems</li>
+<li>Skipping query profiling — use <a href="https://github.com/barryvdh/laravel-debugbar" target="_blank" rel="noopener noreferrer">Laravel Debugbar</a> or <a href="https://laravel.com/docs/telescope" target="_blank" rel="noopener noreferrer">Telescope</a> in development to catch slow queries early</li>
+</ul>
+<p><strong>Profiling tip:</strong> Don&#39;t optimise blindly. Use Debugbar or Telescope to measure first — you&#39;ll almost always find that 80% of the slowness comes from 2–3 queries or one blocking operation. Fix those before anything else.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Start with the quick wins — config/route/view caching and moving blocking tasks to queues. Then add Redis for data caching and fix your N+1 queries. By the time you need horizontal scaling, you&#39;ll have already eliminated most of the performance bottlenecks that would limit you anyway.</p>
+<p>For more on database performance specifically, see the <a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimization guide</a>. For deployment infrastructure, see <a href="/blog/laravel-docker-kubernetes-deployment/">Deploying Laravel with Docker and Kubernetes</a>.</p></article>
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need help with your Laravel architecture?</h2>
+        <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
+        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
+      </div>
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
+      </div>
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/mysql-query-optimization-laravel/"><span>← Previous</span><b>MySQL Query Optimisation in Laravel</b></a>
+        <a href="/blog/laravel-12-39-new-features/" style="text-align:right"><span>Next →</span><b>Laravel 12.39: @hasStack, Route Filtering &amp; More</b></a>
+      </nav>
     </div>
-    <script src="/shared-nav.js" defer></script>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-caching-strategies" data-toc-link>1. Caching Strategies</a><a href="#config-route-and-view-caching" data-toc-link class="is-sub">Config, route, and view caching</a><a href="#redis-for-data-caching" data-toc-link class="is-sub">Redis for data caching</a><a href="#2-queue-optimization" data-toc-link>2. Queue Optimization</a><a href="#move-blocking-work-off-the-request-cycle" data-toc-link class="is-sub">Move blocking work off the request cycle</a><a href="#laravel-horizon-for-monitoring" data-toc-link class="is-sub">Laravel Horizon for monitoring</a><a href="#3-scaling-for-high-traffic" data-toc-link>3. Scaling for High Traffic</a><a href="#horizontal-scaling" data-toc-link class="is-sub">Horizontal scaling</a><a href="#database-optimisation" data-toc-link class="is-sub">Database optimisation</a><a href="#cdn-for-static-assets" data-toc-link class="is-sub">CDN for static assets</a><a href="#4-additional-best-practices" data-toc-link>4. Additional Best Practices</a><a href="#runtime-optimisations" data-toc-link class="is-sub">Runtime optimisations</a><a href="#common-mistakes-to-avoid" data-toc-link class="is-sub">Common mistakes to avoid</a><a href="#conclusion" data-toc-link>Conclusion</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and the Fix)</a></h3><p class="post-row__desc">Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/mysql-query-optimization-laravel/">MySQL Query Optimisation in Laravel</a></h3><p class="post-row__desc">Fix N+1 queries, add the right composite indexes, read EXPLAIN output and stop full table scans in your Laravel Eloquent code.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer & SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

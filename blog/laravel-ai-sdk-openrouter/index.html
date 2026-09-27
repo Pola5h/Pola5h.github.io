@@ -1,779 +1,847 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)</title>
-    <meta name="description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
-    <meta name="author" content="Kamruzzaman Polash">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)">
-    <meta property="og:description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
-    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
-    <meta property="og:site_name" content="Kamruzzaman Polash">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="https://pola5h.github.io/">
-    <meta property="article:published_time" content="2026-04-11">
-    <meta property="article:modified_time" content="2026-04-11">
-    <meta property="article:section" content="Technology">
-    <meta property="article:tag" content="Laravel">
-    <meta property="article:tag" content="Laravel 13">
-    <meta property="article:tag" content="AI">
-    <meta property="article:tag" content="Laravel AI SDK">
-    <meta property="article:tag" content="OpenRouter">
-    <meta property="article:tag" content="PHP">
-    <meta property="article:tag" content="Agents">
-    <meta property="article:tag" content="LLM">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)">
-    <meta name="twitter:description" content="The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.">
-    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <meta name="theme-color" content="#0d1117">
-    <meta name="msapplication-TileColor" content="#0d1117">
-
-    <!-- Structured Data: TechArticle -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)",
-        "description": "The Laravel AI SDK went stable with Laravel 13. Here's how to use it with OpenRouter for provider-agnostic AI features — agents, streaming, queuing, and real test coverage.",
-        "image": "https://pola5h.github.io/og-image.svg",
-        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "datePublished": "2026-04-11",
-        "dateModified": "2026-04-11",
-        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/",
-        "articleSection": "Technology",
-        "keywords": ["laravel ai sdk", "laravel openrouter", "laravel 13 ai", "laravel ai agent", "openrouter laravel integration", "laravel ai sdk tutorial", "laravel 13 new features", "php ai integration"],
-        "inLanguage": "en-US",
-        "wordCount": "2800",
-        "timeRequired": "PT14M",
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-                { "@type": "ListItem", "position": 3, "name": "Laravel AI SDK Guide", "item": "https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/" }
-            ]
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "What is the Laravel AI SDK?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The Laravel AI SDK is a first-party package that shipped stable with Laravel 13 on March 17, 2026. It provides a unified, provider-agnostic interface for AI features — text generation, tool-calling agents, image creation, audio synthesis, and embeddings. It handles retry logic, error normalization, and queue integration automatically."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How do I use OpenRouter with the Laravel AI SDK?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Configure OpenRouter as a custom base URL in config/ai.php: set the driver to 'openai', add your OpenRouter API key, and set the url to https://openrouter.ai/api/v1. This lets you access 100+ models through a single API key while using the full Laravel AI SDK agent system."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Do I still need the openai-php/laravel package in Laravel 13?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No. The Laravel AI SDK replaces third-party packages like openai-php/laravel and Prism for most use cases. It provides the same functionality — plus agents, structured output, testable fakes, and queue integration — all maintained by the Laravel team."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Can I switch AI providers without rewriting my code?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. That's the main advantage of the Laravel AI SDK. Your agent classes reference a provider name from config — not a provider-specific SDK. Switching from OpenAI to Anthropic or OpenRouter is a one-line config change with zero application code changes."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How do I test Laravel AI agents?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The Laravel AI SDK ships with built-in fakes. Call Agent::fake() in your test and it intercepts all agent calls without hitting any real API. You can assert prompts were sent, responses were handled, and structured output was parsed — all without API keys or network requests."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--sans); line-height: 1.7; color: var(--text-primary); background-color: var(--bg-primary); }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-        .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-        .article-category { color: var(--accent-green); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-        .article-meta a { color: var(--accent-blue); text-decoration: none; }
-        .related-links { background: var(--bg-secondary); border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-secondary); }
-        .related-links a { color: var(--accent-blue); text-decoration: none; margin: 0 0.3rem; }
-        .related-links a:hover { text-decoration: underline; }
-        .answer-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.5rem; margin: 0 0 2rem; }
-        .answer-box .answer-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #1b5e20; margin-bottom: 0.6rem; }
-        .answer-box p { margin: 0 0 0.6rem; color: #1b5e20; font-size: 0.97rem; line-height: 1.7; }
-        .answer-box p:last-child { margin-bottom: 0; }
-        .answer-box code { background: #c8e6c9; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.9em; }
-        .article-content { font-size: 1.05rem; line-height: 1.8; }
-        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
-        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-        .article-content p { margin-bottom: 1.5rem; }
-        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        .article-content li { margin-bottom: 0.6rem; }
-        .code-block { background: var(--bg-secondary); color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
-        .code-block .comment { color: #5c6370; }
-        .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .tip-box strong { color: #1b5e20; }
-        .warning-box { background: #fff8e1; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .warning-box strong { color: #e65100; }
-        .step-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .step-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.2rem; border-top: 3px solid #28a745; }
-        .step-card .step-num { font-size: 0.8rem; font-weight: 700; color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
-        .step-card .step-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
-        .step-card .step-desc { font-size: 0.9rem; color: var(--text-secondary); }
-        .options-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9rem; overflow-x: auto; display: block; }
-        .options-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; white-space: nowrap; }
-        .options-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); }
-        .options-table tr:nth-child(even) td { background: var(--bg-secondary); }
-        .options-table code { background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.85em; font-family: 'Courier New', monospace; }
-        .tag-rec { background: #d4edda; color: #155724; font-size: 0.73rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 20px; margin-left: 0.3rem; }
-        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
-        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-        .cta-primary:hover { opacity: 0.85; }
-        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-        .cta-meta { font-size: 0.85rem; color: #8b949e; }
-        .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-        .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-        .author-links a:hover { background: #007bff; color: #fff; }
-        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
-    </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel AI SDK + OpenRouter: A Complete Guide</title>
+<meta name="description" content="Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
+<meta property="og:title" content="Laravel AI SDK + OpenRouter: A Complete Guide">
+<meta property="og:description" content="Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2026-04-11">
+<meta property="article:modified_time" content="2026-04-11">
+<meta property="article:section" content="AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/">
+<meta name="twitter:title" content="Laravel AI SDK + OpenRouter: A Complete Guide">
+<meta name="twitter:description" content="Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/#article","headline":"Laravel AI SDK + OpenRouter: A Complete Guide","description":"Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.","url":"https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/"},"datePublished":"2026-04-11","dateModified":"2026-04-11","timeRequired":"PT14M","articleSection":"AI","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel AI SDK + OpenRouter: A Complete Guide","item":"https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/"}]}]}</script>
 </head>
 <body>
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 0.8rem;">
-            <nav class="breadcrumb" style="margin-bottom: 0;">
-                <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel AI SDK Guide
-            </nav>
-            
-        </div>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
 
-        <article>
-            <header class="article-header">
-                <div class="article-category">Laravel AI</div>
-                <h1>Laravel AI SDK + OpenRouter: Build Production-Ready AI Features in Laravel 13 (Complete Guide)</h1>
-                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · April 11, 2026 · 14 min read</div>
-            </header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel AI SDK + OpenRouter: A Complete Guide</span></div></div>
 
-            <!-- Direct answer box — targets featured snippet -->
-            <div class="answer-box">
-                <div class="answer-label">Quick Answer</div>
-                <p><strong>The Laravel AI SDK shipped stable with Laravel 13 on March 17, 2026.</strong> It's a first-party, provider-agnostic package for building AI features inside any Laravel app.</p>
-                <p>To use it with OpenRouter, install the package, then configure OpenRouter as a custom base URL provider in <code>config/ai.php</code>. You get access to 100+ models through one API key — with agents, streaming, queues, and testable fakes all built in.</p>
-                <p><code>composer require laravel/ai</code> — then point it at OpenRouter and you're building agents in minutes.</p>
-            </div>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">AI</span><span class="label">14 min read</span></div>
+    <h1 class="article-head__title">Laravel AI SDK + OpenRouter: A Complete Guide</h1>
+    <p class="article-head__desc">Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">April 11, 2026</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-            <div class="related-links">
-                <strong>Related:</strong>
-                <a href="/blog/laravel-openai-integration-guide/">Laravel OpenAI &amp; OpenRouter (the old way)</a> |
-                <a href="/blog/laravel-13-new-features/">Laravel 13 New Features</a> |
-                <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Horizon</a>
-            </div>
-
-            <div class="article-content">
-
-                <p>Before Laravel 13, adding AI to a Laravel app meant picking a provider, installing their SDK, writing a custom service class to wrap it, and hoping that abstraction held when you needed to swap models mid-sprint. Most teams ended up with a fat service that knew too much, a leaky wrapper that only worked for one provider, or raw <code>Http::post()</code> calls buried in controllers.</p>
-
-                <p>I went through this myself — I integrated OpenRouter into a production SaaS using the manual approach documented in my <a href="/blog/laravel-openai-integration-guide/">earlier guide</a>. It worked. But it required building and maintaining your own abstraction layer.</p>
-
-                <p>Laravel 13 changes this completely. The Laravel AI SDK is now first-party, production-stable, and ships with the framework itself. This guide covers everything from setup to agents, streaming, provider failover with OpenRouter, and how to properly test AI features.</p>
-
-                <h2>1. What the Laravel AI SDK actually is</h2>
-
-                <p>Taylor Otwell described the motivation during the Laracon EU 2026 announcement: "It felt like we needed a first-party opinion on interacting with AI providers — just like we have opinions on sending email or queuing jobs."</p>
-
-                <p>That framing is exactly right. The SDK isn't a thin wrapper around one API. It's a full architectural layer — the same way Eloquent is a full layer on top of SQL, not just a query shortcut.</p>
-
-                <div class="step-grid">
-                    <div class="step-card">
-                        <div class="step-num">Text &amp; Agents</div>
-                        <div class="step-title">Generate &amp; reason</div>
-                        <div class="step-desc">Tool-calling agents with instructions, memory, structured output, and multi-step reasoning</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">Images &amp; Audio</div>
-                        <div class="step-title">Create &amp; transcribe</div>
-                        <div class="step-desc">Generate images from prompts, synthesize audio, and transcribe voice to text</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">Embeddings &amp; Search</div>
-                        <div class="step-title">Semantic search</div>
-                        <div class="step-desc">Generate embeddings and run vector similarity queries directly in Eloquent</div>
-                    </div>
-                    <div class="step-card">
-                        <div class="step-num">Provider-agnostic</div>
-                        <div class="step-title">One config switch</div>
-                        <div class="step-desc">Switch between OpenAI, Anthropic, Gemini, OpenRouter — zero application code changes</div>
-                    </div>
-                </div>
-
-                <p>The SDK also handles retry logic, error normalization, and queue integration automatically. You don't write that yourself anymore.</p>
-
-                <h2>2. Where OpenRouter fits in</h2>
-
-                <p>OpenRouter is a unified API gateway for 100+ AI models. You send requests to one endpoint with one API key, and OpenRouter routes them to the underlying provider — GPT-4o, Claude, Gemini, Llama, Mistral, and many more.</p>
-
-                <p>The Laravel AI SDK supports OpenRouter natively via a custom base URL. This combination gives you the best of both worlds: Laravel's first-party agent system with OpenRouter's model flexibility and cost advantages.</p>
-
-                <p>In practice this means:</p>
-                <ul>
-                    <li>Use free OpenRouter models during local development — zero API cost</li>
-                    <li>Use GPT-4o Mini in production for general tasks at a fraction of GPT-4o cost</li>
-                    <li>Upgrade to Claude or GPT-4o for specific agents that need it — one config line</li>
-                    <li>Automatic failover if a provider goes down — without touching application code</li>
-                </ul>
-
-                <div class="tip-box">
-                    <strong>Tip:</strong> OpenRouter uses the same OpenAI-compatible API format, so the Laravel AI SDK integrates with it seamlessly via the <code>url</code> override in <code>config/ai.php</code>. No special driver required.
-                </div>
-
-                <h2>3. Installation</h2>
-
-                <div class="code-block"><span class="comment"># Install the Laravel AI SDK</span>
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article"><p>Before Laravel 13, adding AI to a Laravel app meant picking a provider, installing their SDK, writing a custom service class to wrap it, and hoping that abstraction held when you needed to swap models mid-sprint. Most teams ended up with a fat service that knew too much, a leaky wrapper that only worked for one provider, or raw <code>Http::post()</code> calls buried in controllers.</p>
+<p>I went through this myself — I integrated OpenRouter into a production SaaS using the manual approach documented in my <a href="/blog/laravel-openai-integration-guide/">earlier guide</a>. It worked. But it required building and maintaining your own abstraction layer.</p>
+<p>Laravel 13 changes this completely. The Laravel AI SDK is now first-party, production-stable, and ships with the framework itself. This guide covers everything from setup to agents, streaming, provider failover with OpenRouter, and how to properly test AI features.</p>
+<h2 id="1-what-the-laravel-ai-sdk-actually-is">1. What the Laravel AI SDK actually is</h2>
+<p>Taylor Otwell described the motivation during the Laracon EU 2026 announcement: &quot;It felt like we needed a first-party opinion on interacting with AI providers — just like we have opinions on sending email or queuing jobs.&quot;</p>
+<p>That framing is exactly right. The SDK isn&#39;t a thin wrapper around one API. It&#39;s a full architectural layer — the same way Eloquent is a full layer on top of SQL, not just a query shortcut.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>What it does</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Text &amp; Agents</td>
+<td>Generate &amp; reason</td>
+<td>Tool-calling agents with instructions, memory, structured output, and multi-step reasoning</td>
+</tr>
+<tr>
+<td>Images &amp; Audio</td>
+<td>Create &amp; transcribe</td>
+<td>Generate images from prompts, synthesize audio, and transcribe voice to text</td>
+</tr>
+<tr>
+<td>Embeddings &amp; Search</td>
+<td>Semantic search</td>
+<td>Generate embeddings and run vector similarity queries directly in Eloquent</td>
+</tr>
+<tr>
+<td>Provider-agnostic</td>
+<td>One config switch</td>
+<td>Switch between OpenAI, Anthropic, Gemini, OpenRouter — zero application code changes</td>
+</tr>
+</tbody></table></div>
+<p>The SDK also handles retry logic, error normalization, and queue integration automatically. You don&#39;t write that yourself anymore.</p>
+<h2 id="2-where-openrouter-fits-in">2. Where OpenRouter fits in</h2>
+<p>OpenRouter is a unified API gateway for 100+ AI models. You send requests to one endpoint with one API key, and OpenRouter routes them to the underlying provider — GPT-4o, Claude, Gemini, Llama, Mistral, and many more.</p>
+<p>The Laravel AI SDK supports OpenRouter natively via a custom base URL. This combination gives you the best of both worlds: Laravel&#39;s first-party agent system with OpenRouter&#39;s model flexibility and cost advantages.</p>
+<p>In practice this means:</p>
+<ul>
+<li>Use free OpenRouter models during local development — zero API cost</li>
+<li>Use GPT-4o Mini in production for general tasks at a fraction of GPT-4o cost</li>
+<li>Upgrade to Claude or GPT-4o for specific agents that need it — one config line</li>
+<li>Automatic failover if a provider goes down — without touching application code</li>
+</ul>
+<aside class="callout callout--tip">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+  <div><p class="callout__label">Tip</p><div class="callout__body"><p>OpenRouter uses the same OpenAI-compatible API format, so the Laravel AI SDK integrates with it seamlessly via the <code>url</code> override in <code>config/ai.php</code>. No special driver required.</p></div></div>
+</aside>
+<h2 id="3-installation">3. Installation</h2>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Install the Laravel AI SDK</span>
 composer require laravel/ai
 
-<span class="comment"># Publish config and migration files</span>
-php artisan vendor:publish --provider="Laravel\Ai\AiServiceProvider"
+<span class="hljs-comment"># Publish config and migration files</span>
+php artisan vendor:publish --provider=<span class="hljs-string">&quot;Laravel\Ai\AiServiceProvider&quot;</span>
 
-<span class="comment"># Run migrations (creates agent_conversations and agent_conversation_messages tables)</span>
-php artisan migrate</div>
+<span class="hljs-comment"># Run migrations (creates agent_conversations and agent_conversation_messages tables)</span>
+php artisan migrate</code></pre>
+</figure><p><strong>Requirements:</strong> The Laravel AI SDK requires Laravel 13 and PHP 8.3 or higher. If you&#39;re still on Laravel 12, see my <a href="/blog/laravel-openai-integration-guide/">previous guide</a> for the manual OpenRouter approach, or upgrade first — it&#39;s a 10-minute process with zero breaking changes.</p>
+<h2 id="4-configuring-openrouter-as-your-provider">4. Configuring OpenRouter as your provider</h2>
+<p>Open <code>config/ai.php</code> and add OpenRouter as a named provider. The key insight is that OpenRouter is OpenAI-compatible — so you use the <code>openai</code> driver and override the base URL.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// config/ai.php</span>
+<span class="hljs-string">&#x27;default&#x27;</span> =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;AI_PROVIDER&#x27;</span>, <span class="hljs-string">&#x27;openrouter&#x27;</span>),
 
-                <div class="warning-box">
-                    <strong>Requirements:</strong> The Laravel AI SDK requires Laravel 13 and PHP 8.3 or higher. If you're still on Laravel 12, see my <a href="/blog/laravel-openai-integration-guide/">previous guide</a> for the manual OpenRouter approach, or upgrade first — it's a 10-minute process with zero breaking changes.
-                </div>
+<span class="hljs-string">&#x27;providers&#x27;</span> =&gt; [
 
-                <h2>4. Configuring OpenRouter as your provider</h2>
-
-                <p>Open <code>config/ai.php</code> and add OpenRouter as a named provider. The key insight is that OpenRouter is OpenAI-compatible — so you use the <code>openai</code> driver and override the base URL.</p>
-
-                <div class="code-block"><span class="comment">// config/ai.php</span>
-'default' => env('AI_PROVIDER', 'openrouter'),
-
-'providers' => [
-
-    'openrouter' => [
-        'driver' => 'openai',
-        'key'    => env('OPENROUTER_API_KEY'),
-        'url'    => 'https://openrouter.ai/api/v1',
+    <span class="hljs-string">&#x27;openrouter&#x27;</span> =&gt; [
+        <span class="hljs-string">&#x27;driver&#x27;</span> =&gt; <span class="hljs-string">&#x27;openai&#x27;</span>,
+        <span class="hljs-string">&#x27;key&#x27;</span>    =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;OPENROUTER_API_KEY&#x27;</span>),
+        <span class="hljs-string">&#x27;url&#x27;</span>    =&gt; <span class="hljs-string">&#x27;https://openrouter.ai/api/v1&#x27;</span>,
     ],
 
-    <span class="comment">// Keep OpenAI as a fallback if needed</span>
-    'openai' => [
-        'driver' => 'openai',
-        'key'    => env('OPENAI_API_KEY'),
+    <span class="hljs-comment">// Keep OpenAI as a fallback if needed</span>
+    <span class="hljs-string">&#x27;openai&#x27;</span> =&gt; [
+        <span class="hljs-string">&#x27;driver&#x27;</span> =&gt; <span class="hljs-string">&#x27;openai&#x27;</span>,
+        <span class="hljs-string">&#x27;key&#x27;</span>    =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;OPENAI_API_KEY&#x27;</span>),
     ],
 
-    <span class="comment">// Or use Anthropic directly</span>
-    'anthropic' => [
-        'driver' => 'anthropic',
-        'key'    => env('ANTHROPIC_API_KEY'),
+    <span class="hljs-comment">// Or use Anthropic directly</span>
+    <span class="hljs-string">&#x27;anthropic&#x27;</span> =&gt; [
+        <span class="hljs-string">&#x27;driver&#x27;</span> =&gt; <span class="hljs-string">&#x27;anthropic&#x27;</span>,
+        <span class="hljs-string">&#x27;key&#x27;</span>    =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;ANTHROPIC_API_KEY&#x27;</span>),
     ],
 
-],</div>
+],</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">ini</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-ini"><span class="hljs-comment"># .env</span>
+<span class="hljs-attr">AI_PROVIDER</span>=openrouter
+<span class="hljs-attr">OPENROUTER_API_KEY</span>=sk-or-v1-your-key-here
 
-                <div class="code-block"><span class="comment"># .env</span>
-AI_PROVIDER=openrouter
-OPENROUTER_API_KEY=sk-or-v1-your-key-here
+<span class="hljs-comment"># Optional fallbacks</span>
+<span class="hljs-attr">OPENAI_API_KEY</span>=sk-your-openai-key
+<span class="hljs-attr">ANTHROPIC_API_KEY</span>=sk-ant-your-anthropic-key</code></pre>
+</figure><p><strong>Getting an OpenRouter key:</strong> Sign up at <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">openrouter.ai</a> — it&#39;s free to start. You only pay for usage above the free tier. During local development, models like <code>meta-llama/llama-3.1-8b-instruct:free</code> are completely free.</p>
+<h2 id="5-creating-your-first-agent">5. Creating your first Agent</h2>
+<p>Agents are the core abstraction in the Laravel AI SDK. Each agent is a dedicated PHP class that holds the instructions, context, tools, and output schema for a specific AI task. Think of it as a specialized assistant you configure once and use throughout your app.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Generate an agent class</span>
+php artisan make:agent SupportAgent</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-<span class="comment"># Optional fallbacks</span>
-OPENAI_API_KEY=sk-your-openai-key
-ANTHROPIC_API_KEY=sk-ant-your-anthropic-key</div>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Ai</span>\<span class="hljs-title class_">Agents</span>;
 
-                <div class="tip-box">
-                    <strong>Getting an OpenRouter key:</strong> Sign up at <a href="https://openrouter.ai" target="_blank" rel="noopener noreferrer">openrouter.ai</a> — it's free to start. You only pay for usage above the free tier. During local development, models like <code>meta-llama/llama-3.1-8b-instruct:free</code> are completely free.
-                </div>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Model</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Provider</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Temperature</span>;
 
-                <h2>5. Creating your first Agent</h2>
-
-                <p>Agents are the core abstraction in the Laravel AI SDK. Each agent is a dedicated PHP class that holds the instructions, context, tools, and output schema for a specific AI task. Think of it as a specialized assistant you configure once and use throughout your app.</p>
-
-                <div class="code-block"><span class="comment"># Generate an agent class</span>
-php artisan make:agent SupportAgent</div>
-
-                <div class="code-block">&lt;?php
-
-namespace App\Ai\Agents;
-
-use Laravel\Ai\Agent;
-use Laravel\Ai\Attributes\Model;
-use Laravel\Ai\Attributes\Provider;
-use Laravel\Ai\Attributes\Temperature;
-
-#[Provider('openrouter')]
-#[Model('openai/gpt-4o-mini')]
-#[Temperature(0.4)]
-class SupportAgent extends Agent
-{
-    public function instructions(): string
-    {
-        return 'You are a helpful customer support assistant for an e-commerce platform. '
-               . 'Answer questions about orders, shipping, and returns clearly and concisely. '
-               . 'If you cannot help, politely direct the user to contact support. '
-               . 'Always respond in the same language the user writes in.';
+<span class="hljs-meta">#[Provider</span>(<span class="hljs-string">&#x27;openrouter&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-meta">#[Model</span>(<span class="hljs-string">&#x27;openai/gpt-4o-mini&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-meta">#[Temperature</span>(<span class="hljs-number">0.4</span>)<span class="hljs-meta">]</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SupportAgent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Agent</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instructions</span>(<span class="hljs-params"></span>): <span class="hljs-title">string</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;You are a helpful customer support assistant for an e-commerce platform. &#x27;</span>
+               . <span class="hljs-string">&#x27;Answer questions about orders, shipping, and returns clearly and concisely. &#x27;</span>
+               . <span class="hljs-string">&#x27;If you cannot help, politely direct the user to contact support. &#x27;</span>
+               . <span class="hljs-string">&#x27;Always respond in the same language the user writes in.&#x27;</span>;
     }
-}</div>
+}</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// In your controller</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agents</span>\<span class="hljs-title">SupportAgent</span>;
 
-                <div class="code-block"><span class="comment">// In your controller</span>
-use App\Ai\Agents\SupportAgent;
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">chat</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>): <span class="hljs-title">JsonResponse</span>
+</span>{
+    <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validate</span>([<span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;required|string|max:1000&#x27;</span>]);
 
-public function chat(Request $request): JsonResponse
-{
-    $request->validate(['message' => 'required|string|max:1000']);
+    <span class="hljs-variable">$response</span> = <span class="hljs-title class_">SupportAgent</span>::<span class="hljs-title function_ invoke__">make</span>()
+        -&gt;<span class="hljs-title function_ invoke__">prompt</span>(<span class="hljs-variable">$request</span>-&gt;message);
 
-    $response = SupportAgent::make()
-        ->prompt($request->message);
-
-    return response()->json([
-        'reply' => (string) $response,
+    <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">json</span>([
+        <span class="hljs-string">&#x27;reply&#x27;</span> =&gt; (<span class="hljs-keyword">string</span>) <span class="hljs-variable">$response</span>,
     ]);
-}</div>
+}</code></pre>
+</figure><p>That&#39;s it. No HTTP client setup, no JSON parsing, no error handling boilerplate. The SDK manages all of that behind the scenes.</p>
+<h2 id="6-structured-output-getting-json-back-reliably">6. Structured output — getting JSON back reliably</h2>
+<p>One of the most common AI integration problems is parsing unstructured text responses. The SDK solves this with a JSON schema definition on the agent. The model is constrained to return exactly the structure you define.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash"><span class="hljs-comment"># Generate an agent with structured output</span>
+php artisan make:agent ProductDescriptionAgent --structured</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-                <p>That's it. No HTTP client setup, no JSON parsing, no error handling boilerplate. The SDK manages all of that behind the scenes.</p>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Ai</span>\<span class="hljs-title class_">Agents</span>;
 
-                <h2>6. Structured output — getting JSON back reliably</h2>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Model</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Provider</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Contracts</span>\<span class="hljs-title">JsonSchema</span>\<span class="hljs-title">JsonSchema</span>;
 
-                <p>One of the most common AI integration problems is parsing unstructured text responses. The SDK solves this with a JSON schema definition on the agent. The model is constrained to return exactly the structure you define.</p>
-
-                <div class="code-block"><span class="comment"># Generate an agent with structured output</span>
-php artisan make:agent ProductDescriptionAgent --structured</div>
-
-                <div class="code-block">&lt;?php
-
-namespace App\Ai\Agents;
-
-use Laravel\Ai\Agent;
-use Laravel\Ai\Attributes\Model;
-use Laravel\Ai\Attributes\Provider;
-use Illuminate\Contracts\JsonSchema\JsonSchema;
-
-#[Provider('openrouter')]
-#[Model('openai/gpt-4o-mini')]
-class ProductDescriptionAgent extends Agent
-{
-    public function instructions(): string
-    {
-        return 'You are an e-commerce copywriter. Generate a product title, 
-                a short description (max 80 words), and 3 bullet point features.';
+<span class="hljs-meta">#[Provider</span>(<span class="hljs-string">&#x27;openrouter&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-meta">#[Model</span>(<span class="hljs-string">&#x27;openai/gpt-4o-mini&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProductDescriptionAgent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Agent</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instructions</span>(<span class="hljs-params"></span>): <span class="hljs-title">string</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;You are an e-commerce copywriter. Generate a product title, 
+                a short description (max 80 words), and 3 bullet point features.&#x27;</span>;
     }
 
-    public function schema(JsonSchema $schema): array
-    {
-        return [
-            'title'       => $schema->string()->required(),
-            'description' => $schema->string()->required(),
-            'features'    => $schema->array(
-                $schema->string()
-            )->required(),
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">schema</span>(<span class="hljs-params">JsonSchema <span class="hljs-variable">$schema</span></span>): <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">&#x27;title&#x27;</span>       =&gt; <span class="hljs-variable">$schema</span>-&gt;<span class="hljs-keyword">string</span>()-&gt;<span class="hljs-title function_ invoke__">required</span>(),
+            <span class="hljs-string">&#x27;description&#x27;</span> =&gt; <span class="hljs-variable">$schema</span>-&gt;<span class="hljs-keyword">string</span>()-&gt;<span class="hljs-title function_ invoke__">required</span>(),
+            <span class="hljs-string">&#x27;features&#x27;</span>    =&gt; <span class="hljs-variable">$schema</span>-&gt;<span class="hljs-keyword">array</span>(
+                <span class="hljs-variable">$schema</span>-&gt;<span class="hljs-keyword">string</span>()
+            )-&gt;<span class="hljs-title function_ invoke__">required</span>(),
         ];
     }
-}</div>
+}</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Usage — response is already parsed into a typed object</span>
+<span class="hljs-variable">$result</span> = <span class="hljs-title class_">ProductDescriptionAgent</span>::<span class="hljs-title function_ invoke__">make</span>()
+    -&gt;<span class="hljs-title function_ invoke__">prompt</span>(<span class="hljs-string">&quot;Write a product description for: <span class="hljs-subst">{$product-&gt;name}</span>. Category: <span class="hljs-subst">{$product-&gt;category}</span>.&quot;</span>);
 
-                <div class="code-block"><span class="comment">// Usage — response is already parsed into a typed object</span>
-$result = ProductDescriptionAgent::make()
-    ->prompt("Write a product description for: {$product->name}. Category: {$product->category}.");
+<span class="hljs-variable">$title</span>       = <span class="hljs-variable">$result</span>-&gt;title;        <span class="hljs-comment">// string</span>
+<span class="hljs-variable">$description</span> = <span class="hljs-variable">$result</span>-&gt;description;  <span class="hljs-comment">// string</span>
+<span class="hljs-variable">$features</span>    = <span class="hljs-variable">$result</span>-&gt;features;     <span class="hljs-comment">// array of strings</span>
 
-$title       = $result->title;        <span class="comment">// string</span>
-$description = $result->description;  <span class="comment">// string</span>
-$features    = $result->features;     <span class="comment">// array of strings</span>
+<span class="hljs-variable">$product</span>-&gt;<span class="hljs-title function_ invoke__">update</span>([
+    <span class="hljs-string">&#x27;ai_title&#x27;</span>       =&gt; <span class="hljs-variable">$title</span>,
+    <span class="hljs-string">&#x27;ai_description&#x27;</span> =&gt; <span class="hljs-variable">$description</span>,
+    <span class="hljs-string">&#x27;ai_features&#x27;</span>    =&gt; <span class="hljs-variable">$features</span>,
+]);</code></pre>
+</figure><aside class="callout callout--tip">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+  <div><p class="callout__label">Tip</p><div class="callout__body"><p>Structured output is the right approach for any AI feature where you need to store or display specific fields. It eliminates regex parsing and JSON decoding errors — the SDK guarantees the response matches your schema or throws a typed exception you can catch.</p></div></div>
+</aside>
+<h2 id="7-streaming-responses-to-the-frontend">7. Streaming responses to the frontend</h2>
+<p>Streaming makes AI features feel instant even when the model is still generating. Instead of waiting for the full response before showing anything, the frontend renders tokens as they arrive.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-$product->update([
-    'ai_title'       => $title,
-    'ai_description' => $description,
-    'ai_features'    => $features,
-]);</div>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Http</span>\<span class="hljs-title class_">Controllers</span>;
 
-                <div class="tip-box">
-                    <strong>Tip:</strong> Structured output is the right approach for any AI feature where you need to store or display specific fields. It eliminates regex parsing and JSON decoding errors — the SDK guarantees the response matches your schema or throws a typed exception you can catch.
-                </div>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agents</span>\<span class="hljs-title">SupportAgent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Request</span>;
 
-                <h2>7. Streaming responses to the frontend</h2>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChatController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">stream</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>)
+    </span>{
+        <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validate</span>([<span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;required|string|max:1000&#x27;</span>]);
 
-                <p>Streaming makes AI features feel instant even when the model is still generating. Instead of waiting for the full response before showing anything, the frontend renders tokens as they arrive.</p>
+        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">response</span>()-&gt;<span class="hljs-title function_ invoke__">stream</span>(function () <span class="hljs-keyword">use</span> ($<span class="hljs-title">request</span>) {
 
-                <div class="code-block">&lt;?php
+            $<span class="hljs-title">stream</span> = <span class="hljs-title">SupportAgent</span>::<span class="hljs-title">make</span>()
+                -&gt;<span class="hljs-title">stream</span>($<span class="hljs-title">request</span>-&gt;<span class="hljs-title">message</span>);
 
-namespace App\Http\Controllers;
-
-use App\Ai\Agents\SupportAgent;
-use Illuminate\Http\Request;
-
-class ChatController extends Controller
-{
-    public function stream(Request $request)
-    {
-        $request->validate(['message' => 'required|string|max:1000']);
-
-        return response()->stream(function () use ($request) {
-
-            $stream = SupportAgent::make()
-                ->stream($request->message);
-
-            foreach ($stream as $chunk) {
-                echo "data: " . json_encode(['text' => $chunk]) . "\n\n";
-                ob_flush();
-                flush();
+            <span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$stream</span> <span class="hljs-keyword">as</span> <span class="hljs-variable">$chunk</span>) {
+                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;data: &quot;</span> . <span class="hljs-title function_ invoke__">json_encode</span>([<span class="hljs-string">&#x27;text&#x27;</span> =&gt; <span class="hljs-variable">$chunk</span>]) . <span class="hljs-string">&quot;\n\n&quot;</span>;
+                <span class="hljs-title function_ invoke__">ob_flush</span>();
+                <span class="hljs-title function_ invoke__">flush</span>();
             }
 
-            echo "data: [DONE]\n\n";
-            ob_flush();
-            flush();
+            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;data: [DONE]\n\n&quot;</span>;
+            <span class="hljs-title function_ invoke__">ob_flush</span>();
+            <span class="hljs-title function_ invoke__">flush</span>();
 
-        }, 200, [
-            'Content-Type'      => 'text/event-stream',
-            'Cache-Control'     => 'no-cache',
-            'X-Accel-Buffering' => 'no',
+        }, <span class="hljs-number">200</span>, [
+            <span class="hljs-string">&#x27;Content-Type&#x27;</span>      =&gt; <span class="hljs-string">&#x27;text/event-stream&#x27;</span>,
+            <span class="hljs-string">&#x27;Cache-Control&#x27;</span>     =&gt; <span class="hljs-string">&#x27;no-cache&#x27;</span>,
+            <span class="hljs-string">&#x27;X-Accel-Buffering&#x27;</span> =&gt; <span class="hljs-string">&#x27;no&#x27;</span>,
         ]);
     }
-}</div>
+}</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">javascript</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-javascript"><span class="hljs-comment">// Frontend JavaScript — consuming the stream</span>
+<span class="hljs-keyword">const</span> source = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EventSource</span>(<span class="hljs-string">&#x27;/chat/stream?message=&#x27;</span> + <span class="hljs-built_in">encodeURIComponent</span>(input));
+<span class="hljs-keyword">let</span> output = <span class="hljs-string">&#x27;&#x27;</span>;
 
-                <div class="code-block"><span class="comment">// Frontend JavaScript — consuming the stream</span>
-const source = new EventSource('/chat/stream?message=' + encodeURIComponent(input));
-let output = '';
-
-source.onmessage = (event) => {
-    if (event.data === '[DONE]') {
-        source.close();
-        return;
+source.<span class="hljs-property">onmessage</span> = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (event.<span class="hljs-property">data</span> === <span class="hljs-string">&#x27;[DONE]&#x27;</span>) {
+        source.<span class="hljs-title function_">close</span>();
+        <span class="hljs-keyword">return</span>;
     }
-    const chunk = JSON.parse(event.data);
-    output += chunk.text;
-    document.getElementById('response').textContent = output;
-};</div>
+    <span class="hljs-keyword">const</span> chunk = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(event.<span class="hljs-property">data</span>);
+    output += chunk.<span class="hljs-property">text</span>;
+    <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;response&#x27;</span>).<span class="hljs-property">textContent</span> = output;
+};</code></pre>
+</figure><h2 id="8-queuing-heavy-ai-jobs">8. Queuing heavy AI jobs</h2>
+<p>Not every AI task needs to be synchronous. Generating product descriptions for a whole catalogue, summarizing uploaded documents, or processing batches overnight — these belong in the queue. The SDK integrates with Laravel&#39;s queue system natively.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">bash</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-bash">php artisan make:job GenerateProductDescriptions</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-                <h2>8. Queuing heavy AI jobs</h2>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">App</span>\<span class="hljs-title class_">Jobs</span>;
 
-                <p>Not every AI task needs to be synchronous. Generating product descriptions for a whole catalogue, summarizing uploaded documents, or processing batches overnight — these belong in the queue. The SDK integrates with Laravel's queue system natively.</p>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agents</span>\<span class="hljs-title">ProductDescriptionAgent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Models</span>\<span class="hljs-title">Product</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Bus</span>\<span class="hljs-title">Queueable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Contracts</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">ShouldQueue</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Foundation</span>\<span class="hljs-title">Bus</span>\<span class="hljs-title">Dispatchable</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Illuminate</span>\<span class="hljs-title">Queue</span>\<span class="hljs-title">InteractsWithQueue</span>;
 
-                <div class="code-block">php artisan make:job GenerateProductDescriptions</div>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GenerateProductDescriptions</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ShouldQueue</span>
+</span>{
+    <span class="hljs-keyword">use</span> <span class="hljs-title">Dispatchable</span>, <span class="hljs-title">InteractsWithQueue</span>, <span class="hljs-title">Queueable</span>;
 
-                <div class="code-block">&lt;?php
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-variable">$tries</span>   = <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-variable">$timeout</span> = <span class="hljs-number">120</span>;
 
-namespace App\Jobs;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params">
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> <span class="hljs-keyword">int</span> <span class="hljs-variable">$productId</span>
+    </span>) </span>{}
 
-use App\Ai\Agents\ProductDescriptionAgent;
-use App\Models\Product;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-variable">$product</span> = <span class="hljs-title class_">Product</span>::<span class="hljs-title function_ invoke__">findOrFail</span>(<span class="hljs-variable">$this</span>-&gt;productId);
 
-class GenerateProductDescriptions implements ShouldQueue
-{
-    use Dispatchable, InteractsWithQueue, Queueable;
+        <span class="hljs-variable">$result</span> = <span class="hljs-title class_">ProductDescriptionAgent</span>::<span class="hljs-title function_ invoke__">make</span>()
+            -&gt;<span class="hljs-title function_ invoke__">prompt</span>(<span class="hljs-string">&quot;Product: <span class="hljs-subst">{$product-&gt;name}</span>. Category: <span class="hljs-subst">{$product-&gt;category}</span>.&quot;</span>);
 
-    public int $tries   = 3;
-    public int $timeout = 120;
-
-    public function __construct(
-        public readonly int $productId
-    ) {}
-
-    public function handle(): void
-    {
-        $product = Product::findOrFail($this->productId);
-
-        $result = ProductDescriptionAgent::make()
-            ->prompt("Product: {$product->name}. Category: {$product->category}.");
-
-        $product->update([
-            'ai_title'       => $result->title,
-            'ai_description' => $result->description,
-            'ai_features'    => $result->features,
-            'ai_generated_at' => now(),
+        <span class="hljs-variable">$product</span>-&gt;<span class="hljs-title function_ invoke__">update</span>([
+            <span class="hljs-string">&#x27;ai_title&#x27;</span>       =&gt; <span class="hljs-variable">$result</span>-&gt;title,
+            <span class="hljs-string">&#x27;ai_description&#x27;</span> =&gt; <span class="hljs-variable">$result</span>-&gt;description,
+            <span class="hljs-string">&#x27;ai_features&#x27;</span>    =&gt; <span class="hljs-variable">$result</span>-&gt;features,
+            <span class="hljs-string">&#x27;ai_generated_at&#x27;</span> =&gt; <span class="hljs-title function_ invoke__">now</span>(),
         ]);
     }
 
-    public function failed(\Throwable $exception): void
-    {
-        \Log::error("AI generation failed for product {$this->productId}: {$exception->getMessage()}");
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">failed</span>(<span class="hljs-params">\<span class="hljs-built_in">Throwable</span> <span class="hljs-variable">$exception</span></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-title class_">\Log</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">&quot;AI generation failed for product <span class="hljs-subst">{$this-&gt;productId}</span>: <span class="hljs-subst">{$exception-&gt;getMessage()}</span>&quot;</span>);
     }
-}</div>
+}</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Dispatch for a single product</span>
+<span class="hljs-title class_">GenerateProductDescriptions</span>::<span class="hljs-title function_ invoke__">dispatch</span>(<span class="hljs-variable">$product</span>-&gt;id);
 
-                <div class="code-block"><span class="comment">// Dispatch for a single product</span>
-GenerateProductDescriptions::dispatch($product->id);
+<span class="hljs-comment">// Dispatch for all products missing AI content</span>
+<span class="hljs-title class_">Product</span>::<span class="hljs-title function_ invoke__">whereNull</span>(<span class="hljs-string">&#x27;ai_generated_at&#x27;</span>)
+    -&gt;<span class="hljs-title function_ invoke__">each</span>(fn (<span class="hljs-variable">$product</span>) =&gt; <span class="hljs-title class_">GenerateProductDescriptions</span>::<span class="hljs-title function_ invoke__">dispatch</span>(<span class="hljs-variable">$product</span>-&gt;id)-&gt;<span class="hljs-title function_ invoke__">onQueue</span>(<span class="hljs-string">&#x27;ai&#x27;</span>));</code></pre>
+</figure><aside class="callout callout--warn">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg></span>
+  <div><p class="callout__label">Important</p><div class="callout__body"><p>AI API calls can be slow — often 5–30 seconds for complex prompts. Always set a <code>$timeout</code> on jobs that call AI agents. The default Laravel job timeout is 60 seconds, which is often too short for structured output or multi-step agents. Set it to 120 or higher depending on your use case.</p></div></div>
+</aside>
+<h2 id="9-provider-failover-with-openrouter">9. Provider failover with OpenRouter</h2>
+<p>This is where the combination of the Laravel AI SDK and OpenRouter becomes particularly powerful for production. You can configure multiple providers and the SDK will automatically fall back if one fails.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// config/ai.php — configure failover providers</span>
+<span class="hljs-string">&#x27;providers&#x27;</span> =&gt; [
 
-<span class="comment">// Dispatch for all products missing AI content</span>
-Product::whereNull('ai_generated_at')
-    ->each(fn ($product) => GenerateProductDescriptions::dispatch($product->id)->onQueue('ai'));</div>
-
-                <div class="warning-box">
-                    <strong>Important:</strong> AI API calls can be slow — often 5–30 seconds for complex prompts. Always set a <code>$timeout</code> on jobs that call AI agents. The default Laravel job timeout is 60 seconds, which is often too short for structured output or multi-step agents. Set it to 120 or higher depending on your use case.
-                </div>
-
-                <h2>9. Provider failover with OpenRouter</h2>
-
-                <p>This is where the combination of the Laravel AI SDK and OpenRouter becomes particularly powerful for production. You can configure multiple providers and the SDK will automatically fall back if one fails.</p>
-
-                <div class="code-block"><span class="comment">// config/ai.php — configure failover providers</span>
-'providers' => [
-
-    'openrouter' => [
-        'driver' => 'openai',
-        'key'    => env('OPENROUTER_API_KEY'),
-        'url'    => 'https://openrouter.ai/api/v1',
+    <span class="hljs-string">&#x27;openrouter&#x27;</span> =&gt; [
+        <span class="hljs-string">&#x27;driver&#x27;</span> =&gt; <span class="hljs-string">&#x27;openai&#x27;</span>,
+        <span class="hljs-string">&#x27;key&#x27;</span>    =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;OPENROUTER_API_KEY&#x27;</span>),
+        <span class="hljs-string">&#x27;url&#x27;</span>    =&gt; <span class="hljs-string">&#x27;https://openrouter.ai/api/v1&#x27;</span>,
     ],
 
-    'anthropic' => [
-        'driver' => 'anthropic',
-        'key'    => env('ANTHROPIC_API_KEY'),
+    <span class="hljs-string">&#x27;anthropic&#x27;</span> =&gt; [
+        <span class="hljs-string">&#x27;driver&#x27;</span> =&gt; <span class="hljs-string">&#x27;anthropic&#x27;</span>,
+        <span class="hljs-string">&#x27;key&#x27;</span>    =&gt; <span class="hljs-title function_ invoke__">env</span>(<span class="hljs-string">&#x27;ANTHROPIC_API_KEY&#x27;</span>),
     ],
 
-],</div>
+],</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// In your agent — list providers in priority order</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Attributes</span>\<span class="hljs-title">Provider</span>;
 
-                <div class="code-block"><span class="comment">// In your agent — list providers in priority order</span>
-use Laravel\Ai\Attributes\Provider;
+<span class="hljs-meta">#[Provider</span>([<span class="hljs-string">&#x27;openrouter&#x27;</span>, <span class="hljs-string">&#x27;anthropic&#x27;</span>])<span class="hljs-meta">]</span>  <span class="hljs-comment">// tries openrouter first, anthropic if it fails</span>
+<span class="hljs-meta">#[Model</span>(<span class="hljs-string">&#x27;openai/gpt-4o-mini&#x27;</span>)<span class="hljs-meta">]</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SupportAgent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Agent</span>
+</span>{
+    <span class="hljs-comment">// ...</span>
+}</code></pre>
+</figure><p>If OpenRouter is unavailable or rate-limited, the SDK automatically retries with Anthropic — no error surfaced to the user, no code change required. For production SaaS where uptime matters, this is a meaningful safety net.</p>
+<h2 id="10-provider-and-model-comparison">10. Provider and model comparison</h2>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Recommended model (via OpenRouter)</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local development</td>
+<td><code>meta-llama/llama-3.1-8b-instruct:free</code></td>
+<td>Free tier, good enough for dev Zero cost</td>
+</tr>
+<td>General production tasks</td>
+<td><code>openai/gpt-4o-mini</code></td>
+<td>Fast, cheap, handles most use cases well</td>
+</tr>
+<tr>
+<td>Complex reasoning / agents</td>
+<td><code>openai/gpt-4o</code></td>
+<td>Best tool use and structured output reliability</td>
+</tr>
+<tr>
+<td>Long documents / analysis</td>
+<td><code>anthropic/claude-3-5-sonnet</code></td>
+<td>200K context window, excellent instruction following</td>
+</tr>
+<tr>
+<td>Embeddings</td>
+<td><code>openai/text-embedding-3-small</code></td>
+<td>Cheapest per token, works well for semantic search</td>
+</tr>
+</tbody></table></div>
+<h2 id="11-testing-ai-features-properly">11. Testing AI features properly</h2>
+<p>This is the part most tutorials skip, but it&#39;s essential for production code. The Laravel AI SDK ships with built-in fakes so you can write real tests without hitting any API.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-meta">&lt;?php</span>
 
-#[Provider(['openrouter', 'anthropic'])]  <span class="comment">// tries openrouter first, anthropic if it fails</span>
-#[Model('openai/gpt-4o-mini')]
-class SupportAgent extends Agent
-{
-    <span class="comment">// ...</span>
-}</div>
+<span class="hljs-keyword">namespace</span> <span class="hljs-title class_">Tests</span>\<span class="hljs-title class_">Feature</span>;
 
-                <p>If OpenRouter is unavailable or rate-limited, the SDK automatically retries with Anthropic — no error surfaced to the user, no code change required. For production SaaS where uptime matters, this is a meaningful safety net.</p>
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Agents</span>\<span class="hljs-title">SupportAgent</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">App</span>\<span class="hljs-title">Http</span>\<span class="hljs-title">Controllers</span>\<span class="hljs-title">ChatController</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Testing</span>\<span class="hljs-title">AgentFake</span>;
+<span class="hljs-keyword">use</span> <span class="hljs-title">Tests</span>\<span class="hljs-title">TestCase</span>;
 
-                <h2>10. Provider and model comparison</h2>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChatControllerTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">TestCase</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test_chat_returns_agent_response</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-comment">// Intercept all agent calls — no real API requests</span>
+        <span class="hljs-title class_">AgentFake</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-title class_">SupportAgent</span>::<span class="hljs-variable language_">class</span>)
+            -&gt;<span class="hljs-title function_ invoke__">withResponse</span>(<span class="hljs-string">&#x27;I can help you track your order.&#x27;</span>);
 
-                <table class="options-table">
-                    <thead>
-                        <tr><th>Use case</th><th>Recommended model (via OpenRouter)</th><th>Why</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Local development</td>
-                            <td><code>meta-llama/llama-3.1-8b-instruct:free</code></td>
-                            <td>Free tier, good enough for dev <span class="tag-rec">Zero cost</span></td>
-                        </tr>
-                        <tr>
-                            <td>General production tasks</td>
-                            <td><code>openai/gpt-4o-mini</code></td>
-                            <td>Fast, cheap, handles most use cases well</td>
-                        </tr>
-                        <tr>
-                            <td>Complex reasoning / agents</td>
-                            <td><code>openai/gpt-4o</code></td>
-                            <td>Best tool use and structured output reliability</td>
-                        </tr>
-                        <tr>
-                            <td>Long documents / analysis</td>
-                            <td><code>anthropic/claude-3-5-sonnet</code></td>
-                            <td>200K context window, excellent instruction following</td>
-                        </tr>
-                        <tr>
-                            <td>Embeddings</td>
-                            <td><code>openai/text-embedding-3-small</code></td>
-                            <td>Cheapest per token, works well for semantic search</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h2>11. Testing AI features properly</h2>
-
-                <p>This is the part most tutorials skip, but it's essential for production code. The Laravel AI SDK ships with built-in fakes so you can write real tests without hitting any API.</p>
-
-                <div class="code-block">&lt;?php
-
-namespace Tests\Feature;
-
-use App\Ai\Agents\SupportAgent;
-use App\Http\Controllers\ChatController;
-use Laravel\Ai\Testing\AgentFake;
-use Tests\TestCase;
-
-class ChatControllerTest extends TestCase
-{
-    public function test_chat_returns_agent_response(): void
-    {
-        <span class="comment">// Intercept all agent calls — no real API requests</span>
-        AgentFake::make(SupportAgent::class)
-            ->withResponse('I can help you track your order.');
-
-        $response = $this->postJson('/chat', [
-            'message' => 'Where is my order?',
+        <span class="hljs-variable">$response</span> = <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">postJson</span>(<span class="hljs-string">&#x27;/chat&#x27;</span>, [
+            <span class="hljs-string">&#x27;message&#x27;</span> =&gt; <span class="hljs-string">&#x27;Where is my order?&#x27;</span>,
         ]);
 
-        $response->assertOk()
-                 ->assertJsonPath('reply', 'I can help you track your order.');
+        <span class="hljs-variable">$response</span>-&gt;<span class="hljs-title function_ invoke__">assertOk</span>()
+                 -&gt;<span class="hljs-title function_ invoke__">assertJsonPath</span>(<span class="hljs-string">&#x27;reply&#x27;</span>, <span class="hljs-string">&#x27;I can help you track your order.&#x27;</span>);
 
-        <span class="comment">// Assert the agent was actually called with the right prompt</span>
-        AgentFake::assertPrompted(SupportAgent::class, 'Where is my order?');
+        <span class="hljs-comment">// Assert the agent was actually called with the right prompt</span>
+        <span class="hljs-title class_">AgentFake</span>::<span class="hljs-title function_ invoke__">assertPrompted</span>(<span class="hljs-title class_">SupportAgent</span>::<span class="hljs-variable language_">class</span>, <span class="hljs-string">&#x27;Where is my order?&#x27;</span>);
     }
 
-    public function test_structured_output_is_saved_to_product(): void
-    {
-        $product = Product::factory()->create();
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test_structured_output_is_saved_to_product</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-variable">$product</span> = <span class="hljs-title class_">Product</span>::<span class="hljs-title function_ invoke__">factory</span>()-&gt;<span class="hljs-title function_ invoke__">create</span>();
 
-        AgentFake::make(ProductDescriptionAgent::class)
-            ->withStructuredResponse([
-                'title'       => 'Premium Wireless Headphones',
-                'description' => 'Crystal clear audio with 40-hour battery life.',
-                'features'    => ['40hr battery', 'Noise cancelling', 'Foldable design'],
+        <span class="hljs-title class_">AgentFake</span>::<span class="hljs-title function_ invoke__">make</span>(<span class="hljs-title class_">ProductDescriptionAgent</span>::<span class="hljs-variable language_">class</span>)
+            -&gt;<span class="hljs-title function_ invoke__">withStructuredResponse</span>([
+                <span class="hljs-string">&#x27;title&#x27;</span>       =&gt; <span class="hljs-string">&#x27;Premium Wireless Headphones&#x27;</span>,
+                <span class="hljs-string">&#x27;description&#x27;</span> =&gt; <span class="hljs-string">&#x27;Crystal clear audio with 40-hour battery life.&#x27;</span>,
+                <span class="hljs-string">&#x27;features&#x27;</span>    =&gt; [<span class="hljs-string">&#x27;40hr battery&#x27;</span>, <span class="hljs-string">&#x27;Noise cancelling&#x27;</span>, <span class="hljs-string">&#x27;Foldable design&#x27;</span>],
             ]);
 
-        GenerateProductDescriptions::dispatchSync($product->id);
+        <span class="hljs-title class_">GenerateProductDescriptions</span>::<span class="hljs-title function_ invoke__">dispatchSync</span>(<span class="hljs-variable">$product</span>-&gt;id);
 
-        $this->assertDatabaseHas('products', [
-            'id'          => $product->id,
-            'ai_title'    => 'Premium Wireless Headphones',
+        <span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">assertDatabaseHas</span>(<span class="hljs-string">&#x27;products&#x27;</span>, [
+            <span class="hljs-string">&#x27;id&#x27;</span>          =&gt; <span class="hljs-variable">$product</span>-&gt;id,
+            <span class="hljs-string">&#x27;ai_title&#x27;</span>    =&gt; <span class="hljs-string">&#x27;Premium Wireless Headphones&#x27;</span>,
         ]);
     }
-}</div>
+}</code></pre>
+</figure><p><strong>Why this matters:</strong> Without fakes, your CI pipeline makes real API calls on every test run — adding cost, latency, and flakiness. The fake intercepts everything at the agent layer, so your tests run fast and reliably with no API keys required in the CI environment.</p>
+<h2 id="12-semantic-search-with-embeddings-bonus">12. Semantic search with embeddings (bonus)</h2>
+<p>Laravel 13 adds native vector query support to the query builder. Combined with the AI SDK&#39;s embedding generation, you can build semantic search without any external vector database — just PostgreSQL with the pgvector extension.</p>
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Generate and store an embedding when a product is created</span>
+<span class="hljs-keyword">use</span> <span class="hljs-title">Laravel</span>\<span class="hljs-title">Ai</span>\<span class="hljs-title">Embeddings</span>;
 
-                <div class="tip-box">
-                    <strong>Why this matters:</strong> Without fakes, your CI pipeline makes real API calls on every test run — adding cost, latency, and flakiness. The fake intercepts everything at the agent layer, so your tests run fast and reliably with no API keys required in the CI environment.
-                </div>
+<span class="hljs-variable">$embedding</span> = <span class="hljs-title class_">Embeddings</span>::<span class="hljs-title function_ invoke__">of</span>(<span class="hljs-variable">$product</span>-&gt;name . <span class="hljs-string">&#x27; &#x27;</span> . <span class="hljs-variable">$product</span>-&gt;description)
+    -&gt;<span class="hljs-title function_ invoke__">generate</span>()
+    -&gt;<span class="hljs-title function_ invoke__">vector</span>();
 
-                <h2>12. Semantic search with embeddings (bonus)</h2>
-
-                <p>Laravel 13 adds native vector query support to the query builder. Combined with the AI SDK's embedding generation, you can build semantic search without any external vector database — just PostgreSQL with the pgvector extension.</p>
-
-                <div class="code-block"><span class="comment">// Generate and store an embedding when a product is created</span>
-use Laravel\Ai\Embeddings;
-
-$embedding = Embeddings::of($product->name . ' ' . $product->description)
-    ->generate()
-    ->vector();
-
-$product->update(['embedding' => $embedding]);</div>
-
-                <div class="code-block"><span class="comment">// Search semantically — finds conceptually related products, not just keyword matches</span>
-$results = DB::table('products')
-    ->whereVectorSimilarTo('embedding', $request->query)
-    ->limit(10)
-    ->get();</div>
-
-                <div class="warning-box">
-                    <strong>Note:</strong> Vector search requires PostgreSQL with the pgvector extension enabled. It does not work with MySQL. If you're on MySQL, you'll need a separate vector store like Pinecone or Qdrant for this feature specifically — but everything else in this guide works with any database.
-                </div>
-
-                <h2>13. The old way vs the new way — a quick comparison</h2>
-
-                <p>If you read my <a href="/blog/laravel-openai-integration-guide/">previous OpenRouter integration guide</a>, here's how the two approaches compare now:</p>
-
-                <table class="options-table">
-                    <thead>
-                        <tr><th></th><th>Manual approach (Laravel 12)</th><th>AI SDK (Laravel 13)</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Setup</td>
-                            <td>Install 3rd-party package, write service class</td>
-                            <td><code>composer require laravel/ai</code></td>
-                        </tr>
-                        <tr>
-                            <td>Provider switch</td>
-                            <td>Rewrite service class</td>
-                            <td>Change one config value <span class="tag-rec">Zero code change</span></td>
-                        </tr>
-                        <tr>
-                            <td>Structured output</td>
-                            <td>Parse JSON manually, handle failures</td>
-                            <td>Schema definition, typed response object</td>
-                        </tr>
-                        <tr>
-                            <td>Testing</td>
-                            <td>Mock HTTP client manually</td>
-                            <td><code>AgentFake::make()</code> built in</td>
-                        </tr>
-                        <tr>
-                            <td>Retry logic</td>
-                            <td>Write it yourself</td>
-                            <td>Handled automatically</td>
-                        </tr>
-                        <tr>
-                            <td>Failover</td>
-                            <td>Not available</td>
-                            <td>Multi-provider array on the agent</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h2>14. Conclusion</h2>
-
-                <p>The Laravel AI SDK removes all the reasons to delay adding AI features to your application. There's no abstraction layer to write, no provider-specific SDK gymnastics, and no gap between "it works locally" and "it's testable in CI." It's the same pattern as email or queues — configure the driver, use the facade, write tests with the fake.</p>
-
-                <p>OpenRouter on top of it gives you model flexibility and cost control without any additional complexity. Switch models by changing a string. Access free models in development. Fall back automatically when a provider has issues.</p>
-
-                <p>If you're on Laravel 12, the <a href="/blog/laravel-openai-integration-guide/">manual approach</a> still works — but upgrading to Laravel 13 is worth it for this alone. The upgrade is zero breaking changes, and this guide is waiting for you on the other side.</p>
-
-            </div>
-        </article>
-
-        <div class="hire-cta-box">
-            <h3>Need Help Adding AI to Your Laravel App?</h3>
-            <p>I've integrated OpenRouter, OpenAI, and Anthropic LLM pipelines into production SaaS platforms — from AI chatbots and automated classification to vector search. Available for contract hire with fixed pricing and guaranteed delivery.</p>
-            <div class="cta-btn-group">
-                <a href="/services/hire-laravel-developer/" class="btn-hire-primary">Hire Me →</a>
-                <a href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20saw%20your%20Laravel%20AI%20SDK%20guide%20and%20need%20help%20with%20an%20AI%20project." target="_blank" rel="noopener noreferrer" class="btn-hire-secondary">Chat on WhatsApp ↗</a>
-            </div>
-            <p class="cta-meta-text">Fixed-price milestones · No hourly runaway billing · Replies within 4 hours</p>
-        </div>
-
-        <div class="author-bio">
-            <h3>About the Author</h3>
-            <p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-            <div class="author-links">
-                <a href="/">Portfolio</a>
-                <a href="/services/hire-laravel-developer/">Hire Me</a>
-                <a href="mailto:kzaman3055@gmail.com">Contact</a>
-                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-        </div>
+<span class="hljs-variable">$product</span>-&gt;<span class="hljs-title function_ invoke__">update</span>([<span class="hljs-string">&#x27;embedding&#x27;</span> =&gt; <span class="hljs-variable">$embedding</span>]);</code></pre>
+</figure><figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Search semantically — finds conceptually related products, not just keyword matches</span>
+<span class="hljs-variable">$results</span> = DB::<span class="hljs-title function_ invoke__">table</span>(<span class="hljs-string">&#x27;products&#x27;</span>)
+    -&gt;<span class="hljs-title function_ invoke__">whereVectorSimilarTo</span>(<span class="hljs-string">&#x27;embedding&#x27;</span>, <span class="hljs-variable">$request</span>-&gt;query)
+    -&gt;<span class="hljs-title function_ invoke__">limit</span>(<span class="hljs-number">10</span>)
+    -&gt;<span class="hljs-title function_ invoke__">get</span>();</code></pre>
+</figure><aside class="callout callout--tip">
+  <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>
+  <div><p class="callout__label">Note</p><div class="callout__body"><p>Vector search requires PostgreSQL with the pgvector extension enabled. It does not work with MySQL. If you&#39;re on MySQL, you&#39;ll need a separate vector store like Pinecone or Qdrant for this feature specifically — but everything else in this guide works with any database.</p></div></div>
+</aside>
+<h2 id="13-the-old-way-vs-the-new-way-a-quick-comparison">13. The old way vs the new way — a quick comparison</h2>
+<p>If you read my <a href="/blog/laravel-openai-integration-guide/">previous OpenRouter integration guide</a>, here&#39;s how the two approaches compare now:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Manual approach (Laravel 12)</th>
+<th>AI SDK (Laravel 13)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Setup</td>
+<td>Install 3rd-party package, write service class</td>
+<td><code>composer require laravel/ai</code></td>
+</tr>
+<td>Provider switch</td>
+<td>Rewrite service class</td>
+<td>Change one config value Zero code change</td>
+</tr>
+<tr>
+<td>Structured output</td>
+<td>Parse JSON manually, handle failures</td>
+<td>Schema definition, typed response object</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Mock HTTP client manually</td>
+<td><code>AgentFake::make()</code> built in</td>
+</tr>
+<tr>
+<td>Retry logic</td>
+<td>Write it yourself</td>
+<td>Handled automatically</td>
+</tr>
+<tr>
+<td>Failover</td>
+<td>Not available</td>
+<td>Multi-provider array on the agent</td>
+</tr>
+</tbody></table></div>
+<h2 id="14-conclusion">14. Conclusion</h2>
+<p>The Laravel AI SDK removes all the reasons to delay adding AI features to your application. There&#39;s no abstraction layer to write, no provider-specific SDK gymnastics, and no gap between &quot;it works locally&quot; and &quot;it&#39;s testable in CI.&quot; It&#39;s the same pattern as email or queues — configure the driver, use the facade, write tests with the fake.</p>
+<p>OpenRouter on top of it gives you model flexibility and cost control without any additional complexity. Switch models by changing a string. Access free models in development. Fall back automatically when a provider has issues.</p>
+<p>If you&#39;re on Laravel 12, the <a href="/blog/laravel-openai-integration-guide/">manual approach</a> still works — but upgrading to Laravel 13 is worth it for this alone. The upgrade is zero breaking changes, and this guide is waiting for you on the other side.</p></article>
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need help with your Laravel architecture?</h2>
+        <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
+        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
+      </div>
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
+      </div>
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/laravel-queue-vs-defer/"><span>← Previous</span><b>Laravel Queue vs defer(): When to Use Each</b></a>
+        <a href="/blog/laravel-observer-pattern-audit-log/" style="text-align:right"><span>Next →</span><b>Laravel Observer Pattern: Audit Logging Done Right</b></a>
+      </nav>
     </div>
-    <script src="/shared-nav.js" defer></script>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-what-the-laravel-ai-sdk-actually-is" data-toc-link>1. What the Laravel AI SDK actually is</a><a href="#2-where-openrouter-fits-in" data-toc-link>2. Where OpenRouter fits in</a><a href="#3-installation" data-toc-link>3. Installation</a><a href="#4-configuring-openrouter-as-your-provider" data-toc-link>4. Configuring OpenRouter as your provider</a><a href="#5-creating-your-first-agent" data-toc-link>5. Creating your first Agent</a><a href="#6-structured-output-getting-json-back-reliably" data-toc-link>6. Structured output — getting JSON back reliably</a><a href="#7-streaming-responses-to-the-frontend" data-toc-link>7. Streaming responses to the frontend</a><a href="#8-queuing-heavy-ai-jobs" data-toc-link>8. Queuing heavy AI jobs</a><a href="#9-provider-failover-with-openrouter" data-toc-link>9. Provider failover with OpenRouter</a><a href="#10-provider-and-model-comparison" data-toc-link>10. Provider and model comparison</a><a href="#11-testing-ai-features-properly" data-toc-link>11. Testing AI features properly</a><a href="#12-semantic-search-with-embeddings-bonus" data-toc-link>12. Semantic search with embeddings (bonus)</a><a href="#13-the-old-way-vs-the-new-way-a-quick-comparison" data-toc-link>13. The old way vs the new way — a quick comparison</a><a href="#14-conclusion" data-toc-link>14. Conclusion</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">AI</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-openai-integration-guide/">Laravel + OpenAI &amp; OpenRouter: Integration Guide</a></h3><p class="post-row__desc">Integrate OpenAI and OpenRouter into Laravel: streaming responses, token cost control, retries and production error handling.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-observer-pattern-audit-log/">Laravel Observer Pattern: Audit Logging Done Right</a></h3><p class="post-row__desc">How the Observer pattern works in Laravel, with a real audit-logging example and when to use observers instead of MySQL triggers.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer & SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

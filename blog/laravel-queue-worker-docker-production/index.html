@@ -1,685 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026 Production Guide)</title>
-    <meta name="description" content="Your Laravel queue worker keeps dying in Docker? This is the definitive fix: Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.">
-    <meta name="author" content="Kamruzzaman Polash">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://pola5h.github.io/blog/laravel-queue-worker-docker-production/">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026 Production Guide)">
-    <meta property="og:description" content="Your Laravel queue worker keeps dying in Docker? Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.">
-    <meta property="og:image" content="https://pola5h.github.io/og-image.svg">
-    <meta property="og:url" content="https://pola5h.github.io/blog/laravel-queue-worker-docker-production/">
-    <meta property="og:site_name" content="Kamruzzaman Polash">
-    <meta property="og:locale" content="en_US">
-    <meta property="article:author" content="https://pola5h.github.io/">
-    <meta property="article:published_time" content="2026-09-27">
-    <meta property="article:modified_time" content="2026-09-27">
-    <meta property="article:section" content="Technology">
-    <meta property="article:tag" content="Laravel">
-    <meta property="article:tag" content="Docker">
-    <meta property="article:tag" content="Queues">
-    <meta property="article:tag" content="Supervisor">
-    <meta property="article:tag" content="PHP">
-    <meta property="article:tag" content="Laravel Horizon">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)">
-    <meta name="twitter:description" content="The definitive guide to keeping Laravel queue workers alive in Docker — Supervisor, --max-time, OOM, Horizon.">
-    <meta name="twitter:image" content="https://pola5h.github.io/twitter-image.svg">
-
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <meta name="theme-color" content="#0d1117">
-    <meta name="msapplication-TileColor" content="#0d1117">
-
-    <!-- Structured Data: TechArticle -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Laravel Queue Workers in Docker: Why They Die & How to Fix It (2026 Production Guide)",
-        "description": "Your Laravel queue worker keeps dying in Docker? This is the definitive fix: Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.",
-        "image": "https://pola5h.github.io/og-image.svg",
-        "author": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "publisher": { "@type": "Person", "name": "Kamruzzaman Polash", "url": "https://pola5h.github.io/" },
-        "datePublished": "2026-09-27",
-        "dateModified": "2026-09-27",
-        "mainEntityOfPage": "https://pola5h.github.io/blog/laravel-queue-worker-docker-production/",
-        "articleSection": "Technology",
-        "keywords": [
-            "laravel queue worker dying in docker",
-            "laravel queue worker docker",
-            "laravel queue:work --max-time docker",
-            "laravel queue worker oom killed",
-            "laravel queue memory leak docker",
-            "laravel horizon docker",
-            "laravel supervisor docker",
-            "php artisan queue:work docker",
-            "laravel queue worker keeps stopping",
-            "laravel queue:work --max-jobs docker production"
-        ],
-        "inLanguage": "en-US",
-        "wordCount": "3100",
-        "timeRequired": "PT15M",
-        "breadcrumb": {
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://pola5h.github.io/" },
-                { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://pola5h.github.io/blog/" },
-                { "@type": "ListItem", "position": 3, "name": "Laravel Queue Worker Docker Guide", "item": "https://pola5h.github.io/blog/laravel-queue-worker-docker-production/" }
-            ]
-        }
-    }
-    </script>
-
-    <!-- FAQ Schema — targets featured snippets for common desperate queries -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "Why does my Laravel queue worker keep dying in Docker?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Laravel queue workers die in Docker for 4 main reasons: (1) Memory leaks — PHP accumulates memory over time; without --max-time or --max-jobs, the worker runs forever until Docker's OOM killer terminates it. (2) Uncaught exceptions — an exception thrown outside a job's handle() method (e.g. during queue polling) can crash the worker process. (3) Docker OOM kill — the container hits its memory limit and Linux kills the worker process with SIGKILL. (4) Missing process manager — without Supervisor or Horizon, a dead worker simply stays dead. The fix: use --max-time=3600 --max-jobs=500 and Supervisor with autorestart=true."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "How do I stop Laravel queue workers from dying in Docker?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Run queue:work with --max-time and --max-jobs flags: php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256. This ensures workers exit gracefully before accumulating too much memory. Use Supervisor with autorestart=true to automatically restart workers after each exit. Set stopwaitsecs in Supervisor to be longer than your longest job timeout to prevent Supervisor from SIGKILL-ing an active job."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What is the best Supervisor config for Laravel queue workers in Docker?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The recommended supervisord.conf for Laravel Docker: [program:laravel-worker] command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256, autostart=true, autorestart=true, stopasgroup=true, killasgroup=true, numprocs=2, stopwaitsecs=3600, redirect_stderr=true, stdout_logfile=/var/www/html/storage/logs/worker.log. The key settings are autorestart=true (restarts after graceful exit) and stopwaitsecs=3600 (matches --max-time so Supervisor waits for the current job to finish)."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Does an uncaught exception kill a Laravel queue worker?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes — if an exception is thrown outside of a job's handle() method (for example during queue polling, serialization, or in a middleware), the worker process itself can die. Exceptions thrown inside handle() are caught by Laravel and mark the job as failed — the worker continues. Use Supervisor with autorestart=true so the worker is restarted in either case."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Should I use Laravel Horizon or queue:work in Docker?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Use Horizon if you're already on Redis and want a dashboard, auto-scaling workers, and metrics. Use queue:work + Supervisor if you need simplicity or are using a non-Redis driver (database, SQS). In Docker, both work well. For Horizon in Docker, run php artisan horizon as your container's CMD and configure SIGTERM handling. For queue:work, use Supervisor inside the container. Horizon automatically handles worker restarts — no Supervisor needed."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "What does --max-time do in Laravel queue:work?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "The --max-time=N flag tells the queue worker to exit gracefully after running for N seconds. For example, --max-time=3600 exits after 1 hour. The worker always finishes its current job first, then exits cleanly. This is the primary way to prevent PHP memory leaks in long-running worker processes. Supervisor then restarts the worker automatically, so queues never stop processing."
-                }
-            }
-        ]
-    }
-    </script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--sans); line-height: 1.7; color: var(--text-primary); background-color: var(--bg-primary); }
-        .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
-        .breadcrumb { color: var(--text-secondary); margin-bottom: 2rem; font-size: 0.9rem; }
-        .breadcrumb a { color: var(--accent-blue); text-decoration: none; }
-        .article-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border-color); }
-        .article-category { color: var(--accent-green); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.8rem; }
-        h1 { font-size: 2.3rem; line-height: 1.2; margin-bottom: 1rem; color: var(--text-primary); }
-        .article-meta { color: var(--text-secondary); font-size: 0.9rem; }
-        .article-meta a { color: var(--accent-blue); text-decoration: none; }
-        .related-links { background: var(--bg-secondary); border-radius: 6px; padding: 0.8rem 1.2rem; margin-bottom: 2rem; font-size: 0.9rem; color: var(--text-secondary); }
-        .related-links a { color: var(--accent-blue); text-decoration: none; margin: 0 0.3rem; }
-        .related-links a:hover { text-decoration: underline; }
-        .answer-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.5rem; margin: 0 0 2rem; }
-        .answer-box .answer-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #1b5e20; margin-bottom: 0.6rem; }
-        .answer-box p { margin: 0 0 0.6rem; color: #1b5e20; font-size: 0.97rem; line-height: 1.7; }
-        .answer-box p:last-child { margin-bottom: 0; }
-        .answer-box code { background: #c8e6c9; padding: 0.1rem 0.4rem; border-radius: 3px; font-family: 'Courier New', monospace; font-size: 0.9em; }
-        .article-content { font-size: 1.05rem; line-height: 1.8; }
-        .article-content h2 { font-size: 1.7rem; margin: 2.5rem 0 1rem; color: var(--text-primary); border-bottom: 2px solid #e9ecef; padding-bottom: 0.5rem; }
-        .article-content h3 { font-size: 1.25rem; margin: 2rem 0 0.8rem; color: var(--text-primary); }
-        .article-content p { margin-bottom: 1.5rem; }
-        .article-content ul, .article-content ol { margin-bottom: 1.5rem; padding-left: 2rem; }
-        .article-content li { margin-bottom: 0.6rem; }
-        .article-content a { color: var(--accent-blue); text-decoration: none; }
-        .article-content a:hover { text-decoration: underline; }
-        .code-block { background: var(--bg-secondary); color: #abb2bf; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; font-family: 'Courier New', monospace; font-size: 0.88rem; overflow-x: auto; white-space: pre; line-height: 1.6; }
-        .code-block .comment { color: #5c6370; }
-        .code-block .keyword { color: #c678dd; }
-        .code-block .string { color: #98c379; }
-        .code-block .flag { color: #e5c07b; }
-        .tip-box { background: #e8f5e9; border-left: 5px solid #28a745; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .tip-box strong { color: #1b5e20; }
-        .warning-box { background: #fff8e1; border-left: 5px solid #ffc107; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .warning-box strong { color: #e65100; }
-        .danger-box { background: #ffebee; border-left: 5px solid #f44336; border-radius: 0 8px 8px 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
-        .danger-box strong { color: #b71c1c; }
-        .cause-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .cause-card { background: #fff3e0; border: 1px solid #ffe0b2; border-radius: 8px; padding: 1.2rem; border-top: 3px solid #ff9800; }
-        .cause-card .cause-num { font-size: 0.78rem; font-weight: 700; color: #e65100; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
-        .cause-card .cause-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; font-size: 0.95rem; }
-        .cause-card .cause-desc { font-size: 0.85rem; color: var(--text-secondary); }
-        .fix-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .fix-card { background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 8px; padding: 1.2rem; border-top: 3px solid #28a745; }
-        .fix-card .fix-num { font-size: 0.78rem; font-weight: 700; color: #1b5e20; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
-        .fix-card .fix-title { font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
-        .fix-card .fix-desc { font-size: 0.85rem; color: var(--text-secondary); }
-        .options-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9rem; overflow-x: auto; display: block; }
-        .options-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; white-space: nowrap; }
-        .options-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); vertical-align: top; }
-        .options-table tr:nth-child(even) td { background: var(--bg-secondary); }
-        .options-table code { background: #e9ecef; padding: 0.1rem 0.4rem; border-radius: 3px; font-size: 0.85em; font-family: 'Courier New', monospace; }
-        .tag-rec { background: #d4edda; color: #155724; font-size: 0.73rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 20px; margin-left: 0.3rem; white-space: nowrap; }
-        .tag-danger { background: #f8d7da; color: #721c24; font-size: 0.73rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 20px; margin-left: 0.3rem; white-space: nowrap; }
-        .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.9rem; }
-        .comparison-table th { background: #2c3e50; color: #fff; padding: 0.8rem 1rem; text-align: left; }
-        .comparison-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border-color); }
-        .comparison-table tr:nth-child(even) td { background: var(--bg-secondary); }
-        .comparison-table .yes { color: var(--accent-green); font-weight: 700; }
-        .comparison-table .no { color: #dc3545; font-weight: 700; }
-        .hire-cta { background: #0d1117; color: #c9d1d9; padding: 2rem; border-radius: 12px; margin: 3rem 0; text-align: center; border: 1px solid #30363d; border-left: 4px solid #3fb950; }
-        .hire-cta h3 { margin-bottom: 0.8rem; font-size: 1.4rem; color: #3fb950; }
-        .hire-cta p { margin-bottom: 1.5rem; color: #8b949e; font-size: 0.95rem; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap; }
-        .cta-primary { background: #3fb950; color: #0d1117; padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 6px; font-weight: bold; transition: opacity 0.2s; }
-        .cta-primary:hover { opacity: 0.85; }
-        .cta-secondary { background: transparent; color: #58a6ff; padding: 0.8rem 1.5rem; text-decoration: none; border: 2px solid #58a6ff; border-radius: 6px; font-weight: bold; transition: all 0.2s; }
-        .cta-secondary:hover { background: #58a6ff; color: #0d1117; }
-        .cta-meta { font-size: 0.85rem; color: #8b949e; }
-        .author-bio { background: var(--bg-secondary); border-radius: 8px; padding: 2rem; margin: 3rem 0; text-align: center; }
-        .author-bio h3 { margin-bottom: 1rem; }
-        .author-bio p { margin-bottom: 1rem; color: var(--text-secondary); }
-        .author-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
-        .author-links a { color: var(--accent-blue); text-decoration: none; padding: 0.5rem 1rem; border: 1px solid #007bff; border-radius: 4px; transition: all 0.2s; }
-        .author-links a:hover { background: #007bff; color: #fff; }
-        .toc { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; }
-        .toc h4 { color: var(--text-primary); margin-bottom: 1rem; font-size: 1rem; font-weight: 700; }
-        .toc ol { padding-left: 1.5rem; margin: 0; }
-        .toc li { margin-bottom: 0.4rem; font-size: 0.9rem; }
-        .toc a { color: var(--accent-blue); text-decoration: none; }
-        .toc a:hover { text-decoration: underline; }
-        @media (max-width: 600px) { .container { padding: 1rem; } h1 { font-size: 1.8rem; } .cta-buttons { flex-direction: column; align-items: center; } }
-    </style>
-    <!-- Shared Design System -->
-    <link rel="stylesheet" href="/shared.css">
-    <script>
-        // Prevent dark/light flash
-        (function() {
-            var t = localStorage.getItem('pola5h-theme');
-            if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
-        })();
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)</title>
+<meta name="description" content="Your Laravel queue worker keeps dying in Docker? Supervisor config, --max-time, --max-jobs, memory leak prevention, OOM kills, and Horizon in Docker — all in one guide.">
+<link rel="canonical" href="https://pola5h.github.io/blog/laravel-queue-worker-docker-production/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add("js");
+  if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.classList.add("dark");
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/blog/laravel-queue-worker-docker-production/">
+<meta property="og:title" content="Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)">
+<meta property="og:description" content="Supervisor config, --max-time, --max-jobs, memory leak prevention, OOM kills, and Horizon in Docker — the production guide.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Backend Software Engineer">
+<meta property="article:published_time" content="2026-09-27">
+<meta property="article:modified_time" content="2026-09-27">
+<meta property="article:section" content="DevOps">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/blog/laravel-queue-worker-docker-production/">
+<meta name="twitter:title" content="Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)">
+<meta name="twitter:description" content="The definitive guide to keeping Laravel queue workers alive in Docker — Supervisor, --max-time, OOM, Horizon.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=7">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "G-Q3R4PTV9GH", { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://pola5h.github.io/blog/laravel-queue-worker-docker-production/#article","headline":"Laravel Queue Workers in Docker: Why They Die & How to Fix It (2026 Production Guide)","description":"Your Laravel queue worker keeps dying in Docker? This is the definitive fix: Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.","url":"https://pola5h.github.io/blog/laravel-queue-worker-docker-production/","mainEntityOfPage":{"@type":"WebPage","@id":"https://pola5h.github.io/blog/laravel-queue-worker-docker-production/"},"datePublished":"2026-09-27","dateModified":"2026-09-27","timeRequired":"PT15M","articleSection":"DevOps","inLanguage":"en","image":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://pola5h.github.io/#person"},"publisher":{"@id":"https://pola5h.github.io/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://pola5h.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue Workers in Docker Guide","item":"https://pola5h.github.io/blog/laravel-queue-worker-docker-production/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my Laravel queue worker keep dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Laravel queue workers die in Docker for 4 main reasons: (1) Memory leaks — PHP accumulates memory over time; without --max-time or --max-jobs, the worker runs forever until Docker OOM killer terminates it. (2) Uncaught exceptions — an exception thrown outside a job handle() method can crash the worker process. (3) Docker OOM kill — the container hits its memory limit and Linux kills the worker process with SIGKILL. (4) Missing process manager — without Supervisor or Horizon, a dead worker simply stays dead. The fix: use --max-time=3600 --max-jobs=500 and Supervisor with autorestart=true."}},{"@type":"Question","name":"How do I stop Laravel queue workers from dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Run queue:work with --max-time and --max-jobs flags: php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256. This ensures workers exit gracefully before accumulating too much memory. Use Supervisor with autorestart=true to automatically restart workers after each exit."}},{"@type":"Question","name":"What is the best Supervisor config for Laravel queue workers in Docker?","acceptedAnswer":{"@type":"Answer","text":"The recommended supervisord.conf for Laravel Docker: [program:laravel-worker] command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256, autostart=true, autorestart=true, stopasgroup=true, killasgroup=true, numprocs=2, stopwaitsecs=3600, redirect_stderr=true, stdout_logfile=/var/www/html/storage/logs/worker.log."}},{"@type":"Question","name":"Should I use Laravel Horizon or queue:work in Docker?","acceptedAnswer":{"@type":"Answer","text":"Use Horizon if you are already on Redis and want a dashboard, auto-scaling workers, and metrics. Use queue:work + Supervisor if you need simplicity or are using a non-Redis driver (database, SQS)."}}]}]}</script>
 </head>
 <body>
-    <div class="container">
-        <nav class="breadcrumb">
-            <a href="/">Home</a> / <a href="/blog/">Blog</a> / Laravel Queue Worker Docker Guide
-        </nav>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+      <span class="brand__role">Backend Software Engineer / SaaS Architect</span>
+    </a>
+    <nav class="nav" aria-label="Primary"><a href="/#work" class="nav__link">Work</a><a href="/#about" class="nav__link">About</a><a href="/#skills" class="nav__link">Skills</a><a href="/#experience" class="nav__link">Experience</a><a href="/services/" class="nav__link">Services</a><a href="/blog/" class="nav__link" aria-current="page">Blog</a><a href="/#contact" class="nav__link">Contact</a></nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <a href="/#contact" class="btn btn--solid">Start a project</a>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
 
-        <article>
-            <header class="article-header">
-                <div class="article-category">Laravel Production · Docker</div>
-                <h1>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)</h1>
-                <div class="article-meta">By <a href="/">Kamruzzaman Polash</a> · September 27, 2026 · 15 min read</div>
-            </header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Queue Workers in Docker Guide</span></div></div>
 
-            <!-- Direct answer box — targets featured snippet -->
-            <div class="answer-box">
-                <div class="answer-label">Quick Answer</div>
-                <p><strong>Laravel queue workers die in Docker due to 4 causes: memory leaks, uncaught exceptions, OOM kills, and no process manager.</strong></p>
-                <p>The definitive fix: run workers with <code>--max-time=3600 --max-jobs=500 --memory=256</code>, and use Supervisor with <code>autorestart=true</code> and <code>stopwaitsecs=3600</code>. This makes workers exit gracefully before leaking memory, then restart automatically.</p>
-            </div>
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">DevOps</span><span class="label">15 min read</span></div>
+    <h1 class="article-head__title">Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)</h1>
+    <p class="article-head__desc">Your Laravel queue worker keeps dying in Docker? Supervisor config, --max-time, --max-jobs, memory leak prevention, OOM kills, and Horizon in Docker — all in one guide.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">September 27, 2026</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
 
-            <!-- Table of Contents -->
-            <div class="toc">
-                <h4>📋 In This Guide</h4>
-                <ol>
-                    <li><a href="#why-die">The 4 Reasons Queue Workers Die in Docker</a></li>
-                    <li><a href="#max-time-max-jobs">--max-time and --max-jobs: The Core Fix</a></li>
-                    <li><a href="#supervisor">Supervisor Configuration for Docker</a></li>
-                    <li><a href="#dockerfile">Dockerfile Setup (Complete Example)</a></li>
-                    <li><a href="#oom">Handling OOM Kills and Memory Limits</a></li>
-                    <li><a href="#exceptions">Uncaught Exceptions and Worker Crashes</a></li>
-                    <li><a href="#horizon">Horizon vs queue:work in Docker</a></li>
-                    <li><a href="#checklist">Production Checklist</a></li>
-                </ol>
-            </div>
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article">
 
-            <div class="related-links">
-                <strong>Related:</strong>
-                <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Redis Setup</a> |
-                <a href="/blog/laravel-performance-optimization/">Laravel Performance Optimization</a> |
-                <a href="/blog/laravel-docker-kubernetes-deployment/">Docker &amp; Kubernetes Deployment</a>
-            </div>
+        <aside class="callout callout--tip">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+          <div>
+            <p class="callout__title">Quick Answer</p>
+            <p><strong>Laravel queue workers die in Docker due to 4 causes: memory leaks, uncaught exceptions, OOM kills, and no process manager.</strong></p>
+            <p>The definitive fix: run workers with <code>--max-time=3600 --max-jobs=500 --memory=256</code>, and use Supervisor with <code>autorestart=true</code> and <code>stopwaitsecs=3600</code>. This makes workers exit gracefully before leaking memory, then restart automatically.</p>
+          </div>
+        </aside>
 
-            <div class="article-content">
+        <p>You deploy your Laravel app to Docker, push a queue job, and 30 minutes later — silence. The worker is gone. No logs. No errors. Just a dead container or a zombie process that is not picking up jobs.</p>
+        <p>This is one of the most common production problems Laravel developers face, and it is almost always preventable. This guide covers every reason workers die in Docker and the exact configuration to fix each one.</p>
 
-                <p>You deploy your Laravel app to Docker, push a queue job, and 30 minutes later — silence. The worker is gone. No logs. No errors. Just a dead container or a zombie process that's not picking up jobs.</p>
+        <h2 id="1-the-4-reasons-laravel-queue-workers-die-in-docker">1. The 4 Reasons Laravel Queue Workers Die in Docker</h2>
+        <p>Understanding which cause is killing your workers is important because the fix is different for each:</p>
+        <ol>
+          <li><strong>Memory Leaks</strong> — PHP accumulates memory every job. Without a restart limit, memory grows until Docker OOM killer terminates the process.</li>
+          <li><strong>Uncaught Exceptions</strong> — Exceptions outside <code>handle()</code> (in middleware, serialization, or polling) crash the entire worker process, not just the job.</li>
+          <li><strong>OOM Kill (SIGKILL)</strong> — Docker containers have memory limits. When the limit is hit, Linux sends SIGKILL — which cannot be caught or deferred. The worker dies mid-job.</li>
+          <li><strong>No Process Manager</strong> — Without Supervisor or Horizon, a dead worker simply stays dead. No one restarts it. Jobs pile up silently.</li>
+        </ol>
 
-                <p>This is one of the most common production problems Laravel developers face, and it's almost always preventable. This guide covers every reason workers die in Docker and the exact configuration to fix each one.</p>
+        <h2 id="2-max-time-and-max-jobs">2. --max-time and --max-jobs: The Core Fix for Memory Leaks</h2>
+        <p>PHP is a long-running process when used as a queue worker. Each job it processes can leave behind small amounts of memory that are never garbage collected — Eloquent model caches, event listeners, static singletons. Over hours, this adds up.</p>
+        <p>The solution is not to fix every memory leak. The solution is to <strong>restart the worker periodically</strong> before it accumulates too much memory. Laravel provides dedicated flags for this:</p>
 
-                <h2 id="why-die">1. The 4 Reasons Laravel Queue Workers Die in Docker</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Flag</th><th>What it does</th><th>Recommended value</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--max-time=N</code></td><td>Exit gracefully after N seconds (finishes current job first)</td><td><code>3600</code> (1 hour)</td></tr>
+              <tr><td><code>--max-jobs=N</code></td><td>Exit after processing N jobs</td><td><code>500</code></td></tr>
+              <tr><td><code>--memory=N</code></td><td>Exit if memory exceeds N MB (checked between jobs)</td><td><code>256</code></td></tr>
+              <tr><td><code>--sleep=N</code></td><td>Seconds to wait when queue is empty</td><td><code>3</code></td></tr>
+              <tr><td><code>--tries=N</code></td><td>Max attempts before marking a job as failed</td><td><code>3</code></td></tr>
+              <tr><td><code>--timeout=N</code></td><td>Seconds before a single job is killed</td><td><code>60</code></td></tr>
+            </tbody>
+          </table>
+        </div>
 
-                <div class="cause-grid">
-                    <div class="cause-card">
-                        <div class="cause-num">Cause 1</div>
-                        <div class="cause-title">Memory Leaks</div>
-                        <div class="cause-desc">PHP accumulates memory every job. Without a restart limit, memory grows until Docker's OOM killer terminates the process.</div>
-                    </div>
-                    <div class="cause-card">
-                        <div class="cause-num">Cause 2</div>
-                        <div class="cause-title">Uncaught Exceptions</div>
-                        <div class="cause-desc">Exceptions outside <code>handle()</code> — in middleware, serialization, or polling — crash the entire worker process, not just the job.</div>
-                    </div>
-                    <div class="cause-card">
-                        <div class="cause-num">Cause 3</div>
-                        <div class="cause-title">OOM Kill (SIGKILL)</div>
-                        <div class="cause-desc">Docker containers have memory limits. When the limit is hit, Linux sends SIGKILL — which cannot be caught or deferred. The worker dies mid-job.</div>
-                    </div>
-                    <div class="cause-card">
-                        <div class="cause-num">Cause 4</div>
-                        <div class="cause-title">No Process Manager</div>
-                        <div class="cause-desc">Without Supervisor or Horizon, a dead worker simply stays dead. No one restarts it. Jobs pile up silently.</div>
-                    </div>
-                </div>
+        <p>Here is the command you should run in production:</p>
 
-                <p>Understanding which cause is killing your workers is important because the fix is different for each. Let's cover the solutions in order of importance.</p>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">bash</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-bash"><span class="hljs-comment"># Exits gracefully before leaking memory, Supervisor restarts automatically</span>
+php artisan queue:work redis     --queue=critical,default     --max-jobs=500     --max-time=3600     --memory=256     --sleep=3     --tries=3     --timeout=60</code></pre>
+        </figure>
 
-                <h2 id="max-time-max-jobs">2. --max-time and --max-jobs: The Core Fix for Memory Leaks</h2>
+        <aside class="callout callout--tip">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+          <div>
+            <p class="callout__title">Why use both --max-time AND --max-jobs?</p>
+            <p><code>--max-jobs</code> catches leaks on high-traffic queues (500 jobs processed, restart). <code>--max-time</code> catches leaks on low-traffic queues that process very few jobs over a long time (1 hour passed, restart). Together they cover all traffic patterns.</p>
+          </div>
+        </aside>
 
-                <p>PHP is a long-running process when used as a queue worker. Each job it processes can leave behind small amounts of memory that are never garbage collected — Eloquent model caches, event listeners, static singletons. Over hours, this adds up.</p>
+        <h2 id="3-supervisor-configuration">3. Supervisor Configuration for Docker</h2>
+        <p>Supervisor is the standard process manager for Laravel queue workers on Linux. It keeps workers running continuously — when a worker exits (from <code>--max-time</code>, <code>--max-jobs</code>, or a crash), Supervisor immediately starts a new one.</p>
 
-                <p>The solution is not to fix every memory leak. The solution is to <strong>restart the worker periodically</strong> before it accumulates too much memory. Laravel provides two flags for this:</p>
+        <p>In <code>docker-compose.yml</code>, add a dedicated worker service:</p>
 
-                <table class="options-table">
-                    <thead>
-                        <tr><th>Flag</th><th>What it does</th><th>Recommended value</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>--max-time=N</code></td>
-                            <td>Exit gracefully after N seconds (finishes current job first)</td>
-                            <td>3600 (1 hour) <span class="tag-rec">Use in production</span></td>
-                        </tr>
-                        <tr>
-                            <td><code>--max-jobs=N</code></td>
-                            <td>Exit after processing N jobs</td>
-                            <td>500 <span class="tag-rec">Use in production</span></td>
-                        </tr>
-                        <tr>
-                            <td><code>--memory=N</code></td>
-                            <td>Exit if memory exceeds N MB (checked between jobs)</td>
-                            <td>256</td>
-                        </tr>
-                        <tr>
-                            <td><code>--sleep=N</code></td>
-                            <td>Seconds to wait when queue is empty</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>--tries=N</code></td>
-                            <td>Max attempts before marking a job as failed</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td><code>--timeout=N</code></td>
-                            <td>Seconds before a single job is killed</td>
-                            <td>60</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">yaml</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-yaml"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">app:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-comment"># Main web service — serves HTTP requests</span>
 
-                <div class="code-block"><span class="comment"># ❌ WRONG — never run without limits in production</span>
-php artisan queue:work
+  <span class="hljs-attr">queue-worker:</span>
+    <span class="hljs-attr">build:</span> <span class="hljs-string">.</span>
+    <span class="hljs-attr">command:</span> <span class="hljs-string">supervisord -c /etc/supervisor/conf.d/laravel-worker.conf -n</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">depends_on:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">app</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">QUEUE_CONNECTION=redis</span>
+    <span class="hljs-attr">volumes:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./storage:/var/www/html/storage</span></code></pre>
+        </figure>
 
-<span class="comment"># ✅ CORRECT — exits gracefully, Supervisor restarts automatically</span>
-php artisan queue:work redis \
-    <span class="flag">--queue=critical,default</span> \
-    <span class="flag">--max-jobs=500</span> \
-    <span class="flag">--max-time=3600</span> \
-    <span class="flag">--memory=256</span> \
-    <span class="flag">--sleep=3</span> \
-    <span class="flag">--tries=3</span> \
-    <span class="flag">--timeout=60</span></div>
+        <p>Create the Supervisor config at <code>/etc/supervisor/conf.d/laravel-worker.conf</code>:</p>
 
-                <div class="tip-box">
-                    <strong>Why use both --max-time AND --max-jobs?</strong> <code>--max-jobs</code> catches leaks on high-traffic queues (500 jobs processed, restart). <code>--max-time</code> catches leaks on low-traffic queues that process very few jobs over a long time (1 hour passed, restart). Together they cover all traffic patterns.
-                </div>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">ini</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-ini"><span class="hljs-section">[program:laravel-worker]</span>
+<span class="hljs-attr">process_name</span>=%(program_name)s_%(process_num)02d
+<span class="hljs-attr">command</span>=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256 --timeout=60 --queue=critical,default
+<span class="hljs-attr">autostart</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">autorestart</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">stopasgroup</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">killasgroup</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">user</span>=www-data
+<span class="hljs-attr">numprocs</span>=<span class="hljs-number">2</span>
+<span class="hljs-attr">redirect_stderr</span>=<span class="hljs-literal">true</span>
+<span class="hljs-attr">stdout_logfile</span>=/var/www/html/storage/logs/worker.log
+<span class="hljs-attr">stopwaitsecs</span>=<span class="hljs-number">3600</span></code></pre>
+        </figure>
 
-                <div class="warning-box">
-                    <strong>Important:</strong> <code>--max-time</code> was introduced in Laravel 8. If you're on Laravel 7 or earlier, you do not have this flag. Upgrade to use it.
-                </div>
+        <aside class="callout callout--warn">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+          <div>
+            <p class="callout__title">Critical: stopwaitsecs setting</p>
+            <p><code>stopwaitsecs</code> MUST be equal to or greater than <code>--max-time</code>. If <code>stopwaitsecs=60</code> but <code>--max-time=3600</code>, Supervisor will send SIGKILL to a worker that has been running for 61 seconds — terminating active jobs mid-execution. Always match them.</p>
+          </div>
+        </aside>
 
-                <h2 id="supervisor">3. Supervisor Configuration for Docker</h2>
+        <h2 id="4-dockerfile-setup">4. Production Dockerfile Setup</h2>
+        <p>Here is a production-ready Dockerfile that installs Supervisor and bundles the worker config:</p>
 
-                <p>Supervisor is the standard process manager for Laravel queue workers on Linux. It keeps workers running continuously — when a worker exits (from <code>--max-time</code>, <code>--max-jobs</code>, or a crash), Supervisor immediately starts a new one.</p>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">dockerfile</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-dockerfile"><span class="hljs-keyword">FROM</span> php:<span class="hljs-number">8.3</span>-fpm-alpine
 
-                <p>There are two ways to use Supervisor in Docker: run it as the container's main process, or run it alongside your app in a dedicated worker container. The dedicated container approach is strongly preferred in production.</p>
+<span class="hljs-comment"># Install dependencies</span>
+<span class="hljs-keyword">RUN</span> apk add --no-cache supervisor redis
 
-                <h3>Option A: Dedicated Worker Container (Recommended)</h3>
+<span class="hljs-comment"># Install PHP extensions</span>
+<span class="hljs-keyword">RUN</span> docker-php-ext-install pdo pdo_mysql opcache
+<span class="hljs-keyword">RUN</span> pecl install redis &amp;&amp; docker-php-ext-enable redis
 
-                <p>In <code>docker-compose.yml</code>, add a separate service that runs only the queue worker:</p>
+<span class="hljs-keyword">WORKDIR</span> /var/www/html
 
-                <div class="code-block"><span class="comment"># docker-compose.yml</span>
-services:
-  app:
-    build: .
-    <span class="comment"># Your main web service — serves HTTP requests</span>
+<span class="hljs-comment"># Copy app files</span>
+<span class="hljs-keyword">COPY</span> . .
+<span class="hljs-keyword">RUN</span> composer install --no-dev --optimize-autoloader
 
-  queue-worker:
-    build: .
-    command: <span class="string">supervisord -c /etc/supervisor/conf.d/laravel-worker.conf -n</span>
-    restart: unless-stopped
-    depends_on:
-      - app
-    environment:
-      - QUEUE_CONNECTION=redis
-    volumes:
-      - ./storage:/var/www/html/storage</div>
+<span class="hljs-comment"># Copy Supervisor config</span>
+<span class="hljs-keyword">COPY</span> docker/supervisor/laravel-worker.conf /etc/supervisor/conf.d/
 
-                <h3>Supervisor Config File</h3>
+<span class="hljs-comment"># Set permissions</span>
+<span class="hljs-keyword">RUN</span> chown -R www-data:www-data storage bootstrap/cache
+<span class="hljs-keyword">RUN</span> chmod -R <span class="hljs-number">775</span> storage bootstrap/cache
 
-                <p>Create this file at <code>/etc/supervisor/conf.d/laravel-worker.conf</code> inside your Docker image:</p>
+<span class="hljs-comment"># Start Supervisor in foreground</span>
+<span class="hljs-keyword">CMD</span> [<span class="hljs-string">"supervisord"</span>, <span class="hljs-string">"-n"</span>, <span class="hljs-string">"-c"</span>, <span class="hljs-string">"/etc/supervisor/conf.d/laravel-worker.conf"</span>]</code></pre>
+        </figure>
 
-                <div class="code-block"><span class="comment"># /etc/supervisor/conf.d/laravel-worker.conf</span>
-[unix_http_server]
-file=/var/run/supervisor.sock
+        <h2 id="5-handling-oom-kills">5. Handling OOM Kills and Memory Limits</h2>
+        <p>An OOM kill (Out of Memory kill) is different from a graceful exit. When Docker memory limit is hit, Linux sends <code>SIGKILL</code> — which cannot be caught or handled by PHP. The worker dies immediately, mid-job.</p>
 
-[supervisord]
-logfile=/var/www/html/storage/logs/supervisord.log
-pidfile=/var/run/supervisord.pid
-nodaemon=true
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">yaml</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-yaml"><span class="hljs-attr">services:</span>
+  <span class="hljs-attr">queue-worker:</span>
+    <span class="hljs-attr">mem_limit:</span> <span class="hljs-number">512m</span>
+    <span class="hljs-attr">mem_reservation:</span> <span class="hljs-number">256m</span></code></pre>
+        </figure>
 
-[rpcinterface:supervisor]
-supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+        <p>The rule: <code>--memory</code> × <code>numprocs</code> should always be less than the container <code>mem_limit</code>. Give 20–30% headroom for the base PHP process and Supervisor overhead.</p>
 
-[supervisorctl]
-serverurl=unix:///var/run/supervisor.sock
+        <h2 id="6-uncaught-exceptions">6. Uncaught Exceptions and Worker Crashes</h2>
+        <p>There are two types of exceptions in a Laravel queue worker:</p>
+        <ul>
+          <li><strong>Exception inside <code>handle()</code></strong> — caught by Laravel, job is marked failed, worker <em>continues</em>.</li>
+          <li><strong>Exception outside <code>handle()</code></strong> — not caught, worker process <em>crashes</em>. This includes errors in constructor, serialization, queue middleware, or Redis connection drops.</li>
+        </ul>
 
-[program:laravel-worker]
-process_name=%(program_name)s_%(process_num)02d
-command=php /var/www/html/artisan queue:work redis \
-    --sleep=3 \
-    --tries=3 \
-    --max-jobs=500 \
-    --max-time=3600 \
-    --memory=256 \
-    --timeout=60 \
-    --queue=critical,default
-autostart=true
-<span class="string">autorestart=true</span>
-stopasgroup=true
-killasgroup=true
-user=www-data
-numprocs=2
-redirect_stderr=true
-stdout_logfile=/var/www/html/storage/logs/worker.log
-<span class="string">stopwaitsecs=3600</span></div>
-
-                <div class="danger-box">
-                    <strong>Critical:</strong> <code>stopwaitsecs</code> MUST be equal to or greater than <code>--max-time</code>. If <code>stopwaitsecs=60</code> but <code>--max-time=3600</code>, Supervisor will send SIGKILL to a worker that's been running for 61 seconds — terminating active jobs mid-execution. Always match them.
-                </div>
-
-                <div class="tip-box">
-                    <strong>numprocs=2</strong> runs 2 parallel workers. For a high-traffic queue, increase to 4–8. Monitor memory usage (<code>docker stats</code>) and adjust.
-                </div>
-
-                <h2 id="dockerfile">4. Dockerfile Setup (Complete Example)</h2>
-
-                <p>Here's a production-ready Dockerfile that installs Supervisor and includes the worker config:</p>
-
-                <div class="code-block"><span class="comment"># Dockerfile</span>
-FROM php:8.3-fpm-alpine
-
-<span class="comment"># Install dependencies</span>
-RUN apk add --no-cache supervisor redis
-
-<span class="comment"># Install PHP extensions</span>
-RUN docker-php-ext-install pdo pdo_mysql opcache
-RUN pecl install redis && docker-php-ext-enable redis
-
-WORKDIR /var/www/html
-
-<span class="comment"># Copy app files</span>
-COPY . .
-RUN composer install --no-dev --optimize-autoloader
-
-<span class="comment"># Copy Supervisor config</span>
-COPY docker/supervisor/laravel-worker.conf /etc/supervisor/conf.d/
-
-<span class="comment"># Set permissions</span>
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
-
-<span class="comment"># Default: start Supervisor (for the worker container)</span>
-CMD ["supervisord", "-n", "-c", "/etc/supervisor/conf.d/laravel-worker.conf"]</div>
-
-                <div class="tip-box">
-                    <strong>Tip:</strong> Use a multi-stage Dockerfile to keep the production image small. The worker container can share the same image as the web container — just override the CMD in docker-compose.yml to run supervisord instead of php-fpm.
-                </div>
-
-                <h2 id="oom">5. Handling OOM Kills and Memory Limits</h2>
-
-                <p>An OOM kill (Out of Memory kill) is different from a graceful exit. When Docker's memory limit is hit, the Linux OOM killer sends <code>SIGKILL</code> — which cannot be caught or handled by PHP. The worker dies immediately, mid-job.</p>
-
-                <p>How to prevent OOM kills:</p>
-
-                <div class="code-block"><span class="comment"># Set a container memory limit in docker-compose.yml</span>
-services:
-  queue-worker:
-    mem_limit: 512m
-    mem_reservation: 256m
-
-<span class="comment"># Add --memory flag so PHP exits BEFORE the container hits its limit</span>
-<span class="comment"># If container limit = 512m and numprocs = 2:</span>
-<span class="comment"># Each worker should exit at 512m / 2 = 256m → --memory=200 (with headroom)</span>
-php artisan queue:work --memory=200</div>
-
-                <p>The rule: <code>--memory</code> × <code>numprocs</code> should always be less than the container's <code>mem_limit</code>. Give 20–30% headroom for the base PHP process and Supervisor overhead.</p>
-
-                <div class="warning-box">
-                    <strong>Note:</strong> <code>--memory</code> is checked between jobs, not during a job. If a single job uses 400MB, the worker won't exit mid-job — it exits after the job finishes. Ensure your jobs themselves don't consume excessive memory.
-                </div>
-
-                <h2 id="exceptions">6. Uncaught Exceptions and Worker Crashes</h2>
-
-                <p>There are two types of exceptions in a Laravel queue worker:</p>
-
-                <ul>
-                    <li><strong>Exception inside <code>handle()</code></strong> — caught by Laravel, job is marked failed, worker <em>continues</em>.</li>
-                    <li><strong>Exception outside <code>handle()</code></strong> — not caught, worker process <em>crashes</em>. This includes errors in: job serialization/deserialization, queue middleware, boot listeners, or Redis connection drops.</li>
-                </ul>
-
-                <div class="code-block"><span class="comment">// ✅ Safe — exception inside handle() is caught by Laravel</span>
-<span class="keyword">class</span> ProcessOrder <span class="keyword">implements</span> ShouldQueue
-{
-    <span class="keyword">public function</span> handle(): void
-    {
-        <span class="comment">// If this throws, job fails but worker lives</span>
-        $this->processPayment();
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-comment">// Safe — exception inside handle() is caught by Laravel</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProcessOrder</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ShouldQueue</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span><span class="hljs-params">()</span>: <span class="hljs-title">void</span>
+    </span>{
+        <span class="hljs-variable">$this</span>-&gt;processPayment();
     }
 }
 
-<span class="comment">// ❌ Dangerous — exception in constructor crashes the worker</span>
-<span class="keyword">class</span> BadJob <span class="keyword">implements</span> ShouldQueue
-{
-    <span class="keyword">public function</span> __construct(
-        <span class="keyword">public readonly</span> Order $order  <span class="comment">// throws if Order is deleted</span>
-    ) {}
-}</div>
+<span class="hljs-comment">// Dangerous — exception in constructor crashes the entire worker process</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BadJob</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ShouldQueue</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span><span class="hljs-params">(
+        <span class="hljs-keyword">public</span> <span class="hljs-keyword">readonly</span> Order <span class="hljs-variable">$order</span>
+    )</span> </span>{}
+}</code></pre>
+        </figure>
 
-                <div class="code-block"><span class="comment"># A Redis connection drop can crash the worker</span>
-<span class="comment"># Fix: set REDIS_RETRY_AFTER in .env to handle reconnects</span>
-<span class="comment"># Also: use phpredis extension with retry settings</span>
+        <h2 id="7-horizon-vs-queuework">7. Horizon vs queue:work in Docker</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>Feature</th><th>queue:work + Supervisor</th><th>Laravel Horizon</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Redis required</td><td>No</td><td>Yes (mandatory)</td></tr>
+              <tr><td>Dashboard UI</td><td>No</td><td>Yes (real-time metrics)</td></tr>
+              <tr><td>Auto-scaling workers</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Metrics &amp; throughput</td><td>No</td><td>Yes</td></tr>
+              <tr><td>Failed job UI</td><td>No (artisan only)</td><td>Yes</td></tr>
+              <tr><td>Docker complexity</td><td>Simple</td><td>Moderate</td></tr>
+              <tr><td>Worker restart handling</td><td>Supervisor</td><td>Automatic (built-in)</td></tr>
+            </tbody>
+          </table>
+        </div>
 
-REDIS_HOST=redis
-REDIS_PORT=6379
-REDIS_TIMEOUT=30
-REDIS_RETRY_INTERVAL=500</div>
-
-                <div class="tip-box">
-                    <strong>Best practice:</strong> Even if you fix every exception source, Supervisor <code>autorestart=true</code> is still your safety net. If a worker crashes for any reason, Supervisor restarts it within 1 second. Design for resilience, not perfection.
-                </div>
-
-                <h2 id="horizon">7. Horizon vs queue:work in Docker</h2>
-
-                <p>Laravel Horizon is the official Redis queue manager from the Laravel team. It replaces Supervisor-based <code>queue:work</code> management with a code-driven configuration and provides a real-time dashboard.</p>
-
-                <table class="comparison-table">
-                    <thead>
-                        <tr><th>Feature</th><th>queue:work + Supervisor</th><th>Laravel Horizon</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Redis required</td><td class="yes">No</td><td class="no">Yes (mandatory)</td></tr>
-                        <tr><td>Dashboard UI</td><td class="no">No</td><td class="yes">Yes (real-time)</td></tr>
-                        <tr><td>Auto-scaling workers</td><td class="no">No</td><td class="yes">Yes</td></tr>
-                        <tr><td>Metrics &amp; throughput</td><td class="no">No</td><td class="yes">Yes</td></tr>
-                        <tr><td>Failed job UI</td><td class="no">No (artisan only)</td><td class="yes">Yes</td></tr>
-                        <tr><td>Docker complexity</td><td class="yes">Simple</td><td class="no">Moderate</td></tr>
-                        <tr><td>Worker restart handling</td><td>Supervisor</td><td>Automatic (built-in)</td></tr>
-                    </tbody>
-                </table>
-
-                <h3>Running Horizon in Docker</h3>
-
-                <div class="code-block"><span class="comment"># docker-compose.yml — Horizon replaces queue:work</span>
-services:
-  horizon:
-    build: .
-    command: php artisan horizon
-    restart: unless-stopped
-    depends_on:
-      - redis
-    environment:
-      - QUEUE_CONNECTION=redis</div>
-
-                <div class="code-block"><span class="comment"># Handle graceful shutdown on SIGTERM (important in Docker)</span>
-<span class="comment"># Add to your entrypoint script:</span>
-trap "php artisan horizon:terminate" SIGTERM SIGINT
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">bash</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-bash"><span class="hljs-comment"># Graceful shutdown on SIGTERM in container entrypoint</span>
+<span class="hljs-built_in">trap</span> <span class="hljs-string">"php artisan horizon:terminate"</span> SIGTERM SIGINT
 php artisan horizon
-wait</div>
+<span class="hljs-built_in">wait</span></code></pre>
+        </figure>
 
-                <div class="code-block"><span class="comment">// config/horizon.php — configure worker pools</span>
-<span class="string">'environments'</span> => [
-    <span class="string">'production'</span> => [
-        <span class="string">'supervisor-1'</span> => [
-            <span class="string">'connection'</span> => <span class="string">'redis'</span>,
-            <span class="string">'queue'</span> => [<span class="string">'critical'</span>, <span class="string">'default'</span>],
-            <span class="string">'balance'</span> => <span class="string">'auto'</span>,
-            <span class="string">'minProcesses'</span> => 1,
-            <span class="string">'maxProcesses'</span> => 10,
-            <span class="string">'tries'</span> => 3,
-            <span class="string">'timeout'</span> => 60,
-        ],
-    ],
-],</div>
+        <h2 id="8-production-checklist">8. Production Deployment Checklist</h2>
+        <p>Before releasing queue workers to production Docker, verify each of these items:</p>
 
-                <div class="tip-box">
-                    <strong>Horizon handles memory management internally</strong> — you don't need <code>--max-time</code> or <code>--max-jobs</code> when using Horizon. It periodically restarts workers based on its own internal logic and the <code>memory</code> setting in <code>config/horizon.php</code>.
-                </div>
-
-                <h2 id="checklist">8. Production Checklist</h2>
-
-                <p>Before deploying queue workers to production Docker, verify all of these:</p>
-
-                <div class="code-block"><span class="comment"># ✅ PRODUCTION QUEUE WORKER CHECKLIST</span>
-
-<span class="comment"># 1. queue:work command has --max-time, --max-jobs, --memory</span>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">bash</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <span>Copy</span>
+            </button>
+          </figcaption>
+          <pre><code class="hljs language-bash"><span class="hljs-comment"># 1. queue:work command has --max-time, --max-jobs, --memory</span>
 php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256
 
-<span class="comment"># 2. Supervisor stopwaitsecs >= --max-time value</span>
-stopwaitsecs=3600  <span class="comment"># in supervisord.conf</span>
-
-<span class="comment"># 3. Container mem_limit > (--memory × numprocs) with headroom</span>
-mem_limit: 512m  <span class="comment"># for 2 workers × 200MB each</span>
-
-<span class="comment"># 4. Failed jobs table exists</span>
+<span class="hljs-comment"># 2. Failed jobs table exists and migrated</span>
 php artisan queue:failed-table
 php artisan migrate
 
-<span class="comment"># 5. Workers restart after deployment</span>
-php artisan queue:restart  <span class="comment"># or: php artisan horizon:terminate</span>
+<span class="hljs-comment"># 3. Always restart workers after deployment in your CI/CD script</span>
+php artisan queue:restart</code></pre>
+        </figure>
 
-<span class="comment"># 6. QUEUE_CONNECTION set correctly in .env</span>
-QUEUE_CONNECTION=redis
+        <p>Laravel queue workers die in Docker for predictable, fixable reasons. The core solution is always the same: use <code>--max-time</code> and <code>--max-jobs</code> to restart workers before they leak memory, and use Supervisor (or Horizon) with <code>autorestart=true</code> to keep them running continuously.</p>
 
-<span class="comment"># 7. Supervisor autorestart=true</span>
-autorestart=true  <span class="comment"># in supervisord.conf</span>
-
-<span class="comment"># 8. Log files are writable</span>
-chmod -R 775 storage/logs</div>
-
-                <h3>Always restart workers after deployment</h3>
-
-                <div class="code-block"><span class="comment"># Add to your deployment script (CI/CD pipeline)</span>
-php artisan queue:restart      <span class="comment"># graceful restart for queue:work + Supervisor</span>
-php artisan horizon:terminate  <span class="comment"># graceful restart for Horizon</span>
-
-<span class="comment"># queue:restart signals workers to stop after their current job</span>
-<span class="comment"># Supervisor restarts them with the new code automatically</span></div>
-
-                <div class="warning-box">
-                    <strong>Don't skip queue:restart after deployment.</strong> Workers cache your application code in memory. If you deploy new code without restarting workers, they continue running old code. This causes subtle bugs that are extremely hard to debug.
-                </div>
-
-                <h2>Conclusion</h2>
-
-                <p>Laravel queue workers die in Docker for predictable, fixable reasons. The core solution is always the same: use <code>--max-time</code> and <code>--max-jobs</code> to restart workers before they leak memory, and use Supervisor (or Horizon) with <code>autorestart=true</code> to keep them running continuously.</p>
-
-                <p>The full checklist above covers every cause. Apply it to your production setup and your workers will run stably — even on a busy queue with millions of jobs per day.</p>
-
-                <p>For related reading, see the <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Redis setup guide</a> for the basics, or the <a href="/blog/laravel-performance-optimization/">performance optimization guide</a> for broader production tuning.</p>
-
-            </div>
-        </article>
-
-        <!-- Client Trap CTA -->
-        <div class="hire-cta-box">
-            <h3>Queue Workers Still Dying in Production?</h3>
-            <p>I've designed and debugged Redis queue architecture in production SaaS platforms, payroll systems, and high-traffic e-commerce APIs. If your workers are still crashing after following this guide, the issue is likely in your specific job implementation or server config. I can audit it.</p>
-            <div class="cta-btn-group">
-                <a href="mailto:kzaman3055@gmail.com" class="btn-hire-primary">Get a Queue Audit →</a>
-                <a href="/services/hire-laravel-developer/" class="btn-hire-secondary">Hire Me for Laravel Work</a>
-            </div>
-            <p class="cta-meta-text">Based in Bangladesh · Available for remote clients worldwide · Fixed price, no hourly billing</p>
-        </div>
-
-        <div class="author-bio">
-            <h3>About the Author</h3>
-            <p><strong>Kamruzzaman Polash</strong> — Backend Engineer specializing in Laravel, REST APIs, and production-grade backend systems. Built and maintained queue-heavy SaaS platforms, payroll systems, and e-commerce backends. 10+ projects delivered for US, UK, and European clients.</p>
-            <div class="author-links">
-                <a href="/">Portfolio</a>
-                <a href="/services/hire-laravel-developer/">Hire Me</a>
-                <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-                <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            </div>
-        </div>
+      </article>
     </div>
-    <script src="/shared-nav.js" defer></script>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and the Fix)</a></h3><p class="post-row__desc">Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">DevOps</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-docker-kubernetes-deployment/">Deploy Laravel with Docker &amp; Kubernetes</a></h3><p class="post-row__desc">Containerise a Laravel application with Docker and deploy it to Kubernetes with zero downtime, health checks and autoscaling.</p></article></div>
+  </div></section>
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Backend engineer &amp; SaaS architect</h2>
+        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Hand-built static HTML · no build step · Mymensingh, Bangladesh</p>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
 </body>
 </html>

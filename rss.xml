@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/rss.xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kamruzzaman Polash — Laravel &amp; PHP engineering blog</title>
+    <link>https://pola5h.github.io/blog/</link>
+    <atom:link href="https://pola5h.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Practical Laravel and PHP tutorials from production experience.</description>
+    <language>en</language>
+    <lastBuildDate>Sun, 27 Sep 2026 08:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It</title>
+      <link>https://pola5h.github.io/blog/laravel-queue-worker-docker-production/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-queue-worker-docker-production/</guid>
+      <pubDate>Sun, 27 Sep 2026 08:00:00 GMT</pubDate>
+      <category>DevOps</category>
+      <description>Stop Laravel queue workers crashing in Docker: Supervisor config, --max-time, --max-jobs, memory leaks, OOM kills, and Horizon vs queue:work.</description>
+    </item>
+    <item>
+      <title>Laravel Observer Pattern: Audit Logging Done Right</title>
+      <link>https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-observer-pattern-audit-log/</guid>
+      <pubDate>Wed, 15 Apr 2026 08:00:00 GMT</pubDate>
+      <category>Architecture</category>
+      <description>How the Observer pattern works in Laravel, with a real audit-logging example and when to use observers instead of MySQL triggers.</description>
+    </item>
+    <item>
+      <title>Laravel AI SDK + OpenRouter: A Complete Guide</title>
+      <link>https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-ai-sdk-openrouter/</guid>
+      <pubDate>Sat, 11 Apr 2026 08:00:00 GMT</pubDate>
+      <category>AI</category>
+      <description>Build production AI features in Laravel 13 with the first-party AI SDK and OpenRouter: agents, streaming, queuing, failover and tests.</description>
+    </item>
+    <item>
+      <title>Laravel Queue vs defer(): When to Use Each</title>
+      <link>https://pola5h.github.io/blog/laravel-queue-vs-defer/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-queue-vs-defer/</guid>
+      <pubDate>Mon, 30 Mar 2026 08:00:00 GMT</pubDate>
+      <category>Performance</category>
+      <description>Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</description>
+    </item>
+    <item>
+      <title>Laravel Sanctum Tutorial: API Auth, Step by Step</title>
+      <link>https://pola5h.github.io/blog/laravel-sanctum-tutorial/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-sanctum-tutorial/</guid>
+      <pubDate>Sun, 08 Mar 2026 08:00:00 GMT</pubDate>
+      <category>Security</category>
+      <description>A complete Laravel Sanctum tutorial: install it, protect API routes, issue and revoke tokens, and handle SPA and mobile authentication.</description>
+    </item>
+    <item>
+      <title>Laravel 13 New Features: The Complete Guide</title>
+      <link>https://pola5h.github.io/blog/laravel-13-new-features/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-13-new-features/</guid>
+      <pubDate>Sun, 08 Mar 2026 08:00:00 GMT</pubDate>
+      <category>Laravel</category>
+      <description>Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.</description>
+    </item>
+    <item>
+      <title>Laravel Realtime: Reverb vs Pusher vs Ably</title>
+      <link>https://pola5h.github.io/blog/laravel-realtime-notifications-pusher-fcm-soketi/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-realtime-notifications-pusher-fcm-soketi/</guid>
+      <pubDate>Thu, 26 Feb 2026 08:00:00 GMT</pubDate>
+      <category>Realtime</category>
+      <description>Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.</description>
+    </item>
+    <item>
+      <title>Why Your Laravel Queue Workers Die (and the Fix)</title>
+      <link>https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-queues-jobs-redis-horizon/</guid>
+      <pubDate>Thu, 26 Feb 2026 08:00:00 GMT</pubDate>
+      <category>Performance</category>
+      <description>Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</description>
+    </item>
+    <item>
+      <title>Laravel + OpenAI &amp; OpenRouter: Integration Guide</title>
+      <link>https://pola5h.github.io/blog/laravel-openai-integration-guide/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-openai-integration-guide/</guid>
+      <pubDate>Fri, 12 Dec 2025 08:00:00 GMT</pubDate>
+      <category>AI</category>
+      <description>Integrate OpenAI and OpenRouter into Laravel: streaming responses, token cost control, retries and production error handling.</description>
+    </item>
+    <item>
+      <title>Laravel 12.39: @hasStack, Route Filtering &amp; More</title>
+      <link>https://pola5h.github.io/blog/laravel-12-39-new-features/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-12-39-new-features/</guid>
+      <pubDate>Sun, 30 Nov 2025 08:00:00 GMT</pubDate>
+      <category>Laravel</category>
+      <description>What&apos;s new in Laravel 12.39: the @hasStack Blade directive, route filtering, and core performance improvements worth upgrading for.</description>
+    </item>
+    <item>
+      <title>Laravel Performance Optimisation Guide</title>
+      <link>https://pola5h.github.io/blog/laravel-performance-optimization/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-performance-optimization/</guid>
+      <pubDate>Mon, 06 Oct 2025 08:00:00 GMT</pubDate>
+      <category>Performance</category>
+      <description>A practical Laravel performance guide: caching strategy, queue tuning, Redis, eager loading and database query optimisation.</description>
+    </item>
+    <item>
+      <title>MySQL Query Optimisation in Laravel</title>
+      <link>https://pola5h.github.io/blog/mysql-query-optimization-laravel/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/mysql-query-optimization-laravel/</guid>
+      <pubDate>Fri, 15 Nov 2024 08:00:00 GMT</pubDate>
+      <category>Performance</category>
+      <description>Fix N+1 queries, add the right composite indexes, read EXPLAIN output and stop full table scans in your Laravel Eloquent code.</description>
+    </item>
+    <item>
+      <title>Deploy Laravel with Docker &amp; Kubernetes</title>
+      <link>https://pola5h.github.io/blog/laravel-docker-kubernetes-deployment/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-docker-kubernetes-deployment/</guid>
+      <pubDate>Tue, 15 Oct 2024 08:00:00 GMT</pubDate>
+      <category>DevOps</category>
+      <description>Containerise a Laravel application with Docker and deploy it to Kubernetes with zero downtime, health checks and autoscaling.</description>
+    </item>
+    <item>
+      <title>Laravel REST API: Auth &amp; Best Practices Guide</title>
+      <link>https://pola5h.github.io/blog/laravel-rest-api-best-practices/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-rest-api-best-practices/</guid>
+      <pubDate>Wed, 02 Oct 2024 08:00:00 GMT</pubDate>
+      <category>APIs</category>
+      <description>Build secure, scalable Laravel REST APIs with Sanctum: versioning, Spatie permissions, rate limiting, validation and consistent errors.</description>
+    </item>
+    <item>
+      <title>MVCS Architecture in Laravel, Explained</title>
+      <link>https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-mvcs-architecture-guide/</guid>
+      <pubDate>Fri, 20 Sep 2024 08:00:00 GMT</pubDate>
+      <category>Architecture</category>
+      <description>A practical guide to MVCS in Laravel: keep controllers thin by moving business logic into dedicated, testable service classes.</description>
+    </item>
+    <item>
+      <title>Does Laravel Sanctum Use JWT? Sanctum vs JWT</title>
+      <link>https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/laravel-api-authentication-jwt-sanctum/</guid>
+      <pubDate>Sat, 10 Aug 2024 08:00:00 GMT</pubDate>
+      <category>Security</category>
+      <description>Sanctum does not use JWT by default. Here is how its opaque database tokens differ from JWT, and which one your API should use.</description>
+    </item>
+    <item>
+      <title>PHP Coding Standards Every Developer Should Follow</title>
+      <link>https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/</link>
+      <guid isPermaLink="true">https://pola5h.github.io/blog/php-coding-standards-bangladesh-developers/</guid>
+      <pubDate>Mon, 15 Jul 2024 08:00:00 GMT</pubDate>
+      <category>PHP</category>
+      <description>PSR-12, PSR-4 and practical PHP coding standards that improve readability, code review and team velocity in real projects.</description>
+    </item>
+  </channel>
+</rss>

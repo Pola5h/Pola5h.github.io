@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Engineering &amp; Architecture Services | Kamruzzaman Polash</title>
+<meta name="description" content="Production-grade software engineering services: SaaS architecture, high-throughput REST APIs, MySQL query tuning, Redis queue infrastructure and cloud deployments.">
+<link rel="canonical" href="https://pola5h.github.io/services/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://pola5h.github.io/services/">
+<meta property="og:title" content="Software Engineering &amp; Architecture Services | Kamruzzaman Polash">
+<meta property="og:description" content="Production-grade software engineering services: SaaS architecture, high-throughput REST APIs, MySQL query tuning, Redis queue infrastructure and cloud deployments.">
+<meta property="og:image" content="https://pola5h.github.io/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kamruzzaman Polash — Software Engineer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://pola5h.github.io/services/">
+<meta name="twitter:title" content="Software Engineering &amp; Architecture Services | Kamruzzaman Polash">
+<meta name="twitter:description" content="Production-grade software engineering services: SaaS architecture, high-throughput REST APIs, MySQL query tuning, Redis queue infrastructure and cloud deployments.">
+<meta name="twitter:image" content="https://pola5h.github.io/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=11">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://pola5h.github.io/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Senior Backend Engineer & Systems Architect","description":"Software engineer specialising in scalable web applications, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://pola5h.github.io/","image":"https://pola5h.github.io/assets/images/og-image.png","email":"mailto:kzaman3055@gmail.com","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://pola5h.github.io/#organization","name":"Kamruzzaman Polash","url":"https://pola5h.github.io/","logo":{"@type":"ImageObject","url":"https://pola5h.github.io/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://pola5h.github.io/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"ProfessionalService","@id":"https://pola5h.github.io/services/#service","name":"Software Engineering & Architecture Services","url":"https://pola5h.github.io/services/","image":"https://pola5h.github.io/assets/images/og-image.png","description":"Production-grade software engineering services: SaaS architecture, high-throughput REST APIs, MySQL query tuning, Redis queue infrastructure and cloud deployments.","priceRange":"$$$","provider":{"@id":"https://pola5h.github.io/#person"},"areaServed":{"@type":"Place","name":"Worldwide"},"serviceType":["SaaS Platform Architecture","High-Throughput REST APIs","Database & Performance Optimisation","Cloud DevOps & Containerisation"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://pola5h.github.io/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://pola5h.github.io/services/"}]}]}</script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="Kamruzzaman Polash — home">
+      <span class="brand__mark">KP</span>
+      <span class="brand__name">@pola5h</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#work" class="nav__link">Work</a>
+      <a href="/#about" class="nav__link">About</a>
+      <a href="/#skills" class="nav__link">Skills</a>
+      <a href="/#experience" class="nav__link">Experience</a>
+      <a href="/services/" class="nav__link" aria-current="page">Services</a>
+      <a href="/blog/" class="nav__link">Blog</a>
+      <a href="/#contact" class="nav__link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="wrap mobile-menu__top">
+    <span class="label">Menu</span>
+    <button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" width="20" height="20" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <nav class="wrap mobile-menu__nav" aria-label="Mobile">
+    <ul>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li>
+      <li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li>
+      <li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li>
+      <li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li>
+      <li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li>
+      <li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li>
+      <li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+    </ul>
+    <div class="mobile-menu__foot">
+      <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
+      <button type="button" class="btn btn--line" data-theme-toggle><span class="only-light"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg> Dark</span><span class="only-dark"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg> Light</span></button>
+    </div>
+  </nav>
+</div>
+
+<main id="main">
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><span class="crumbs__current">Services</span></div></div>
+
+  <!-- Hero Section -->
+  <section class="section" style="padding-top:clamp(2rem,4vw,3.5rem);padding-bottom:clamp(2rem,4vw,3.5rem);">
+    <div class="wrap">
+      <div style="max-width:820px;">
+        <span class="label label--accent">Engineering Services &amp; Architecture</span>
+        <h1 style="font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-top:0.8rem;color:var(--ink);">
+          Production-grade systems built for scale, reliability, and growth.
+        </h1>
+        <p class="hero__lede" style="margin-top:1.2rem;font-size:clamp(1.05rem,2vw,1.25rem);color:var(--ink-2);line-height:1.6;">
+          I partner with tech founders, growing engineering teams, and businesses to build high-throughput backends, complex multi-tenant SaaS platforms, resilient APIs, and optimized database infrastructure.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.8rem;">
+          <a class="btn btn--solid" href="#contact">Schedule technical discussion</a>
+          <a class="btn btn--line" href="#capabilities">View core capabilities ↓</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Engineering Capabilities -->
+  <section class="section" id="capabilities" style="padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="section__index">01 — Capabilities</p>
+        <h2 class="section__title">What I build &amp; architect.</h2>
+        <p class="section__lede">Focused technical disciplines with four years of hands-on production experience in high-concurrency environments.</p>
+      </div>
+
+      <style>
+        .cap-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1.75rem;
+          margin-top: 2.5rem;
+        }
+        .cap-panel {
+          background: var(--paper-2);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          padding: clamp(1.5rem, 3.5vw, 2.2rem);
+          display: grid;
+          grid-template-columns: 1.15fr 1fr;
+          gap: clamp(1.5rem, 3vw, 2.5rem);
+          align-items: start;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .cap-panel:hover {
+          transform: translateY(-2px);
+          border-color: var(--line-2);
+        }
+        @media (max-width: 860px) {
+          .cap-panel {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            padding: 1.4rem;
+          }
+        }
+        .cap-panel__top {
+          display: flex;
+          align-items: center;
+          gap: 0.85rem;
+          margin-bottom: 0.85rem;
+        }
+        .cap-panel__icon {
+          width: 40px;
+          height: 40px;
+          border-radius: var(--radius-sm);
+          background: var(--paper);
+          border: 1px solid var(--line);
+          color: var(--accent);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+        .cap-panel__num {
+          font-family: var(--mono);
+          font-size: 0.72rem;
+          font-weight: 600;
+          color: var(--accent);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+        .cap-panel__title {
+          font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          color: var(--ink);
+          margin-bottom: 0.65rem;
+          line-height: 1.3;
+        }
+        .cap-panel__desc {
+          font-size: 0.94rem;
+          color: var(--ink-2);
+          line-height: 1.65;
+          margin-bottom: 1.4rem;
+        }
+        .cap-panel__footer {
+          padding-top: 1rem;
+          border-top: 1px solid var(--line);
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .cap-panel__tag {
+          font-family: var(--mono);
+          font-size: 0.68rem;
+          font-weight: 600;
+          color: var(--muted);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+        .cap-panel__tech {
+          font-size: 0.84rem;
+          color: var(--ink-2);
+          font-family: var(--mono);
+          line-height: 1.45;
+        }
+        .cap-panel__box {
+          background: var(--paper);
+          border: 1px solid var(--line);
+          border-radius: var(--radius-sm);
+          padding: 1.25rem 1.4rem;
+        }
+        .cap-panel__list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+        .cap-panel__list li {
+          display: flex;
+          align-items: flex-start;
+          gap: 0.65rem;
+          font-size: 0.88rem;
+          color: var(--ink-2);
+          line-height: 1.5;
+        }
+        .cap-panel__check {
+          color: var(--ok);
+          flex-shrink: 0;
+          margin-top: 0.18rem;
+        }
+
+        .model-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          margin-top: 2.5rem;
+        }
+        .model-panel {
+          background: var(--paper);
+          border: 1px solid var(--line);
+          border-radius: var(--radius);
+          padding: clamp(1.4rem, 3vw, 2rem);
+          display: grid;
+          grid-template-columns: 1.2fr 1fr;
+          gap: clamp(1.5rem, 3vw, 2.5rem);
+          align-items: center;
+          transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .model-panel:hover {
+          transform: translateY(-2px);
+          border-color: var(--line-2);
+        }
+        @media (max-width: 860px) {
+          .model-panel {
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            padding: 1.35rem;
+          }
+        }
+      </style>
+
+      <div class="cap-stack">
+        
+        <!-- Pillar 1: SaaS Architecture -->
+        <div class="cap-panel">
+          <div>
+            <div class="cap-panel__top">
+              <div class="cap-panel__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+              </div>
+              <span class="cap-panel__num">01 / Architecture</span>
+            </div>
+            <h3 class="cap-panel__title">SaaS &amp; Web Platform Architecture</h3>
+            <p class="cap-panel__desc">
+              Full-lifecycle engineering of multi-tenant platforms, complex business workflows, role-based permission hierarchies (Spatie), and operational admin systems built for long-term maintainability.
+            </p>
+            <div class="cap-panel__footer">
+              <span class="cap-panel__tag">Core Stack</span>
+              <span class="cap-panel__tech">Laravel · PHP 8.3+ · PostgreSQL / MySQL · Filament · Livewire</span>
+            </div>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.8rem;">Architectural Capabilities</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Multi-tenant database tenancy (schema vs database segregation)</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Clean MVCS &amp; Action/Service domain layer architecture</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Audit logging with event observers &amp; telemetry tracking</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Subscription billing &amp; automated invoicing lifecycles</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pillar 2: High-Throughput APIs -->
+        <div class="cap-panel">
+          <div>
+            <div class="cap-panel__top">
+              <div class="cap-panel__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+              <span class="cap-panel__num">02 / Integration</span>
+            </div>
+            <h3 class="cap-panel__title">High-Throughput REST APIs &amp; Integrations</h3>
+            <p class="cap-panel__desc">
+              Secure, versioned APIs designed for web, mobile apps, and third-party consumers. Bulletproof webhook handling with idempotency and replay protection.
+            </p>
+            <div class="cap-panel__footer">
+              <span class="cap-panel__tag">Standards</span>
+              <span class="cap-panel__tech">RESTful JSON · Rate Limiting · Webhook Ingestion · Automated Tests</span>
+            </div>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.8rem;">Integration Deliverables</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Stateless Sanctum token authentication &amp; OAuth flows</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Payment gateway pipelines (Stripe, SSLCommerz, bKash)</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Courier &amp; logistics sync (Pathao, Steadfast, RedX)</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Complete Postman collections &amp; OpenAPI specifications</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pillar 3: Database & Cloud Infrastructure -->
+        <div class="cap-panel">
+          <div>
+            <div class="cap-panel__top">
+              <div class="cap-panel__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+              </div>
+              <span class="cap-panel__num">03 / Performance</span>
+            </div>
+            <h3 class="cap-panel__title">Database Tuning, Queues &amp; DevOps</h3>
+            <p class="cap-panel__desc">
+              Eliminating production bottlenecks: fixing slow queries, configuring Redis Horizon queue workers, preventing OOM crashes, and zero-downtime container deployments.
+            </p>
+            <div class="cap-panel__footer">
+              <span class="cap-panel__tag">DevOps &amp; Cloud</span>
+              <span class="cap-panel__tech">Docker · Kubernetes · Redis · Horizon · Supervisor · Nginx</span>
+            </div>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.8rem;">Performance Deliverables</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>MySQL EXPLAIN analysis, composite indexes &amp; query fixes</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Redis queue orchestration, Horizon metrics &amp; Supervisor</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Multi-stage Docker containerization &amp; Kubernetes manifests</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>GitHub Actions CI/CD pipelines with automated tests</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Engagement Models -->
+  <section class="section" id="engagement" style="padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line);background:var(--paper-2);">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="section__index">02 — Engagement Models</p>
+        <h2 class="section__title">How we collaborate.</h2>
+        <p class="section__lede">Structured, predictable working models aligned with your project lifecycle and engineering velocity.</p>
+      </div>
+
+      <div class="model-stack">
+        
+        <div class="model-panel">
+          <div>
+            <span class="cap-panel__num">01 / System Build</span>
+            <h3 style="font-size:clamp(1.2rem, 2vw, 1.4rem);font-weight:700;color:var(--ink);margin-top:0.4rem;margin-bottom:0.6rem;">Full-Cycle Project Delivery</h3>
+            <p style="font-size:0.94rem;color:var(--ink-2);line-height:1.6;margin-bottom:0.8rem;">
+              End-to-end architecture and implementation of SaaS platforms, custom backends, or API subsystems with defined milestone phases.
+            </p>
+            <span style="display:inline-block;font-size:0.8rem;color:var(--muted);font-family:var(--mono);">
+              Best for: New products, major feature launches &amp; MVP-to-scale rewrites
+            </span>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.6rem;">Engagement Structure</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Clear technical specifications &amp; roadmap</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Milestone-based delivery &amp; staging reviews</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Direct Git repository handover</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="model-panel">
+          <div>
+            <span class="cap-panel__num">02 / Audit &amp; Sprint</span>
+            <h3 style="font-size:clamp(1.2rem, 2vw, 1.4rem);font-weight:700;color:var(--ink);margin-top:0.4rem;margin-bottom:0.6rem;">Performance &amp; Scale Sprint</h3>
+            <p style="font-size:0.94rem;color:var(--ink-2);line-height:1.6;margin-bottom:0.8rem;">
+              A focused, intensive 1- to 2-week engagement diagnosing and resolving critical bottlenecks in live production environments.
+            </p>
+            <span style="display:inline-block;font-size:0.8rem;color:var(--muted);font-family:var(--mono);">
+              Best for: Slow apps, high server costs, crash mitigation &amp; traffic spikes
+            </span>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.6rem;">Sprint Deliverables</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Database query indexing &amp; N+1 eradication</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Redis queue stabilization &amp; worker tuning</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Measurable latency benchmark reports</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="model-panel">
+          <div>
+            <span class="cap-panel__num">03 / Embedded Lead</span>
+            <h3 style="font-size:clamp(1.2rem, 2vw, 1.4rem);font-weight:700;color:var(--ink);margin-top:0.4rem;margin-bottom:0.6rem;">Advisory &amp; Fractional Engineering</h3>
+            <p style="font-size:0.94rem;color:var(--ink-2);line-height:1.6;margin-bottom:0.8rem;">
+              Ongoing technical guidance, PR code reviews, system design oversight, and architectural leadership embedded in your team.
+            </p>
+            <span style="display:inline-block;font-size:0.8rem;color:var(--muted);font-family:var(--mono);">
+              Best for: Growing teams needing senior technical oversight and mentorship
+            </span>
+          </div>
+          <div class="cap-panel__box">
+            <span class="label" style="display:block;margin-bottom:0.6rem;">Advisory Scope</span>
+            <ul class="cap-panel__list">
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Architectural review of schema &amp; API decisions</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Strict code review standards (PSR-12, static analysis)</span></li>
+              <li><svg class="cap-panel__check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Async Slack/GitHub access &amp; weekly syncs</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Engineering Standards & Process -->
+  <section class="section" style="padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line);">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="section__index">03 — Standards</p>
+        <h2 class="section__title">The engineering process.</h2>
+        <p class="section__lede">Every project adheres to rigorous software craftsmanship principles and direct collaboration.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:2.5rem;">
+        <div style="border-left:2px solid var(--accent);padding-left:1.2rem;">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.4rem;color:var(--ink);">1. Discovery &amp; Spec</div>
+          <p style="font-size:0.9rem;color:var(--ink-2);line-height:1.6;">Requirements analysis, data modeling, API contract definition, and constraint mapping before writing code.</p>
+        </div>
+        <div style="border-left:2px solid var(--accent);padding-left:1.2rem;">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.4rem;color:var(--ink);">2. Milestone Sprints</div>
+          <p style="font-size:0.9rem;color:var(--ink-2);line-height:1.6;">Clean PSR-12 code, service classes, domain actions, and automated unit tests committed directly to GitHub.</p>
+        </div>
+        <div style="border-left:2px solid var(--accent);padding-left:1.2rem;">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.4rem;color:var(--ink);">3. Production Staging</div>
+          <p style="font-size:0.9rem;color:var(--ink-2);line-height:1.6;">Interactive staging verification, edge case testing, database seeding, and load benchmarking.</p>
+        </div>
+        <div style="border-left:2px solid var(--accent);padding-left:1.2rem;">
+          <div style="font-weight:700;font-size:1.1rem;margin-bottom:0.4rem;color:var(--ink);">4. Handover &amp; Ownership</div>
+          <p style="font-size:0.9rem;color:var(--ink-2);line-height:1.6;">Docker Compose setup, migration scripts, Postman workspace, and 100% intellectual property ownership transfer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section" style="padding-block:clamp(3rem,6vw,5rem);border-top:1px solid var(--line);background:var(--paper-2);">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="section__index">04 — FAQ</p>
+        <h2 class="section__title">Frequently asked questions.</h2>
+      </div>
+
+      <div class="faq" style="max-width:840px;margin-top:2rem;">
+        <details class="faq__item" open>
+          <summary class="faq__q">How are project scopes and investments structured?<span class="faq__icon">+</span></summary>
+          <p class="faq__a">Every engagement begins with an initial technical discovery to define the scope, system architecture, and deliverables. Engagements are structured as milestone-based phases or monthly advisory retainers — never unpredictable, open-ended hourly billing.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Do you collaborate with distributed teams across time zones?<span class="faq__icon">+</span></summary>
+          <p class="faq__a">Yes. I have four years of experience collaborating with clients and teams in France, the United States, the UK, Europe, and the Middle East. All documentation and communication is conducted in English via Slack, GitHub, or video calls with daily asynchronous updates and flexible meeting overlap.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">Who owns the intellectual property and code?<span class="faq__icon">+</span></summary>
+          <p class="faq__a">You own 100% of the code, database schemas, configuration files, and documentation from day one. Commits are pushed directly to your organization's private GitHub or GitLab repository with no vendor lock-in.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">What does the technical handover include?<span class="faq__icon">+</span></summary>
+          <p class="faq__a">You receive clean, well-tested code adhering to modern standards (PSR-12, typed PHP 8.3+), automated database migrations and seeders, a complete Postman collection covering every API endpoint, Dockerized local environment instructions, and post-deployment stabilization support.</p>
+        </details>
+        <details class="faq__item">
+          <summary class="faq__q">How do we get started?<span class="faq__icon">+</span></summary>
+          <p class="faq__a">Send an email or message with a brief summary of what you are building or the technical challenges you are solving. I typically reply within four hours to schedule a discovery call or provide initial technical thoughts.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Band -->
+  <section class="section" id="contact" style="padding-block:clamp(3.5rem,7vw,6rem);border-top:1px solid var(--line);">
+    <div class="wrap" style="text-align:center;max-width:760px;">
+      <span class="label label--accent">Start a Project</span>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.03em;margin-top:0.8rem;color:var(--ink);">Have a system to build or optimize?</h2>
+      <p style="color:var(--ink-2);font-size:1.1rem;line-height:1.6;margin-top:1rem;margin-bottom:2rem;">
+        Share your technical requirements or existing bottlenecks. I typically respond within 4 hours with technical feedback and next steps.
+      </p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1rem;">
+        <a class="btn btn--solid" href="mailto:kzaman3055@gmail.com">Email: kzaman3055@gmail.com</a>
+        <a class="btn btn--line" href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp: +880 1791 296967</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Software Engineer &amp; Systems Architect</h2>
+        <p>I build high-throughput systems, multi-tenant platforms, and robust API integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:kzaman3055@gmail.com" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Connect</h2>
+        <ul>
+          <li><a href="mailto:kzaman3055@gmail.com">kzaman3055@gmail.com</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp (+880 1791 296967)</a></li>
+          <li><a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a></li>
+          <li><a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub (@pola5h)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Senior Backend Engineer &amp; Systems Architect · Remote Worldwide</p>
+    </div>
+  </div>
+</footer>
+<script src="/assets/js/main.js?v=4" defer></script>
+</body>
+</html>
