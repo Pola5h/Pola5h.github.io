@@ -3,6 +3,15 @@
    Modern Engineered Blueprint + Glassmorphism + Dual-Theme (Vanilla CSS)
    ========================================================================== */
 
+@font-face {
+  font-family: 'Maqin Larisa';
+  src: url('/assets/fonts/maqin-larisa.otf') format('opentype'),
+       url('/assets/fonts/maqin-larisa.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --paper: #fafafa;
   --paper-2: #ffffff;
@@ -24,6 +33,7 @@
   --sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --serif: var(--sans);
+  --font-signature: 'Maqin Larisa', cursive;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-lg: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--line);
@@ -1013,8 +1023,19 @@ textarea.field { resize: vertical; min-height: 7rem; }
 /* ---------- footer ---------- */
 .footer { border-top: 1px solid var(--line); padding-block: 3rem 2rem; }
 .footer__wordmark {
-  font-family: var(--sans); font-weight: 700; color: var(--ink);
-  font-size: 1.4rem; letter-spacing: -0.03em;
+  font-family: var(--font-signature);
+  font-weight: 400;
+  color: var(--ink);
+  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  display: inline-block;
+  user-select: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.footer__wordmark:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }
 .footer__grid { display: grid; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .footer__col h2 { margin-bottom: .9rem; }
