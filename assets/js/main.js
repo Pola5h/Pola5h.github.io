@@ -19,10 +19,14 @@
   function setupTheme() {
     $$('[data-theme-toggle]').forEach(function (btn) {
       btn.addEventListener('click', function () {
+        root.classList.add('theme-animating');
         var isDark = root.classList.toggle('dark');
         try {
           localStorage.setItem('theme', isDark ? 'dark' : 'light');
         } catch (e) {}
+        setTimeout(function () {
+          root.classList.remove('theme-animating');
+        }, 300);
       });
     });
   }
@@ -223,7 +227,7 @@
       var filter = btn.getAttribute('data-blog-filter');
 
       buttons.forEach(function (b) {
-        b.classList.toggle('chip-accent', b === btn);
+        b.classList.toggle('is-active', b === btn);
       });
 
       var visible = 0;
