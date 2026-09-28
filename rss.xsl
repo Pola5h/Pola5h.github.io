@@ -83,6 +83,12 @@
             color: var(--accent);
             border: 1px solid rgba(99, 102, 241, 0.3);
           }
+          .callout__icon svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+          }
           .callout__title {
             font-size: 1.35rem;
             font-weight: 700;
@@ -226,10 +232,10 @@
           <div class="callout">
             <div class="callout__header">
               <div class="callout__icon">
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M4 11a9 9 0 0 1 9 9"/>
                   <path d="M4 4a16 16 0 0 1 16 16"/>
-                  <circle cx="5" cy="19" r="1"/>
+                  <circle cx="5" cy="19" r="1.5" fill="currentColor"/>
                 </svg>
               </div>
               <h1 class="callout__title">RSS Feed</h1>
