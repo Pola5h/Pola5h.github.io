@@ -446,6 +446,15 @@
     onScroll();
   }
 
+  function setupDynamicDates() {
+    var startYear = 2022;
+    var currentYear = new Date().getFullYear();
+    var years = Math.max(4, currentYear - startYear);
+    $$('[data-experience-years]').forEach(function (el) {
+      el.textContent = years + '+';
+    });
+  }
+
   function init() {
     setupTheme();
     setupHeader();
@@ -458,6 +467,7 @@
     setupReveal();
     setupScrollToTop();
     setupTechOrbit();
+    setupDynamicDates();
   }
 
   if (document.readyState === 'loading') {
