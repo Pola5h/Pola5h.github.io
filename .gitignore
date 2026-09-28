@@ -11,3 +11,7 @@ reports/
 # Build caches
 .parcel-cache/
 .cache/
+
+# Local backend / scripts
+scripts/alwaysdata-contact.php
+scripts/*.php
