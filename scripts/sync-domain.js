@@ -95,7 +95,7 @@ function run() {
     return;
   }
 
-  const files = getAllFiles(ROOT_DIR, ['.html', '.xml', '.xsl', '.txt']);
+  const files = getAllFiles(ROOT_DIR, ['.html', '.xml', '.xsl', '.txt', '.svg']);
   let updatedCount = 0;
 
   for (const filePath of files) {

@@ -244,7 +244,7 @@
               This is the web feed for <strong><xsl:value-of select="/rss/channel/title"/></strong>. Paste this feed URL into your RSS reader (such as Feedly, Inoreader, or NetNewsWire) to get automatic updates whenever a new article is published.
             </p>
             <div class="feed-box">
-              <input type="text" class="feed-input" id="feed-url" readonly="readonly" value="https://pola5h.github.io/rss.xml"/>
+              <input type="text" class="feed-input" id="feed-url" readonly="readonly" value="https://polash.link/rss.xml"/>
               <button type="button" class="copy-btn" id="copy-btn">Copy Feed URL</button>
             </div>
           </div>
