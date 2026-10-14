@@ -327,7 +327,7 @@ hr { border: 0; border-top: 1px solid var(--line); }
   aspect-ratio: 1 / 1;
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   overflow: hidden;
-  background: var(--paper-2);
+  background: radial-gradient(circle at 50% 40%, rgba(79, 70, 229, 0.08) 0%, var(--paper-2) 75%);
   border: none;
   box-shadow: 
     0 28px 56px -12px rgba(15, 23, 42, 0.16),
@@ -337,6 +337,7 @@ hr { border: 0; border-top: 1px solid var(--line); }
 }
 
 .dark .hero__portrait-blob {
+  background: radial-gradient(circle at 50% 40%, rgba(129, 140, 248, 0.12) 0%, var(--paper-2) 75%);
   box-shadow: 
     0 32px 64px -16px rgba(0, 0, 0, 0.8),
     0 12px 28px -8px rgba(0, 0, 0, 0.6);
@@ -361,6 +362,16 @@ hr { border: 0; border-top: 1px solid var(--line); }
   object-fit: cover;
   object-position: center 20%;
   display: block;
+  opacity: 0;
+  transition: opacity 0.35s ease-out;
+}
+
+.hero__portrait-img.is-loaded {
+  opacity: 1;
+}
+
+html:not(.js) .hero__portrait-img {
+  opacity: 1;
 }
 
 /* ======================================================================

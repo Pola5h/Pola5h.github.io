@@ -44,8 +44,9 @@ try {
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
-<link rel="preload" href="/assets/css/main.css?v=20" as="style">
-<link rel="stylesheet" href="/assets/css/main.css?v=20">
+<link rel="preload" href="/assets/css/main.css?v=21" as="style">
+<link rel="stylesheet" href="/assets/css/main.css?v=21">
+<link rel="preload" as="image" href="/assets/images/polash-profile.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -105,7 +106,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <p class="hero__kicker label"><span class="dot dot--live"></span> Open to remote roles &amp; contracts worldwide</p>
         <h1 class="hero__title">I build backend systems that <span>don’t break</span> under real load.</h1>
         <p class="hero__lede">Multi-tenant SaaS, high-throughput Laravel APIs, courier and payment integrations, and database layers that stay fast when traffic arrives.</p>
-        <p class="hero__sub">Software architect and developer behind Vendzoo.com (own product). Engineering production systems for French enterprise teams and global clients since 2022 — available for full-time remote roles, dedicated team collaboration, and client projects.</p>
+        <p class="hero__sub">Engineering production systems for French enterprise teams and global clients since 2022 — available for full-time remote roles, dedicated team collaboration, and client projects.</p>
         <div class="hero__actions">
           <a class="btn btn--solid" href="#work">View selected work</a>
           <a class="btn btn--line" href="#contact">Get in touch</a>
@@ -128,7 +129,11 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
             height="380"
             class="hero__portrait-img"
             fetchpriority="high"
+            loading="eager"
+            decoding="async"
+            onload="this.classList.add('is-loaded')"
           >
+          <script>document.currentScript.previousElementSibling.complete&&document.currentScript.previousElementSibling.classList.add('is-loaded');</script>
         </div>
       </div>
     </div>
@@ -432,7 +437,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
     <p class="section__index">02 — About</p>
     <h2 class="about__quote">I care about the parts of software nobody demos.</h2>
     <div class="about__grid">
-      <div class="about__text"><p>I'm Kamruzzaman Polash, a backend software engineer specialising in Laravel, PHP, and custom WordPress/WooCommerce plugin development. I build the systems that hold a product together: billing engines, inventory ledgers, background queues, and the integrations that make separate tools behave like one platform.</p><p>Architect &amp; Developer behind Vendzoo.com, an all-in-one e-commerce management SaaS, and author of Vendzoo Connector v3.0 — the WooCommerce plugin handling real-time order sync, fraud screening and stock management.</p><p>My work spans POS billing engines, Shopify and WooCommerce sync, AI-powered automation (OpenRouter, OpenAI, Gemini), Telegram and WhatsApp Business API pipelines, courier APIs (Pathao, Steadfast, RedX, CarryBee) and database query optimisation. I like problems with a measurable before and after.</p><p>Currently open to full-time remote engineering positions, long-term team collaboration, and architecture contracts worldwide.</p></div>
+      <div class="about__text"><p>I'm Kamruzzaman Polash, a backend software engineer specialising in Laravel, PHP, and custom WordPress/WooCommerce plugin development. I build the systems that hold a product together: billing engines, inventory ledgers, background queues, and the integrations that make separate tools behave like one platform.</p><p>My work focuses on resilient third-party integration pipelines, event-driven data synchronisation, high-throughput background queues, practical LLM workflows, and database tuning under heavy write traffic. I like problems with a measurable before and after.</p><p>Currently open to full-time remote engineering positions, long-term team collaboration, and architecture contracts worldwide.</p></div>
     </div>
 
 
@@ -476,7 +481,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
   <h2 class="section__title">The toolbox, proven under load.</h2>
   <p class="section__lede">Technologies I reach for in production across high-traffic SaaS and retail applications.</p>
 </div>
-    <div class="skills"><div class="skill"><div><h3 class="skill__title">Backend &amp; frameworks</h3><p class="skill__blurb">High-throughput REST APIs, versioned endpoints, clean MVCS architecture.</p></div><div class="skill__items"><span class="skill__item">Laravel</span><span class="skill__item">PHP</span><span class="skill__item">REST APIs</span><span class="skill__item">MVCS</span><span class="skill__item">Design patterns</span><span class="skill__item">WordPress plugins</span></div></div><div class="skill"><div><h3 class="skill__title">Commerce &amp; logistics APIs</h3><p class="skill__blurb">Two-way webhook sync and automated courier consignment dispatch.</p></div><div class="skill__items"><span class="skill__item">Shopify API</span><span class="skill__item">WooCommerce</span><span class="skill__item">Pathao API</span><span class="skill__item">Steadfast API</span><span class="skill__item">RedX API</span><span class="skill__item">CarryBee API</span></div></div><div class="skill"><div><h3 class="skill__title">Automation &amp; AI</h3><p class="skill__blurb">Bots, marketing automation and LLM-powered background pipelines.</p></div><div class="skill__items"><span class="skill__item">OpenRouter AI</span><span class="skill__item">Telegram Bot API</span><span class="skill__item">WhatsApp Cloud API</span><span class="skill__item">Facebook Marketing API</span><span class="skill__item">Async workers</span></div></div><div class="skill"><div><h3 class="skill__title">Database &amp; performance</h3><p class="skill__blurb">Eliminating N+1 queries, indexing execution plans, low-latency caching.</p></div><div class="skill__items"><span class="skill__item">MySQL tuning</span><span class="skill__item">Composite indexes</span><span class="skill__item">Redis caching</span><span class="skill__item">N+1 audits</span><span class="skill__item">Query profiling</span></div></div><div class="skill"><div><h3 class="skill__title">DevOps &amp; containerisation</h3><p class="skill__blurb">Reproducible builds, cluster deployments and production Linux.</p></div><div class="skill__items"><span class="skill__item">Docker</span><span class="skill__item">Kubernetes</span><span class="skill__item">Linux servers</span><span class="skill__item">Git workflows</span><span class="skill__item">Postman testing</span></div></div><div class="skill"><div><h3 class="skill__title">Dashboards &amp; TALL stack</h3><p class="skill__blurb">Admin panels, reactive data tables and rapid internal tools.</p></div><div class="skill__items"><span class="skill__item">FilamentPHP</span><span class="skill__item">Livewire</span><span class="skill__item">TALL stack</span><span class="skill__item">Vue.js</span><span class="skill__item">Tailwind CSS</span></div></div></div>
+    <div class="skills"><div class="skill"><div><h3 class="skill__title">Backend &amp; frameworks</h3><p class="skill__blurb">High-throughput REST APIs, versioned endpoints, clean MVCS architecture.</p></div><div class="skill__items"><span class="skill__item">Laravel</span><span class="skill__item">PHP</span><span class="skill__item">REST APIs</span><span class="skill__item">MVCS</span><span class="skill__item">Design patterns</span><span class="skill__item">WordPress plugins</span></div></div><div class="skill"><div><h3 class="skill__title">Commerce &amp; logistics APIs</h3><p class="skill__blurb">Two-way webhook sync, automated courier dispatches, and payment APIs.</p></div><div class="skill__items"><span class="skill__item">Shopify API</span><span class="skill__item">WooCommerce</span><span class="skill__item">Webhook ingestion</span><span class="skill__item">Courier dispatches</span><span class="skill__item">Idempotent queues</span><span class="skill__item">Payment gateways</span></div></div><div class="skill"><div><h3 class="skill__title">Automation &amp; AI</h3><p class="skill__blurb">Bots, marketing automation and LLM-powered background pipelines.</p></div><div class="skill__items"><span class="skill__item">OpenRouter AI</span><span class="skill__item">Telegram Bot API</span><span class="skill__item">WhatsApp Cloud API</span><span class="skill__item">Facebook Marketing API</span><span class="skill__item">Async workers</span></div></div><div class="skill"><div><h3 class="skill__title">Database &amp; performance</h3><p class="skill__blurb">Eliminating N+1 queries, indexing execution plans, low-latency caching.</p></div><div class="skill__items"><span class="skill__item">MySQL tuning</span><span class="skill__item">Composite indexes</span><span class="skill__item">Redis caching</span><span class="skill__item">N+1 audits</span><span class="skill__item">Query profiling</span></div></div><div class="skill"><div><h3 class="skill__title">DevOps &amp; containerisation</h3><p class="skill__blurb">Reproducible builds, cluster deployments and production Linux.</p></div><div class="skill__items"><span class="skill__item">Docker</span><span class="skill__item">Kubernetes</span><span class="skill__item">Linux servers</span><span class="skill__item">Git workflows</span><span class="skill__item">Postman testing</span></div></div><div class="skill"><div><h3 class="skill__title">Dashboards &amp; TALL stack</h3><p class="skill__blurb">Admin panels, reactive data tables and rapid internal tools.</p></div><div class="skill__items"><span class="skill__item">FilamentPHP</span><span class="skill__item">Livewire</span><span class="skill__item">TALL stack</span><span class="skill__item">Vue.js</span><span class="skill__item">Tailwind CSS</span></div></div></div>
   </div></section>
 
   <section class="section" id="experience"><div class="wrap">
@@ -488,7 +493,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
     <div class="xp"><div class="xp__row">
     <div><span class="xp__period">10/2025 – Present</span><div class="xp__meta">Part-time · Remote</div><div class="xp__now">● Current</div></div>
     <div><div class="xp__top"><span class="xp__role">Backend Engineer</span><span class="xp__company">NexCore IT</span></div>
-    <ul class="xp__points"><li>Architected and shipped backend services for 4+ e-commerce platforms and multi-channel retail SaaS systems.</li><li>Engineered Facebook Marketing API integration with multi-account token rotation, real-time analytics and encrypted credential storage.</li><li>Automated WhatsApp Business Cloud API pipelines with audience segmentation and dynamic personalisation.</li><li>Integrated payment gateways (bKash, SSLCommerz) and courier tracking into retail POS systems.</li></ul></div>
+    <ul class="xp__points"><li>Architected and delivered an end-to-end venue &amp; entertainment booking platform for a UK hospitality business, engineering real-time slot reservations, event ticketing, and conflict-free concurrent scheduling.</li><li>Engineered core backend infrastructure for an EdTech/LMS platform, featuring dynamic slot booking, live session integrations, automated recurring billing, and event-driven WhatsApp reminders.</li><li>Delivered backend architecture for 7+ production e-commerce and retail SaaS platforms — building POS billing engines, real-time inventory ledgers, payment gateways, automated courier dispatch, and custom WooCommerce–Laravel sync plugins.</li><li>Engineered enterprise integration pipelines with Facebook Marketing API and WhatsApp Business Cloud API — implementing multi-account token rotation, encrypted credential vaults, real-time ROAS analytics, and segmented broadcast queues.</li></ul></div>
   </div><div class="xp__row">
     <div><span class="xp__period">08/2024 – 09/2025</span><div class="xp__meta">Full-time · Remote</div></div>
     <div><div class="xp__top"><span class="xp__role">Junior Software Engineer</span><span class="xp__company">Annon IT</span></div>
@@ -602,23 +607,23 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
     </div>
     <div class="svc">
 
-      <!-- Card 1: SaaS Architecture -->
+      <!-- Card 1: SaaS & Core Backend Architecture -->
       <div class="svc__panel">
         <div class="svc__body">
           <div class="svc__tag-row">
-            <span class="svc__n">SaaS &amp; Backend Systems</span>
+            <span class="svc__n">SaaS &amp; Core Architecture</span>
             <span class="svc__badge">Most popular</span>
           </div>
-          <h3 class="svc__title">Your SaaS will scale — and you won't wake up to a broken server at 3 AM.</h3>
-          <p class="svc__outcome">I build multi-tenant platforms that support thousands of users from day one. Permissions, billing flows, team workspaces — all architected cleanly so your dev team can move fast without tech debt piling up.</p>
+          <h3 class="svc__title">Multi-tenant backend platforms built to scale without 3 AM outages.</h3>
+          <p class="svc__outcome">Clean domain-driven backends for high-growth SaaS. Tenant data isolation, subscription billing, and versioned APIs designed so your team ships features without accumulating technical debt.</p>
           <div class="svc__tech-divider">
             <span>Technical implementation</span>
           </div>
           <ul class="svc__list">
-            <li>Multi-tenant DB schema with row-level &amp; schema-level isolation</li>
-            <li>Clean MVCS / Domain Action patterns — zero spaghetti</li>
-            <li>Spatie RBAC, Sanctum / OAuth2 secure auth flows</li>
-            <li>Postman API specs &amp; automated test suites on every endpoint</li>
+            <li>Multi-tenant DB schema with strict tenant isolation</li>
+            <li>Clean MVCS &amp; Domain Action patterns — zero spaghetti</li>
+            <li>Spatie RBAC, Sanctum / OAuth2 secure authentication</li>
+            <li>Comprehensive OpenAPI specs &amp; automated test coverage</li>
           </ul>
           <div class="svc__actions">
             <a class="btn btn--solid" href="/services/">See case studies</a>
@@ -626,12 +631,12 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
           </div>
         </div>
         <div class="svc__media">
-          <span class="label">What you get</span>
+          <span class="label">Key Deliverables</span>
           <ul class="svc__deliverables">
-            <li><span class="svc__check">✓</span><span>Multi-tenant engine — users never see each other's data</span></li>
-            <li><span class="svc__check">✓</span><span>Scalable REST API with full OpenAPI documentation</span></li>
-            <li><span class="svc__check">✓</span><span>Role-based access — granular permissions per workspace</span></li>
-            <li><span class="svc__check">✓</span><span>Automated test suite covering every critical flow</span></li>
+            <li><span class="svc__check">✓</span><span>Isolated multi-tenant database &amp; workspace engine</span></li>
+            <li><span class="svc__check">✓</span><span>High-throughput REST API with full documentation</span></li>
+            <li><span class="svc__check">✓</span><span>Granular role-based permissions &amp; audit logging</span></li>
+            <li><span class="svc__check">✓</span><span>Automated CI test suite covering critical paths</span></li>
           </ul>
           <div class="svc__engagement">
             <span class="dot dot--live"></span>
@@ -640,151 +645,76 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         </div>
       </div>
 
-      <!-- Card 2: E-commerce & Integrations -->
+      <!-- Card 2: Commerce, Integrations & Automation -->
       <div class="svc__panel">
         <div class="svc__body">
           <div class="svc__tag-row">
-            <span class="svc__n">E-commerce &amp; Integrations</span>
+            <span class="svc__n">Commerce &amp; Integrations</span>
           </div>
-          <h3 class="svc__title">Your orders flow automatically — from checkout to courier, zero manual work.</h3>
-          <p class="svc__outcome">WooCommerce, custom Laravel shops, courier API integrations (Pathao, Steadfast, RedX), Facebook Catalog sync — I wire it all together so your team stops copy-pasting orders and starts growing.</p>
+          <h3 class="svc__title">End-to-end transaction automation — checkout, logistics, and messaging.</h3>
+          <p class="svc__outcome">Two-way synchronization across stores, payment gateways, couriers, and communication channels. I wire event-driven pipelines so your orders flow hands-free from cart to delivery.</p>
           <div class="svc__tech-divider">
             <span>Technical implementation</span>
           </div>
           <ul class="svc__list">
-            <li>WooCommerce–Laravel plugin architecture &amp; webhook sync</li>
-            <li>Courier API integrations with automatic tracking updates</li>
-            <li>Facebook Product Catalog &amp; dynamic ad feeds</li>
-            <li>Payment gateway setup (SSLCommerz, bKash, Stripe)</li>
+            <li>WooCommerce &amp; Shopify bidirectional sync engines</li>
+            <li>Automated courier dispatch &amp; webhook tracking updates</li>
+            <li>Multi-gateway payments (Stripe, SSLCommerz, bKash)</li>
+            <li>WhatsApp Business Cloud API &amp; Facebook CAPI pipelines</li>
           </ul>
           <div class="svc__actions">
             <a class="btn btn--solid" href="/services/">View commerce projects</a>
-            <a class="btn btn--line" href="/#contact">Discuss your store</a>
+            <a class="btn btn--line" href="/#contact">Discuss your integration</a>
           </div>
         </div>
         <div class="svc__media">
-          <span class="label">What you get</span>
+          <span class="label">Key Deliverables</span>
           <ul class="svc__deliverables">
-            <li><span class="svc__check">✓</span><span>End-to-end order automation — no more manual entry</span></li>
-            <li><span class="svc__check">✓</span><span>Live courier tracking pushed to customer &amp; dashboard</span></li>
-            <li><span class="svc__check">✓</span><span>Facebook &amp; Instagram dynamic ad product sync</span></li>
-            <li><span class="svc__check">✓</span><span>Multi-gateway payment support with refund flows</span></li>
+            <li><span class="svc__check">✓</span><span>Hands-free order flow from checkout to courier dispatch</span></li>
+            <li><span class="svc__check">✓</span><span>Idempotent webhook ingestion with zero duplicate orders</span></li>
+            <li><span class="svc__check">✓</span><span>Automated WhatsApp customer alerts (order, OTP, status)</span></li>
+            <li><span class="svc__check">✓</span><span>Reliable payment reconciliation &amp; refund workflows</span></li>
           </ul>
           <div class="svc__engagement">
             <span class="dot dot--live"></span>
-            <span>Fixed-price delivery · Full source ownership</span>
+            <span>Fixed-price delivery · Full IP ownership</span>
           </div>
         </div>
       </div>
 
-      <!-- Card 3: WhatsApp / Facebook API -->
+      <!-- Card 3: Systems Performance, Cloud & Applied AI -->
       <div class="svc__panel">
         <div class="svc__body">
           <div class="svc__tag-row">
-            <span class="svc__n">Marketing &amp; Messaging APIs</span>
+            <span class="svc__n">Performance, Cloud &amp; AI</span>
           </div>
-          <h3 class="svc__title">Your business talks to customers automatically — on WhatsApp and Facebook, 24/7.</h3>
-          <p class="svc__outcome">WhatsApp Business API for order alerts, OTPs, and support flows. Facebook Conversions API to fix broken pixel tracking and recover your ad ROAS after iOS changes. More conversions, less ad spend.</p>
+          <h3 class="svc__title">Eliminate production bottlenecks, stabilize infrastructure, and ship AI.</h3>
+          <p class="svc__outcome">I audit database queries, eliminate memory leaks, containerize for zero-downtime releases, and embed practical LLM pipelines as reliable background workers rather than brittle scripts.</p>
           <div class="svc__tech-divider">
             <span>Technical implementation</span>
           </div>
           <ul class="svc__list">
-            <li>WhatsApp Business API — templates, flows &amp; webhooks</li>
-            <li>Facebook Conversions API (CAPI) server-side tracking</li>
-            <li>Automated notification pipelines (order → OTP → support)</li>
-            <li>Campaign performance dashboards &amp; custom reporting</li>
+            <li>MySQL EXPLAIN audits, index tuning &amp; N+1 query elimination</li>
+            <li>Redis Horizon queue workers with failover &amp; retry handling</li>
+            <li>Production Docker &amp; CI/CD zero-downtime deployment</li>
+            <li>Queued LLM pipelines (OpenRouter, Gemini, OpenAI) with caching</li>
           </ul>
           <div class="svc__actions">
-            <a class="btn btn--solid" href="/services/">See integration work</a>
-            <a class="btn btn--line" href="/#contact">Discuss your campaigns</a>
+            <a class="btn btn--solid" href="/services/">View technical audits</a>
+            <a class="btn btn--line" href="/#contact">Book performance audit</a>
           </div>
         </div>
         <div class="svc__media">
-          <span class="label">What you get</span>
+          <span class="label">Key Deliverables</span>
           <ul class="svc__deliverables">
-            <li><span class="svc__check">✓</span><span>WhatsApp automated flows — order, OTP, support</span></li>
-            <li><span class="svc__check">✓</span><span>Server-side conversion tracking — fix your ROAS</span></li>
-            <li><span class="svc__check">✓</span><span>Reliable message delivery with retry logic</span></li>
-            <li><span class="svc__check">✓</span><span>Real-time analytics dashboard for campaigns</span></li>
+            <li><span class="svc__check">✓</span><span>Complete query profiling report with measurable speed gains</span></li>
+            <li><span class="svc__check">✓</span><span>High-throughput Redis queue architecture that never drops jobs</span></li>
+            <li><span class="svc__check">✓</span><span>Dockerized production environment with automated deploys</span></li>
+            <li><span class="svc__check">✓</span><span>Cost-controlled, queued AI workflows integrated into Laravel</span></li>
           </ul>
           <div class="svc__engagement">
             <span class="dot dot--live"></span>
-            <span>Sprint delivery · Direct engineer access</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 4: Performance & Infrastructure -->
-      <div class="svc__panel">
-        <div class="svc__body">
-          <div class="svc__tag-row">
-            <span class="svc__n">Performance &amp; Infrastructure</span>
-          </div>
-          <h3 class="svc__title">Your app is slow and crashing under load. Let's fix it — permanently.</h3>
-          <p class="svc__outcome">I audit your queries, queues and server setup, then fix the real bottlenecks.</p>
-          <div class="svc__tech-divider">
-            <span>Technical implementation</span>
-          </div>
-          <ul class="svc__list">
-            <li>MySQL EXPLAIN audit — index tuning &amp; N+1 elimination</li>
-            <li>Redis Horizon queue workers with retry &amp; failure handling</li>
-            <li>Production Docker Compose &amp; CI/CD pipeline setup</li>
-            <li>OOM crash prevention &amp; memory profiling</li>
-          </ul>
-          <div class="svc__actions">
-            <a class="btn btn--solid" href="/services/">View infrastructure work</a>
-            <a class="btn btn--line" href="/#contact">Book a technical audit</a>
-          </div>
-        </div>
-        <div class="svc__media">
-          <span class="label">What you get</span>
-          <ul class="svc__deliverables">
-            <li><span class="svc__check">✓</span><span>Full DB query audit report with fix recommendations</span></li>
-            <li><span class="svc__check">✓</span><span>Redis queue infrastructure — reliable background jobs</span></li>
-            <li><span class="svc__check">✓</span><span>Docker staging + production setup with zero-downtime deploys</span></li>
-            <li><span class="svc__check">✓</span><span>Post-audit performance benchmark comparison</span></li>
-          </ul>
-          <div class="svc__engagement">
-            <span class="dot dot--live"></span>
-            <span>Dedicated sprint · Full IP ownership</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 5: AI-Powered Features -->
-      <div class="svc__panel">
-        <div class="svc__body">
-          <div class="svc__tag-row">
-            <span class="svc__n">AI &amp; Automation</span>
-            <span class="svc__badge">Growing demand</span>
-          </div>
-          <h3 class="svc__title">Add AI to your product — without rebuilding everything from scratch.</h3>
-          <p class="svc__outcome">I integrate AI features directly into your existing Laravel backend. Chatbots, automated content pipelines, intelligent scoring engines, LLM-powered workflows — shipped as production-grade background jobs, not fragile scripts that break in a week.</p>
-          <div class="svc__tech-divider">
-            <span>What I've shipped</span>
-          </div>
-          <ul class="svc__list">
-            <li>OpenRouter / OpenAI / Gemini API integration in Laravel</li>
-            <li>AI-powered fraud &amp; risk scoring engines (COD, payments)</li>
-            <li>LLM background pipelines — queued, retried, monitored</li>
-            <li>WhatsApp &amp; Telegram bots with AI response flows</li>
-          </ul>
-          <div class="svc__actions">
-            <a class="btn btn--solid" href="/services/">See AI integration work</a>
-            <a class="btn btn--line" href="/#contact">Discuss your use case</a>
-          </div>
-        </div>
-        <div class="svc__media">
-          <span class="label">What you get</span>
-          <ul class="svc__deliverables">
-            <li><span class="svc__check">✓</span><span>AI features inside your app — not a separate fragile tool</span></li>
-            <li><span class="svc__check">✓</span><span>Queued &amp; retried LLM calls — no dropped responses</span></li>
-            <li><span class="svc__check">✓</span><span>Cost-controlled prompts with caching &amp; fallback models</span></li>
-            <li><span class="svc__check">✓</span><span>Full test coverage on every AI integration endpoint</span></li>
-          </ul>
-          <div class="svc__engagement">
-            <span class="dot dot--live"></span>
-            <span>Milestone delivery · Full IP ownership</span>
+            <span>Dedicated sprint · Full source ownership</span>
           </div>
         </div>
       </div>
