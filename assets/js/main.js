@@ -167,7 +167,7 @@
 
       var emailBtn = e.target.closest('[data-copy-email]');
       if (emailBtn) {
-        var email = 'kzaman3055@gmail.com';
+        var email = 'hello@polash.link';
         copyText(email)
           .then(function () {
             var orig = emailBtn.textContent;
@@ -178,7 +178,7 @@
             }, 2000);
           })
           .catch(function () {
-            showToast('kzaman3055@gmail.com');
+            showToast('hello@polash.link');
           });
         return;
       }
@@ -269,7 +269,7 @@
           'Project type: ' + (formData.get('scope') || '') + '\n\n' +
           (formData.get('message') || '');
         window.location.href =
-          'mailto:kzaman3055@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+          'mailto:hello@polash.link?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
         showToast('Opening your email client…');
       }
 
