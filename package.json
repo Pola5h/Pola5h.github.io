@@ -6,7 +6,8 @@
     "build:css": "tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --minify",
     "watch:css": "tailwindcss -i ./assets/css/input.css -o ./assets/css/main.css --watch",
     "sync:domain": "node scripts/sync-domain.js",
-    "build:sitemap": "node scripts/generate-sitemap.js"
+    "build:sitemap": "node scripts/generate-sitemap.js",
+    "footer": "node scripts/inject-partials.js"
   },
   "keywords": [
     "portfolio",
