@@ -459,6 +459,86 @@
     });
   }
 
+  function setupRecommendationSlider() {
+    var slider = $('[data-rec-slider]');
+    var track = $('[data-rec-track]');
+    var prevBtn = $('[data-slider-prev]');
+    var nextBtn = $('[data-slider-next]');
+    if (!slider || !track) return;
+
+    var autoPlayTimer = null;
+    var isHovered = false;
+
+    function getStep() {
+      var firstCard = track.querySelector('.rec-card');
+      if (!firstCard) return 360;
+      var cardRect = firstCard.getBoundingClientRect();
+      var secondCard = firstCard.nextElementSibling;
+      var gap = 22;
+      if (secondCard) {
+        gap = secondCard.getBoundingClientRect().left - cardRect.right;
+      }
+      return Math.round(cardRect.width + (gap > 0 ? gap : 22));
+    }
+
+    function scrollNext() {
+      var maxScroll = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft >= maxScroll - 16) {
+        track.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        track.scrollBy({ left: getStep(), behavior: 'smooth' });
+      }
+    }
+
+    function scrollPrev() {
+      if (track.scrollLeft <= 16) {
+        track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' });
+      } else {
+        track.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      }
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        scrollNext();
+        resetAuto();
+      });
+    }
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        scrollPrev();
+        resetAuto();
+      });
+    }
+
+    function startAuto() {
+      if (reduceMotion) return;
+      stopAuto();
+      autoPlayTimer = setInterval(function () {
+        if (!isHovered) scrollNext();
+      }, 5000);
+    }
+
+    function stopAuto() {
+      if (autoPlayTimer) clearInterval(autoPlayTimer);
+    }
+
+    function resetAuto() {
+      stopAuto();
+      startAuto();
+    }
+
+    slider.addEventListener('mouseenter', function () { isHovered = true; });
+    slider.addEventListener('mouseleave', function () { isHovered = false; });
+    slider.addEventListener('touchstart', function () { isHovered = true; }, { passive: true });
+    slider.addEventListener('touchend', function () {
+      isHovered = false;
+      resetAuto();
+    }, { passive: true });
+
+    startAuto();
+  }
+
   function init() {
     setupTheme();
     setupHeader();
@@ -472,6 +552,7 @@
     setupScrollToTop();
     setupTechOrbit();
     setupDynamicDates();
+    setupRecommendationSlider();
   }
 
   if (document.readyState === 'loading') {
