@@ -25,8 +25,9 @@
   --accent-2: #4338ca;
   --accent-soft: rgba(79, 70, 229, 0.08);
   --accent-glow: rgba(99, 102, 241, 0.25);
-  --ok: #10b981;
-  --ok-soft: rgba(16, 185, 129, 0.12);
+  --ok: #047857;
+  --ok-dot: #10b981;
+  --ok-soft: rgba(4, 120, 87, 0.1);
   --radius: 10px;
   --radius-sm: 6px;
   --radius-lg: 14px;
@@ -54,6 +55,7 @@
   --accent-soft: rgba(99, 102, 241, 0.15);
   --accent-glow: rgba(99, 102, 241, 0.35);
   --ok: #34d399;
+  --ok-dot: #34d399;
   --ok-soft: rgba(52, 211, 153, 0.15);
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
   --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.07);
@@ -292,9 +294,9 @@ hr { border: 0; border-top: 1px solid var(--line); }
 }
 
 .hero__kicker { display: inline-flex; align-items: center; gap: .55rem; white-space: nowrap; letter-spacing: 0.1em; }
-.dot { width: .5rem; height: .5rem; border-radius: 99px; background: var(--ok); display: inline-block; flex-shrink: 0; }
+.dot { width: .5rem; height: .5rem; border-radius: 99px; background: var(--ok-dot); display: inline-block; flex-shrink: 0; }
 .dot--live { animation: pulse 2.4s ease-out infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok) 60%, transparent); } 70%,100% { box-shadow: 0 0 0 8px transparent; } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ok-dot) 60%, transparent); } 70%,100% { box-shadow: 0 0 0 8px transparent; } }
 
 .hero__title {
   margin-top: 1.1rem;
@@ -930,7 +932,7 @@ html:not(.js) .hero__portrait-img {
   text-transform: uppercase;
   color: var(--ok);
   background: var(--ok-soft);
-  border: 1px solid rgba(16,185,129,.2);
+  border: 1px solid rgba(4, 120, 87, 0.2);
   border-radius: 4px;
   padding: .18em .55em;
 }
