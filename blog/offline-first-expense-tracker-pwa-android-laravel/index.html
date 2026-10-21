@@ -126,7 +126,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <p>Most commercial personal finance apps fail because they over-complicate reality while charging heavy recurring fees. Users routinely pay $10 to $20 every month ($120 to $240 per year) for budgeting apps like YNAB or Monarch, only to find themselves trapped in rigid constraints:</p>
 <ul>
 <li><strong>Enterprise accounting overhead:</strong> You are forced to declare every bank account, log physical pocket cash, reconcile multiple mobile wallets, and record fake internal transfers every time you withdraw cash from an ATM. After three weeks, the cognitive friction causes people to abandon logging altogether.</li>
-<li><strong>Locked feature roadmaps:</strong> If you need a specialized feature (such as splitting complex utility bills across rental units, custom sub-category rollups, or local currency formatting), commercial apps will never build it for you. You are at the mercy of their corporate priorities.</li>
+<li><strong>Locked feature roadmaps:</strong> If you need a specialized feature (such as splitting complex utility bills across rental units, custom sub-category rollups, or local currency formatting), niche personal workflows rarely make it onto commercial product roadmaps. You ship what they prioritize, not what you need.</li>
 <li><strong>Privacy and lock-in:</strong> Your complete daily financial habits, income streams, and personal expenses reside on third-party cloud servers with continuous subscription paywalls.</li>
 </ul>
 
@@ -160,7 +160,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <ul>
 <li><strong>Automatic upward expansion:</strong> When you set a budget on a child category, its ancestors automatically accommodate the child. If the sum of child targets exceeds the parent's direct budget, the parent dynamically expands up to the root level. No validation roadblocks or error banners.</li>
 <li><strong>Unallocated buffer calculation:</strong> If a parent category has a direct budget larger than the sum of its children, the difference is tracked as an <code>unallocated_buffer</code> (e.g. <em>৳ 3,000 remaining buffer for Groceries</em>). This gives you immediate visibility into unassigned spending headroom.</li>
-<li><strong>In-memory recursive rollup:</strong> The budget resolution runs in-memory using the pre-computed category tree. Leaf budgets bubble up cleanly, preventing redundant database roundtrips and keeping API response times under 20ms on our 256MB container.</li>
+<li><strong>In-memory recursive rollup:</strong> The budget resolution runs in-memory using the pre-computed category tree. Leaf budgets bubble up cleanly, preventing redundant database roundtrips regardless of category nesting depth.</li>
 </ul>
 
 <figure class="code-block">
