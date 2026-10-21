@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
+<meta name="keywords" content="offline-first PWA, Laravel SQLite, Vue 3 Android WebView, personal finance tracker, expense tracker Laravel, budget app open source, 256MB server Laravel, rental management app">
 <meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
 <script>
@@ -25,10 +26,18 @@ try {
 <meta property="og:image" content="https://polash.link/assets/images/og-offline-first-app.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kamruzzaman Polash - Backend Software Engineer">
+<meta property="og:image:alt" content="Hishab app interface: offline-first expense tracker and rental manager built on a 256MB Laravel server">
 <meta property="article:published_time" content="2026-10-21">
 <meta property="article:modified_time" content="2026-10-21">
 <meta property="article:section" content="Architecture">
+<meta property="article:author" content="https://polash.link/">
+<meta property="article:tag" content="Laravel">
+<meta property="article:tag" content="Vue.js">
+<meta property="article:tag" content="PWA">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="SQLite">
+<meta property="article:tag" content="Offline-first">
+<meta property="article:tag" content="PHP">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/">
 <meta name="twitter:title" content="Building an Offline-First App on a 256MB Server">
@@ -53,7 +62,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","Vue.js","PWA","Android"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/#article","headline":"Building an Offline-First App on a 256MB Server","description":"How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.","url":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"},"datePublished":"2026-10-21","dateModified":"2026-10-21","timeRequired":"PT10M","articleSection":"Architecture","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Building an Offline-First App on a 256MB Server","item":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","Vue.js","PWA","Android"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/#article","headline":"Building an Offline-First App on a 256MB Server","description":"How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.","url":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"},"datePublished":"2026-10-21","dateModified":"2026-10-21","timeRequired":"PT10M","articleSection":"Architecture","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-offline-first-app.jpg","width":1200,"height":630},"keywords":["Laravel","Vue.js","PWA","Android WebView","SQLite","offline-first","personal finance","expense tracker","budget app","PHP"],"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Building an Offline-First App on a 256MB Server","item":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
