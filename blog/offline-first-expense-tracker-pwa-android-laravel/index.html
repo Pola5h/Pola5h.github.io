@@ -110,7 +110,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
   <div class="article-body"><div class="wrap"><div class="article-grid">
     <div>
       <article class="article">
-<p>Most commercial personal finance apps fail because they over-complicate reality. They treat personal finances like corporate enterprise accounting: you are expected to declare every bank account, log physical cash in your wallet, track multiple mobile financial wallets, and record internal transfers whenever you take money out of an ATM. The friction is so high that after a couple of weeks, people simply stop logging expenses.</p>
+<p>Most mainstream personal finance apps are designed around a full-ledger model: you declare every bank account, log physical pocket cash, reconcile mobile wallets, and record internal transfers whenever you withdraw cash from an ATM. For many people, that depth is exactly what they want. For me, the friction was so high that after a few weeks I stopped logging expenses entirely.</p>
 <p>I built <strong>Hishab</strong> to solve my own day-to-day problems. I did not care about reconciling balances across five banking portals. I needed a frictionless cashflow monitor: record daily income when it arrives, log expenses the moment they occur, keep track of multi-unit rental leases, and split shared apartment utility bills fairly across tenants.</p>
 <p>The system runs on a shared Linux container with around 250MB RAM (0.25 vCPU) with zero cloud hosting bills. It started as a local-first Progressive Web App (PWA) and evolved into a dedicated Android application backed by a Laravel 13 API. Here is how the system is designed, the domain problems it tackles, and the lessons learned along the way.</p>
 
@@ -123,9 +123,9 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </figure>
 
 <h2 id="the-problem-with-commercial-finance-apps">1. The Problem With Commercial SaaS Apps</h2>
-<p>Most commercial personal finance apps fail because they over-complicate reality while charging heavy recurring fees. Users routinely pay $10 to $20 every month ($120 to $240 per year) for budgeting apps like YNAB or Monarch, only to find themselves trapped in rigid constraints:</p>
+<p>Popular budgeting apps like YNAB or Monarch charge $10 to $20 per month ($120 to $240 per year) and are built around a full account-reconciliation model. For my workflow, that came with friction I never needed:</p>
 <ul>
-<li><strong>Enterprise accounting overhead:</strong> You are forced to declare every bank account, log physical pocket cash, reconcile multiple mobile wallets, and record fake internal transfers every time you withdraw cash from an ATM. After three weeks, the cognitive friction causes people to abandon logging altogether.</li>
+<li><strong>Enterprise accounting overhead:</strong> Declaring every bank account, reconciling mobile wallets, and recording internal transfers every time you withdraw ATM cash adds up to real cognitive overhead. For me, that friction broke the logging habit within weeks.</li>
 <li><strong>Locked feature roadmaps:</strong> If you need a specialized feature (such as splitting complex utility bills across rental units, custom sub-category rollups, or local currency formatting), niche personal workflows rarely make it onto commercial product roadmaps. You ship what they prioritize, not what you need.</li>
 <li><strong>Privacy and lock-in:</strong> Your complete daily financial habits, income streams, and personal expenses reside on third-party cloud servers with continuous subscription paywalls.</li>
 </ul>
@@ -155,7 +155,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
 <h3 id="hierarchical-budget-rollups">Bottom-Up Budget Rollup &amp; Dynamic Upward Auto-Adjustment</h3>
 <p>Once you support arbitrary category depth, hierarchical budgeting introduces a classic architectural dilemma: <em>what happens when child categories are assigned budgets that exceed their parent's direct target?</em></p>
-<p>Most commercial systems take a rigid, bureaucratic approach: throwing validation errors, blocking user input with error alerts, or requiring tedious manual recalculations across every ancestor category. In daily practice, that friction causes people to abandon budgeting.</p>
+<p>Most apps that support budgets at all treat the budget hierarchy as flat. When you add arbitrary depth, parent-child budget conflicts have no obvious resolution. A naive approach would throw validation errors or require manual recalculations up every ancestor. In daily practice, that friction makes hierarchical budgeting unusable.</p>
 <p>In Hishab, the budget engine resolves this through an in-memory <strong>dynamic upward cascade</strong>:</p>
 <ul>
 <li><strong>Automatic upward expansion:</strong> When you set a budget on a child category, its ancestors automatically accommodate the child. If the sum of child targets exceeds the parent's direct budget, the parent dynamically expands up to the root level. No validation roadblocks or error banners.</li>
