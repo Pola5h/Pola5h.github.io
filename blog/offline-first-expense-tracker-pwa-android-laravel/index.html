@@ -145,7 +145,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </ul>
 
 <h3 id="pragmatic-constant-budgeting">Pragmatic Constant Budgeting: Tracking Real Spikes (Eid, Puja, Festivals)</h3>
-<p>Traditional budgeting software forces you into an exhausting cycle: redefining and adjusting your entire budget from scratch every single month. In reality, that defeats the purpose of budgeting.</p>
+<p>Certain budgeting philosophies (YNAB being the most notable) encourage you to budget from a zero base each month. For me, that meant re-entering the same numbers every 30 days with minor adjustments, which quickly felt like administrative overhead rather than insight.</p>
 <p>My personal experience showed that true financial clarity comes from a <strong>constant baseline budget</strong>:</p>
 <ul>
 <li>For around 8 months of the year, regular household spending remains relatively steady. Setting a solid baseline gives you a predictable target.</li>
@@ -273,9 +273,9 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
 <ul>
 <li><strong>SQLite as a Zero-Daemon Database:</strong> A traditional MySQL or PostgreSQL server consumes 120MB to 200MB of resident memory just to sit idle waiting for connections. Hishab uses SQLite instead. Because SQLite is an in-process file database, its standby idle memory is exactly 0 MB. For a single-user system accessed across multiple devices, SQLite delivers sub-millisecond query performance with zero connection pool overhead.</li>
-<li><strong>On-Demand PHP Execution:</strong> The backend runs under PHP-FPM with fully cached bootstrap metadata (config, routes, and views). When an API request arrives, PHP boots up, processes the request within 25MB to 35MB of RAM, and immediately releases the memory back to the host system.</li>
+<li><strong>On-Demand PHP Execution:</strong> The backend runs under PHP-FPM with fully cached bootstrap metadata (config, routes, and views). When an API request arrives, PHP processes the request and immediately releases memory back to the host system with no persistent process overhead between requests.</li>
 <li><strong>Client-Side Rendering (SPA) Eliminates Server Load:</strong> Serving server-side rendered (SSR) templates or Node.js SSR processes places heavy CPU and memory load on the host. Instead, the compiled Vue 3 Single Page Application (PWA) is served directly as static files. All chart calculations, data sorting, and category rollups execute entirely on the client device. The server only transmits compact JSON payloads.</li>
-<li><strong>Sub-Megabyte Production Bundle:</strong> The entire compiled frontend assets (Vue 3, Vite, Chart.js, Tailwind, and Workbox Service Worker) weigh under 960 KB total. Combined with automated gzip compressed daily database backups, the entire application fits comfortably within the 100MB disk quota with room to spare.</li>
+<li><strong>Sub-Megabyte Production Bundle:</strong> The entire compiled frontend (Vue 3, Vite, Chart.js, Tailwind, and Workbox Service Worker) totals around 1 MB uncompressed and approximately 300 KB over the wire with gzip. Combined with automated gzip compressed daily database backups, the entire application fits comfortably within the 100MB disk quota with room to spare.</li>
 <li><strong>Deep Health Monitoring:</strong> A dedicated deep health check endpoint constantly verifies database connectivity, storage write permissions, free disk space, and backup freshness to ensure rock-solid production stability.</li>
 </ul>
 
@@ -284,7 +284,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
 <h3 id="offline-first-with-indexeddb-and-web-locks">Offline-First with IndexedDB and Web Locks</h3>
 <p>The client uses an IndexedDB outbox. When an expense is recorded offline, the client generates a unique UUID, saves the record locally, and provides immediate optimistic UI feedback. Once network access returns, a background flusher sends idempotent PUT requests to synchronize records with the server.</p>
-<p>To prevent race conditions when the app is open in multiple browser tabs, synchronization is coordinated via the browser Web Locks API. Only one tab is permitted to flush the offline queue at a time.</p>
+<p>To prevent race conditions when the app is open in multiple browser tabs, synchronization uses the browser Web Locks API where available, with an in-memory mutex fallback for older environments. Only one tab flushes the offline queue at a time.</p>
 
 <h3 id="why-twa-fell-short">Why TWA Fell Short</h3>
 <p>My first step toward a standalone mobile app was using a Trusted Web Activity (TWA) wrapper. In practice, TWA presented several friction points:</p>
