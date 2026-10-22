@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Building an Offline-First App on a 256MB Server</title>
-<meta name="description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.">
+<title>Building an Offline-First App with Zero-Cost AI on a 256MB Server</title>
+<meta name="description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, zero-cost Gemini AI expense parsing, and a custom Android wrapper on a 256MB free host.">
 <link rel="canonical" href="https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
-<meta name="keywords" content="offline-first PWA, Laravel SQLite, Vue 3 Android WebView, personal finance tracker, expense tracker Laravel, budget app open source, 256MB server Laravel, rental management app">
+<meta name="keywords" content="offline-first PWA, Laravel SQLite, Vue 3 Android WebView, Gemini AI expense parser, zero-cost LLM Laravel, personal finance tracker, expense tracker Laravel, budget app open source, 256MB server Laravel, rental management app, PHP AI integration">
 <meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
 <script>
@@ -21,14 +21,14 @@ try {
 <meta property="og:site_name" content="Kamruzzaman Polash">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/">
-<meta property="og:title" content="Building an Offline-First App on a 256MB Server">
-<meta property="og:description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.">
+<meta property="og:title" content="Building an Offline-First App with Zero-Cost AI on a 256MB Server">
+<meta property="og:description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, zero-cost Gemini AI expense parsing, and a custom Android wrapper on a 256MB free host.">
 <meta property="og:image" content="https://polash.link/assets/images/og-offline-first-app.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Hishab app interface: offline-first expense tracker and rental manager built on a 256MB Laravel server">
+<meta property="og:image:alt" content="Hishab app interface: offline-first expense tracker, rental manager, and AI parser on a 256MB Laravel server">
 <meta property="article:published_time" content="2026-10-21">
-<meta property="article:modified_time" content="2026-10-21">
+<meta property="article:modified_time" content="2026-10-23">
 <meta property="article:section" content="Architecture">
 <meta property="article:author" content="https://polash.link/">
 <meta property="article:tag" content="Laravel">
@@ -38,10 +38,11 @@ try {
 <meta property="article:tag" content="SQLite">
 <meta property="article:tag" content="Offline-first">
 <meta property="article:tag" content="PHP">
+<meta property="article:tag" content="Gemini AI">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/">
-<meta name="twitter:title" content="Building an Offline-First App on a 256MB Server">
-<meta name="twitter:description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.">
+<meta name="twitter:title" content="Building an Offline-First App with Zero-Cost AI on a 256MB Server">
+<meta name="twitter:description" content="How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, zero-cost Gemini AI expense parsing, and a custom Android wrapper on a 256MB free host.">
 <meta name="twitter:image" content="https://polash.link/assets/images/og-offline-first-app.jpg">
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -62,7 +63,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","Vue.js","PWA","Android"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/#article","headline":"Building an Offline-First App on a 256MB Server","description":"How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, and a custom Android wrapper on a 256MB free host.","url":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"},"datePublished":"2026-10-21","dateModified":"2026-10-21","timeRequired":"PT10M","articleSection":"Architecture","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-offline-first-app.jpg","width":1200,"height":630},"keywords":["Laravel","Vue.js","PWA","Android WebView","SQLite","offline-first","personal finance","expense tracker","budget app","PHP"],"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Building an Offline-First App on a 256MB Server","item":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","Vue.js","PWA","Android"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/#article","headline":"Building an Offline-First App with Zero-Cost AI on a 256MB Server","description":"How I built Hishab: a local-first personal finance and tenant rental manager with Vue 3, Laravel 13, zero-cost Gemini AI expense parsing, and a custom Android wrapper on a 256MB free host.","url":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"},"datePublished":"2026-10-21","dateModified":"2026-10-23","timeRequired":"PT13M","articleSection":"Architecture","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-offline-first-app.jpg","width":1200,"height":630},"keywords":["Laravel","Vue.js","PWA","Android WebView","SQLite","offline-first","Gemini AI","LLM expense parsing","personal finance","expense tracker","budget app","PHP"],"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Building an Offline-First App with Zero-Cost AI on a 256MB Server","item":"https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/"}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -104,12 +105,12 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </div>
 <main id="main">
   <div class="progress" id="reading-progress"></div>
-  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Building an Offline-First App on a 256MB Server</span></div></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Building an Offline-First App with Zero-Cost AI on a 256MB Server</span></div></div>
 
   <header class="article-head"><div class="wrap">
-    <div class="article-head__cat"><span class="label label--accent">Architecture</span><span class="label">10 min read</span></div>
-    <h1 class="article-head__title">Building an Offline-First App on a 256MB Server</h1>
-    <p class="article-head__desc">How I designed Hishab: a practical personal cashflow tracker and tenant rental manager with Vue 3, Laravel 13, and a dedicated Android WebView wrapper on a free host with around 250MB RAM.</p>
+    <div class="article-head__cat"><span class="label label--accent">Architecture &amp; AI</span><span class="label">13 min read</span></div>
+    <h1 class="article-head__title">Building an Offline-First App with Zero-Cost AI on a 256MB Server</h1>
+    <p class="article-head__desc">How I designed Hishab: a practical personal cashflow tracker, tenant rental manager, and zero-cost Gemini AI expense engine with Vue 3, Laravel 13, and a dedicated Android WebView wrapper on a 250MB RAM host.</p>
     <div class="article-head__by">
       <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">October 21, 2026</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
@@ -361,12 +362,80 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
   <figcaption style="font-size:0.875rem;color:var(--text-muted);text-align:center;margin-top:0.85rem">Mobile Budget Interface: Hierarchical category spending progress with rollup indicators (left) and contextual budget target modal with historical month scoping (right).</figcaption>
 </figure>
 
-<h2 id="takeaways">7. Takeaways</h2>
+<h2 id="zero-cost-ai-expense-parsing">7. Natural Language &amp; AI Expense Parsing: Ending Finger Gymnastics</h2>
+<p>Even with an offline-first PWA and a 3-tap Quick Add modal, logging daily living expenses runs into a stubborn real-world bottleneck: <strong>multi-item grocery and bazaar fatigue</strong>. When you return home from the local market with five or six distinct items, manually opening a dropdown, finding a nested subcategory, choosing a person tag, typing the amount, saving, and repeating that cycle consecutively feels like tedious finger gymnastics. Within a few busy weeks, that repetitive friction causes people to abandon expense tracking altogether.</p>
+<p>In everyday life, spending notes are written down quickly and messily. You jot down a raw text line: <code>rice 200, lentils 500, rickshaw 50, ammu r osudh 600, babur cerelac 350</code> or mixed Bengali: <code>"শাক ৫০, মাছ ও মুরগি মোট ৫০০"</code>. I wanted Hishab to accept raw, colloquial, multilingual text and instantly turn it into structured, validated database records without manual picker clicks.</p>
+
+<h3 id="the-zero-cost-llm-strategy">The Zero-Cost LLM Strategy on a 256MB Server</h3>
+<p>Running local AI models or self-hosting quantization runtimes like Ollama or vLLM was completely out of the question on a shared container capped at 256MB RAM and 0.25 vCPU. Spinning up dedicated GPU instances on AWS or paying third-party SaaS wrappers would violate the core project principle of zero ongoing cloud bills.</p>
+<p>Instead, we take advantage of the generous free tier provided by the Google Gemini API (supporting up to 15 requests per minute and 1,500 requests per day on <code>gemini-2.5-flash-lite</code> and <code>gemini-2.5-flash</code>). For personal finance where an individual logs expenses 3 to 10 times a day, this free quota is practically infinite. It introduces zero server memory footprint, requires no background Python daemon, and adds zero dollars to the monthly hosting invoice.</p>
+
+<h3 id="two-phase-hybrid-pipeline">The Two-Phase Hybrid Pipeline: LLM Semantic Parsing + Deterministic PHP Guardrails</h3>
+<p>LLMs are notoriously prone to hallucinations, schema drift, and invented category names. If an LLM returns a non-existent category like <em>Kitchen Supplies</em> when your active schema only recognizes <em>Cleaning &amp; Toiletries</em>, a naive system will either fail with database foreign key errors or pollute your financial reports. To guarantee reliability, Hishab uses a resilient <strong>two-phase hybrid architecture</strong>:</p>
+
+<ul>
+<li><strong>Phase 1 (Dynamic Taxonomy Injection &amp; Contextual Prompting):</strong> When the user submits a text snippet, the Laravel backend queries the user's active <code>CategoryTree</code>, computes full ancestor paths (e.g. <code>Food &amp; Groceries &gt; Groceries &gt; Baby Food</code>), and identifies leaf categories. This active schema is injected into a structured system prompt along with strict Banglish phonetic dictionaries (mapping colloquial terms like <em>bow/bou</em> to Wife, <em>ammu</em> to Mother, and <em>babu/baccha</em> to Son) and partial-amount arithmetic inference rules.</li>
+<li><strong>Phase 2 (Deterministic PHP Sanitization &amp; Guardrails):</strong> The raw JSON response from Gemini never touches the database directly. A dedicated PHP service strips formatting artifacts, validates category foreign keys against active user categories, applies strict word-boundary checks to prevent substring false positives (such as preventing the word <em>cola</em> from matching ride-sharing <em>ola</em>), and resolves item names against an internal 22-category dictionary. If an item cannot be mapped safely, it is logged and skipped rather than assigned to an arbitrary fallback category.</li>
+</ul>
+
+<figure class="code-block">
+  <figcaption class="code-block__bar">
+    <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="code-block__spacer"></span>
+    <span class="code-block__lang">php</span>
+    <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      <span>Copy</span>
+    </button>
+  </figcaption>
+  <pre><code class="hljs language-php"><span class="hljs-comment">// Two-phase AI expense parsing in GeminiExpenseService</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, <span class="hljs-keyword">string</span> <span class="hljs-variable">$rawText</span>, ?<span class="hljs-keyword">string</span> <span class="hljs-variable">$occurredOn</span> = <span class="hljs-literal">null</span></span>): <span class="hljs-keyword">array</span>
+</span>{
+    <span class="hljs-comment">// 1. Build live taxonomy tree with full path names and leaf detection</span>
+    <span class="hljs-variable">$tree</span> = CategoryTree::<span class="hljs-title function_ invoke__">forUser</span>(<span class="hljs-variable">$user</span>);
+    <span class="hljs-variable">$categoryList</span> = <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">personalCategories</span>()
+        -&gt;<span class="hljs-title function_ invoke__">where</span>(<span class="hljs-string">'type'</span>, <span class="hljs-string">'expense'</span>)
+        -&gt;<span class="hljs-title function_ invoke__">where</span>(<span class="hljs-string">'is_archived'</span>, <span class="hljs-literal">false</span>)
+        -&gt;<span class="hljs-title function_ invoke__">get</span>()
+        -&gt;<span class="hljs-title function_ invoke__">map</span>(fn (<span class="hljs-variable">$cat</span>) =&gt; [
+            <span class="hljs-string">'id'</span>      =&gt; <span class="hljs-variable">$cat</span>-&gt;id,
+            <span class="hljs-string">'path'</span>    =&gt; <span class="hljs-variable">$tree</span>-&gt;<span class="hljs-title function_ invoke__">pathName</span>(<span class="hljs-variable">$cat</span>-&gt;id),
+            <span class="hljs-string">'is_leaf'</span> =&gt; <span class="hljs-keyword">empty</span>(<span class="hljs-variable">$tree</span>-&gt;<span class="hljs-title function_ invoke__">childrenIds</span>(<span class="hljs-variable">$cat</span>-&gt;id)),
+        ])-&gt;<span class="hljs-title function_ invoke__">all</span>();
+
+    <span class="hljs-variable">$prompt</span> = <span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">buildSystemPrompt</span>(<span class="hljs-variable">$categoryList</span>, <span class="hljs-variable">$rawText</span>, <span class="hljs-variable">$occurredOn</span> ?? <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">'Y-m-d'</span>));
+
+    <span class="hljs-comment">// 2. Execute with multi-model fallback (Flash-Lite -&gt; Flash)</span>
+    <span class="hljs-variable">$rawResponse</span> = <span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">executeGeminiRequestWithFallback</span>(<span class="hljs-variable">$prompt</span>);
+
+    <span class="hljs-comment">// 3. Deterministic PHP guardrail: validate keys, word boundaries, and amounts</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">formatAndValidateResponse</span>(<span class="hljs-variable">$rawResponse</span>, <span class="hljs-variable">$user</span>, <span class="hljs-variable">$rawText</span>);
+}</code></pre>
+</figure>
+
+<figure class="article-image" style="margin:2.5rem 0">
+  <div style="background:var(--surface,#1e293b);padding:0.75rem;border-radius:18px;border:1px solid var(--border,#334155);box-shadow:0 12px 32px rgba(0,0,0,0.25)">
+    <img src="/assets/images/hishab-mobile-ai.jpg" alt="Hishab mobile AI expense entry interface showing raw shopping note input on left and categorized review breakdown with deduced amount calculation on right" width="906" height="930" loading="lazy" decoding="async" style="border-radius:12px;width:100%;height:auto;display:block">
+  </div>
+  <figcaption style="font-size:0.875rem;color:var(--text-muted);text-align:center;margin-top:0.85rem">Mobile AI Expense Parsing: Raw natural language shopping notes with unpriced items (left) and automated multi-category breakdown with auto-calculated total deduction (right).</figcaption>
+</figure>
+
+<h3 id="interactive-review-and-batch-commit">Interactive Client Review and One-Tap Batch Commit</h3>
+<p>An automated parser should never silently commit transactions behind the user's back. In the Vue 3 interface, submitting a natural language note displays an instant preview ledger:</p>
+<ul>
+<li>Each parsed item appears in an interactive table showing its derived item name, integer poisha amount, assigned category path badge, and associated person tag.</li>
+<li>Unpriced items whose costs were mathematically deduced from a stated total (such as an unpriced fish item inferred from a ৳ 500 total minus ৳ 100 vegetables) are clearly marked with an <em>inferred</em> visual pill.</li>
+<li>The user can adjust any single field in seconds, discard accidental duplicates, and commit the entire batch to the ledger with a single confirmation tap.</li>
+</ul>
+<p>This hybrid workflow eliminates 90% of the repetitive taps required by standard personal finance forms while maintaining 100% data integrity and zero cloud operational overhead.</p>
+
+<h2 id="takeaways">8. Takeaways</h2>
 <p>Building Hishab reinforced a few core lessons for practical software development:</p>
 <ol>
 <li><strong>Solve your own problem first:</strong> Commercial software often suffers from feature bloat. Building a focused tool tailored to your exact daily routine creates software you will actually use long term.</li>
 <li><strong>Resource limits foster better engineering:</strong> Operating within a 256MB memory cap forces you to understand where memory is spent, cut unnecessary dependencies, and build lean, reliable software.</li>
 <li><strong>Choose the pragmatic mobile bridge:</strong> When a PWA meets browser limitations on mobile hardware, a lightweight native WebView wrapper offers the best balance of web development speed and native device integration.</li>
+<li><strong>Practical AI beats hype:</strong> You do not need bloated agent frameworks or expensive GPU servers to build real intelligence. Pairing a zero-cost LLM API with deterministic backend guardrails eliminates everyday logging fatigue while keeping infrastructure delightfully lean.</li>
 </ol>
 
 <p>Hishab continues to handle my personal expenses and rental property management every day. If you are building local-first applications or optimizing SaaS architectures for lean infrastructure, focusing on simplicity and solid domain boundaries will always pay dividends.</p>
@@ -388,7 +457,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <span></span>
       </nav>
     </div>
-    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#the-problem-with-commercial-finance-apps" data-toc-link>1. The SaaS Problem</a><a href="#the-single-cashflow-model" data-toc-link>2. Single Cashflow &amp; Deep Categories</a><a href="#deep-hierarchical-categories" data-toc-link class="is-sub">Multi-Level Categories</a><a href="#pragmatic-constant-budgeting" data-toc-link class="is-sub">Constant Baseline Budgeting</a><a href="#hierarchical-budget-rollups" data-toc-link class="is-sub">Bottom-Up Budget Rollup</a><a href="#historical-budget-scoping" data-toc-link class="is-sub">Historical Boundary Scoping</a><a href="#the-rental-challenge-bill-splits-and-fifo-reconciliation" data-toc-link>3. The Rental Challenge</a><a href="#deterministic-utility-bill-splits" data-toc-link class="is-sub">Deterministic Bill Splits</a><a href="#fifo-lease-balance-reconciliation" data-toc-link class="is-sub">FIFO Lease Reconciliation</a><a href="#running-on-256mb-ram" data-toc-link>4. Running on 256MB RAM</a><a href="#from-pwa-to-native-android" data-toc-link>5. From PWA to Native Android</a><a href="#offline-first-with-indexeddb-and-web-locks" data-toc-link class="is-sub">Offline-First with Web Locks</a><a href="#why-twa-fell-short" data-toc-link class="is-sub">Why TWA Fell Short</a><a href="#the-native-android-wrapper" data-toc-link class="is-sub">The Native Android Wrapper</a><a href="#mobile-ui-polish-handling-dense-data" data-toc-link>6. Mobile UI Polish</a><a href="#takeaways" data-toc-link>7. Takeaways</a></nav></aside>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#the-problem-with-commercial-finance-apps" data-toc-link>1. The SaaS Problem</a><a href="#the-single-cashflow-model" data-toc-link>2. Single Cashflow &amp; Deep Categories</a><a href="#deep-hierarchical-categories" data-toc-link class="is-sub">Multi-Level Categories</a><a href="#pragmatic-constant-budgeting" data-toc-link class="is-sub">Constant Baseline Budgeting</a><a href="#hierarchical-budget-rollups" data-toc-link class="is-sub">Bottom-Up Budget Rollup</a><a href="#historical-budget-scoping" data-toc-link class="is-sub">Historical Boundary Scoping</a><a href="#the-rental-challenge-bill-splits-and-fifo-reconciliation" data-toc-link>3. The Rental Challenge</a><a href="#deterministic-utility-bill-splits" data-toc-link class="is-sub">Deterministic Bill Splits</a><a href="#fifo-lease-balance-reconciliation" data-toc-link class="is-sub">FIFO Lease Reconciliation</a><a href="#running-on-256mb-ram" data-toc-link>4. Running on 256MB RAM</a><a href="#from-pwa-to-native-android" data-toc-link>5. From PWA to Native Android</a><a href="#offline-first-with-indexeddb-and-web-locks" data-toc-link class="is-sub">Offline-First with Web Locks</a><a href="#why-twa-fell-short" data-toc-link class="is-sub">Why TWA Fell Short</a><a href="#the-native-android-wrapper" data-toc-link class="is-sub">The Native Android Wrapper</a><a href="#mobile-ui-polish-handling-dense-data" data-toc-link>6. Mobile UI Polish</a><a href="#zero-cost-ai-expense-parsing" data-toc-link>7. Zero-Cost AI Expense Parsing</a><a href="#the-zero-cost-llm-strategy" data-toc-link class="is-sub">Zero-Cost Gemini Architecture</a><a href="#two-phase-hybrid-pipeline" data-toc-link class="is-sub">2-Phase Guardrail Pipeline</a><a href="#takeaways" data-toc-link>8. Takeaways</a></nav></aside>
   </div></div></div>
 
   <section class="related section"><div class="wrap">
