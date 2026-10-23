@@ -7,14 +7,14 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP tutorials from production experience.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 21 Oct 2026 08:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 23 Oct 2026 09:00:00 GMT</lastBuildDate>
     <item>
-      <title>Building an Offline-First App on a 256MB Server</title>
+      <title>Building an Offline-First App with Zero-Cost AI on a 256MB Server</title>
       <link>https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/</link>
       <guid isPermaLink="true">https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/</guid>
-      <pubDate>Wed, 21 Oct 2026 08:00:00 GMT</pubDate>
+      <pubDate>Fri, 23 Oct 2026 09:00:00 GMT</pubDate>
       <category>Architecture</category>
-      <description>How I built Hishab: a local-first personal finance and rental manager with Vue 3, Laravel 13, and a custom Android wrapper on 256MB RAM.</description>
+      <description>How I built Hishab: an offline-first personal finance and tenant rental manager with Vue 3, Laravel 13, zero-cost Gemini AI expense parsing, and a hardened Android wrapper running comfortably on a 256MB server.</description>
     </item>
     <item>
       <title>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It</title>
