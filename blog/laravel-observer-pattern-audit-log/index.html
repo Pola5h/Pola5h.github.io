@@ -234,7 +234,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </aside>
 <h2 id="is-this-industry-standard">Is This Industry Standard?</h2>
 <p>Yes, fully. Audit logging via model observers is one of the most common patterns in production Laravel applications. Every major framework has an equivalent: Symfony uses Doctrine Event Listeners, Django has Signals, Rails has ActiveRecord Callbacks, and Spring uses Application Events. The concept is universal.</p>
-<p>It maps directly to the <strong>Single Responsibility Principle</strong>: your controller is responsible for handling the request, and your observer is responsible for reacting to model changes. Neither one knows about the other, which is exactly how it should be.</p>
+<p>It maps directly to the <strong>Single Responsibility Principle</strong>: your controller is responsible for handling the request, and your observer is responsible for reacting to model changes. Neither one knows about the other, which is exactly how it should be. Beyond audit logging, model observers are commonly paired with event dispatchers to trigger live client updates via <a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/">Laravel Realtime broadcasting with Reverb, Pusher, and Soketi</a>.</p>
 <h2 id="observer-vs-mysql-triggers">Observer vs MySQL Triggers</h2>
 <p>A MySQL Trigger can also log changes at the database level. Here is when each one actually makes sense:</p>
 <div class="table-scroll"><table>

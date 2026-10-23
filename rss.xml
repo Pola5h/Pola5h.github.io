@@ -2,10 +2,10 @@
 <?xml-stylesheet type="text/xsl" href="/rss.xsl"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kamruzzaman Polash — Laravel &amp; PHP engineering blog</title>
+    <title>Kamruzzaman Polash — Laravel &amp; PHP Engineering, Software Architecture Blog</title>
     <link>https://polash.link/blog/</link>
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
-    <description>Practical Laravel and PHP tutorials from production experience.</description>
+    <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
     <lastBuildDate>Fri, 23 Oct 2026 09:00:00 GMT</lastBuildDate>
     <item>

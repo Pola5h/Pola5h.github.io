@@ -214,6 +214,7 @@ REDIS_PORT=6379</code></pre>
   <div><p class="callout__label">Important</p><div class="callout__body"><p>Always implement <code>ShouldQueue</code> on jobs you want to run asynchronously. Without it, the job runs synchronously even if you dispatch it — a common gotcha that&#39;s easy to miss.</p></div></div>
 </aside>
 <h2 id="4-dispatching-jobs">4. Dispatching Jobs</h2>
+<p>Queueing is also the foundation of realtime broadcasting: when events implement <code>ShouldBroadcast</code>, Laravel pushes them to Redis workers before transmitting via WebSockets (see <a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/">Laravel Realtime: Reverb vs Pusher vs Ably</a> for a full driver comparison).</p>
 <figure class="code-block">
   <figcaption class="code-block__bar">
     <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>

@@ -296,75 +296,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <li>Run code reviews on every PR — the act of explaining your code to a colleague is itself a quality filter</li>
 </ul>
 <h2 id="conclusion">Conclusion</h2>
-<p>Start with PSR-12 and Laravel&#39;s own conventions — they cover 90% of the decisions you&#39;ll face. Add PHP CS Fixer to your workflow to automate formatting entirely so you never have to think about it again. The goal isn&#39;t perfect code, it&#39;s consistent code that any developer can read and modify confidently.</p>
-<p><strong>Author bio block:</strong></p>
-<h3 id="about-the-author">About the Author</h3>
-<p><strong>Kamruzzaman Polash</strong> — Software Engineer specialising in Laravel, REST APIs, and scalable backend systems. 10+ projects delivered for clients worldwide.</p>
-<p><a href="/">Portfolio</a>
-<a href="mailto:hello@polash.link">Contact</a>
-<a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub</a>
-<a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
-<hr>
-<h2 id="11-images-media-inventory">11. Images &amp; Media Inventory</h2>
-<p>There are <strong>no content <code>&lt;img&gt;</code> elements anywhere in the site</strong> (no project screenshots, no blog images, no headshot, no logos).
-The only image assets in the repo are branding files:</p>
-<div class="table-scroll"><table>
-<thead>
-<tr>
-<th>File</th>
-<th>Purpose</th>
-<th>Referenced from</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/favicon.svg</code></td>
-<td>Apple touch icon + SVG favicon</td>
-<td>every page</td>
-</tr>
-<tr>
-<td><code>/favicon-32x32.png</code></td>
-<td>PNG favicon 32×32</td>
-<td>every page</td>
-</tr>
-<tr>
-<td><code>/favicon-16x16.png</code></td>
-<td>PNG favicon 16×16</td>
-<td>every page</td>
-</tr>
-<tr>
-<td><code>/og-image.svg</code></td>
-<td>Open Graph social image</td>
-<td>homepage, blog index, 15 blog posts</td>
-</tr>
-<tr>
-<td><code>/twitter-image.svg</code></td>
-<td>Twitter card image</td>
-<td>homepage, blog index, 15 blog posts</td>
-</tr>
-</tbody></table></div>
-<p>Notes for the rebuild:</p>
-<ul>
-<li>No image <code>alt</code> attributes exist because there are no <code>&lt;img&gt;</code> tags. If the new design adds images, alt text must be created from scratch.</li>
-<li>The OG/Twitter images are <strong>SVG</strong>, which Facebook, X/Twitter, LinkedIn, and Slack do not reliably render (they expect PNG/JPG, 1200×630). Replace with raster images.</li>
-<li><code>favicon.ico</code> is not present (only svg/png).</li>
-</ul>
-<hr>
-<h2 id="12-external-links-destinations">12. External Links &amp; Destinations</h2>
-<ul>
-<li>Vendzoo (flagship SaaS): <a href="https://vendzoo.com" target="_blank" rel="noopener noreferrer">https://vendzoo.com</a></li>
-<li>GitHub: <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">https://github.com/pola5h</a></li>
-<li>LinkedIn: <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">https://linkedin.com/in/pola5h</a></li>
-<li>Dev.to (schema only): <a href="https://dev.to/polash" target="_blank" rel="noopener noreferrer">https://dev.to/polash</a></li>
-<li>HackerRank cert — Software Engineer: <a href="https://www.hackerrank.com/certificates/f9a5e1282fde" target="_blank" rel="noopener noreferrer">https://www.hackerrank.com/certificates/f9a5e1282fde</a></li>
-<li>HackerRank cert — SQL (Advanced): <a href="https://www.hackerrank.com/certificates/835eaf3e625c" target="_blank" rel="noopener noreferrer">https://www.hackerrank.com/certificates/835eaf3e625c</a></li>
-<li>WhatsApp (service CTAs): <a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">https://wa.me/8801791296967</a></li>
-<li>Email: mailto:<a href="mailto:hello@polash.link">hello@polash.link</a></li>
-<li>Phone: tel:+8801791296967</li>
-<li>Laravel Flag Icons package (text only, no link): pola5h/laravel-flags on Packagist — no URL in markup</li>
-<li>Google Search Console verification: google0a6deda67a2963ea.html</li>
-</ul>
-<hr>
-<p><em>End of content export.</em></p></article>
+<p>Start with PSR-12 and Laravel&#39;s own conventions — they cover 90% of the decisions you&#39;ll face. Add PHP CS Fixer to your workflow to automate formatting entirely so you never have to think about it again. The goal isn&#39;t perfect code, it&#39;s consistent code that any developer can read and modify confidently.</p></article>
       <div class="cta-band">
         <p class="label label--accent">Work with me</p>
         <h2>Need help with your Laravel architecture?</h2>
@@ -380,7 +312,7 @@ The only image assets in the repo are branding files:</p>
         <a href="/blog/laravel-api-authentication-jwt-sanctum/" style="text-align:right"><span>Next →</span><b>Does Laravel Sanctum Use JWT? Sanctum vs JWT</b></a>
       </nav>
     </div>
-    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#psr-standards-the-foundation" data-toc-link>PSR Standards — The Foundation</a><a href="#psr-1-basic-coding-standard" data-toc-link class="is-sub">PSR-1: Basic Coding Standard</a><a href="#psr-12-extended-coding-style" data-toc-link class="is-sub">PSR-12: Extended Coding Style</a><a href="#laravel-specific-conventions" data-toc-link>Laravel-Specific Conventions</a><a href="#naming-conventions" data-toc-link class="is-sub">Naming Conventions</a><a href="#always-type-hint-your-methods" data-toc-link class="is-sub">Always Type-Hint Your Methods</a><a href="#document-non-obvious-methods" data-toc-link class="is-sub">Document Non-Obvious Methods</a><a href="#automated-quality-tools" data-toc-link>Automated Quality Tools</a><a href="#php-cs-fixer-auto-format-your-code" data-toc-link class="is-sub">PHP CS Fixer — Auto-format your code</a><a href="#php-codesniffer-check-standards-compliance" data-toc-link class="is-sub">PHP CodeSniffer — Check standards compliance</a><a href="#team-practices" data-toc-link>Team Practices</a><a href="#conclusion" data-toc-link>Conclusion</a><a href="#about-the-author" data-toc-link class="is-sub">About the Author</a><a href="#11-images-media-inventory" data-toc-link>11. Images &amp; Media Inventory</a><a href="#12-external-links-destinations" data-toc-link>12. External Links &amp; Destinations</a></nav></aside>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#psr-standards-the-foundation" data-toc-link>PSR Standards — The Foundation</a><a href="#psr-1-basic-coding-standard" data-toc-link class="is-sub">PSR-1: Basic Coding Standard</a><a href="#psr-12-extended-coding-style" data-toc-link class="is-sub">PSR-12: Extended Coding Style</a><a href="#laravel-specific-conventions" data-toc-link>Laravel-Specific Conventions</a><a href="#naming-conventions" data-toc-link class="is-sub">Naming Conventions</a><a href="#always-type-hint-your-methods" data-toc-link class="is-sub">Always Type-Hint Your Methods</a><a href="#document-non-obvious-methods" data-toc-link class="is-sub">Document Non-Obvious Methods</a><a href="#automated-quality-tools" data-toc-link>Automated Quality Tools</a><a href="#php-cs-fixer-auto-format-your-code" data-toc-link class="is-sub">PHP CS Fixer — Auto-format your code</a><a href="#php-codesniffer-check-standards-compliance" data-toc-link class="is-sub">PHP CodeSniffer — Check standards compliance</a><a href="#team-practices" data-toc-link>Team Practices</a><a href="#conclusion" data-toc-link>Conclusion</a></nav></aside>
   </div></div></div>
 
   <section class="related section"><div class="wrap">
