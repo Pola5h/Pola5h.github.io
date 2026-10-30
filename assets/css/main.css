@@ -520,6 +520,22 @@ html:not(.js) .hero__portrait-img {
 .fact__value { font-family: var(--sans); font-size: clamp(1.35rem, 3vw, 2.1rem); color: var(--ink); font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; line-height: 1.1; }
 .fact__label { font-family: var(--mono); font-size: clamp(0.6rem, 1.8vw, 0.68rem); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: .25rem; line-height: 1.35; }
 
+/* ---------- how a project starts ---------- */
+.steps { margin-top: clamp(2rem, 4vw, 3rem); }
+.steps__title { display: block; margin-bottom: 1rem; }
+.steps__list { list-style: none; padding: 0; display: grid; gap: 1rem; }
+@media (min-width: 760px) { .steps__list { grid-template-columns: repeat(3, 1fr); } }
+.step {
+  padding: 1.25rem; border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--paper-2); transition: border-color .2s ease, box-shadow .2s ease;
+}
+.step:hover { border-color: color-mix(in srgb, var(--accent) 35%, transparent); box-shadow: 0 4px 16px -4px var(--accent-glow); }
+.step__n { font-family: var(--mono); font-size: .72rem; font-weight: 600; letter-spacing: .1em; color: var(--accent); }
+.step__title { margin-top: .4rem; font-size: 1.05rem; font-weight: 600; color: var(--ink); }
+.step__text { margin-top: .4rem; font-size: .92rem; line-height: 1.6; color: var(--ink-2); }
+.steps__actions { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: .6rem; }
+@media (max-width: 480px) { .steps__actions .btn { width: 100%; } }
+
 /* ---------- section head ---------- */
 .section__head { display: grid; gap: .8rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .section__index { font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; color: var(--accent); text-transform: uppercase; font-weight: 600; }
@@ -995,6 +1011,13 @@ html:not(.js) .hero__portrait-img {
   flex-shrink: 0;
   margin-top: .15rem;
 }
+.svc__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .65rem;
+  margin-top: .35rem;
+}
 
 /* Service Page Deliverables & Pricing Rows */
 .price-row {
@@ -1022,7 +1045,7 @@ html:not(.js) .hero__portrait-img {
 .faq { border-top: 1px solid var(--line); }
 .faq__item { border-bottom: 1px solid var(--line); }
 .faq__q {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem;
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem 1rem;
   padding: 1.1rem 0; cursor: pointer; list-style: none; min-width: 0;
   font-family: var(--sans); font-size: 1.05rem; font-weight: 500; color: var(--ink);
   overflow-wrap: anywhere;
