@@ -617,12 +617,64 @@
     session = getStoredSession();
 
     function formatTime(isoOrDate) {
+      if (!isoOrDate) return '';
       try {
-        var d = isoOrDate ? new Date(isoOrDate) : new Date();
-        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        var d = new Date(isoOrDate);
+        if (isNaN(d.getTime())) return '';
+        var now = new Date();
+        var diffMs = now.getTime() - d.getTime();
+        if (diffMs < 0) diffMs = 0;
+
+        var diffSecs = Math.floor(diffMs / 1000);
+        var diffMins = Math.floor(diffSecs / 60);
+        var diffHours = Math.floor(diffMins / 60);
+
+        if (diffSecs < 60) {
+          return 'Just now';
+        }
+        if (diffMins < 60) {
+          return diffMins + 'm ago';
+        }
+        if (diffHours <= 2) {
+          return diffHours + 'h ago';
+        }
+
+        var timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        var isToday = d.getFullYear() === now.getFullYear() &&
+                      d.getMonth() === now.getMonth() &&
+                      d.getDate() === now.getDate();
+        if (isToday) {
+          return timeStr;
+        }
+
+        var yesterday = new Date(now);
+        yesterday.setDate(now.getDate() - 1);
+        var isYesterday = d.getFullYear() === yesterday.getFullYear() &&
+                          d.getMonth() === yesterday.getMonth() &&
+                          d.getDate() === yesterday.getDate();
+        if (isYesterday) {
+          return 'Yesterday, ' + timeStr;
+        }
+
+        var dateStr = d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        return dateStr + ', ' + timeStr;
       } catch (e) {
         return '';
       }
+    }
+
+    function updateRelativeTimestamps() {
+      if (!messagesEl) return;
+      var metas = messagesEl.querySelectorAll('.live-chat__msg-meta[data-timestamp]');
+      metas.forEach(function (el) {
+        var ts = el.getAttribute('data-timestamp');
+        if (ts) {
+          var updated = formatTime(ts);
+          if (updated && el.textContent !== updated) {
+            el.textContent = updated;
+          }
+        }
+      });
     }
 
     function appendMessage(sender, text, timestamp, msgId) {
@@ -644,9 +696,17 @@
       bubble.className = 'live-chat__bubble';
       bubble.textContent = text;
 
+      var rawTime = timestamp || new Date().toISOString();
       var meta = document.createElement('div');
       meta.className = 'live-chat__msg-meta';
-      meta.textContent = (isVisitor ? 'You' : 'Polash') + ' · ' + formatTime(timestamp);
+      meta.setAttribute('data-timestamp', rawTime);
+      try {
+        var dObj = new Date(rawTime);
+        if (!isNaN(dObj.getTime())) {
+          meta.title = dObj.toLocaleString();
+        }
+      } catch (e) {}
+      meta.textContent = formatTime(rawTime);
 
       msgEl.appendChild(bubble);
       msgEl.appendChild(meta);
@@ -794,6 +854,7 @@
       if (isOpen) {
         windowEl.hidden = false;
         windowEl.removeAttribute('hidden');
+        updateRelativeTimestamps();
         if (session && session.session_id) {
           switchView(true);
           setTimeout(function () {
@@ -936,6 +997,9 @@
         showToast('Message not sent. Network issue.');
       });
     });
+
+    // Live relative timestamp auto-updater
+    setInterval(updateRelativeTimestamps, 30000);
 
     // Load availability status and subscribe to realtime updates
     fetchConfig();
