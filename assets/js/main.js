@@ -554,6 +554,398 @@
     }
   }
 
+  /* --------------------------------------------------------------------- */
+  /* 100% White-Label Live Chat Widget (Alwaysdata + Telegram + Ably)      */
+  /* --------------------------------------------------------------------- */
+  function setupLiveChat() {
+    var widget = $('#live-chat');
+    if (!widget) return;
+
+    var toggleBtn = $('#live-chat-toggle');
+    var closeBtn = $('#live-chat-close');
+    var windowEl = $('#live-chat-window');
+    var prechatEl = $('#live-chat-prechat');
+    var initForm = $('#live-chat-init-form');
+    var convEl = $('#live-chat-conversation');
+    var messagesEl = $('#live-chat-messages');
+    var composerForm = $('#live-chat-composer');
+    var replyInput = $('#chat-reply-input');
+
+    var CHAT_ENDPOINT = 'https://rootcode.alwaysdata.net/api/chat/';
+    var STORAGE_KEY = 'polash_live_chat_session';
+    var session = null;
+    var ablyClient = null;
+    var ablyChannel = null;
+    var pollTimer = null;
+    function getStoredSession() {
+      try {
+        var s = localStorage.getItem(STORAGE_KEY);
+        if (s) {
+          var parsed = JSON.parse(s);
+          if (parsed && parsed.session_id) return parsed;
+        }
+      } catch (e) {}
+
+      try {
+        var match = document.cookie.match(new RegExp('(?:^|; )' + STORAGE_KEY + '=([^;]*)'));
+        if (match && match[1]) {
+          var cParsed = JSON.parse(decodeURIComponent(match[1]));
+          if (cParsed && cParsed.session_id) {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(cParsed)); } catch (err) {}
+            return cParsed;
+          }
+        }
+      } catch (e) {}
+
+      return null;
+    }
+
+    function saveStoredSession(data) {
+      if (!data) return;
+      session = data;
+      var str = JSON.stringify(data);
+      try { localStorage.setItem(STORAGE_KEY, str); } catch (e) {}
+      try {
+        var d = new Date();
+        d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+        var secure = location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = STORAGE_KEY + '=' + encodeURIComponent(str) + '; expires=' + d.toUTCString() + '; path=/; SameSite=Lax' + secure;
+      } catch (e) {}
+    }
+
+    var renderedMsgIds = new Set();
+    session = getStoredSession();
+
+    function formatTime(isoOrDate) {
+      try {
+        var d = isoOrDate ? new Date(isoOrDate) : new Date();
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function appendMessage(sender, text, timestamp, msgId) {
+      if (!text) return null;
+
+      // Deduplicate server messages by unique integer ID
+      if (msgId) {
+        var idKey = 'id:' + msgId;
+        if (renderedMsgIds.has(idKey)) return null;
+        renderedMsgIds.add(idKey);
+      }
+
+      var isVisitor = sender === 'visitor';
+      var msgEl = document.createElement('div');
+      msgEl.className = 'live-chat__msg ' + (isVisitor ? 'live-chat__msg--visitor' : 'live-chat__msg--polash');
+      if (msgId) msgEl.setAttribute('data-msg-id', msgId);
+
+      var bubble = document.createElement('div');
+      bubble.className = 'live-chat__bubble';
+      bubble.textContent = text;
+
+      var meta = document.createElement('div');
+      meta.className = 'live-chat__msg-meta';
+      meta.textContent = (isVisitor ? 'You' : 'Polash') + ' · ' + formatTime(timestamp);
+
+      msgEl.appendChild(bubble);
+      msgEl.appendChild(meta);
+      messagesEl.appendChild(msgEl);
+
+      // Smooth & reliable auto-scroll to bottom
+      requestAnimationFrame(function () {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+        try {
+          msgEl.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        } catch (e) {}
+      });
+
+      return msgEl;
+    }
+
+    function updateAvailabilityUI(status) {
+      var isAway = status === 'away';
+      var launcherDot = $('#live-chat-launcher-dot');
+      var avatarBadge = $('#live-chat-status-badge');
+      var statusText = $('#live-chat-status-text');
+
+      if (launcherDot) launcherDot.classList.toggle('is-away', isAway);
+      if (avatarBadge) avatarBadge.classList.toggle('is-away', isAway);
+      if (statusText) {
+        statusText.textContent = isAway ? 'Away right now' : 'Available for chat';
+      }
+    }
+
+    function subscribeToSessionChannel() {
+      if (!ablyClient || !session || !session.session_id) return;
+      if (ablyChannel && ablyChannel.name === 'chat:' + session.session_id) return;
+      try {
+        ablyChannel = ablyClient.channels.get('chat:' + session.session_id);
+        ablyChannel.subscribe('message', function (msg) {
+          if (msg && msg.data && msg.data.sender === 'polash') {
+            appendMessage('polash', msg.data.text || '', msg.data.timestamp, msg.data.id);
+          }
+        });
+      } catch (err) {
+        console.warn('Ably channel subscribe warning:', err);
+      }
+    }
+
+    function initAbly(apiKey) {
+      if (!apiKey || ablyClient) {
+        if (ablyClient) subscribeToSessionChannel();
+        return;
+      }
+
+      function connect() {
+        try {
+          if (!window.Ably) return;
+          ablyClient = new window.Ably.Realtime({ key: apiKey });
+
+          // Realtime availability status broadcast
+          var statusChan = ablyClient.channels.get('site:status');
+          statusChan.subscribe('status_change', function (msg) {
+            if (msg && msg.data && msg.data.status) {
+              updateAvailabilityUI(msg.data.status);
+            }
+          });
+
+          // Session-specific chat messages
+          subscribeToSessionChannel();
+        } catch (err) {
+          console.warn('Ably connection warning:', err);
+        }
+      }
+
+      if (!window.Ably) {
+        var script = document.createElement('script');
+        script.src = 'https://cdn.ably.com/lib/ably.min-1.js';
+        script.onload = connect;
+        document.head.appendChild(script);
+      } else {
+        connect();
+      }
+    }
+
+    function fetchConfig() {
+      fetch(CHAT_ENDPOINT + '?action=config')
+        .then(function (res) { return res.json(); })
+        .then(function (cfg) {
+          if (cfg && cfg.status) {
+            updateAvailabilityUI(cfg.status);
+          }
+          if (cfg && cfg.ably_key) {
+            initAbly(cfg.ably_key);
+            subscribeToSessionChannel();
+          }
+        })
+        .catch(function () {});
+    }
+
+    function fetchHistory(syncAbly) {
+      if (!session || !session.session_id) return;
+      fetch(CHAT_ENDPOINT + '?action=history&session_id=' + encodeURIComponent(session.session_id))
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.success && Array.isArray(data.messages)) {
+            data.messages.forEach(function (m) {
+              appendMessage(m.sender, m.message, m.created_at, m.id);
+            });
+          }
+        })
+        .catch(function () {});
+
+      if (syncAbly) {
+        fetchConfig();
+      }
+    }
+
+    function switchView(hasSession) {
+      if (hasSession && session) {
+        widget.classList.add('is-chatting');
+        prechatEl.hidden = true;
+        prechatEl.setAttribute('hidden', '');
+        convEl.hidden = false;
+        convEl.removeAttribute('hidden');
+        fetchHistory(true);
+        startPolling();
+      } else {
+        widget.classList.remove('is-chatting');
+        prechatEl.hidden = false;
+        prechatEl.removeAttribute('hidden');
+        convEl.hidden = true;
+        convEl.setAttribute('hidden', '');
+      }
+    }
+
+    function startPolling() {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(function () {
+        if (widget.classList.contains('is-open') && session && session.session_id) {
+          fetchHistory(false);
+        }
+      }, 7000);
+    }
+
+    function toggleChat(open) {
+      var isOpen = typeof open === 'boolean' ? open : !widget.classList.contains('is-open');
+      widget.classList.toggle('is-open', isOpen);
+      toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (isOpen) {
+        windowEl.hidden = false;
+        windowEl.removeAttribute('hidden');
+        if (session && session.session_id) {
+          switchView(true);
+          setTimeout(function () {
+            if (replyInput) replyInput.focus();
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+          }, 150);
+        } else {
+          switchView(false);
+          var firstInput = initForm.querySelector('input');
+          if (firstInput) setTimeout(function () { firstInput.focus(); }, 150);
+        }
+      } else {
+        windowEl.hidden = true;
+        windowEl.setAttribute('hidden', '');
+      }
+    }
+
+    toggleBtn.addEventListener('click', function () { toggleChat(); });
+    if (closeBtn) closeBtn.addEventListener('click', function () { toggleChat(false); });
+
+    // Pre-chat submission
+    initForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var submitBtn = initForm.querySelector('button[type="submit"]');
+      var originalText = submitBtn ? submitBtn.innerHTML : 'Start Chat';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending…';
+      }
+
+      var payload = {
+        name: initForm.name.value.trim(),
+        email: initForm.email.value.trim(),
+        message: initForm.message.value.trim(),
+        page: window.location.pathname
+      };
+
+      var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(payload.email)) {
+        showToast('Please provide a valid email format (e.g. name@domain.com).');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
+        return;
+      }
+
+      var emailDomain = (payload.email.split('@')[1] || '').toLowerCase();
+      var blockedDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'trashmail.com', 'temp-mail.org'];
+      if (blockedDomains.indexOf(emailDomain) !== -1) {
+        showToast('Temporary/disposable emails are not permitted.');
+        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
+        return;
+      }
+
+      fetch(CHAT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.success && data.session_id) {
+          saveStoredSession({
+            session_id: data.session_id,
+            name: data.name,
+            email: data.email
+          });
+          subscribeToSessionChannel();
+
+          switchView(true);
+          if (Array.isArray(data.messages) && data.messages.length > 0) {
+            data.messages.forEach(function (m) {
+              appendMessage(m.sender, m.message, m.created_at, m.id);
+            });
+          } else {
+            appendMessage('visitor', payload.message, new Date().toISOString(), data.msg_id);
+          }
+
+          setTimeout(function () {
+            if (replyInput) replyInput.focus();
+          }, 200);
+        } else {
+          showToast(data.message || 'Could not connect. Please try again.');
+        }
+      })
+      .catch(function () {
+        showToast('Connection failed. Please check your internet connection.');
+      })
+      .finally(function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+        }
+      });
+    });
+
+    if (replyInput) {
+      replyInput.addEventListener('input', function () {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+      replyInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          composerForm.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      });
+    }
+
+    // Active conversation reply submission
+    composerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!session || !session.session_id) return;
+      var text = replyInput.value.trim();
+      if (!text) return;
+
+      replyInput.value = '';
+      replyInput.style.height = 'auto';
+      var optimisticEl = appendMessage('visitor', text, new Date().toISOString());
+
+      fetch(CHAT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          session_id: session.session_id,
+          message: text,
+          page: window.location.pathname
+        })
+      })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.success) {
+          if (data.msg_id) {
+            renderedMsgIds.add('id:' + data.msg_id);
+            if (optimisticEl) optimisticEl.setAttribute('data-msg-id', data.msg_id);
+          }
+        } else {
+          showToast(data.message || 'Message delivery delayed.');
+        }
+      })
+      .catch(function () {
+        showToast('Message not sent. Network issue.');
+      });
+    });
+
+    // Load availability status and subscribe to realtime updates
+    fetchConfig();
+
+    // If returning visitor has active session, pre-load silently
+    if (session && session.session_id) {
+      switchView(true);
+    }
+  }
+
   function init() {
     setupTheme();
     setupHeader();
@@ -569,6 +961,7 @@
     setupTechMarquee();
     setupDynamicDates();
     setupRecommendationSlider();
+    setupLiveChat();
   }
 
   if (document.readyState === 'loading') {
