@@ -311,8 +311,8 @@ hr { border: 0; border-top: 1px solid var(--line); }
 }
 
 .hero__lede { margin-top: 1.2rem; max-width: 62ch; font-size: 1.05rem; line-height: 1.7; color: var(--ink-2); font-weight: 400; }
-.hero__sub { margin-top: .8rem; max-width: 62ch; color: var(--muted); font-size: .95rem; line-height: 1.65; }
-.hero__actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; }
+.hero__actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.hero__actions .btn { padding: .58rem .85rem; font-size: .84rem; white-space: nowrap; }
 
 /* ======================================================================
    Hero Portrait — Organic Fluid Blob (Tom Hirst Style)

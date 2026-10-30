@@ -73,12 +73,12 @@
       <description>Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.</description>
     </item>
     <item>
-      <title>Why Your Laravel Queue Workers Die (and the Fix)</title>
+      <title>Laravel Queues &amp; Jobs with Redis: Complete Production Guide</title>
       <link>https://polash.link/blog/laravel-queues-jobs-redis-horizon/</link>
       <guid isPermaLink="true">https://polash.link/blog/laravel-queues-jobs-redis-horizon/</guid>
       <pubDate>Thu, 26 Feb 2026 08:00:00 GMT</pubDate>
       <category>Performance</category>
-      <description>Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</description>
+      <description>Master background job processing, batching, Redis Horizon dashboard, auto-scaling workers, and Supervisor process management.</description>
     </item>
     <item>
       <title>Laravel + OpenAI &amp; OpenRouter: Integration Guide</title>

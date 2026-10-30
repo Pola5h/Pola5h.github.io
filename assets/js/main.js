@@ -539,6 +539,21 @@
     startAuto();
   }
 
+  /* --------------------------------------------------------------------- */
+  /* Tech Marquee clone (seamless loop without duplicate HTML)             */
+  /* --------------------------------------------------------------------- */
+  function setupTechMarquee() {
+    var track = $('.tech-marquee__track');
+    if (!track) return;
+    if (track.children.length === 1) {
+      var group = $('.tech-marquee__group', track);
+      if (!group) return;
+      var clone = group.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
+  }
+
   function init() {
     setupTheme();
     setupHeader();
@@ -551,6 +566,7 @@
     setupReveal();
     setupScrollToTop();
     setupTechOrbit();
+    setupTechMarquee();
     setupDynamicDates();
     setupRecommendationSlider();
   }

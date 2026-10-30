@@ -120,6 +120,12 @@ gtag("config", "G-Q3R4PTV9GH", { anonymize_ip: true });
           </div>
         </aside>
 
+        <aside class="callout callout--info" style="margin: 1.5rem 0;">
+          <div>
+            <p><strong>Looking for standalone Redis queues &amp; Horizon tuning?</strong> For job batching, chaining, and Horizon metrics on standalone/cloud servers, see the companion guide: <a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Jobs with Redis: Complete Production Guide →</a></p>
+          </div>
+        </aside>
+
         <p>You deploy your Laravel app to Docker, push a queue job, and 30 minutes later — silence. The worker is gone. No logs. No errors. Just a dead container or a zombie process that is not picking up jobs.</p>
         <p>This is one of the most common production problems Laravel developers face, and it is almost always preventable. This guide covers every reason workers die in Docker and the exact configuration to fix each one.</p>
 
@@ -419,7 +425,7 @@ php artisan queue:restart</code></pre>
       </div>
       <nav class="pager" aria-label="Article navigation">
         <a href="/blog/laravel-observer-pattern-audit-log/"><span>← Previous</span><b>Laravel Observer Pattern: Audit Logging Done Right</b></a>
-        <a href="/blog/laravel-queues-jobs-redis-horizon/" style="text-align:right"><span>Related →</span><b>Why Your Laravel Queue Workers Die (and the Fix)</b></a>
+        <a href="/blog/laravel-queues-jobs-redis-horizon/" style="text-align:right"><span>Related →</span><b>Laravel Queues &amp; Jobs with Redis: Complete Production Guide</b></a>
       </nav>
     </div>
     <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-the-4-reasons-laravel-queue-workers-die-in-docker" data-toc-link>1. The 4 Reasons Workers Die</a><a href="#2-max-time-and-max-jobs" data-toc-link>2. --max-time and --max-jobs</a><a href="#3-supervisor-configuration" data-toc-link>3. Supervisor Configuration</a><a href="#4-dockerfile-setup" data-toc-link>4. Dockerfile Setup</a><a href="#5-handling-oom-kills" data-toc-link>5. Handling OOM Kills</a><a href="#6-uncaught-exceptions" data-toc-link>6. Uncaught Exceptions</a><a href="#7-horizon-vs-queuework" data-toc-link>7. Horizon vs queue:work</a><a href="#8-production-checklist" data-toc-link>8. Production Checklist</a></nav></aside>
@@ -427,7 +433,7 @@ php artisan queue:restart</code></pre>
 
   <section class="related section"><div class="wrap">
     <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
-    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Why Your Laravel Queue Workers Die (and the Fix)</a></h3><p class="post-row__desc">Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">DevOps</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-docker-kubernetes-deployment/">Deploy Laravel with Docker &amp; Kubernetes</a></h3><p class="post-row__desc">Containerise a Laravel application with Docker and deploy it to Kubernetes with zero downtime, health checks and autoscaling.</p></article></div>
+    <div class="post-grid"><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">12 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queues-jobs-redis-horizon/">Laravel Queues &amp; Jobs with Redis: Complete Production Guide</a></h3><p class="post-row__desc">Master background job processing, batching, Redis Horizon dashboard, auto-scaling workers, and Supervisor process management.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">Performance</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-queue-vs-defer/">Laravel Queue vs defer(): When to Use Each</a></h3><p class="post-row__desc">Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.</p></article><article class="post-row"><div class="post-row__top"><span class="post-row__cat">DevOps</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-docker-kubernetes-deployment/">Deploy Laravel with Docker &amp; Kubernetes</a></h3><p class="post-row__desc">Containerise a Laravel application with Docker and deploy it to Kubernetes with zero downtime, health checks and autoscaling.</p></article></div>
   </div></section>
 </main>
 <footer class="footer">

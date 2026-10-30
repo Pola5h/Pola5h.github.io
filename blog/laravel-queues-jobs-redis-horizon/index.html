@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Why Your Laravel Queue Workers Die (and the Fix)</title>
-<meta name="description" content="Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.">
+<title>Laravel Queues &amp; Jobs with Redis: Complete Production Guide</title>
+<meta name="description" content="Master Laravel queues in production: job dispatching, Redis driver configuration, Horizon metrics, retry strategies, and supervisor process management.">
 <link rel="canonical" href="https://polash.link/blog/laravel-queues-jobs-redis-horizon/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
@@ -20,8 +20,8 @@ try {
 <meta property="og:site_name" content="Kamruzzaman Polash">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://polash.link/blog/laravel-queues-jobs-redis-horizon/">
-<meta property="og:title" content="Why Your Laravel Queue Workers Die (and the Fix)">
-<meta property="og:description" content="Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.">
+<meta property="og:title" content="Laravel Queues &amp; Jobs with Redis: Complete Production Guide">
+<meta property="og:description" content="Master Laravel queues in production: job dispatching, Redis driver configuration, Horizon metrics, retry strategies, and supervisor process management.">
 <meta property="og:image" content="https://polash.link/assets/images/og-laravel-queue-redis.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -31,8 +31,8 @@ try {
 <meta property="article:section" content="Performance">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/laravel-queues-jobs-redis-horizon/">
-<meta name="twitter:title" content="Why Your Laravel Queue Workers Die (and the Fix)">
-<meta name="twitter:description" content="Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.">
+<meta name="twitter:title" content="Laravel Queues &amp; Jobs with Redis: Complete Production Guide">
+<meta name="twitter:description" content="Master Laravel queues in production: job dispatching, Redis driver configuration, Horizon metrics, retry strategies, and supervisor process management.">
 <meta name="twitter:image" content="https://polash.link/assets/images/og-laravel-queue-redis.jpg">
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -53,7 +53,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-laravel-queue-redis.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/#article","headline":"Why Your Laravel Queue Workers Die (and the Fix)","description":"Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.","url":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/"},"datePublished":"2026-02-26","dateModified":"2026-03-09","timeRequired":"PT12M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-queue-redis.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Why Your Laravel Queue Workers Die (and the Fix)","item":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-laravel-queue-redis.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/#article","headline":"Laravel Queues & Jobs with Redis: Complete Production Guide","description":"Master Laravel queues in production: job dispatching, Redis driver configuration, Horizon metrics, retry strategies, and supervisor process management.","url":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/"},"datePublished":"2026-02-26","dateModified":"2026-03-09","timeRequired":"PT12M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-queue-redis.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queues & Jobs with Redis Guide","item":"https://polash.link/blog/laravel-queues-jobs-redis-horizon/"}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -95,12 +95,12 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </div>
 <main id="main">
   <div class="progress" id="reading-progress"></div>
-  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Why Your Laravel Queue Workers Die (and the Fix)</span></div></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Queues &amp; Jobs with Redis Guide</span></div></div>
 
   <header class="article-head"><div class="wrap">
     <div class="article-head__cat"><span class="label label--accent">Performance</span><span class="label">12 min read</span></div>
-    <h1 class="article-head__title">Why Your Laravel Queue Workers Die (and the Fix)</h1>
-    <p class="article-head__desc">Stop Laravel queue workers leaking memory and restarting. Configure --max-time, --max-jobs, Supervisor and Horizon the right way.</p>
+    <h1 class="article-head__title">Laravel Queues &amp; Jobs with Redis: Complete Production Guide</h1>
+    <p class="article-head__desc">Master background job processing, batching, Redis Horizon dashboard, auto-scaling workers, and Supervisor process management.</p>
     <div class="article-head__by">
       <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">February 26, 2026 · updated March 9, 2026</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
@@ -111,6 +111,13 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
     <div>
       <article class="article"><p>If your Laravel app is sending emails, generating PDFs, calling third-party APIs, or processing uploads synchronously — users are waiting for all of that before they get a response. Queues fix this. They let you push slow work into the background and return a response immediately, making your app feel instant even when it&#39;s doing heavy lifting behind the scenes.</p>
 <p>This guide covers everything from basic setup to production-grade queue management — including the exact <code>queue:work</code> flags you need to prevent memory leaks in production.</p>
+
+<aside class="callout callout--info" style="margin: 1.5rem 0;">
+  <div>
+    <p><strong>Running your queue workers in Docker?</strong> Containerized workers have distinct challenges with Linux signals, OOM termination, and container-level Supervisor. Check out the dedicated guide: <a href="/blog/laravel-queue-worker-docker-production/">Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It →</a></p>
+  </div>
+</aside>
+
 <h2 id="1-how-laravel-queues-work">1. How Laravel Queues Work</h2>
 <p>The concept is simple: instead of doing work now, you push it onto a queue and a background worker picks it up and processes it asynchronously. The HTTP request finishes immediately, and the user never waits.</p>
 <p>The lifecycle of a queued job has four stages:</p>
