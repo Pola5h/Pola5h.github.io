@@ -247,120 +247,235 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="work"><div class="wrap">
     <div class="section__head">
-  <p class="section__index">01 — Selected work</p>
-  <h2 class="section__title">Systems in production.</h2>
-  <p class="section__lede">Real architectures with measurable outcomes, built to survive commercial load rather than to demo well.</p>
-</div>
-    <div class="filter-tabs" data-work-filters>
-      <button type="button" class="filter-tab is-active" data-work-filter="all">All Systems</button>
-      <button type="button" class="filter-tab" data-work-filter="saas">SaaS &amp; Platforms</button>
-      <button type="button" class="filter-tab" data-work-filter="ecommerce">Commerce &amp; Couriers</button>
-      <button type="button" class="filter-tab" data-work-filter="tools">Open Source &amp; Tools</button>
+      <p class="section__index">01 / Selected work</p>
+      <h2 class="section__title">Systems in production.</h2>
+      <p class="section__lede">Real architectures with measurable outcomes, built to survive commercial load rather than to demo well.</p>
     </div>
 
-    <div class="work" data-work-grid><article class="work__item" id="vendzoo" data-work-category="saas ecommerce">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Flagship SaaS</span>
-          <h3 class="work__title">Vendzoo — Omnichannel Retail &amp; Commerce Engine</h3>
-          <div class="work__meta"><span>Architect &amp; Developer · Own product</span></div>
-          <div class="tags" style="margin-top:.55rem"><span class="tag tag--accent">● Live · onboarding early users</span></div>
-        </div>
-        <a class="work__link" href="https://vendzoo.com" target="_blank" rel="noopener noreferrer">vendzoo.com ↗</a>
+    <div class="work-showcase" data-work-showcase>
+      <!-- Navigation Rail / Tablist -->
+      <div class="work-showcase__nav" role="tablist" aria-label="Production Systems">
+        <button type="button" class="work-nav-item is-active" role="tab" id="tab-vendzoo" aria-selected="true" aria-controls="panel-vendzoo" data-work-category="saas ecommerce" data-work-tab="vendzoo">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Flagship SaaS</span>
+          </div>
+          <h3 class="work-nav-item__title">Vendzoo</h3>
+          <p class="work-nav-item__sub">Omnichannel Retail &amp; Commerce Engine</p>
+        </button>
+
+        <button type="button" class="work-nav-item" role="tab" id="tab-annon-it" aria-selected="false" aria-controls="panel-annon-it" data-work-category="saas" data-work-tab="annon-it">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Enterprise Platform</span>
+          </div>
+          <h3 class="work-nav-item__title">Payslip Platform</h3>
+          <p class="work-nav-item__sub">Annon IT · French Statutory Tax APIs</p>
+        </button>
+
+        <button type="button" class="work-nav-item" role="tab" id="tab-sellsbook" aria-selected="false" aria-controls="panel-sellsbook" data-work-category="saas ecommerce" data-work-tab="sellsbook">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Retail SaaS</span>
+          </div>
+          <h3 class="work-nav-item__title">SellsBook</h3>
+          <p class="work-nav-item__sub">Multi-Tenant POS &amp; WooCommerce Sync</p>
+        </button>
+
+        <button type="button" class="work-nav-item" role="tab" id="tab-flameflow" aria-selected="false" aria-controls="panel-flameflow" data-work-category="saas" data-work-tab="flameflow">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Industrial Logistics</span>
+          </div>
+          <h3 class="work-nav-item__title">FlameFlow</h3>
+          <p class="work-nav-item__sub">LPG Cylinder Inventory + POS</p>
+        </button>
+
+        <button type="button" class="work-nav-item" role="tab" id="tab-dropshop" aria-selected="false" aria-controls="panel-dropshop" data-work-category="ecommerce" data-work-tab="dropshop">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Commerce Engine</span>
+          </div>
+          <h3 class="work-nav-item__title">DropShop</h3>
+          <p class="work-nav-item__sub">Variant Inventory &amp; Live Tracking</p>
+        </button>
+
+        <button type="button" class="work-nav-item" role="tab" id="tab-laravel-flags" aria-selected="false" aria-controls="panel-laravel-flags" data-work-category="tools" data-work-tab="laravel-flags">
+          <div class="work-nav-item__top">
+            <span class="work-nav-item__badge">Open Source</span>
+          </div>
+          <h3 class="work-nav-item__title">laravel-flags</h3>
+          <p class="work-nav-item__sub">249 Country Flags Blade Component</p>
+        </button>
       </div>
-      <p class="work__summary">An all-in-one business management SaaS for multi-branch retailers, merchants and online brands. Unifies physical POS registers, Shopify and WooCommerce inventory, and multi-courier dispatch into a single automated operational platform.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Order and stock sync:</strong> Webhook-driven order import from Shopify and WooCommerce with stock deduction, stock restore on cancellation, and on-demand catalog stock sync.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Automated logistics:</strong> One-click consignment dispatch across Pathao, Steadfast, RedX and CarryBee.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Fraud scoring:</strong> Heuristic cash-on-delivery risk score from order history, courier delivery history and phone consistency.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Built-in accounting:</strong> Double-entry ledger with Telegram order alerts and daily sales summaries.</span></div>
+
+      <!-- Detail Panels Canvas -->
+      <div class="work-showcase__panels">
+        <!-- Vendzoo Panel -->
+        <article class="work-panel is-active" id="panel-vendzoo" role="tabpanel" aria-labelledby="tab-vendzoo" data-work-category="saas ecommerce">
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Flagship SaaS</span>
+              <h3 class="work__title">Vendzoo: Omnichannel Retail &amp; Commerce Engine</h3>
+              <div class="work__meta"><span>Architect &amp; Developer · Own product</span></div>
+            </div>
+            <a class="work__link" href="https://vendzoo.com" target="_blank" rel="noopener noreferrer">vendzoo.com ↗</a>
+          </div>
+          <p class="work__summary">An all-in-one business management SaaS for multi-branch retailers, merchants and online brands. Unifies physical POS registers, Shopify and WooCommerce inventory, and multi-courier dispatch into a single automated operational platform.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Order and stock sync:</strong> Webhook-driven order import from Shopify and WooCommerce with stock deduction, stock restore on cancellation, and on-demand catalog stock sync.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Automated logistics:</strong> One-click consignment dispatch across Pathao, Steadfast, RedX and CarryBee.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Fraud scoring:</strong> Heuristic cash-on-delivery risk score from order history, courier delivery history and phone consistency.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Built-in accounting:</strong> Double-entry ledger with Telegram order alerts and daily sales summaries.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">PHP</span>
+              <span class="tag">Multi-tenant SaaS</span>
+              <span class="tag">Shopify &amp; WooCommerce</span>
+              <span class="tag">Courier APIs</span>
+              <span class="tag">COD fraud scoring</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Annon IT Panel -->
+        <article class="work-panel" id="panel-annon-it" role="tabpanel" aria-labelledby="tab-annon-it" data-work-category="saas" hidden>
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Enterprise Platform</span>
+              <h3 class="work__title">Payslip Platform · Annon IT</h3>
+              <div class="work__meta"><span>Enterprise client · France</span><span>08/2024 – 09/2025</span></div>
+            </div>
+          </div>
+          <p class="work__summary">European-standard payslip generation platform integrating French statutory tax APIs with automated enterprise tenant lifecycle and SSO workspace provisioning.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Statutory compliance:</strong> Seamless integration with Pappers API &amp; Mon Entreprise REST APIs.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>−59% Provisioning time:</strong> Automated tenant onboarding, cutting manual engineering setup.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Containerized architecture:</strong> Robust Docker &amp; Kubernetes cluster deployment with audit-proof PDF outputs.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Reduced overhead:</strong> 2 costly external vendor dependencies eliminated.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">Docker</span>
+              <span class="tag">Kubernetes</span>
+              <span class="tag">Pappers API</span>
+              <span class="tag">Multi-tenancy SSO</span>
+              <span class="tag">Vue.js</span>
+            </div>
+            <div class="work__metrics">
+              <div class="work__metric"><b>−59%</b><span>Provisioning time</span></div>
+              <div class="work__metric"><b>2</b><span>Vendors removed</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- SellsBook Panel -->
+        <article class="work-panel" id="panel-sellsbook" role="tabpanel" aria-labelledby="tab-sellsbook" data-work-category="saas ecommerce" hidden>
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Retail SaaS</span>
+              <h3 class="work__title">SellsBook: SaaS POS &amp; WooCommerce Sync</h3>
+              <div class="work__meta"><span>Multi-tenant retail POS</span><span>10/2025 – 05/2026</span></div>
+            </div>
+          </div>
+          <p class="work__summary">Multi-tenant POS and inventory system with real-time WooCommerce webhooks, fraud detection alerts, and integrated local payment gateways.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Zero inventory drift:</strong> Bidirectional webhook engine prevents overselling between in-store and online channels.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Local payment integrations:</strong> Production bKash and SSLCommerz automated payment reconciliation.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Courier automation:</strong> Automated consignment generation and real-time delivery status polling.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Financial clarity:</strong> Live P&amp;L ledger reporting for daily store audits.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">WooCommerce webhooks</span>
+              <span class="tag">bKash &amp; SSLCommerz</span>
+              <span class="tag">MySQL</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- FlameFlow Panel -->
+        <article class="work-panel" id="panel-flameflow" role="tabpanel" aria-labelledby="tab-flameflow" data-work-category="saas" hidden>
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Industrial Logistics</span>
+              <h3 class="work__title">FlameFlow: LPG Cylinder Inventory + POS</h3>
+              <div class="work__meta"><span>Industrial cylinder logistics &amp; POS</span><span>04/2025 – 07/2025</span></div>
+            </div>
+          </div>
+          <p class="work__summary">Specialized cylinder tracking, security-deposit accounting, and driver route delivery manifests for an industrial LPG distribution network.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Zero cylinder loss:</strong> Serialized batch tracking of full vs empty cylinders throughout distribution.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Deposit accounting:</strong> Strict accounting ledger managing customer security deposits on cylinder shells.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Route manifests:</strong> Driver dispatch routes and automated trip reconciliation in FilamentPHP.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Automated auditing:</strong> Daily warehouse reconciliations with zero discrepancy reports.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">FilamentPHP</span>
+              <span class="tag">Cylinder lifecycle engine</span>
+              <span class="tag">MySQL</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- DropShop Panel -->
+        <article class="work-panel" id="panel-dropshop" role="tabpanel" aria-labelledby="tab-dropshop" data-work-category="ecommerce" hidden>
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Commerce Engine</span>
+              <h3 class="work__title">DropShop: Variant Inventory &amp; Live Tracking</h3>
+              <div class="work__meta"><span>E-commerce &amp; delivery tracking</span><span>06/2025 – 08/2025</span></div>
+            </div>
+          </div>
+          <p class="work__summary">High-throughput variant-based e-commerce platform integrated directly with Pathao courier APIs for hands-free fulfillment.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Hands-free dispatch:</strong> Instant consignment booking upon checkout via Pathao API.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Live customer tracking:</strong> Real-time parcel status webhooks keeping customers informed.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Complex variant matrix:</strong> Multi-attribute SKU stock tracking without database slowdowns.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Operations speed:</strong> Eliminated manual data entry for warehouse logistics staff.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">Pathao API</span>
+              <span class="tag">Inventory management</span>
+              <span class="tag">MySQL</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- laravel-flags Panel -->
+        <article class="work-panel" id="panel-laravel-flags" role="tabpanel" aria-labelledby="tab-laravel-flags" data-work-category="tools" hidden>
+          <div class="work__top">
+            <div>
+              <span class="work__badge">Open Source</span>
+              <h3 class="work__title">pola5h/laravel-flags</h3>
+              <div class="work__meta"><span>Open-source package · Packagist</span><span>09/2024</span></div>
+            </div>
+            <a class="work__link" href="https://github.com/pola5h/laravel-flags" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+          </div>
+          <p class="work__summary">An open-source Laravel package providing 249 country flags and 210 language flags through clean Blade components.</p>
+          <div class="work__outcomes">
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>249 Country Flags:</strong> High-quality SVG assets rendered as zero-dependency Blade components.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>210 Language Flags:</strong> ISO-compliant language identifiers for multilingual applications.</span></div>
+            <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Composer installation:</strong> Published on Packagist with automated asset publishing and caching.</span></div>
+          </div>
+          <div class="work__foot">
+            <div class="tags">
+              <span class="tag">Laravel</span>
+              <span class="tag">Blade components</span>
+              <span class="tag">Composer</span>
+              <span class="tag">Open source</span>
+            </div>
+          </div>
+        </article>
       </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">PHP</span><span class="tag">Multi-tenant SaaS</span><span class="tag">Shopify &amp; WooCommerce</span><span class="tag">Courier APIs</span><span class="tag">COD fraud scoring</span></div></div>
-    </article><article class="work__item" id="annon-it" data-work-category="saas">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Enterprise Platform</span>
-          <h3 class="work__title">Payslip Platform — Annon IT</h3>
-          <div class="work__meta"><span>Enterprise client · France</span><span>08/2024 – 09/2025</span></div>
-        </div>
-      </div>
-      <p class="work__summary">European-standard payslip generation platform integrating French statutory tax APIs with automated enterprise tenant lifecycle and SSO workspace provisioning.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Statutory compliance:</strong> Seamless integration with Pappers API &amp; Mon Entreprise REST APIs.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>−59% Provisioning time:</strong> Automated tenant onboarding, cutting manual engineering setup.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Containerized architecture:</strong> Robust Docker &amp; Kubernetes cluster deployment with audit-proof PDF outputs.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Reduced overhead:</strong> 2 costly external vendor dependencies eliminated.</span></div>
-      </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">Pappers API</span><span class="tag">Multi-tenancy SSO</span><span class="tag">Vue.js</span></div><div class="work__metrics"><div class="work__metric"><b>−59%</b><span>Provisioning time</span></div><div class="work__metric"><b>2</b><span>Vendors removed</span></div></div></div>
-    </article><article class="work__item" id="sellsbook" data-work-category="saas ecommerce">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Retail SaaS</span>
-          <h3 class="work__title">SellsBook — SaaS POS &amp; WooCommerce Sync</h3>
-          <div class="work__meta"><span>Multi-tenant retail POS</span><span>10/2025 – 05/2026</span></div>
-        </div>
-      </div>
-      <p class="work__summary">Multi-tenant POS and inventory system with real-time WooCommerce webhooks, fraud detection alerts, and integrated local payment gateways.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Zero inventory drift:</strong> Bidirectional webhook engine prevents overselling between in-store and online channels.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Local payment integrations:</strong> Production bKash and SSLCommerz automated payment reconciliation.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Courier automation:</strong> Automated consignment generation and real-time delivery status polling.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Financial clarity:</strong> Live P&amp;L ledger reporting for daily store audits.</span></div>
-      </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">WooCommerce webhooks</span><span class="tag">bKash &amp; SSLCommerz</span><span class="tag">MySQL</span></div></div>
-    </article><article class="work__item" id="flameflow" data-work-category="saas">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Industrial Logistics</span>
-          <h3 class="work__title">FlameFlow — LPG Cylinder Inventory + POS</h3>
-          <div class="work__meta"><span>Industrial cylinder logistics &amp; POS</span><span>04/2025 – 07/2025</span></div>
-        </div>
-      </div>
-      <p class="work__summary">Specialized cylinder tracking, security-deposit accounting, and driver route delivery manifests for an industrial LPG distribution network.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Zero cylinder loss:</strong> Serialized batch tracking of full vs empty cylinders throughout distribution.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Deposit accounting:</strong> Strict accounting ledger managing customer security deposits on cylinder shells.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Route manifests:</strong> Driver dispatch routes and automated trip reconciliation in FilamentPHP.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Automated auditing:</strong> Daily warehouse reconciliations with zero discrepancy reports.</span></div>
-      </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">FilamentPHP</span><span class="tag">Cylinder lifecycle engine</span><span class="tag">MySQL</span></div></div>
-    </article><article class="work__item" id="dropshop" data-work-category="ecommerce">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Commerce Engine</span>
-          <h3 class="work__title">DropShop — Variant Inventory &amp; Live Tracking</h3>
-          <div class="work__meta"><span>E-commerce &amp; delivery tracking</span><span>06/2025 – 08/2025</span></div>
-        </div>
-      </div>
-      <p class="work__summary">High-throughput variant-based e-commerce platform integrated directly with Pathao courier APIs for hands-free fulfillment.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Hands-free dispatch:</strong> Instant consignment booking upon checkout via Pathao API.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Live customer tracking:</strong> Real-time parcel status webhooks keeping customers informed.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Complex variant matrix:</strong> Multi-attribute SKU stock tracking without database slowdowns.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Operations speed:</strong> Eliminated manual data entry for warehouse logistics staff.</span></div>
-      </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">Pathao API</span><span class="tag">Inventory management</span><span class="tag">MySQL</span></div></div>
-    </article><article class="work__item" id="laravel-flags" data-work-category="tools">
-      <div class="work__top">
-        <div>
-          <span class="work__badge">Open Source</span>
-          <h3 class="work__title">pola5h/laravel-flags</h3>
-          <div class="work__meta"><span>Open-source package · Packagist</span><span>09/2024</span></div>
-        </div>
-        <a class="work__link" href="https://github.com/pola5h/laravel-flags" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-      </div>
-      <p class="work__summary">An open-source Laravel package providing 249 country flags and 210 language flags through clean Blade components.</p>
-      <div class="work__outcomes">
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>249 Country Flags:</strong> High-quality SVG assets rendered as zero-dependency Blade components.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>210 Language Flags:</strong> ISO-compliant language identifiers for multilingual applications.</span></div>
-        <div class="work__outcome"><span class="work__outcome-bullet">✓</span><span><strong>Composer installation:</strong> Published on Packagist with automated asset publishing and caching.</span></div>
-      </div>
-      <div class="work__foot"><div class="tags"><span class="tag">Laravel</span><span class="tag">Blade components</span><span class="tag">Composer</span><span class="tag">Open source</span></div></div>
-    </article></div>
+    </div>
   </div></section>
 
   <section class="about section" id="about"><div class="wrap">
-    <p class="section__index">02 — About</p>
+    <p class="section__index">02 / About</p>
     <h2 class="about__quote">I care about the parts of software nobody demos.</h2>
     <div class="about__grid">
       <div class="about__text"><p>I'm Kamruzzaman Polash, a backend software engineer specialising in Laravel, PHP, and custom WordPress/WooCommerce plugin development. I build the systems that hold a product together: billing engines, inventory ledgers, background queues, and the integrations that make separate tools behave like one platform.</p><p>My work focuses on resilient third-party integration pipelines, event-driven data synchronisation, high-throughput background queues, practical LLM workflows, and database tuning under heavy write traffic. I like problems with a measurable before and after.</p><p>Currently open to full-time remote engineering positions, long-term team collaboration, and architecture contracts worldwide.</p></div>
@@ -403,7 +518,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="skills"><div class="wrap">
     <div class="section__head">
-  <p class="section__index">03 — Capabilities</p>
+  <p class="section__index">03 / Capabilities</p>
   <h2 class="section__title">The toolbox, proven under load.</h2>
   <p class="section__lede">Technologies I reach for in production across high-traffic SaaS and retail applications.</p>
 </div>
@@ -412,7 +527,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="experience"><div class="wrap">
     <div class="section__head">
-  <p class="section__index">04 — Experience</p>
+  <p class="section__index">04 / Experience</p>
   <h2 class="section__title">Shipping in production since 2022.</h2>
   <p class="section__lede">Commercial SaaS platforms, high-volume commerce &amp; remote product teams.</p>
 </div>
@@ -476,7 +591,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="recommendations"><div class="wrap">
     <div class="section__head">
-      <p class="section__index">05 — Recommendations</p>
+      <p class="section__index">05 / Recommendations</p>
       <h2 class="section__title">Verified peer &amp; tech-lead recommendations.</h2>
       <p class="section__lede">Verifiable feedback from tech leads, developers, and teammates I ship production systems with.</p>
     </div>
@@ -616,7 +731,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="writing"><div class="wrap">
     <div class="section__head">
-      <p class="section__index">06 — Engineering writing</p>
+      <p class="section__index">06 / Engineering writing</p>
       <h2 class="section__title">Notes from production.</h2>
       <p class="section__lede">Deep dives and architectural patterns written from commercial systems I actually shipped.</p>
     </div>
@@ -703,7 +818,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="services"><div class="wrap">
     <div class="section__head">
-      <p class="section__index">07 — Work with me</p>
+      <p class="section__index">07 / Work with me</p>
       <h2 class="section__title">Services &amp; collaboration.</h2>
       <p class="section__lede">Direct access to the engineer who builds it — no agency, no middlemen. You get clear milestones, fast delivery, and code you actually own.</p>
     </div>
@@ -805,7 +920,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="section" id="faq"><div class="wrap">
     <div class="section__head">
-      <p class="section__index">08 — FAQ</p>
+      <p class="section__index">08 / FAQ</p>
       <h2 class="section__title">Common questions.</h2>
     </div>
     <div class="faq"><details class="faq__item" open><summary class="faq__q">What kind of work do you take on?<span class="faq__icon">+</span></summary><p class="faq__a">Backend engineering with Laravel, PHP, MySQL, Docker and Kubernetes — whether that is a greenfield API, a complex SaaS feature, AI integration (OpenRouter, OpenAI, Gemini), Facebook and WhatsApp Business API automation, or a WooCommerce plugin that needs untangling. Open to both scoped project contracts with clients and full-time remote engineering roles within product teams.</p></details><details class="faq__item"><summary class="faq__q">Are you available for remote work and team roles?<span class="faq__icon">+</span></summary><p class="faq__a">Yes. I am available for full-time remote engineering roles, dedicated contract collaboration, and technical advisory with teams worldwide (USA, UK, Europe, Canada, Australia). English communication with flexible overlap across US/EU business hours.</p></details><details class="faq__item"><summary class="faq__q">What does working with you actually look like day-to-day?<span class="faq__icon">+</span></summary><p class="faq__a">For product teams: GitHub PRs with clear descriptions, structured code reviews, async stand-ups via Slack or Linear, and blockers raised before they become delays — Agile and Scrum comfortable. For project clients: a defined scope before any code is written, concise weekly progress updates, and no surprises close to deadline.</p></details><details class="faq__item"><summary class="faq__q">Can you work with an existing codebase or legacy system?<span class="faq__icon">+</span></summary><p class="faq__a">Yes — legacy refactoring and structured code review are among my core strengths. I have inherited and restructured systems built on unorganised plain PHP, poorly structured Laravel applications, and unmaintained WooCommerce plugins. I identify the highest-risk areas first, stabilise them, then incrementally improve architecture without rewriting everything at once.</p></details><details class="faq__item"><summary class="faq__q">How quickly will I hear back?<span class="faq__icon">+</span></summary><p class="faq__a">I reply to enquiries within four hours on business days, and most projects can start within 48–72 hours of agreeing the scope.</p></details><details class="faq__item"><summary class="faq__q">How do you document and hand off your work?<span class="faq__icon">+</span></summary><p class="faq__a">Every engagement ends with full source in your GitHub or GitLab, a README covering local setup and deployment, database migrations and seeders, a Postman collection for every endpoint, and inline comments on non-obvious logic. For team roles, I contribute to wikis, ADRs, and onboarding docs as a normal part of the workflow. You own 100% of the code.</p></details></div>
@@ -813,7 +928,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
   <section class="contact section" id="contact"><div class="wrap">
     <div class="section__head">
-      <p class="section__index">09 — Contact</p>
+      <p class="section__index">09 / Contact</p>
       <h2 class="section__title">Let's build something that holds up.</h2>
       <p class="section__lede">Hiring for a full-time remote role, looking for dedicated team collaboration, or have a project that needs scaling? Drop a message or reach out directly.</p>
     </div>
