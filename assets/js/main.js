@@ -760,6 +760,97 @@
       return msgEl;
     }
 
+    var audioCtx = null;
+    function playNotificationChime() {
+      try {
+        var AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!audioCtx) {
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        var now = audioCtx.currentTime;
+
+        // Tone 1: 587.33 Hz (D5) - soft gentle attack
+        var osc1 = audioCtx.createOscillator();
+        var gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(587.33, now);
+        gain1.gain.setValueAtTime(0, now);
+        gain1.gain.linearRampToValueAtTime(0.12, now + 0.02);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.35);
+
+        // Tone 2: 880 Hz (A5) - clear bright notification chime
+        var osc2 = audioCtx.createOscillator();
+        var gain2 = audioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(880, now + 0.09);
+        gain2.gain.setValueAtTime(0, now + 0.09);
+        gain2.gain.linearRampToValueAtTime(0.15, now + 0.11);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        osc2.start(now + 0.09);
+        osc2.stop(now + 0.55);
+      } catch (e) {}
+    }
+
+    var isChatVisible = true;
+    function updateVisibilityUI(visibility) {
+      isChatVisible = (visibility !== 'hidden');
+
+      if (widget) {
+        if (!isChatVisible) {
+          widget.classList.add('live-chat--hidden');
+          widget.setAttribute('hidden', '');
+          widget.style.display = 'none';
+          if (widget.classList.contains('is-open')) {
+            toggleChat(false);
+          }
+        } else {
+          widget.classList.remove('live-chat--hidden');
+          widget.removeAttribute('hidden');
+          widget.style.display = '';
+        }
+      }
+
+      // Sync all buttons/links triggering live chat across pages
+      document.querySelectorAll('[data-open-chat]').forEach(function (btn) {
+        if (!isChatVisible) {
+          if (btn.tagName.toLowerCase() === 'a') {
+            if (!btn.getAttribute('data-orig-href')) {
+              btn.setAttribute('data-orig-href', btn.getAttribute('href') || '');
+              btn.setAttribute('data-orig-text', btn.textContent);
+            }
+            btn.setAttribute('href', 'https://wa.me/8801791296967?text=' + encodeURIComponent('Hi Polash, I would like to discuss a project.'));
+            btn.setAttribute('target', '_blank');
+            btn.setAttribute('rel', 'noopener noreferrer');
+            btn.textContent = 'Chat on WhatsApp';
+          } else {
+            btn.style.display = 'none';
+          }
+        } else {
+          if (btn.tagName.toLowerCase() === 'a') {
+            var origHref = btn.getAttribute('data-orig-href');
+            var origText = btn.getAttribute('data-orig-text');
+            if (origHref) btn.setAttribute('href', origHref);
+            if (origText) btn.textContent = origText;
+            btn.removeAttribute('target');
+            btn.removeAttribute('rel');
+          } else {
+            btn.style.display = '';
+          }
+        }
+      });
+    }
+
     function updateAvailabilityUI(status) {
       var isAway = status === 'away';
       var launcherDot = $('#live-chat-launcher-dot');
@@ -781,6 +872,7 @@
         ablyChannel.subscribe('message', function (msg) {
           if (msg && msg.data && msg.data.sender === 'polash') {
             appendMessage('polash', msg.data.text || '', msg.data.timestamp, msg.data.id);
+            playNotificationChime();
           }
         });
       } catch (err) {
@@ -799,11 +891,16 @@
           if (!window.Ably) return;
           ablyClient = new window.Ably.Realtime({ key: apiKey });
 
-          // Realtime availability status broadcast
+          // Realtime availability & visibility status broadcast
           var statusChan = ablyClient.channels.get('site:status');
           statusChan.subscribe('status_change', function (msg) {
             if (msg && msg.data && msg.data.status) {
               updateAvailabilityUI(msg.data.status);
+            }
+          });
+          statusChan.subscribe('visibility_change', function (msg) {
+            if (msg && msg.data && msg.data.visibility) {
+              updateVisibilityUI(msg.data.visibility);
             }
           });
 
@@ -828,26 +925,40 @@
       fetch(CHAT_ENDPOINT + '?action=config')
         .then(function (res) { return res.json(); })
         .then(function (cfg) {
-          if (cfg && cfg.status) {
-            updateAvailabilityUI(cfg.status);
-          }
-          if (cfg && cfg.ably_key) {
-            initAbly(cfg.ably_key);
-            subscribeToSessionChannel();
+          if (cfg) {
+            if (cfg.visibility) {
+              updateVisibilityUI(cfg.visibility);
+            }
+            if (cfg.status) {
+              updateAvailabilityUI(cfg.status);
+            }
+            if (cfg.ably_key) {
+              initAbly(cfg.ably_key);
+              subscribeToSessionChannel();
+            }
           }
         })
         .catch(function () {});
     }
 
-    function fetchHistory(syncAbly) {
+    function fetchHistory(syncAbly, isPolling) {
       if (!session || !session.session_id) return;
       fetch(CHAT_ENDPOINT + '?action=history&session_id=' + encodeURIComponent(session.session_id))
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data && data.success && Array.isArray(data.messages)) {
+            var hasNewPolashMsg = false;
             data.messages.forEach(function (m) {
+              var key = m.id ? 'id:' + m.id : 'm:' + m.sender + ':' + m.created_at;
+              var isNew = !renderedMsgIds.has(key);
               appendMessage(m.sender, m.message, m.created_at, m.id);
+              if (isNew && m.sender === 'polash' && isPolling) {
+                hasNewPolashMsg = true;
+              }
             });
+            if (hasNewPolashMsg) {
+              playNotificationChime();
+            }
           }
         })
         .catch(function () {});
@@ -864,7 +975,7 @@
         prechatEl.setAttribute('hidden', '');
         convEl.hidden = false;
         convEl.removeAttribute('hidden');
-        fetchHistory(true);
+        fetchHistory(true, false);
         startPolling();
       } else {
         widget.classList.remove('is-chatting');
@@ -879,7 +990,7 @@
       if (pollTimer) clearInterval(pollTimer);
       pollTimer = setInterval(function () {
         if (widget.classList.contains('is-open') && session && session.session_id) {
-          fetchHistory(false);
+          fetchHistory(false, true);
         }
       }, 7000);
     }
@@ -913,6 +1024,14 @@
     if (closeBtn) closeBtn.addEventListener('click', function () { toggleChat(false); });
     document.querySelectorAll('[data-open-chat]').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
+        if (!isChatVisible) {
+          if (btn.tagName.toLowerCase() === 'a') {
+            return;
+          }
+          e.preventDefault();
+          window.open('https://wa.me/8801791296967?text=' + encodeURIComponent('Hi Polash, I would like to discuss a project.'), '_blank', 'noopener,noreferrer');
+          return;
+        }
         e.preventDefault();
         toggleChat(true);
       });
