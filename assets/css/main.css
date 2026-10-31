@@ -1598,19 +1598,20 @@ textarea.field { resize: vertical; min-height: 7rem; }
 .live-chat__icon-close {
   display: none;
 }
-.live-chat.is-open .live-chat__icon-chat {
+.live-chat.is-open .live-chat__icon-chat,
+.live-chat.is-open .live-chat__launcher-label,
+.live-chat.is-open .live-chat__status-dot {
   display: none;
 }
 .live-chat.is-open .live-chat__icon-close {
   display: block;
 }
-.live-chat.is-open .live-chat__launcher-label {
-  display: none;
-}
 .live-chat.is-open .live-chat__launcher {
-  padding: 0 .75rem;
+  padding: 0;
   width: 2.85rem;
+  height: 2.85rem;
   justify-content: center;
+  align-items: center;
 }
 
 /* Chat Window */
