@@ -614,6 +614,29 @@
     var ablyClient = null;
     var ablyChannel = null;
     var pollTimer = null;
+    var unreadCount = 0;
+    var unreadBadge = $('#live-chat-unread');
+    if (!unreadBadge && toggleBtn) {
+      unreadBadge = document.createElement('span');
+      unreadBadge.id = 'live-chat-unread';
+      unreadBadge.className = 'live-chat__unread';
+      unreadBadge.setAttribute('aria-label', 'Unread messages');
+      unreadBadge.hidden = true;
+      toggleBtn.appendChild(unreadBadge);
+    }
+
+    function updateUnreadUI() {
+      if (!unreadBadge) return;
+      var isOpen = widget.classList.contains('is-open');
+      if (isOpen || unreadCount <= 0) {
+        unreadCount = 0;
+        unreadBadge.hidden = true;
+        unreadBadge.textContent = '';
+      } else {
+        unreadBadge.hidden = false;
+        unreadBadge.textContent = unreadCount > 9 ? '9+' : String(unreadCount);
+      }
+    }
     function getStoredSession() {
       try {
         var s = localStorage.getItem(STORAGE_KEY);
@@ -714,7 +737,7 @@
       });
     }
 
-    function appendMessage(sender, text, timestamp, msgId) {
+    function appendMessage(sender, text, timestamp, msgId, isNewArrival) {
       if (!text) return null;
 
       // Deduplicate server messages by unique integer ID
@@ -727,6 +750,9 @@
       var isVisitor = sender === 'visitor';
       var msgEl = document.createElement('div');
       msgEl.className = 'live-chat__msg ' + (isVisitor ? 'live-chat__msg--visitor' : 'live-chat__msg--polash');
+      if (isNewArrival && !isVisitor) {
+        msgEl.classList.add('live-chat__msg--new');
+      }
       if (msgId) msgEl.setAttribute('data-msg-id', msgId);
 
       var bubble = document.createElement('div');
@@ -864,6 +890,18 @@
       }
     }
 
+    function onPolashMessageReceived(text, timestamp, msgId) {
+      var isOpen = widget.classList.contains('is-open');
+      var msgEl = appendMessage('polash', text, timestamp, msgId, true);
+      if (msgEl) {
+        playNotificationChime();
+        if (!isOpen) {
+          unreadCount++;
+          updateUnreadUI();
+        }
+      }
+    }
+
     function subscribeToSessionChannel() {
       if (!ablyClient || !session || !session.session_id) return;
       if (ablyChannel && ablyChannel.name === 'chat:' + session.session_id) return;
@@ -871,8 +909,7 @@
         ablyChannel = ablyClient.channels.get('chat:' + session.session_id);
         ablyChannel.subscribe('message', function (msg) {
           if (msg && msg.data && msg.data.sender === 'polash') {
-            appendMessage('polash', msg.data.text || '', msg.data.timestamp, msg.data.id);
-            playNotificationChime();
+            onPolashMessageReceived(msg.data.text || '', msg.data.timestamp, msg.data.id);
           }
         });
       } catch (err) {
@@ -947,18 +984,15 @@
         .then(function (res) { return res.json(); })
         .then(function (data) {
           if (data && data.success && Array.isArray(data.messages)) {
-            var hasNewPolashMsg = false;
             data.messages.forEach(function (m) {
-              var key = m.id ? 'id:' + m.id : 'm:' + m.sender + ':' + m.created_at;
+              var key = m.id ? 'id:' + m.id : 'm:' + m.sender + ':' + (m.created_at || m.message);
               var isNew = !renderedMsgIds.has(key);
-              appendMessage(m.sender, m.message, m.created_at, m.id);
               if (isNew && m.sender === 'polash' && isPolling) {
-                hasNewPolashMsg = true;
+                onPolashMessageReceived(m.message, m.created_at, m.id);
+              } else {
+                appendMessage(m.sender, m.message, m.created_at, m.id, false);
               }
             });
-            if (hasNewPolashMsg) {
-              playNotificationChime();
-            }
           }
         })
         .catch(function () {});
@@ -1000,6 +1034,8 @@
       widget.classList.toggle('is-open', isOpen);
       toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       if (isOpen) {
+        unreadCount = 0;
+        updateUnreadUI();
         windowEl.hidden = false;
         windowEl.removeAttribute('hidden');
         updateRelativeTimestamps();
