@@ -18,6 +18,7 @@ const path = require('path');
 const ROOT         = path.resolve(__dirname, '..');
 const HEADER_FILE  = path.join(ROOT, '_partials', 'header.html');
 const FOOTER_FILE  = path.join(ROOT, '_partials', 'footer.html');
+const CHAT_FILE    = path.join(ROOT, '_partials', 'chat.html');
 const IGNORE_DIRS  = new Set(['node_modules', '.git', '_partials', '_site']);
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -52,14 +53,16 @@ function getHeaderForFile(headerTemplate, relPath) {
 
 const hasHeader = fs.existsSync(HEADER_FILE);
 const hasFooter = fs.existsSync(FOOTER_FILE);
+const hasChat   = fs.existsSync(CHAT_FILE);
 
-if (!hasHeader && !hasFooter) {
-  console.error('Error: Neither _partials/header.html nor _partials/footer.html found.');
+if (!hasHeader && !hasFooter && !hasChat) {
+  console.error('Error: No partials found in _partials.');
   process.exit(1);
 }
 
 const rawHeaderHtml = hasHeader ? fs.readFileSync(HEADER_FILE, 'utf8').trimEnd() : null;
 const footerHtml    = hasFooter ? fs.readFileSync(FOOTER_FILE, 'utf8').trimEnd() : null;
+const chatHtml      = hasChat   ? fs.readFileSync(CHAT_FILE, 'utf8').trim() : null;
 
 const files = findHtmlFiles(ROOT);
 let updated = 0;
@@ -68,6 +71,7 @@ let skipped = 0;
 
 const headerRegex = /<header[\s\S]*?<\/header>/i;
 const footerRegex = /<footer[\s\S]*?<\/footer>/i;
+const chatRegex   = /<!-- chat:start -->[\s\S]*?<!-- chat:end -->/i;
 
 for (const file of files) {
   const rel = path.relative(ROOT, file);
@@ -85,8 +89,28 @@ for (const file of files) {
     content = content.replace(footerRegex, footerHtml);
   }
 
-  if (!headerRegex.test(original) && !footerRegex.test(original)) {
-    console.log(`  SKIP  (no header/footer)  ${rel}`);
+  // Chat injection (skip redirects and 404/non-standard pages)
+  const isRedirect = /http-equiv=["']refresh["']/i.test(content);
+  if (isRedirect) {
+    if (chatRegex.test(content)) {
+      content = content.replace(chatRegex, '');
+    }
+  } else if (chatHtml) {
+    if (chatRegex.test(content)) {
+      content = content.replace(chatRegex, chatHtml);
+    } else if (content.includes('</body>')) {
+      content = content.replace('</body>', '  ' + chatHtml + '\n</body>');
+    }
+  }
+
+  // Sync main.js script tag version
+  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=33"');
+
+  // Sync main.css stylesheet link version
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=33"');
+
+  if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {
+    console.log(`  SKIP  (no target)         ${rel}`);
     skipped++;
     continue;
   }

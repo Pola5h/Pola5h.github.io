@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custom POS vs Ready-Made Software: What Growing Retailers Actually Need — Kamruzzaman Polash</title>
+<meta name="description" content="Why off-the-shelf POS software breaks multi-branch retailers, the true 3-year total cost of ownership, and how custom retail backends eliminate recurring seat fees.">
+<link rel="canonical" href="https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="keywords" content="custom POS software Bangladesh, multi-branch POS system, retail POS vs SaaS POS, ready-made POS limitations, thermal receipt printing, WooCommerce POS sync, retail inventory ledger, retail operations software">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/">
+<meta property="og:title" content="Custom POS vs Ready-Made Software: What Growing Retailers Actually Need">
+<meta property="og:description" content="Why off-the-shelf POS software breaks multi-branch retailers, the true 3-year total cost of ownership, and how custom retail backends eliminate recurring seat fees.">
+<meta property="og:image" content="https://polash.link/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Custom POS vs Ready-Made Software Architecture Guide">
+<meta property="article:published_time" content="2026-10-31">
+<meta property="article:modified_time" content="2026-10-31">
+<meta property="article:section" content="Retail Systems">
+<meta property="article:author" content="https://polash.link/">
+<meta property="article:tag" content="Retail Systems">
+<meta property="article:tag" content="POS Architecture">
+<meta property="article:tag" content="Commerce">
+<meta property="article:tag" content="Business Software">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/">
+<meta name="twitter:title" content="Custom POS vs Ready-Made Software: What Growing Retailers Actually Need">
+<meta name="twitter:description" content="Why off-the-shelf POS software breaks multi-branch retailers, the true 3-year total cost of ownership, and how custom retail backends eliminate recurring seat fees.">
+<meta property="twitter:image" content="https://polash.link/assets/images/og-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash - Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=33">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Kamruzzaman Polash builds custom business software, multi-branch POS systems, e-commerce automation, and scalable SaaS platforms using Laravel, PHP, MySQL, and Docker.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/#article","headline":"Custom POS vs Ready-Made Software: What Growing Retailers Actually Need","description":"Why off-the-shelf POS software breaks multi-branch retailers, the true 3-year total cost of ownership, and how custom retail backends eliminate recurring seat fees.","url":"https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/"},"datePublished":"2026-10-31","dateModified":"2026-10-31","timeRequired":"PT10M","wordCount":2000,"proficiencyLevel":"Business Leadership & Operations","articleSection":"Retail Systems","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Custom POS vs Ready-Made Software","item":"https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When does ready-made POS software become too expensive for retailers?","acceptedAnswer":{"@type":"Answer","text":"Ready-made SaaS POS software charges per register and per location. Once a retailer scales to 3 or more branches with multiple checkout counters, recurring software fees easily surpass $400 to $600 per month ($5,000+ per year), making a custom proprietary build significantly cheaper over 3 years."}},{"@type":"Question","name":"How does a custom POS handle internet outages?","acceptedAnswer":{"@type":"Answer","text":"A well-architected custom POS utilizes offline-first browser storage and background synchronization. Cashiers can scan barcodes, calculate totals, and print receipts without an internet connection. Once connectivity returns, transactions sync atomically to the central database."}},{"@type":"Question","name":"Why do inter-branch stock transfers fail in generic POS systems?","acceptedAnswer":{"@type":"Answer","text":"Generic systems usually deduct stock instantly or only upon arrival, leaving an unmonitored window where stock in transit vanishes from records or gets double-sold. A custom POS implements an explicit 3-stage transfer state machine with dispatch and delivery discrepancy verification."}}]}]}</script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="K. Polash — home">
+      <span class="brand__name">K. Polash</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#work" class="nav__link">Work</a>
+      <a href="/#about" class="nav__link">About</a>
+      <a href="/#skills" class="nav__link">Skills</a>
+      <a href="/#experience" class="nav__link">Experience</a>
+      <a href="/services/" class="nav__link">Services</a>
+      <a href="/blog/" class="nav__link" aria-current="page">Blog</a>
+      <a href="/#contact" class="nav__link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Custom POS vs Ready-Made Software</span></div></div>
+
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Retail Systems &amp; Strategy</span><span class="label">10 min read</span></div>
+    <h1 class="article-head__title">Custom POS vs Ready-Made Software: What Growing Retailers Actually Need</h1>
+    <p class="article-head__desc">Why off-the-shelf retail software chokes multi-branch businesses, the reality of recurring seat fees, and how tailored systems deliver total operational control.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">October 31, 2026 · Retail architecture</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
+
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article">
+        <aside class="callout callout--tip">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+          <div>
+            <p class="callout__title">The Retail Growth Paradox</p>
+            <p><strong>When you operate a single physical store, almost any off-the-shelf POS software works fine. But when you expand to 3 branches, a warehouse, and an online store, ready-made software turns into an operational straightjacket.</strong></p>
+            <p>Between monthly per-counter licensing fees, mismatched stock transfers between outlets, and the inability to connect directly with local couriers, the "easy" solution starts bleeding cash. Here is a clear evaluation of the build vs buy decision.</p>
+          </div>
+        </aside>
+
+        <h2 id="1-the-ceiling-of-ready-made-pos">1. The Ceiling of Off-the-Shelf POS Software</h2>
+        <p>Commercial POS products sold as cloud SaaS subscriptions are built for generic, global use cases. While signing up takes only an hour, expanding retailers hit frustrating bottlenecks quickly:</p>
+
+        <ul>
+          <li><strong>The Per-Counter Tax:</strong> Ready-made vendors charge between $35 and $80 per month for every single register. If you run 4 branches with 2 counters each, you are paying over $450 every month just for permission to ring up sales.</li>
+          <li><strong>Zero Local Courier Integration:</strong> Global POS software knows nothing about Pathao, Steadfast, or bKash merchant accounts. Your operations team must manually re-enter online or phone orders across multiple portals.</li>
+          <li><strong>Locked-in Business Data:</strong> If you ever decide to switch platforms, you discover that ready-made vendors make it nearly impossible to export raw transaction ledgers, customer lifetime purchase histories, or employee audit logs.</li>
+        </ul>
+
+        <h2 id="2-the-multi-branch-transfer-problem">2. The Multi-Branch Stock Requisition Nightmare</h2>
+        <p>The single greatest operational headache for an expanding retail business is <strong>inter-branch stock transfers</strong>. Consider what happens when Branch B runs out of a trending product while your Central Warehouse holds 20 units:</p>
+
+        <ol>
+          <li>Branch B manager messages the warehouse requesting 6 units.</li>
+          <li>Warehouse staff packs the items and hands them to a transport driver.</li>
+          <li>In generic software, the stock is either deducted immediately (making it vanish from reports while in transit) or left untouched until Branch B receives it (causing warehouse staff to accidentally sell it to another store).</li>
+          <li>If 1 unit is damaged or misplaced on the road, your inventory numbers drift permanently, leading to end-of-month stock discrepancies.</li>
+        </ol>
+
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;">
+          <h3 style="margin-top:0;font-size:1.15rem;color:var(--ink-1);">The 3-Stage Transfer State Machine</h3>
+          <p style="font-size:0.95rem;color:var(--ink-2);margin-bottom:1rem;">In a custom retail backend, inventory transfers are enforced through an auditable workflow:</p>
+          <div style="display:grid;gap:0.75rem;">
+            <div style="padding:0.75rem 1rem;background:var(--bg-1);border-radius:var(--radius);border-left:3px solid var(--accent);">
+              <strong>Stage 1: Requisition Requested</strong> &mdash; Branch requests stock; warehouse reviews available buffer.
+            </div>
+            <div style="padding:0.75rem 1rem;background:var(--bg-1);border-radius:var(--radius);border-left:3px solid #eab308;">
+              <strong>Stage 2: In-Transit Pool</strong> &mdash; Stock leaves warehouse and sits in an explicit "Transit Ledger" assigned to the driver or vehicle. Neither branch can accidentally sell it.
+            </div>
+            <div style="padding:0.75rem 1rem;background:var(--bg-1);border-radius:var(--radius);border-left:3px solid #22c55e;">
+              <strong>Stage 3: Verified Receipt</strong> &mdash; Branch manager scans the received barcodes. If 5 arrive instead of 6, the system logs an automatic discrepancy report before adding items to active stock.
+            </div>
+          </div>
+        </div>
+
+        <h2 id="3-offline-resilience-and-printing">3. Offline Resilience and Instant Thermal Printing</h2>
+        <p>In retail stores across developing markets, broadband internet drops unexpectedly during business hours. If your POS is a pure cloud web application that requires a constant internet connection, long lines form at your registers and sales halt entirely.</p>
+        <p>A resilient custom POS uses a two-tier architecture:</p>
+        <ul>
+          <li><strong>Offline-First Browser Cache:</strong> Product catalogs, barcode lookups, and tax calculations run locally inside the cashier's computer. Receipts print instantly using raw hardware commands sent to USB or LAN thermal printers.</li>
+          <li><strong>Automatic Batch Sync:</strong> When the internet reconnects, all offline sales synchronize atomically to the central database in a single background batch without duplicate receipt numbers.</li>
+        </ul>
+
+        <h2 id="4-stopping-shrinkage-with-immutable-ledgers">4. Preventing Internal Shrinkage and Stock Leakage</h2>
+        <p>One of the quietest drains on retail profitability is undocumented stock shrinkage. In generic POS applications, staff can often edit inventory quantities or apply manual discounts without creating an audit trail.</p>
+        <p>A production custom system enforces immutable accounting rules:</p>
+        <ul>
+          <li><strong>No Blind Overwriting:</strong> Stock numbers are never changed directly. Every adjustment requires a signed ledger record (such as Goods Received Note, Customer Sale, or Damaged Item Write-Off).</li>
+          <li><strong>Role-Based Manager Approvals:</strong> Any manual discount above a preset threshold or any item voided after a receipt prints requires a manager PIN and is logged permanently with a timestamp and staff ID.</li>
+        </ul>
+
+        <h2 id="5-three-year-financial-comparison">5. The Numbers: 3-Year Total Cost of Ownership (TCO)</h2>
+        <p>Let's look at the actual financial numbers for a growing brand operating <strong>4 retail branches</strong> (2 counters each) and 1 central warehouse over 3 years:</p>
+
+        <div style="overflow-x:auto;margin:1.5rem 0;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);">
+                <th style="text-align:left;padding:0.75rem;">Cost Category</th>
+                <th style="text-align:left;padding:0.75rem;">Off-the-Shelf SaaS POS</th>
+                <th style="text-align:left;padding:0.75rem;">Custom Proprietary Build</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.75rem;"><strong>Register Licenses</strong></td>
+                <td style="padding:0.75rem;">8 counters &times; $50/mo = $400/month</td>
+                <td style="padding:0.75rem;">$0 per month (Unlimited counters)</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.75rem;"><strong>Multi-Branch Add-on</strong></td>
+                <td style="padding:0.75rem;">$100/month warehouse module</td>
+                <td style="padding:0.75rem;">Included in core architecture</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.75rem;"><strong>3-Year Software Fees</strong></td>
+                <td style="padding:0.75rem;"><strong>$18,000 (~2,100,000 BDT)</strong></td>
+                <td style="padding:0.75rem;">$0 in recurring license rent</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border);">
+                <td style="padding:0.75rem;"><strong>Cloud Hosting (3 Years)</strong></td>
+                <td style="padding:0.75rem;">Included (Locked inside vendor cloud)</td>
+                <td style="padding:0.75rem;">$25/mo VPS = $900 (~105,000 BDT)</td>
+              </tr>
+              <tr>
+                <td style="padding:0.75rem;"><strong>Data Ownership &amp; IP</strong></td>
+                <td style="padding:0.75rem;">Zero ownership; vendor can raise prices anytime</td>
+                <td style="padding:0.75rem;"><strong>100% owned intellectual property</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="6-decision-framework-buy-vs-build">6. The Honest Decision Framework: When to Buy vs When to Build</h2>
+        <p>Not every business should build custom software. Here is the pragmatic rule of thumb:</p>
+
+        <div style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;margin:1.5rem 0;">
+          <p style="font-weight:700;margin-bottom:0.5rem;color:var(--ink-1);">Stick with Ready-Made Software If:</p>
+          <ul style="margin:0 0 1rem;padding-left:1.2rem;line-height:1.6;color:var(--ink-2);">
+            <li>You operate a single physical location with 1 or 2 registers.</li>
+            <li>You sell fewer than 25 items per day and do not run an online store.</li>
+            <li>You have no immediate plans to expand to multiple outlets in the next 18 months.</li>
+          </ul>
+
+          <p style="font-weight:700;margin-bottom:0.5rem;color:var(--ink-1);">Invest in a Custom POS System If:</p>
+          <ul style="margin:0;padding-left:1.2rem;line-height:1.6;color:var(--ink-2);">
+            <li>You run 2 or more locations and struggle with inter-branch inventory transfers.</li>
+            <li>You sell both in physical stores and online (WooCommerce/Shopify) and need real-time stock sync.</li>
+            <li>You want automated courier booking (Pathao/Steadfast) built directly into your dispatch screen.</li>
+            <li>You want complete ownership of your customer data without paying perpetual monthly seat taxes.</li>
+          </ul>
+        </div>
+
+        <h2 id="7-conclusion">7. The Bottom Line</h2>
+        <p>Your point-of-sale system is the operational engine of your retail enterprise. When you own a system tailored to your exact store workflows, you eliminate unnecessary monthly subscription drain, prevent stock shrinkage, and give your cashiers the speed they need during peak shopping rushes.</p>
+      </article>
+
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Planning a custom POS or multi-branch retail system?</h2>
+        <p>I design and build high-performance POS architectures, multi-location inventory ledgers, and seamless e-commerce integrations.</p>
+        <div class="cta-band__actions">
+          <button type="button" class="btn btn--solid" data-open-chat>Chat now</button>
+          <a class="btn btn--line" href="/services/">Engineering Services</a>
+          <a class="btn btn--line" href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20read%20your%20custom%20POS%20article%20and%20want%20to%20discuss%20a%20retail%20system." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Custom software &amp; backend engineer · Laravel, SaaS, APIs</div></div></div>
+        <div class="social">
+          <a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/automate-pathao-steadfast-courier-laravel/"><span>← Previous</span><b>Automating Courier Booking</b></a>
+        <a href="/blog/single-vs-multi-database-saas-multitenancy/" style="text-align:right"><span>Next →</span><b>Single vs Multi-Database Multi-Tenancy</b></a>
+      </nav>
+    </div>
+
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-the-ceiling-of-ready-made-pos" data-toc-link>1. The SaaS POS Ceiling</a><a href="#2-the-multi-branch-transfer-problem" data-toc-link>2. Multi-Branch Stock Requisitions</a><a href="#3-offline-resilience-and-printing" data-toc-link>3. Offline Resilience &amp; Printing</a><a href="#4-stopping-shrinkage-with-immutable-ledgers" data-toc-link>4. Stopping Stock Leakage</a><a href="#5-three-year-financial-comparison" data-toc-link>5. 3-Year TCO Comparison</a><a href="#6-decision-framework-buy-vs-build" data-toc-link>6. Buy vs Build Framework</a><a href="#7-conclusion" data-toc-link>7. The Bottom Line</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid">
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Commerce</span><span class="post-row__time">8 min</span></div><h3 class="post-row__title"><a href="/blog/woocommerce-overselling-inventory-sync-fix/">Why Your WooCommerce Store Keeps Overselling</a></h3><p class="post-row__desc">Stop race conditions, inventory drift, and slow webhooks with database row locks and central ledger architecture.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Logistics</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/automate-pathao-steadfast-courier-laravel/">Automating Pathao &amp; Steadfast Courier Booking</a></h3><p class="post-row__desc">Stop manual address copy-pasting, parcel errors, and delayed shipments with automated event-driven logistics.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">11 min</span></div><h3 class="post-row__title"><a href="/blog/single-vs-multi-database-saas-multitenancy/">Single vs Multi-Database Multi-Tenancy</a></h3><p class="post-row__desc">The pragmatic architectural guide for SaaS founders: cost, data safety, and choosing the right database strategy.</p></article>
+    </div>
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Custom software &amp; backend engineer</h2>
+        <p>I build custom business software, e-commerce automation, POS systems, and scalable SaaS platforms. Direct developer, no middlemen. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:hello@polash.link" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="mailto:hello@polash.link">hello@polash.link</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+          <li><a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn (@pola5h)</a></li>
+          <li><a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub (@pola5h)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Backend Engineer &amp; SaaS Architect · Remote Worldwide</p>
+    </div>
+  </div>
+  <script defer src="/assets/js/t.js"></script>
+</footer>
+<script src="/assets/js/main.js?v=33" defer></script>
+  <!-- chat:start -->
+<!-- 100% White-Label Live Chat Widget -->
+<div class="live-chat" id="live-chat" aria-live="polite">
+  <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
+    <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
+    <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="live-chat__icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="live-chat__launcher-label">Live Chat</span>
+  </button>
+
+  <div class="live-chat__window" id="live-chat-window" role="dialog" aria-modal="false" aria-label="Live Chat" hidden>
+    <header class="live-chat__header">
+      <div class="live-chat__header-info">
+        <div class="live-chat__avatar-wrap">
+          <img src="/assets/images/polash-profile.jpg" alt="Kamruzzaman Polash" class="live-chat__avatar-img" width="38" height="38">
+          <span class="live-chat__avatar-badge" id="live-chat-status-badge" aria-hidden="true"></span>
+        </div>
+        <div>
+          <div class="live-chat__title">Kamruzzaman Polash</div>
+          <div class="live-chat__status" id="live-chat-status-text">Available for chat</div>
+        </div>
+      </div>
+      <div class="live-chat__header-actions">
+        <button type="button" class="live-chat__btn-icon" id="live-chat-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pre-Chat Screen -->
+    <div class="live-chat__prechat" id="live-chat-prechat">
+      <div class="live-chat__prechat-intro">
+        <h3 class="live-chat__prechat-title">Chat with Polash</h3>
+        <p class="live-chat__prechat-desc">Drop your details and message. I'll receive it immediately and reply right here.</p>
+      </div>
+      <form class="live-chat__form" id="live-chat-init-form">
+        <div class="live-chat__field-group">
+          <label for="chat-name" class="live-chat__label">Name</label>
+          <input type="text" id="chat-name" name="name" class="live-chat__input" placeholder="Your name" required autocomplete="name">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-email" class="live-chat__label">Email</label>
+          <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-first-msg" class="live-chat__label">Message</label>
+          <textarea id="chat-first-msg" name="message" class="live-chat__textarea" rows="3" placeholder="How can I help you today?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid live-chat__submit-btn">
+          Start Chat
+        </button>
+      </form>
+    </div>
+
+    <!-- Active Conversation Screen -->
+    <div class="live-chat__conversation" id="live-chat-conversation" hidden>
+      <div class="live-chat__messages" id="live-chat-messages" tabindex="0" aria-label="Message history"></div>
+      <form class="live-chat__composer" id="live-chat-composer">
+        <textarea id="chat-reply-input" class="live-chat__composer-input" placeholder="Type a message…" rows="1" autocomplete="off" required></textarea>
+        <button type="submit" class="live-chat__composer-send" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- chat:end -->
+</body>
+</html>

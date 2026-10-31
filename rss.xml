@@ -7,7 +7,39 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Oct 2026 09:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 31 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Why Your WooCommerce Store Keeps Overselling: The Real Fix for Growing Brands</title>
+      <link>https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/</link>
+      <guid isPermaLink="true">https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/</guid>
+      <pubDate>Sat, 31 Oct 2026 12:00:00 GMT</pubDate>
+      <category>Commerce</category>
+      <description>Why WooCommerce stores oversell during flash sales and multi-channel sync, the real financial cost to retailers, and how an authoritative central ledger stops inventory drift permanently.</description>
+    </item>
+    <item>
+      <title>How to Automate Pathao and Steadfast Courier Booking for E-commerce Stores</title>
+      <link>https://polash.link/blog/automate-pathao-steadfast-courier-laravel/</link>
+      <guid isPermaLink="true">https://polash.link/blog/automate-pathao-steadfast-courier-laravel/</guid>
+      <pubDate>Sat, 31 Oct 2026 12:00:00 GMT</pubDate>
+      <category>Logistics</category>
+      <description>Stop manual address copy-pasting, parcel errors, and delayed shipments. How automated courier dispatch, live webhooks, and COD fraud scoring save hours of daily operations.</description>
+    </item>
+    <item>
+      <title>Custom POS vs Ready-Made Software: What Growing Retailers Actually Need</title>
+      <link>https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/</link>
+      <guid isPermaLink="true">https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/</guid>
+      <pubDate>Sat, 31 Oct 2026 12:00:00 GMT</pubDate>
+      <category>Retail Systems</category>
+      <description>Why off-the-shelf POS software breaks multi-branch retailers, the true 3-year total cost of ownership, and how custom retail backends eliminate recurring seat fees.</description>
+    </item>
+    <item>
+      <title>Single-Database vs Multi-Database Multi-Tenancy: A Founder's Guide for SaaS</title>
+      <link>https://polash.link/blog/single-vs-multi-database-saas-multitenancy/</link>
+      <guid isPermaLink="true">https://polash.link/blog/single-vs-multi-database-saas-multitenancy/</guid>
+      <pubDate>Sat, 31 Oct 2026 12:00:00 GMT</pubDate>
+      <category>Architecture</category>
+      <description>A practical architectural guide for SaaS founders: cost, data safety, noisy neighbors, and why the hybrid database model wins for growing platforms.</description>
+    </item>
     <item>
       <title>Building an Offline-First App with Zero-Cost AI on a 256MB Server</title>
       <link>https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/</link>

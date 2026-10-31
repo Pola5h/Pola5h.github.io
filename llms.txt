@@ -1,18 +1,20 @@
 # Kamruzzaman Polash
 
-> Backend software engineer (Laravel, PHP, MySQL, Redis, Docker, Kubernetes) based in Mymensingh, Bangladesh. Builds multi-tenant SaaS, e-commerce and POS platforms, courier and payment integrations (Pathao, Steadfast, RedX, CarryBee, bKash, SSLCommerz), and Laravel REST APIs. Available for remote full-time roles, team collaboration and client projects worldwide.
+> Custom software and backend engineer (Laravel, PHP, MySQL, Redis, Docker, Kubernetes) based in Bangladesh. Builds custom business software, multi-branch POS platforms, e-commerce automation, courier & payment pipelines (Pathao, Steadfast, RedX, CarryBee, bKash, SSLCommerz), and scalable SaaS backends. Available for client projects and remote full-time engineering roles worldwide.
 
 ## Key pages
-- [Home / portfolio](https://polash.link/): selected work, experience, skills, FAQ and contact.
-- [Services](https://polash.link/services/): SaaS architecture, commerce and courier integrations, performance, queues, Docker/Kubernetes and AI pipelines.
-- [Engineering blog](https://polash.link/blog/): production-focused Laravel articles (queues, MySQL optimisation, REST APIs, Docker/Kubernetes, AI integration).
+- [Home / portfolio](https://polash.link/): custom software, selected work, production systems, verified recommendations, FAQ and live chat.
+- [Services](https://polash.link/services/): custom business software, POS systems, e-commerce automation, courier/payment integrations, SaaS architecture, database tuning, and AI pipelines.
+- [Engineering blog](https://polash.link/blog/): 18 production-focused Laravel & backend engineering guides (queues, MySQL optimisation, REST APIs, Docker/Kubernetes, AI integration).
 
 ## Notable work
-- [Vendzoo](https://vendzoo.com): own multi-tenant retail and commerce SaaS (POS, Shopify and WooCommerce sync, multi-courier dispatch, COD fraud scoring, double-entry accounting). Live and onboarding early users.
+- [Vendzoo](https://vendzoo.com): omnichannel retail & commerce SaaS (multi-branch POS, Shopify and WooCommerce inventory sync, automated courier dispatch, COD fraud scoring, double-entry accounting).
 - [pola5h/laravel-flags](https://github.com/pola5h/laravel-flags): open-source Laravel package with 249 country and 210 language flags as Blade components.
 
-## Contact
+## Contact & Collaboration
+- Live Chat: On-site at https://polash.link/ (instant real-time messaging)
 - Email: hello@polash.link
 - WhatsApp: https://wa.me/8801791296967
 - GitHub: https://github.com/pola5h
 - LinkedIn: https://linkedin.com/in/pola5h
+

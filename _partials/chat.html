@@ -1,0 +1,67 @@
+<!-- chat:start -->
+<!-- 100% White-Label Live Chat Widget -->
+<div class="live-chat" id="live-chat" aria-live="polite">
+  <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
+    <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
+    <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="live-chat__icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="live-chat__launcher-label">Live Chat</span>
+  </button>
+
+  <div class="live-chat__window" id="live-chat-window" role="dialog" aria-modal="false" aria-label="Live Chat" hidden>
+    <header class="live-chat__header">
+      <div class="live-chat__header-info">
+        <div class="live-chat__avatar-wrap">
+          <img src="/assets/images/polash-profile.jpg" alt="Kamruzzaman Polash" class="live-chat__avatar-img" width="38" height="38">
+          <span class="live-chat__avatar-badge" id="live-chat-status-badge" aria-hidden="true"></span>
+        </div>
+        <div>
+          <div class="live-chat__title">Kamruzzaman Polash</div>
+          <div class="live-chat__status" id="live-chat-status-text">Available for chat</div>
+        </div>
+      </div>
+      <div class="live-chat__header-actions">
+        <button type="button" class="live-chat__btn-icon" id="live-chat-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pre-Chat Screen -->
+    <div class="live-chat__prechat" id="live-chat-prechat">
+      <div class="live-chat__prechat-intro">
+        <h3 class="live-chat__prechat-title">Chat with Polash</h3>
+        <p class="live-chat__prechat-desc">Drop your details and message. I'll receive it immediately and reply right here.</p>
+      </div>
+      <form class="live-chat__form" id="live-chat-init-form">
+        <div class="live-chat__field-group">
+          <label for="chat-name" class="live-chat__label">Name</label>
+          <input type="text" id="chat-name" name="name" class="live-chat__input" placeholder="Your name" required autocomplete="name">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-email" class="live-chat__label">Email</label>
+          <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-first-msg" class="live-chat__label">Message</label>
+          <textarea id="chat-first-msg" name="message" class="live-chat__textarea" rows="3" placeholder="How can I help you today?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid live-chat__submit-btn">
+          Start Chat
+        </button>
+      </form>
+    </div>
+
+    <!-- Active Conversation Screen -->
+    <div class="live-chat__conversation" id="live-chat-conversation" hidden>
+      <div class="live-chat__messages" id="live-chat-messages" tabindex="0" aria-label="Message history"></div>
+      <form class="live-chat__composer" id="live-chat-composer">
+        <textarea id="chat-reply-input" class="live-chat__composer-input" placeholder="Type a message…" rows="1" autocomplete="off" required></textarea>
+        <button type="submit" class="live-chat__composer-send" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- chat:end -->

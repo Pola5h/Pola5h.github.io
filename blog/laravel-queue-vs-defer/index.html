@@ -45,7 +45,7 @@ try {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/main.css?v=28">
+<link rel="stylesheet" href="/assets/css/main.css?v=33">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -53,7 +53,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Backend Software Engineer & SaaS Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queue-vs-defer/#article","headline":"Laravel Queue vs defer(): When to Use Each","description":"Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.","url":"https://polash.link/blog/laravel-queue-vs-defer/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queue-vs-defer/"},"datePublished":"2026-03-30","dateModified":"2026-03-30","timeRequired":"PT11M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue vs defer(): When to Use Each","item":"https://polash.link/blog/laravel-queue-vs-defer/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between Laravel Queue and defer()?","acceptedAnswer":{"@type":"Answer","text":"A Queue Job is serialized and pushed into a persistent store (Redis, database, SQS) processed by a separate worker. defer() runs a PHP closure in the same process, after the HTTP response has been sent — no worker needed, no persistence, no retries. Use defer() for lightweight fire-and-forget tasks. Use queues for anything that must be reliable or retried on failure."}},{"@type":"Question","name":"Which Laravel versions support defer()?","acceptedAnswer":{"@type":"Answer","text":"defer() was introduced in Laravel 11.0 (March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier."}},{"@type":"Question","name":"Does Laravel defer() need a queue worker?","acceptedAnswer":{"@type":"Answer","text":"No. defer() does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent — making it ideal for simple apps that don&#39;t want to manage queue infrastructure."}},{"@type":"Question","name":"What happens to deferred functions if the response fails?","acceptedAnswer":{"@type":"Answer","text":"By default, deferred functions only execute if the HTTP response completes successfully. A 4xx or 5xx response will skip them. To force them to always run, chain -&gt;always() : defer(fn () =&gt; doWork())-&gt;always();"}},{"@type":"Question","name":"Can defer() replace queues in Laravel?","acceptedAnswer":{"@type":"Answer","text":"No. defer() is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job. See also: Laravel Queues & Jobs with Redis: Complete Production Guide ."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queue-vs-defer/#article","headline":"Laravel Queue vs defer(): When to Use Each","description":"Laravel defer() vs queues explained: execution order, memory, transaction gotchas, and exactly when to use each in Laravel 11, 12 and 13.","url":"https://polash.link/blog/laravel-queue-vs-defer/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queue-vs-defer/"},"datePublished":"2026-03-30","dateModified":"2026-03-30","timeRequired":"PT11M","articleSection":"Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue vs defer(): When to Use Each","item":"https://polash.link/blog/laravel-queue-vs-defer/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the difference between Laravel Queue and defer()?","acceptedAnswer":{"@type":"Answer","text":"A Queue Job is serialized and pushed into a persistent store (Redis, database, SQS) processed by a separate worker. defer() runs a PHP closure in the same process, after the HTTP response has been sent — no worker needed, no persistence, no retries. Use defer() for lightweight fire-and-forget tasks. Use queues for anything that must be reliable or retried on failure."}},{"@type":"Question","name":"Which Laravel versions support defer()?","acceptedAnswer":{"@type":"Answer","text":"defer() was introduced in Laravel 11.0 (March 2024). It is available in Laravel 11, 12, and 13. It is NOT available in Laravel 10 or earlier."}},{"@type":"Question","name":"Does Laravel defer() need a queue worker?","acceptedAnswer":{"@type":"Answer","text":"No. defer() does not need a queue worker, Redis, or any additional infrastructure. The deferred closure runs in the same PHP process, after the HTTP response has been sent — making it ideal for simple apps that don&#39;t want to manage queue infrastructure."}},{"@type":"Question","name":"What happens to deferred functions if the response fails?","acceptedAnswer":{"@type":"Answer","text":"By default, deferred functions only execute if the HTTP response completes successfully. A 4xx or 5xx response will skip them. To force them to always run, chain -&gt;always() : defer(fn () =&gt; doWork())-&gt;always();"}},{"@type":"Question","name":"Can defer() replace queues in Laravel?","acceptedAnswer":{"@type":"Answer","text":"No. defer() is a lightweight complement to queues, not a replacement. It lacks retries, persistence, monitoring, delayed execution, and cross-server processing. For anything that must succeed reliably — emails, payment webhooks, file processing — always use a queue job. See also: Laravel Queues & Jobs with Redis: Complete Production Guide ."}}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -564,10 +564,10 @@ use <span class="hljs-keyword">function</span> <span class="hljs-title class_">I
         <p class="label label--accent">Work with me</p>
         <h2>Need help with your Laravel architecture?</h2>
         <p>I build clean, maintainable Laravel backends for SaaS products — REST APIs, queue systems and production patterns like the one in this article.</p>
-        <div class="cta-band__actions"><a class="btn btn--solid" href="/services/">Engineering Services</a><a class="btn btn--line" href="/#contact">Get in Touch</a></div>
+        <div class="cta-band__actions"><button type="button" class="btn btn--solid" data-open-chat>Chat now</button><a class="btn btn--line" href="/services/">Engineering Services</a><a class="btn btn--line" href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20found%20your%20blog%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
       </div>
       <div class="author-box">
-        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Backend engineer · Laravel, REST APIs, multi-tenant SaaS</div></div></div>
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Custom software &amp; backend engineer · Laravel, SaaS, APIs</div></div></div>
         <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
       </div>
       <nav class="pager" aria-label="Article navigation">
@@ -588,8 +588,8 @@ use <span class="hljs-keyword">function</span> <span class="hljs-title class_">I
     <p class="footer__wordmark">Kamruzzaman Polash</p>
     <div class="footer__grid">
       <div class="footer__col">
-        <h2 class="label">Backend engineer &amp; SaaS architect</h2>
-        <p>I build high-throughput Laravel systems, multi-tenant platforms and commerce integrations with clean, maintainable architecture. Based in Bangladesh, working remotely worldwide.</p>
+        <h2 class="label">Custom software &amp; backend engineer</h2>
+        <p>I build custom business software, e-commerce automation, POS systems, and scalable SaaS platforms. Direct developer, no middlemen. Based in Bangladesh, working remotely worldwide.</p>
         <div class="social" style="margin-top:1rem">
           <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
           <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
@@ -628,6 +628,73 @@ use <span class="hljs-keyword">function</span> <span class="hljs-title class_">I
   </div>
   <script defer src="/assets/js/t.js"></script>
 </footer>
-<script src="/assets/js/main.js?v=4" defer></script>
+<script src="/assets/js/main.js?v=33" defer></script>
+  <!-- chat:start -->
+<!-- 100% White-Label Live Chat Widget -->
+<div class="live-chat" id="live-chat" aria-live="polite">
+  <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
+    <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
+    <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="live-chat__icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="live-chat__launcher-label">Live Chat</span>
+  </button>
+
+  <div class="live-chat__window" id="live-chat-window" role="dialog" aria-modal="false" aria-label="Live Chat" hidden>
+    <header class="live-chat__header">
+      <div class="live-chat__header-info">
+        <div class="live-chat__avatar-wrap">
+          <img src="/assets/images/polash-profile.jpg" alt="Kamruzzaman Polash" class="live-chat__avatar-img" width="38" height="38">
+          <span class="live-chat__avatar-badge" id="live-chat-status-badge" aria-hidden="true"></span>
+        </div>
+        <div>
+          <div class="live-chat__title">Kamruzzaman Polash</div>
+          <div class="live-chat__status" id="live-chat-status-text">Available for chat</div>
+        </div>
+      </div>
+      <div class="live-chat__header-actions">
+        <button type="button" class="live-chat__btn-icon" id="live-chat-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pre-Chat Screen -->
+    <div class="live-chat__prechat" id="live-chat-prechat">
+      <div class="live-chat__prechat-intro">
+        <h3 class="live-chat__prechat-title">Chat with Polash</h3>
+        <p class="live-chat__prechat-desc">Drop your details and message. I'll receive it immediately and reply right here.</p>
+      </div>
+      <form class="live-chat__form" id="live-chat-init-form">
+        <div class="live-chat__field-group">
+          <label for="chat-name" class="live-chat__label">Name</label>
+          <input type="text" id="chat-name" name="name" class="live-chat__input" placeholder="Your name" required autocomplete="name">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-email" class="live-chat__label">Email</label>
+          <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-first-msg" class="live-chat__label">Message</label>
+          <textarea id="chat-first-msg" name="message" class="live-chat__textarea" rows="3" placeholder="How can I help you today?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid live-chat__submit-btn">
+          Start Chat
+        </button>
+      </form>
+    </div>
+
+    <!-- Active Conversation Screen -->
+    <div class="live-chat__conversation" id="live-chat-conversation" hidden>
+      <div class="live-chat__messages" id="live-chat-messages" tabindex="0" aria-label="Message history"></div>
+      <form class="live-chat__composer" id="live-chat-composer">
+        <textarea id="chat-reply-input" class="live-chat__composer-input" placeholder="Type a message…" rows="1" autocomplete="off" required></textarea>
+        <button type="submit" class="live-chat__composer-send" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- chat:end -->
 </body>
 </html>

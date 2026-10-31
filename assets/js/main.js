@@ -874,6 +874,12 @@
 
     toggleBtn.addEventListener('click', function () { toggleChat(); });
     if (closeBtn) closeBtn.addEventListener('click', function () { toggleChat(false); });
+    document.querySelectorAll('[data-open-chat]').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        toggleChat(true);
+      });
+    });
 
     // Pre-chat submission
     initForm.addEventListener('submit', function (e) {
