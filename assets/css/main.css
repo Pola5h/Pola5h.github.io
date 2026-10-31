@@ -2041,26 +2041,6 @@ textarea.field { resize: vertical; min-height: 7rem; }
   border: 1px solid var(--line);
   border-radius: 14px 14px 14px 2px;
 }
-.live-chat__msg--new .live-chat__bubble {
-  animation: newMsgGlow 2.4s ease-out forwards;
-}
-@keyframes newMsgGlow {
-  0% {
-    box-shadow: 0 0 0 0 var(--accent-glow);
-    border-color: var(--accent);
-    background-color: var(--accent-soft);
-  }
-  25% {
-    box-shadow: 0 0 0 4px var(--accent-glow), 0 4px 14px -2px var(--accent-glow);
-    border-color: var(--accent);
-    background-color: var(--accent-soft);
-  }
-  100% {
-    box-shadow: none;
-    border-color: var(--line);
-    background-color: var(--paper-3);
-  }
-}
 .live-chat__msg-meta {
   font-size: .65rem;
   font-family: var(--mono);

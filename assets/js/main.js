@@ -750,9 +750,6 @@
       var isVisitor = sender === 'visitor';
       var msgEl = document.createElement('div');
       msgEl.className = 'live-chat__msg ' + (isVisitor ? 'live-chat__msg--visitor' : 'live-chat__msg--polash');
-      if (isNewArrival && !isVisitor) {
-        msgEl.classList.add('live-chat__msg--new');
-      }
       if (msgId) msgEl.setAttribute('data-msg-id', msgId);
 
       var bubble = document.createElement('div');
