@@ -673,6 +673,16 @@
       } catch (e) {}
     }
 
+    function clearStoredSession() {
+      session = null;
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      document.cookie = STORAGE_KEY + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax';
+      if (pollTimer) clearInterval(pollTimer);
+      renderedMsgIds.clear();
+      if (messagesEl) messagesEl.innerHTML = '';
+      switchView(false);
+    }
+
     var renderedMsgIds = new Set();
     session = getStoredSession();
 
@@ -980,6 +990,10 @@
       fetch(CHAT_ENDPOINT + '?action=history&session_id=' + encodeURIComponent(session.session_id))
         .then(function (res) { return res.json(); })
         .then(function (data) {
+          if (data && data.session_expired) {
+            clearStoredSession();
+            return;
+          }
           if (data && data.success && Array.isArray(data.messages)) {
             data.messages.forEach(function (m) {
               var key = m.id ? 'id:' + m.id : 'm:' + m.sender + ':' + (m.created_at || m.message);
@@ -1185,6 +1199,11 @@
             if (optimisticEl) optimisticEl.setAttribute('data-msg-id', data.msg_id);
           }
         } else {
+          if (data && data.session_expired) {
+            clearStoredSession();
+            showToast(data.message || 'Session expired. Please restart the chat.');
+            return;
+          }
           showToast(data.message || 'Message delivery delayed.');
         }
       })
