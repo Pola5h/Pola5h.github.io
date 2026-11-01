@@ -610,9 +610,9 @@ html:not(.js) .hero__portrait-img {
 .work__link:hover { color: var(--accent-2); text-decoration: underline; }
 .work__outcomes {
   display: grid;
-  gap: .55rem;
+  gap: .65rem;
   margin-top: .5rem;
-  padding: .85rem 1.1rem;
+  padding: .9rem 1.15rem;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
@@ -2322,7 +2322,6 @@ textarea.field { resize: vertical; min-height: 7rem; }
   .header-actions .btn { display: inline-flex; }
   .work__detail { grid-template-columns: repeat(3, 1fr); }
   .work__detail--2 { grid-template-columns: repeat(2, 1fr); }
-  .work__outcomes { grid-template-columns: repeat(2, 1fr); gap: .75rem 1.5rem; }
   .contact__grid { grid-template-columns: 1fr 1.25fr; gap: 3rem; align-items: start; }
   .feature { grid-template-columns: 1.35fr 1fr; gap: 2.5rem; align-items: center; }
 }

@@ -7,7 +7,15 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 31 Oct 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>Building a White-Label Real-Time Live Chat with Ably and Telegram Topics</title>
+      <link>https://polash.link/blog/white-label-live-chat-ably-telegram/</link>
+      <guid isPermaLink="true">https://polash.link/blog/white-label-live-chat-ably-telegram/</guid>
+      <pubDate>Sun, 01 Nov 2026 12:00:00 GMT</pubDate>
+      <category>Realtime</category>
+      <description>How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.</description>
+    </item>
     <item>
       <title>Why Your WooCommerce Store Keeps Overselling: The Real Fix for Growing Brands</title>
       <link>https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/</link>

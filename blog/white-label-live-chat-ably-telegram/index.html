@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building a White-Label Real-Time Live Chat with Ably and Telegram Topics — Kamruzzaman Polash</title>
+<meta name="description" content="How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.">
+<link rel="canonical" href="https://polash.link/blog/white-label-live-chat-ably-telegram/">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="keywords" content="Ably live chat, Ably Realtime tutorial, Telegram forum topics live chat, white label live chat widget, Ably WebSockets, custom live chat PHP, Telegram bot helpdesk, real-time messaging">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://polash.link/blog/white-label-live-chat-ably-telegram/">
+<meta property="og:title" content="Building a White-Label Real-Time Live Chat with Ably and Telegram Topics">
+<meta property="og:description" content="How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.">
+<meta property="og:image" content="https://polash.link/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Building a Real-Time Live Chat with Ably and Telegram Topics">
+<meta property="article:published_time" content="2026-11-01">
+<meta property="article:modified_time" content="2026-11-01">
+<meta property="article:section" content="Realtime &amp; Architecture">
+<meta property="article:author" content="https://polash.link/">
+<meta property="article:tag" content="Realtime">
+<meta property="article:tag" content="Ably">
+<meta property="article:tag" content="Architecture">
+<meta property="article:tag" content="WebSockets">
+<meta property="article:tag" content="Telegram">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://polash.link/blog/white-label-live-chat-ably-telegram/">
+<meta name="twitter:title" content="Building a White-Label Real-Time Live Chat with Ably and Telegram Topics">
+<meta name="twitter:description" content="How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.">
+<meta property="twitter:image" content="https://polash.link/assets/images/og-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash - Blog" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/main.css?v=33">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Kamruzzaman Polash builds custom business software, multi-branch POS systems, e-commerce automation, and scalable platforms using Laravel, PHP, MySQL, and Docker.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","Ably Realtime","WebSockets","Telegram Bot API"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/white-label-live-chat-ably-telegram/#article","headline":"Building a White-Label Real-Time Live Chat with Ably and Telegram Topics","description":"How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.","url":"https://polash.link/blog/white-label-live-chat-ably-telegram/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/white-label-live-chat-ably-telegram/"},"datePublished":"2026-11-01","dateModified":"2026-11-01","timeRequired":"PT7M","wordCount":1600,"proficiencyLevel":"Intermediate to Advanced","articleSection":"Realtime & Architecture","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"White-Label Live Chat with Ably","item":"https://polash.link/blog/white-label-live-chat-ably-telegram/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does Ably Realtime fit into this live chat setup?","acceptedAnswer":{"@type":"Answer","text":"Ably handles the real-time WebSocket delivery between the server and the visitor's browser. With 6 million free messages per month and 200 concurrent connections, it provides reliable edge infrastructure without requiring custom socket servers."}},{"@type":"Question","name":"Why use Telegram Topics instead of a dedicated chat dashboard?","acceptedAnswer":{"@type":"Answer","text":"Telegram Supergroup Forum Topics organize every visitor into a distinct conversation thread. Notifications arrive instantly on your phone, allowing you to answer inquiries directly without keeping a web dashboard open all day."}},{"@type":"Question","name":"Does this chat setup affect website loading performance?","acceptedAnswer":{"@type":"Answer","text":"No. Commercial chat widgets typically inject 200KB-500KB of tracking scripts and cookies. This custom implementation uses clean vanilla JavaScript and loads Ably via a lightweight CDN script only when needed, preserving Core Web Vitals."}}]}]}</script>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="K. Polash — home">
+      <span class="brand__name">K. Polash</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#work" class="nav__link">Work</a>
+      <a href="/#about" class="nav__link">About</a>
+      <a href="/#skills" class="nav__link">Skills</a>
+      <a href="/#experience" class="nav__link">Experience</a>
+      <a href="/services/" class="nav__link">Services</a>
+      <a href="/blog/" class="nav__link" aria-current="page">Blog</a>
+      <a href="/#contact" class="nav__link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">White-Label Live Chat with Ably</span></div></div>
+
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Realtime &amp; Architecture</span><span class="label">7 min read</span></div>
+    <h1 class="article-head__title">Building a White-Label Real-Time Live Chat with Ably and Telegram Topics</h1>
+    <p class="article-head__desc">How I built a lightweight, 100% white-label live chat system using Ably Realtime and Telegram Forum Topics. Zero third-party trackers, zero bloated widgets, and managed straight from a phone.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">November 1, 2026 · Systems &amp; Realtime Architecture</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
+
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article">
+        <aside class="callout callout--tip">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+          <div>
+            <p class="callout__title">The Problem with Off-the-Shelf Chat Widgets</p>
+            <p><strong>Most ready-made live chat widgets slap third-party branding on your website, inject heavy tracking bundles that drag down page speed, and force you to keep another browser dashboard open all day.</strong></p>
+            <p>Here is how I architected an ultra-lean, production-grade alternative using Ably Realtime and Telegram Forum Topics that runs directly on your existing hosting with zero third-party bloat.</p>
+          </div>
+        </aside>
+
+        <h2 id="1-why-ready-made-widgets-fall-short">1. Why Most Off-the-Shelf Chat Widgets Fall Short</h2>
+        <p>For any business website, portfolio, or e-commerce store, being reachable in real time directly improves customer trust and conversion. When potential clients or buyers have a question before placing an order or booking a service, an instant response makes all the difference.</p>
+        <p>However, off-the-shelf chat widgets often introduce trade-offs that hurt the user experience:</p>
+        <ul>
+          <li><strong>Unwanted Third-Party Branding:</strong> Free and entry-level tiers force prominent "Powered by X" labels on your clean interface, taking focus away from your own brand identity.</li>
+          <li><strong>Performance Penalties:</strong> Commercial widgets frequently inject 200KB to 500KB of external JavaScript, tracking cookies, and telemetry beacons. This delays your Largest Contentful Paint (LCP) and hurts mobile responsiveness.</li>
+          <li><strong>Dashboard Fatigue:</strong> Most small business owners, consultants, and developers already manage their daily communication inside messaging apps. Keeping a separate web dashboard or memory-heavy desktop client open just to wait for occasional inquiries is inefficient.</li>
+        </ul>
+        <p>The goal was simple: a tailored widget with <strong>100% brand alignment</strong>, <strong>sub-second message delivery</strong>, and <strong>zero operational hassle</strong>.</p>
+
+        <h2 id="2-how-the-architecture-links-up">2. How the Architecture Links Up</h2>
+        <p>Instead of managing dedicated WebSocket servers or relying on a rigid third-party platform, the system links together three clean layers:</p>
+
+        <p><strong>Step 1: Visitor writes a message</strong><br>
+        The visitor opens the chat widget and submits their initial message. A lightweight frontend script sends this data via a standard HTTP POST request to a lean PHP backend endpoint on the server.</p>
+
+        <p><strong>Step 2: Backend organizes the thread</strong><br>
+        The backend validates the input, checks rate limits, catches bot submissions via a hidden honeypot, and forwards the conversation to a private Telegram Supergroup using Telegram's Bot API.</p>
+
+        <p><strong>Step 3: Admin receives and replies on mobile</strong><br>
+        A dedicated forum topic is created for that visitor inside Telegram. I receive an instant notification on my phone and can type a reply directly inside that visitor's topic.</p>
+
+        <p><strong>Step 4: Real-time delivery via Ably</strong><br>
+        Telegram's webhook notifies the backend of the reply, and the backend publishes the message to <strong>Ably Realtime</strong>. Ably immediately pushes the message over an open WebSocket connection straight to the visitor's browser screen.</p>
+
+        <p>Because the visitor's browser only needs to subscribe to its own unique channel, the frontend code remains minimal, fast, and completely free of tracking cookies.</p>
+
+        <h2 id="3-why-ably-realtime-is-the-ideal-foundation">3. Why Ably Realtime Is the Ideal Foundation</h2>
+        <p>Running custom WebSockets in production requires handling edge network drops, automatic reconnects, mobile network handoffs, and server clustering. Rather than reinventing that wheel, <a href="https://ably.com/" target="_blank" rel="noopener noreferrer">Ably</a> provides rock-solid real-time messaging infrastructure with a very generous tier:</p>
+
+        <ul>
+          <li><strong>6,000,000 messages per month</strong></li>
+          <li><strong>500 messages per second</strong> peak throughput</li>
+          <li><strong>200 concurrent connections</strong></li>
+          <li><strong>Global edge routing</strong> with sub-50ms message latency</li>
+        </ul>
+
+        <p>For portfolios, service websites, and small-to-medium businesses, 6 million messages per month is virtually unlimited headroom. Even with consistent daily traffic, you barely use a fraction of the capacity.</p>
+        <p>Crucially, Ably takes care of connection recovery, message ordering, and presence without needing dedicated Node.js, Redis, or Socket.io servers. The backend simply makes a fast REST call to publish a message, and Ably handles the rest.</p>
+
+        <h2 id="4-telegram-forum-topics-as-an-everyday-helpdesk">4. Telegram Forum Topics as an Everyday Helpdesk</h2>
+        <p>The biggest challenge with website live chat is making sure inquiries don't get missed when you are away from your computer.</p>
+        <p>By using <strong>Telegram Supergroups with Forum Topics</strong>, Telegram serves as an immediate, cloud-synced communication hub:</p>
+
+        <ul>
+          <li><strong>One Topic per Visitor:</strong> Each visitor gets an isolated forum topic (e.g. <code>💬 John · General Inquiry</code>). Messages stay neatly organized so conversations never overlap.</li>
+          <li><strong>Visitor Context at a Glance:</strong> The initial topic message displays the visitor's name, email, the page they are currently reading, and their country flag.</li>
+          <li><strong>Interactive Quick Controls:</strong> Using Telegram inline buttons, I can switch the site's chat status between <code>Available</code> and <code>Away</code> with a single tap, or hide the launcher during meetings.</li>
+          <li><strong>True Mobile Freedom:</strong> Responses can be typed from a phone lock screen or smartwatch without logging into any web admin portal.</li>
+        </ul>
+
+        <h2 id="5-security-and-anti-abuse-safeguards">5. Security &amp; Anti-Abuse Safeguards</h2>
+        <p>Any public-facing form needs protection against automated abuse and spam. Because this architecture is custom-built, several lightweight defenses were baked in directly:</p>
+
+        <ul>
+          <li><strong>Client-Side XSS Protection:</strong> In the browser, incoming chat messages are rendered strictly via DOM <code>textContent</code> rather than <code>innerHTML</code>. Even if someone submits script tags, they display as harmless plain text.</li>
+          <li><strong>Honeypot Trap for Bots:</strong> Hidden form fields catch automated spammers instantly. Bots that populate these fields receive a dummy success response while the backend silently discards the payload.</li>
+          <li><strong>DNS MX &amp; Disposable Email Checks:</strong> The backend verifies domain mail server records and screens against disposable email lists to ensure conversations originate from genuine contacts.</li>
+          <li><strong>IP Rate Limiting:</strong> SQLite tracks request timestamps per IP address. Spammers sending rapid-fire messages are automatically capped with HTTP 429 responses.</li>
+        </ul>
+
+        <h2 id="6-the-strategic-advantage-of-custom-tooling">6. The Strategic Advantage of Custom Tooling</h2>
+        <p>Ready-made widgets make sense for enterprise support teams with hundreds of agents. But for independent consultants, agencies, and growing online businesses, custom tools provide significant advantages:</p>
+        <ol>
+          <li><strong>100% White-Label:</strong> The chat interface matches the exact typography, dark mode, and design system of the website.</li>
+          <li><strong>Zero Performance Drag:</strong> No external analytics bundles or marketing trackers dragging down Core Web Vitals.</li>
+          <li><strong>Faster Response Times:</strong> Inquiries reach the messaging app you already check throughout the day.</li>
+          <li><strong>Total Data Privacy:</strong> Conversations remain securely on your own server and private channels.</li>
+        </ol>
+        <p>By connecting dependable building blocks like <strong>Ably Realtime</strong> and <strong>Telegram</strong>, you get an ultra-fast, professional live chat experience tailored to your exact workflow.</p>
+      </article>
+
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Need custom real-time systems or high-performance integrations?</h2>
+        <p>I design and build tailored backend architectures, event-driven APIs, and bespoke business tools that eliminate third-party bloat.</p>
+        <div class="cta-band__actions">
+          <button type="button" class="btn btn--solid" data-open-chat>Chat now</button>
+          <a class="btn btn--line" href="/services/">Engineering Services</a>
+          <a class="btn btn--line" href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20read%20your%20Ably%20live%20chat%20article%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Custom software &amp; backend engineer · Laravel, APIs, Realtime</div></div></div>
+        <div class="social">
+          <a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/automate-pathao-steadfast-courier-laravel/"><span>← Previous</span><b>How to Automate Pathao and Steadfast Courier Booking</b></a>
+        <a href="/blog/woocommerce-overselling-inventory-sync-fix/" style="text-align:right"><span>Next →</span><b>Why Your WooCommerce Store Keeps Overselling</b></a>
+      </nav>
+    </div>
+
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-why-ready-made-widgets-fall-short" data-toc-link>1. Why Ready-Made Widgets Fall Short</a><a href="#2-how-the-architecture-links-up" data-toc-link>2. How the Architecture Links Up</a><a href="#3-why-ably-realtime-is-the-secret-weapon" data-toc-link>3. Why Ably Realtime</a><a href="#4-telegram-forum-topics-as-an-everyday-helpdesk" data-toc-link>4. Telegram Topics as Helpdesk</a><a href="#5-security-and-anti-abuse-safeguards" data-toc-link>5. Security Safeguards</a><a href="#6-the-strategic-advantage-of-custom-tooling" data-toc-link>6. The Strategic Advantage</a></nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid">
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Realtime</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/">Laravel Realtime Notifications: Pusher vs Soketi vs FCM</a></h3><p class="post-row__desc">Architecture, pricing limits, and production tradeoffs between managed WebSockets, self-hosted alternatives, and push notifications.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Logistics</span><span class="post-row__time">9 min</span></div><h3 class="post-row__title"><a href="/blog/automate-pathao-steadfast-courier-laravel/">How to Automate Pathao and Steadfast Courier Booking</a></h3><p class="post-row__desc">Stop manual address copy-pasting, parcel errors, and delayed shipments with automated event-driven logistics.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">6 min</span></div><h3 class="post-row__title"><a href="/blog/offline-first-expense-tracker-pwa-android-laravel/">Building an Offline-First App with Zero-Cost AI</a></h3><p class="post-row__desc">How I built a local-first personal finance manager with zero-cost AI on a tiny server.</p></article>
+    </div>
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Custom software &amp; backend engineer</h2>
+        <p>I build custom business software, e-commerce automation, POS systems, and scalable SaaS platforms. Direct developer, no middlemen. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:hello@polash.link" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss.xml" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="mailto:hello@polash.link">hello@polash.link</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+          <li><a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn (@pola5h)</a></li>
+          <li><a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub (@pola5h)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Backend Engineer &amp; SaaS Architect · Remote Worldwide</p>
+    </div>
+  </div>
+  <script defer src="/assets/js/t.js"></script>
+</footer>
+<script src="/assets/js/main.js?v=33" defer></script>
+  <!-- chat:start -->
+<!-- 100% White-Label Live Chat Widget -->
+<div class="live-chat" id="live-chat" aria-live="polite">
+  <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
+    <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
+    <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="live-chat__icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="live-chat__launcher-label">Live Chat</span>
+    <span class="live-chat__unread" id="live-chat-unread" hidden></span>
+  </button>
+
+  <div class="live-chat__window" id="live-chat-window" role="dialog" aria-modal="false" aria-label="Live Chat" hidden>
+    <header class="live-chat__header">
+      <div class="live-chat__header-info">
+        <div class="live-chat__avatar-wrap">
+          <img src="/assets/images/polash-profile.jpg" alt="Kamruzzaman Polash" class="live-chat__avatar-img" width="38" height="38">
+          <span class="live-chat__avatar-badge" id="live-chat-status-badge" aria-hidden="true"></span>
+        </div>
+        <div>
+          <div class="live-chat__title">Kamruzzaman Polash</div>
+          <div class="live-chat__status" id="live-chat-status-text">Available for chat</div>
+        </div>
+      </div>
+      <div class="live-chat__header-actions">
+        <button type="button" class="live-chat__btn-icon" id="live-chat-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pre-Chat Screen -->
+    <div class="live-chat__prechat" id="live-chat-prechat">
+      <div class="live-chat__prechat-intro">
+        <h3 class="live-chat__prechat-title">Chat with Polash</h3>
+        <p class="live-chat__prechat-desc">Drop your details and message. I'll receive it immediately and reply right here.</p>
+      </div>
+      <form class="live-chat__form" id="live-chat-init-form">
+        <div class="live-chat__field-group">
+          <label for="chat-name" class="live-chat__label">Name</label>
+          <input type="text" id="chat-name" name="name" class="live-chat__input" placeholder="Your name" required autocomplete="name">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-email" class="live-chat__label">Email</label>
+          <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-first-msg" class="live-chat__label">Message</label>
+          <textarea id="chat-first-msg" name="message" class="live-chat__textarea" rows="3" placeholder="How can I help you today?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid live-chat__submit-btn">
+          Start Chat
+        </button>
+      </form>
+    </div>
+
+    <!-- Active Conversation Screen -->
+    <div class="live-chat__conversation" id="live-chat-conversation" hidden>
+      <div class="live-chat__messages" id="live-chat-messages" tabindex="0" aria-label="Message history"></div>
+      <form class="live-chat__composer" id="live-chat-composer">
+        <textarea id="chat-reply-input" class="live-chat__composer-input" placeholder="Type a message…" rows="1" autocomplete="off" required></textarea>
+        <button type="submit" class="live-chat__composer-send" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- chat:end -->
+</body>
+</html>
