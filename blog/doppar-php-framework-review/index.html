@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review — Kamruzzaman Polash</title>
-<meta name="description" content="Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.">
+<meta name="description" content="Benchmarks with wrk, queue and scheduler tests, and an architecture review of the Doppar PHP framework compared to Laravel.">
 <link rel="canonical" href="https://polash.link/blog/doppar-php-framework-review/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
@@ -22,8 +22,8 @@ try {
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://polash.link/blog/doppar-php-framework-review/">
 <meta property="og:title" content="I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review">
-<meta property="og:description" content="Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.">
-<meta property="og:image" content="https://polash.link/assets/images/og-image.png">
+<meta property="og:description" content="Benchmarks with wrk, queue and scheduler tests, and an architecture review of the Doppar PHP framework compared to Laravel.">
+<meta property="og:image" content="https://polash.link/assets/images/og-doppar-review.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="I Tested the Doppar PHP Framework: Benchmarks and Architecture Review">
@@ -39,8 +39,8 @@ try {
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/doppar-php-framework-review/">
 <meta name="twitter:title" content="I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review">
-<meta name="twitter:description" content="Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.">
-<meta property="twitter:image" content="https://polash.link/assets/images/og-image.png">
+<meta name="twitter:description" content="Benchmarks with wrk, queue and scheduler tests, and an architecture review of the Doppar PHP framework compared to Laravel.">
+<meta property="twitter:image" content="https://polash.link/assets/images/og-doppar-review.jpg">
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
@@ -60,7 +60,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Kamruzzaman Polash builds custom business software, multi-branch POS systems, e-commerce automation, and scalable platforms using Laravel, PHP, MySQL, and Docker.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","Doppar","System Architecture","Benchmarking"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/doppar-php-framework-review/#article","headline":"I Tested the Doppar PHP Framework: Benchmarks & Architecture Review","description":"Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.","url":"https://polash.link/blog/doppar-php-framework-review/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/doppar-php-framework-review/"},"datePublished":"2026-11-02","dateModified":"2026-11-02","timeRequired":"PT8M","wordCount":1750,"proficiencyLevel":"Intermediate to Advanced","articleSection":"Architecture & Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Doppar PHP Framework Review","item":"https://polash.link/blog/doppar-php-framework-review/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Doppar 7 to 8 times faster than Laravel?","acceptedAnswer":{"@type":"Answer","text":"No. In controlled concurrency testing on identical hardware with wrk, Laravel outperformed Doppar on simple non-database routes (3,077 vs 1,765 req/s), while Doppar performed slightly better on relational database queries (1,198 vs 1,062 req/s). There was no evidence of a 7x to 8x speed advantage."}},{"@type":"Question","name":"How does Doppar's queue worker handle failures?","acceptedAnswer":{"@type":"Answer","text":"Doppar showed excellent queue stability: out of 1,000 dispatched jobs across 4 workers, no jobs were dropped or executed twice. Even when a worker was intentionally killed halfway through, all 1,000 jobs completed successfully, and failed jobs were cleanly saved for retry."}},{"@type":"Question","name":"What is the session issue in Doppar API routes?","acceptedAnswer":{"@type":"Answer","text":"Doppar initializes a session on every incoming request, including API endpoints, with no documented option to disable it. Because API clients do not send cookies, Doppar created up to 83,000 abandoned session files across three short runs, creating severe disk I/O bottlenecks that degraded throughput from 1,700 to 1,100 req/s."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Kamruzzaman Polash builds custom business software, multi-branch POS systems, e-commerce automation, and scalable platforms using Laravel, PHP, MySQL, and Docker.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","Doppar","System Architecture","Benchmarking"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/doppar-php-framework-review/#article","headline":"I Tested the Doppar PHP Framework: Benchmarks & Architecture Review","description":"Benchmarks with wrk, queue and scheduler tests, and an architecture review of the Doppar PHP framework compared to Laravel.","url":"https://polash.link/blog/doppar-php-framework-review/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/doppar-php-framework-review/"},"datePublished":"2026-11-02","dateModified":"2026-11-02","timeRequired":"PT8M","wordCount":1750,"proficiencyLevel":"Intermediate to Advanced","articleSection":"Architecture & Performance","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-doppar-review.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Doppar PHP Framework Review","item":"https://polash.link/blog/doppar-php-framework-review/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Doppar 7 to 8 times faster than Laravel?","acceptedAnswer":{"@type":"Answer","text":"No. In my local tests on one machine with wrk, Laravel outperformed Doppar on simple non-database routes (3,077 vs 1,765 req/s), while Doppar performed slightly better on relational database queries (1,198 vs 1,062 req/s). There was no evidence of a 7x to 8x speed advantage."}},{"@type":"Question","name":"How does Doppar's queue worker handle failures?","acceptedAnswer":{"@type":"Answer","text":"Doppar showed excellent queue stability: out of 1,000 dispatched jobs across 4 workers, no jobs were dropped or executed twice. Even when a worker was intentionally killed halfway through, all 1,000 jobs completed successfully, and failed jobs were cleanly saved for retry."}},{"@type":"Question","name":"What is the session issue in Doppar API routes?","acceptedAnswer":{"@type":"Answer","text":"Doppar starts a session on every request, including API routes, and I found no documented way to turn this off. Clients that do not send cookies create a new session file on every request: about 34,000 files in one 20-second run in my test. Throughput also dropped over repeated runs, though I did not measure how much of that came from the session files."}}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -92,7 +92,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
   <header class="article-head"><div class="wrap">
     <div class="article-head__cat"><span class="label label--accent">Architecture &amp; Performance</span><span class="label">8 min read</span></div>
     <h1 class="article-head__title">I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review</h1>
-    <p class="article-head__desc">Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.</p>
+    <p class="article-head__desc">Benchmarks with wrk, queue and scheduler tests, and an architecture review of the Doppar PHP framework compared to Laravel.</p>
     <div class="article-head__by">
       <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">November 2, 2026 · Systems &amp; Backend Engineering</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
@@ -103,12 +103,14 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
     <div>
       <article class="article">
         <aside class="callout">
-          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13H11l-1 9 8.5-11H12l1-9Z"/></svg></span>
+          <span class="callout__icon" aria-hidden="true">
+            <img src="/assets/images/doppar-logo.svg" alt="Doppar Logo" width="22" height="22" style="display:block;border-radius:3px;">
+          </span>
           <div>
             <p class="callout__label">The Short Version</p>
             <div class="callout__body">
-              <p><strong>Doppar is a young PHP framework with clean code and a few genuinely good ideas.</strong> It starts fast (41ms), keeps its footprint light, and its background queue and scheduler held up exceptionally well in tests. On database-heavy pages, it kept close to Laravel.</p>
-              <p>However, the claim that it is <strong>7 to 8 times faster than Laravel did not materialize</strong> in my tests. Additionally, default session creation on API routes causes severe file accumulation that the team should look at.</p>
+              <p><strong><a href="https://doppar.com/" target="_blank" rel="noopener noreferrer">Doppar</a> is a young PHP framework with clean code and a few genuinely good ideas.</strong> It starts fast (41ms), keeps its footprint light, and its background queue and scheduler held up exceptionally well in tests. On database-heavy pages, it kept close to Laravel.</p>
+              <p>However, the claim that it is <strong>7 to 8 times faster than Laravel did not materialize</strong> in my tests. Additionally, default session creation on API routes leaves a lot of session files behind, which the team should look at.</p>
             </div>
           </div>
         </aside>
@@ -116,7 +118,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <h2 id="1-what-i-liked">1. What I Liked: Startup, Queues &amp; Schedulers</h2>
         
         <h3 id="lightweight-footprint">Lightweight startup and small footprint</h3>
-        <p>The first thing I noticed was how light it is. Doppar starts in about <strong>41 milliseconds</strong>. Laravel took about <strong>142 milliseconds</strong> in the same test. For one request, Doppar loads around <strong>126 files</strong> and Laravel loads around <strong>429 files</strong>. In terms of Composer dependencies, Doppar uses <strong>49 packages</strong>, while Laravel uses <strong>78 packages</strong>.</p>
+        <p>The first thing I noticed was how light it is. Doppar's cold start (the first request after a restart) took about <strong>41 milliseconds</strong>. Laravel took about <strong>142 milliseconds</strong> in the same test. For one request, Doppar loads around <strong>126 files</strong> and Laravel loads around <strong>429 files</strong>. In terms of Composer dependencies, Doppar uses <strong>49 packages</strong>, while Laravel uses <strong>78 packages</strong>.</p>
         <p>Most of the basics are already inside: routing with attributes, a template engine, its own database layer, a queue, and a scheduler. The code reads cleanly.</p>
 
         <h3 id="queue-workers">Resilient queue workers</h3>
@@ -132,6 +134,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <p>I built the same small API in Doppar and Laravel, and checked that both gave the same answers. Both ran in production mode, on the same computer, with the same data and the same PHP version:</p>
         <ul>
           <li><strong>Hardware:</strong> AMD Ryzen 5 5600G with 6 cores and 27 GB of memory</li>
+          <li><strong>Versions:</strong> Doppar 4.8.4, Laravel 12.70.2, PHP 8.5.12</li>
           <li><strong>Operating System &amp; Runtime:</strong> Ubuntu, PHP 8.5</li>
           <li><strong>Load Generation:</strong> For the load I used a common tool called <code>wrk</code>. Each test ran five times for 20 seconds at <strong>50 concurrent users</strong>, and I took the middle result.</li>
           <li><strong>Environment Notes:</strong> This isn't an official benchmark. It's one person, one machine, and a few hours of testing. I also had other programs open on the same computer, so don't read much into small differences. Notably, between my first run and my final run, I rebuilt Laravel's production caches, and its speed on the simplest page almost doubled. I didn't isolate the exact cause, but it shows how much the setup changes the result. If you see a big speed claim, ask how the other framework was configured.</li>
@@ -187,7 +190,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
           <div>
             <p class="callout__label">Fact Check: The "7 to 8x Faster" Claim</p>
             <div class="callout__body">
-              <p>One thing to keep in mind: the Doppar numbers include its session handling, which the other frameworks don't do on API routes. I didn't measure how much of the gap comes from that. But even accounting for session handling, <strong>a 7x to 8x gap was completely absent in my tests.</strong></p>
+              <p>One thing to keep in mind: the Doppar numbers include its session handling, which the other frameworks don't do on API routes. I didn't measure how much of the gap comes from that. <strong>In my tests I didn't see anything close to a 7x to 8x gap.</strong></p>
             </div>
           </div>
         </aside>
@@ -195,7 +198,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <p>I checked a few other claims too:</p>
         <ul>
           <li><strong>About 2 milliseconds per request:</strong> With a single user, I got about <strong>4.9 milliseconds</strong> for Doppar and about <strong>2 milliseconds</strong> for Laravel.</li>
-          <li><strong>The speed table on Doppar's site:</strong> On my computer I reached about <strong>70 percent</strong> of those numbers. My hardware is different, so that's not a surprise.</li>
+          <li><strong>The speed table on <a href="https://doppar.com/" target="_blank" rel="noopener noreferrer">Doppar's website</a>:</strong> On my computer I reached about <strong>70 percent</strong> of those numbers. My hardware is different, so that's not a surprise.</li>
           <li><strong>No facades:</strong> I found <strong>24 facade classes</strong> in the code, and the official docs have a page about them.</li>
           <li><strong>Minimal dependencies:</strong> Doppar has fewer packages than Laravel (<strong>49 against 78</strong>), but more than CodeIgniter (<strong>3</strong>) or Slim (<strong>11</strong>).</li>
         </ul>
@@ -219,7 +222,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
           <div>
             <p class="callout__label">The Session File Pile-Up Problem</p>
             <div class="callout__body">
-              <p>When a client doesn't send a cookie, which is common for API clients and test tools, Doppar creates a new session file for every request:</p>
+              <p>When a client doesn't send a cookie, which is common for API clients and test tools, Doppar creates a new session file for every request. These numbers are from the default session setting (the file driver):</p>
               <ul>
                 <li>One 20-second run left about <strong>34,000 files</strong> behind.</li>
                 <li>After three runs in a row there were about <strong>83,000 files</strong> on disk.</li>
@@ -232,7 +235,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 
         <p>I found two smaller things as well:</p>
         <ol>
-          <li>The <code>cookie</code> session option still creates normal files on the server.</li>
+          <li>With <code>SESSION_DRIVER=cookie</code>, Doppar 4.8.4 still creates normal PHP session files, in <code>/tmp</code> (not in the app's <code>storage/framework/sessions</code> folder, so it's easy to miss). In my re-test, 10 requests without cookies produced 10 files in <code>/tmp</code> and a <code>PHPSESSID</code> cookie. With the default <code>file</code> driver, the same 10 requests put 10 files in the app's session folder.</li>
           <li>If you pick a session type that doesn't exist, Doppar returns an error message with file paths and internal details, even with debug mode turned off.</li>
         </ol>
 
@@ -243,7 +246,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <p>Doppar has a good base and I'd like to see it grow. If I could pick a few things to work on first:</p>
         <ol>
           <li><strong>Add a simple way to turn off sessions for API routes</strong>, and clean up old session files.</li>
-          <li><strong>Fix the cookie session option</strong> so it doesn't create files on the server.</li>
+          <li><strong>Check the cookie session option</strong>, because it still creates session files in <code>/tmp</code>.</li>
           <li><strong>Hide internal error details in production</strong>, even when a setting is wrong.</li>
           <li><strong>Share how the speed tests were done</strong> (the computer, the pages, and how Laravel was set up) so anyone can repeat them.</li>
           <li><strong>Make the scheduler docs clearer</strong> about every-minute tasks and about restarting after a crash.</li>
@@ -252,7 +255,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         </ol>
 
         <h2 id="8-where-it-fits-and-conclusion">8. Where I Think It Fits &amp; Verdict</h2>
-        <p>I'd look at Doppar for <strong>small internal tools and small services</strong>. These are places where fast startup and a light footprint help, and one small team controls the whole thing. It's also fun to try if you like young frameworks and don't mind helping them grow.</p>
+        <p>I'd look at <a href="https://doppar.com/" target="_blank" rel="noopener noreferrer">Doppar</a> for <strong>small internal tools and small services</strong>. These are places where fast startup and a light footprint help, and one small team controls the whole thing. It's also fun to try if you like young frameworks and don't mind helping them grow.</p>
         <p>None of this takes away from what's already good. With these fixes, I think Doppar could be a strong choice for a lot more projects.</p>
       </article>
 
