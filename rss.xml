@@ -7,7 +7,15 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 02 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <item>
+      <title>I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review</title>
+      <link>https://polash.link/blog/doppar-php-framework-review/</link>
+      <guid isPermaLink="true">https://polash.link/blog/doppar-php-framework-review/</guid>
+      <pubDate>Mon, 02 Nov 2026 12:00:00 GMT</pubDate>
+      <category>Performance</category>
+      <description>Real-world concurrency benchmarks (wrk), queue reliability stress tests, memory profiling, and architecture review of the Doppar PHP framework compared to Laravel.</description>
+    </item>
     <item>
       <title>Building a White-Label Real-Time Live Chat with Ably and Telegram Topics</title>
       <link>https://polash.link/blog/white-label-live-chat-ably-telegram/</link>

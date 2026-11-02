@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://polash.link/blog/doppar-php-framework-review/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
     <loc>https://polash.link/blog/white-label-live-chat-ably-telegram/</loc>
     <lastmod>2026-11-01</lastmod>
   </url>
@@ -10,7 +14,7 @@
   </url>
   <url>
     <loc>https://polash.link/blog/</loc>
-    <lastmod>2026-10-31</lastmod>
+    <lastmod>2026-11-02</lastmod>
   </url>
   <url>
     <loc>https://polash.link/blog/automate-pathao-steadfast-courier-laravel/</loc>
