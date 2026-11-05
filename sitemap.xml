@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://polash.link/blog/laravel-13-new-features/</loc>
+    <lastmod>2026-11-06</lastmod>
+  </url>
+  <url>
+    <loc>https://polash.link/blog/laravel-api-authentication-jwt-sanctum/</loc>
+    <lastmod>2026-11-06</lastmod>
+  </url>
+  <url>
+    <loc>https://polash.link/blog/laravel-queue-vs-defer/</loc>
+    <lastmod>2026-11-06</lastmod>
+  </url>
+  <url>
+    <loc>https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/</loc>
+    <lastmod>2026-11-06</lastmod>
+  </url>
+  <url>
+    <loc>https://polash.link/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://polash.link/blog/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
     <loc>https://polash.link/blog/doppar-php-framework-review/</loc>
     <lastmod>2026-11-02</lastmod>
   </url>
@@ -9,12 +33,8 @@
     <lastmod>2026-11-01</lastmod>
   </url>
   <url>
-    <loc>https://polash.link/</loc>
-    <lastmod>2026-10-31</lastmod>
-  </url>
-  <url>
-    <loc>https://polash.link/blog/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <loc>https://polash.link/services/</loc>
+    <lastmod>2026-11-01</lastmod>
   </url>
   <url>
     <loc>https://polash.link/blog/automate-pathao-steadfast-courier-laravel/</loc>
@@ -30,10 +50,6 @@
   </url>
   <url>
     <loc>https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/</loc>
-    <lastmod>2026-10-31</lastmod>
-  </url>
-  <url>
-    <loc>https://polash.link/services/</loc>
     <lastmod>2026-10-31</lastmod>
   </url>
   <url>
@@ -53,14 +69,6 @@
     <lastmod>2026-04-11</lastmod>
   </url>
   <url>
-    <loc>https://polash.link/blog/laravel-queue-vs-defer/</loc>
-    <lastmod>2026-03-30</lastmod>
-  </url>
-  <url>
-    <loc>https://polash.link/blog/laravel-13-new-features/</loc>
-    <lastmod>2026-03-27</lastmod>
-  </url>
-  <url>
     <loc>https://polash.link/blog/laravel-queues-jobs-redis-horizon/</loc>
     <lastmod>2026-03-09</lastmod>
   </url>
@@ -73,10 +81,6 @@
     <lastmod>2026-03-05</lastmod>
   </url>
   <url>
-    <loc>https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/</loc>
-    <lastmod>2026-02-26</lastmod>
-  </url>
-  <url>
     <loc>https://polash.link/blog/laravel-openai-integration-guide/</loc>
     <lastmod>2025-12-12</lastmod>
   </url>
@@ -87,10 +91,6 @@
   <url>
     <loc>https://polash.link/blog/laravel-performance-optimization/</loc>
     <lastmod>2025-10-06</lastmod>
-  </url>
-  <url>
-    <loc>https://polash.link/blog/laravel-api-authentication-jwt-sanctum/</loc>
-    <lastmod>2025-02-26</lastmod>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-docker-kubernetes-deployment/</loc>

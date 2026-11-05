@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laravel 13 New Features: The Complete Guide</title>
-<meta name="description" content="Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.">
+<title>Laravel 13 New Features &amp; PHP 8.3 Requirements: Complete Guide</title>
+<meta name="description" content="Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.">
 <link rel="canonical" href="https://polash.link/blog/laravel-13-new-features/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
@@ -20,8 +20,8 @@ try {
 <meta property="og:site_name" content="Kamruzzaman Polash">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://polash.link/blog/laravel-13-new-features/">
-<meta property="og:title" content="Laravel 13 New Features: The Complete Guide">
-<meta property="og:description" content="Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.">
+<meta property="og:title" content="Laravel 13 New Features &amp; PHP 8.3 Requirements: Complete Guide">
+<meta property="og:description" content="Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.">
 <meta property="og:image" content="https://polash.link/assets/images/og-laravel-13.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -31,8 +31,8 @@ try {
 <meta property="article:section" content="Laravel">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/laravel-13-new-features/">
-<meta name="twitter:title" content="Laravel 13 New Features: The Complete Guide">
-<meta name="twitter:description" content="Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.">
+<meta name="twitter:title" content="Laravel 13 New Features &amp; PHP 8.3 Requirements: Complete Guide">
+<meta name="twitter:description" content="Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.">
 <meta name="twitter:image" content="https://polash.link/assets/images/og-laravel-13.jpg">
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -53,7 +53,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-laravel-13.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-13-new-features/#article","headline":"Laravel 13 New Features: The Complete Guide","description":"Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.","url":"https://polash.link/blog/laravel-13-new-features/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-13-new-features/"},"datePublished":"2026-03-08","dateModified":"2026-03-27","timeRequired":"PT10M","articleSection":"Laravel","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-13.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel 13 New Features: The Complete Guide","item":"https://polash.link/blog/laravel-13-new-features/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When was Laravel 13 released?","acceptedAnswer":{"@type":"Answer","text":"Laravel 13 was released on March 17, 2026, as announced by Taylor Otwell at Laracon EU 2026."}},{"@type":"Question","name":"Does Laravel 13 have breaking changes?","acceptedAnswer":{"@type":"Answer","text":"No breaking changes to application code. The only requirement change is PHP 8.3 minimum. All new features including PHP Attributes are optional and fully backward compatible."}},{"@type":"Question","name":"Should I upgrade immediately?","acceptedAnswer":{"@type":"Answer","text":"No rush. Laravel 12 receives bug fixes until August 2026 and security fixes until February 2027. Test on staging, upgrade production when ready."}},{"@type":"Question","name":"Will my packages break on Laravel 13?","acceptedAnswer":{"@type":"Answer","text":"Most major packages — Livewire, Inertia, Filament, Spatie — already have Laravel 13 support. Check each package&#39;s GitHub releases before upgrading."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-laravel-13.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-13-new-features/#article","headline":"Laravel 13 New Features & PHP 8.3 Requirements: Complete Guide","description":"Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.","url":"https://polash.link/blog/laravel-13-new-features/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-13-new-features/"},"datePublished":"2026-03-08","dateModified":"2026-11-06","timeRequired":"PT10M","articleSection":"Laravel","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-13.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel 13 New Features & PHP 8.3 Requirements","item":"https://polash.link/blog/laravel-13-new-features/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When was Laravel 13 released?","acceptedAnswer":{"@type":"Answer","text":"Laravel 13 was released on March 17, 2026, as announced by Taylor Otwell at Laracon EU 2026."}},{"@type":"Question","name":"Does Laravel 13 have breaking changes?","acceptedAnswer":{"@type":"Answer","text":"No breaking changes to application code. The only requirement change is PHP 8.3 minimum. All new features including PHP Attributes are optional and fully backward compatible."}},{"@type":"Question","name":"Should I upgrade immediately?","acceptedAnswer":{"@type":"Answer","text":"No rush. Laravel 12 receives bug fixes until August 2026 and security fixes until February 2027. Test on staging, upgrade production when ready."}},{"@type":"Question","name":"Will my packages break on Laravel 13?","acceptedAnswer":{"@type":"Answer","text":"Most major packages — Livewire, Inertia, Filament, Spatie — already have Laravel 13 support. Check each package&#39;s GitHub releases before upgrading."}}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -95,14 +95,14 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </div>
 <main id="main">
   <div class="progress" id="reading-progress"></div>
-  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel 13 New Features: The Complete Guide</span></div></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel 13 New Features &amp; Requirements</span></div></div>
 
   <header class="article-head"><div class="wrap">
     <div class="article-head__cat"><span class="label label--accent">Laravel</span><span class="label">10 min read</span></div>
     <h1 class="article-head__title">Laravel 13 New Features: The Complete Guide</h1>
-    <p class="article-head__desc">Every meaningful Laravel 13 feature: PHP attributes, Cache::touch(), the Reverb database driver, passkeys, the AI SDK and how to upgrade.</p>
+    <p class="article-head__desc">Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.</p>
     <div class="article-head__by">
-      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">March 8, 2026 · updated March 27, 2026</div></div></div>
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">March 8, 2026 · updated November 6, 2026</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
     </div>
   </div></header>
@@ -168,8 +168,34 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <td>No</td>
 </tr>
 </tbody></table></div>
-<h2 id="1-php-8-3-minimum-requirement">1. PHP 8.3 Minimum Requirement</h2>
+<h2 id="1-php-8-3-minimum-requirement">1. PHP 8.3 Minimum Requirement &amp; System Specs</h2>
 <p>Laravel 13 drops PHP 8.2 and requires PHP 8.3 as the minimum. This is the only change that affects your infrastructure — everything else is application-level and non-breaking.</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Component</th>
+<th>Laravel 13 Requirement</th>
+<th>Notes</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>PHP Version</strong></td>
+<td><code>^8.3.0</code> or higher</td>
+<td>PHP 8.2 is unsupported</td>
+</tr>
+<tr>
+<td><strong>Database Drivers</strong></td>
+<td>MySQL 8.0+, MariaDB 10.10+, PostgreSQL 14+, SQLite 3.35+</td>
+<td>Full <code>DELETE…JOIN</code> query support</td>
+</tr>
+<tr>
+<td><strong>Composer</strong></td>
+<td>Composer 2.2+</td>
+<td>Required for Symfony 7.4/8.0 component resolution</td>
+</tr>
+<tr>
+<td><strong>Node.js (Assets)</strong></td>
+<td>Node 18+ or 20+</td>
+<td>For Vite build tooling</td>
+</tr>
+</tbody></table></div>
 <p>PHP 8.3 brings typed class constants, improved <code>json_validate()</code>, readonly property improvements, and JIT optimizations. Laravel 13 removes old polyfills and backcompat code that existed purely to support PHP 8.2, making the framework leaner and faster.</p>
 <p><span class="badge badge--warn">Action required</span> If your server runs PHP 8.2, you must upgrade it before upgrading to Laravel 13. Check with <code>php -v</code>. Laravel 12 stays supported until August 2026 — no rush.</p>
 <h2 id="2-php-attributes-the-headline-feature">2. PHP Attributes — The Headline Feature</h2>
@@ -358,12 +384,12 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 ],</code></pre>
 </figure><aside class="callout callout--tip">
   <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>
-  <div><p class="callout__label">Note</p><div class="callout__body"><p>For high-throughput apps with thousands of concurrent WebSocket connections, Redis is still recommended. The database driver is ideal for small-to-medium projects that want to minimize infrastructure.</p></div></div>
+  <div><p class="callout__label">Note</p><div class="callout__body"><p>For high-throughput apps with thousands of concurrent WebSocket connections, Redis is still recommended. The database driver is ideal for small-to-medium projects that want to minimize infrastructure. For an in-depth comparison of real-time protocols and pricing, check our guide on <a href="/blog/laravel-realtime-notifications-pusher-fcm-soketi/">Laravel Realtime: Reverb vs Pusher vs Ably</a>.</p></div></div>
 </aside>
 <h2 id="5-passkey-authentication">5. Passkey Authentication</h2>
 <p>Passkeys — WebAuthn-based passwordless authentication — are now integrated into Laravel&#39;s starter kits and Fortify. Users authenticate with biometrics (Face ID, fingerprint) or hardware keys instead of passwords. Available out of the box on new Laravel 13 applications, no third-party packages required.</p>
 <h2 id="6-laravel-ai-sdk-out-of-beta">6. Laravel AI SDK — Out of Beta</h2>
-<p>The Laravel AI SDK is now stable as of March 17, alongside Laravel 13. It provides a first-class interface for integrating LLMs (OpenAI, Anthropic, and others) into Laravel applications — with proper queue support, error handling, and Laravel-native conventions.</p>
+<p>The Laravel AI SDK is now stable as of March 17, alongside Laravel 13. It provides a first-class interface for integrating LLMs (OpenAI, Anthropic, and others) into Laravel applications — with proper queue support, error handling, and Laravel-native conventions. Learn how to configure model fallbacks and streaming in our complete <a href="/blog/laravel-ai-sdk-openrouter/">Laravel AI SDK + OpenRouter integration guide</a>.</p>
 <h2 id="7-teams-support-returns-to-starter-kits">7. Teams Support Returns to Starter Kits</h2>
 <p>Jetstream had Teams — the new starter kits didn&#39;t. Laravel 13 brings team-based multi-tenancy back to the official starter kits, with a cleaner implementation than Jetstream&#39;s version.</p>
 <h2 id="8-other-improvements">8. Other Improvements</h2>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laravel Realtime: Reverb vs Pusher vs Ably</title>
-<meta name="description" content="Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.">
+<title>Laravel Realtime in 2026: Reverb vs Pusher vs Ably (Pricing &amp; Guide)</title>
+<meta name="description" content="Compare Laravel realtime options in 2026: Laravel Reverb (free &amp; self-hosted) vs Pusher vs Ably vs Soketi. Full pricing breakdown, latency, and Echo setup.">
 <link rel="canonical" href="https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/">
 <meta name="robots" content="index, follow">
 <meta name="author" content="Kamruzzaman Polash">
@@ -20,8 +20,8 @@ try {
 <meta property="og:site_name" content="Kamruzzaman Polash">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/">
-<meta property="og:title" content="Laravel Realtime: Reverb vs Pusher vs Ably">
-<meta property="og:description" content="Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.">
+<meta property="og:title" content="Laravel Realtime in 2026: Reverb vs Pusher vs Ably (Pricing &amp; Guide)">
+<meta property="og:description" content="Compare Laravel realtime options in 2026: Laravel Reverb (free &amp; self-hosted) vs Pusher vs Ably vs Soketi. Full pricing breakdown, latency, and Echo setup.">
 <meta property="og:image" content="https://polash.link/assets/images/og-realtime-reverb.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -31,8 +31,8 @@ try {
 <meta property="article:section" content="Realtime">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/">
-<meta name="twitter:title" content="Laravel Realtime: Reverb vs Pusher vs Ably">
-<meta name="twitter:description" content="Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.">
+<meta name="twitter:title" content="Laravel Realtime in 2026: Reverb vs Pusher vs Ably (Pricing &amp; Guide)">
+<meta name="twitter:description" content="Compare Laravel realtime options in 2026: Laravel Reverb (free &amp; self-hosted) vs Pusher vs Ably vs Soketi. Full pricing breakdown, latency, and Echo setup.">
 <meta name="twitter:image" content="https://polash.link/assets/images/og-realtime-reverb.jpg">
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
@@ -53,7 +53,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/#article","headline":"Laravel Realtime: Reverb vs Pusher vs Ably","description":"Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.","url":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/"},"datePublished":"2026-02-26","dateModified":"2026-02-26","timeRequired":"PT14M","articleSection":"Realtime","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Realtime: Reverb vs Pusher vs Ably","item":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/"}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-image.png","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/#article","headline":"Laravel Realtime in 2026: Reverb vs Pusher vs Ably (Pricing & Guide)","description":"Compare Laravel realtime options in 2026: Laravel Reverb (free & self-hosted) vs Pusher vs Ably vs Soketi. Full pricing breakdown, latency, and Echo setup.","url":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/"},"datePublished":"2026-02-26","dateModified":"2026-11-06","timeRequired":"PT14M","articleSection":"Realtime","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-image.png","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Realtime: Reverb vs Pusher vs Ably","item":"https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/"}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -95,14 +95,14 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 </div>
 <main id="main">
   <div class="progress" id="reading-progress"></div>
-  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Realtime: Reverb vs Pusher vs Ably</span></div></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Laravel Realtime: Reverb vs Pusher vs Ably (Pricing &amp; Guide)</span></div></div>
 
   <header class="article-head"><div class="wrap">
     <div class="article-head__cat"><span class="label label--accent">Realtime</span><span class="label">14 min read</span></div>
-    <h1 class="article-head__title">Laravel Realtime: Reverb vs Pusher vs Ably</h1>
-    <p class="article-head__desc">Compare Laravel realtime options in 2026 — Reverb, Pusher, Soketi, Ably and FCM — on cost, latency, self-hosting and Echo support.</p>
+    <h1 class="article-head__title">Laravel Realtime in 2026: Reverb vs Pusher vs Ably (Pricing &amp; Guide)</h1>
+    <p class="article-head__desc">Compare Laravel realtime options in 2026: Laravel Reverb (free &amp; self-hosted) vs Pusher vs Ably vs Soketi. Full pricing breakdown, latency, and Echo setup.</p>
     <div class="article-head__by">
-      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">February 26, 2026</div></div></div>
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">February 26, 2026 · updated November 6, 2026</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
     </div>
   </div></header>
@@ -283,6 +283,77 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <td>Use <strong>Reverb + FCM together</strong> — WebSocket for in-app, FCM for background push.</td>
 </tr>
 </tbody></table></div>
+
+<h2 id="laravel-reverb-vs-pusher">Laravel Reverb vs Pusher: Is Reverb Free?</h2>
+<p>A frequent question developers ask is: <strong>is Laravel Reverb free or paid?</strong></p>
+<p><strong>Laravel Reverb is 100% free and open-source</strong>. There are no license fees, no per-connection limits, and no message surcharges. You only pay for your underlying VPS or server. In contrast, <strong>Pusher Channels</strong> operates on a hosted freemium model: while the free tier allows up to 200 concurrent connections, production plans jump to <strong>$49/month minimum</strong> as soon as your app grows beyond 200k daily messages.</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Criteria</th>
+<th>Laravel Reverb</th>
+<th>Pusher Channels</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Cost / Pricing</strong></td>
+<td><span class="badge badge--yes">100% Free</span> (Self-hosted on your server)</td>
+<td>Starts at $49/mo (Free tier capped at 200 connections)</td>
+</tr>
+<tr>
+<td><strong>Connection Limits</strong></td>
+<td>Unlimited (bounded only by server RAM/CPU)</td>
+<td>200 on free tier, 500 on $49 plan</td>
+</tr>
+<tr>
+<td><strong>Message Limits</strong></td>
+<td>Unlimited</td>
+<td>200,000 / day on free tier</td>
+</tr>
+<tr>
+<td><strong>Scaling Backend</strong></td>
+<td>Redis or Database driver (New in <a href="/blog/laravel-13-new-features/">Laravel 13</a>)</td>
+<td>Fully managed cloud clusters</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Requires running a Supervisor worker process</td>
+<td>Zero maintenance (hosted SaaS)</td>
+</tr>
+</tbody></table></div>
+
+<h2 id="pusher-vs-ably">Pusher vs Ably: Which Hosted Platform Is Better?</h2>
+<p>If you prefer a fully managed cloud WebSocket service rather than self-hosting Reverb, the two leading options are <strong>Pusher</strong> and <strong>Ably</strong>. While Pusher was the original standard for Laravel, Ably offers substantial architectural and pricing advantages for high-traffic applications.</p>
+<div class="table-scroll"><table><thead><tr>
+<th>Feature / Metric</th>
+<th>Pusher Channels</th>
+<th>Ably Realtime</th>
+</tr></thead><tbody>
+<tr>
+<td><strong>Free Tier Allowance</strong></td>
+<td>200 peak connections, 200K messages/day</td>
+<td><span class="badge badge--yes">200 peak connections, 6 Million messages/month</span></td>
+</tr>
+<tr>
+<td><strong>Starting Price</strong></td>
+<td>$49/month</td>
+<td><span class="badge badge--yes">$29/month</span> (pay-as-you-go flexibility)</td>
+</tr>
+<tr>
+<td><strong>Global SLA &amp; Uptime</strong></td>
+<td>99.9% uptime (single cluster per app)</td>
+<td><span class="badge badge--yes">99.999% uptime</span> (globally distributed edge mesh)</td>
+</tr>
+<tr>
+<td><strong>Message Ordering &amp; Delivery</strong></td>
+<td>Best-effort QoS</td>
+<td>Guaranteed serial ordering with stream continuity</td>
+</tr>
+<tr>
+<td><strong>Laravel Echo Compatibility</strong></td>
+<td>Native official broadcaster</td>
+<td>Fully compatible via official Ably Echo adapter</td>
+</tr>
+</tbody></table></div>
+<p><strong>Verdict:</strong> For side projects or quick proofs-of-concept, Pusher&#39;s free sandbox is effortless. But for commercial products, <strong>Ably delivers significantly better value ($29/mo vs $49/mo), 30x higher free message volume, and enterprise 99.999% SLA reliability</strong>.</p>
+
 <h2 id="5-implementation-laravel-reverb-recommended">5. Implementation: Laravel Reverb (Recommended)</h2>
 <p>Reverb is the right default for most Laravel projects in 2026. Here&#39;s the complete setup:</p>
 <figure class="code-block">
@@ -654,10 +725,10 @@ VITE_PUSHER_APP_CLUSTER=<span class="hljs-string">&quot;<span class="hljs-variab
       </div>
       <nav class="pager" aria-label="Article navigation">
         <a href="/blog/laravel-queues-jobs-redis-horizon/"><span>← Previous</span><b>Laravel Queues &amp; Jobs with Redis: Complete Production Guide</b></a>
-        <a href="/blog/laravel-13-new-features/" style="text-align:right"><span>Next →</span><b>Laravel 13 New Features: The Complete Guide</b></a>
+        <a href="/blog/laravel-13-new-features/" style="text-align:right"><span>Next →</span><b>Laravel 13 New Features &amp; PHP 8.3 Requirements</b></a>
       </nav>
     </div>
-    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-understanding-laravel-echo" data-toc-link>1. Understanding Laravel Echo</a><a href="#2-all-options-compared" data-toc-link>2. All Options Compared</a><a href="#pusher-channels-freemium" data-toc-link class="is-sub">Pusher Channels — Freemium</a><a href="#laravel-reverb-free-self-hosted" data-toc-link class="is-sub">Laravel Reverb — Free / Self-hosted</a><a href="#soketi-free-self-hosted" data-toc-link class="is-sub">Soketi — Free / Self-hosted</a><a href="#ably-freemium" data-toc-link class="is-sub">Ably — Freemium</a><a href="#fcm-firebase-cloud-messaging-free" data-toc-link class="is-sub">FCM — Firebase Cloud Messaging (Free)</a><a href="#3-full-comparison-table" data-toc-link>3. Full Comparison Table</a><a href="#4-which-one-for-which-scenario" data-toc-link>4. Which One for Which Scenario?</a><a href="#5-implementation-laravel-reverb-recommended" data-toc-link>5. Implementation: Laravel Reverb (Recommended)</a><a href="#6-implementation-fcm-push-notifications" data-toc-link>6. Implementation: FCM Push Notifications</a><a href="#7-using-pusher-quick-setup" data-toc-link>7. Using Pusher (Quick Setup)</a><a href="#8-switching-from-pusher-to-reverb-zero-code-changes" data-toc-link>8. Switching from Pusher to Reverb (Zero Code Changes)</a><a href="#9-best-practices" data-toc-link>9. Best Practices</a><a href="#always-queue-your-broadcast-events" data-toc-link class="is-sub">Always queue your broadcast events</a><a href="#use-private-channels-for-user-specific-notifications" data-toc-link class="is-sub">Use private channels for user-specific notifications</a><a href="#store-fcm-tokens-per-user-handle-token-rotation" data-toc-link class="is-sub">Store FCM tokens per user, handle token rotation</a><a href="#combine-websockets-fcm-for-complete-coverage" data-toc-link class="is-sub">Combine WebSockets + FCM for complete coverage</a><a href="#10-summary-what-to-choose-in-2026" data-toc-link>10. Summary: What to Choose in 2026</a></nav></aside>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-understanding-laravel-echo" data-toc-link>1. Understanding Laravel Echo</a><a href="#2-all-options-compared" data-toc-link>2. All Options Compared</a><a href="#pusher-channels-freemium" data-toc-link class="is-sub">Pusher Channels — Freemium</a><a href="#laravel-reverb-free-self-hosted" data-toc-link class="is-sub">Laravel Reverb — Free / Self-hosted</a><a href="#soketi-free-self-hosted" data-toc-link class="is-sub">Soketi — Free / Self-hosted</a><a href="#ably-freemium" data-toc-link class="is-sub">Ably — Freemium</a><a href="#fcm-firebase-cloud-messaging-free" data-toc-link class="is-sub">FCM — Firebase Cloud Messaging (Free)</a><a href="#3-full-comparison-table" data-toc-link>3. Full Comparison Table</a><a href="#4-which-one-for-which-scenario" data-toc-link>4. Which One for Which Scenario?</a><a href="#laravel-reverb-vs-pusher" data-toc-link>Laravel Reverb vs Pusher (Pricing)</a><a href="#pusher-vs-ably" data-toc-link>Pusher vs Ably: Full Comparison</a><a href="#5-implementation-laravel-reverb-recommended" data-toc-link>5. Implementation: Laravel Reverb (Recommended)</a><a href="#6-implementation-fcm-push-notifications" data-toc-link>6. Implementation: FCM Push Notifications</a><a href="#7-using-pusher-quick-setup" data-toc-link>7. Using Pusher (Quick Setup)</a><a href="#8-switching-from-pusher-to-reverb-zero-code-changes" data-toc-link>8. Switching from Pusher to Reverb (Zero Code Changes)</a><a href="#9-best-practices" data-toc-link>9. Best Practices</a><a href="#always-queue-your-broadcast-events" data-toc-link class="is-sub">Always queue your broadcast events</a><a href="#use-private-channels-for-user-specific-notifications" data-toc-link class="is-sub">Use private channels for user-specific notifications</a><a href="#store-fcm-tokens-per-user-handle-token-rotation" data-toc-link class="is-sub">Store FCM tokens per user, handle token rotation</a><a href="#combine-websockets-fcm-for-complete-coverage" data-toc-link class="is-sub">Combine WebSockets + FCM for complete coverage</a><a href="#10-summary-what-to-choose-in-2026" data-toc-link>10. Summary: What to Choose in 2026</a></nav></aside>
   </div></div></div>
 
   <section class="related section"><div class="wrap">
