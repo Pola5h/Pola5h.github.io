@@ -22,6 +22,10 @@ const NEW_BYLINE = '<div class="byline__date">Custom software &amp; backend engi
 const OLD_KNOWS = '"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis"]';
 const NEW_KNOWS = '"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"]';
 
+// Also upgrade older compact knowsAbout variants that may exist in pre-SEO blog posts
+const OLD_KNOWS_V2 = '"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"]';
+const NEW_KNOWS_V2 = OLD_KNOWS_V2; // already up to date — no-op, kept for future upgrades
+
 function findHtmlFiles(dir) {
   let results = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

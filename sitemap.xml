@@ -1,111 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://polash.link/blog/php-rce-cve-2026-109618-fix/</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://polash.link/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
     <loc>https://polash.link/blog/</loc>
     <lastmod>2026-11-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-13-new-features/</loc>
     <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-api-authentication-jwt-sanctum/</loc>
     <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-queue-vs-defer/</loc>
     <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/</loc>
     <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://polash.link/</loc>
-    <lastmod>2026-11-02</lastmod>
+    <loc>https://polash.link/services/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/doppar-php-framework-review/</loc>
     <lastmod>2026-11-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/white-label-live-chat-ably-telegram/</loc>
     <lastmod>2026-11-01</lastmod>
-  </url>
-  <url>
-    <loc>https://polash.link/services/</loc>
-    <lastmod>2026-11-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/automate-pathao-steadfast-courier-laravel/</loc>
     <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/</loc>
     <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/single-vs-multi-database-saas-multitenancy/</loc>
     <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/</loc>
     <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/</loc>
     <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-queue-worker-docker-production/</loc>
     <lastmod>2026-09-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-observer-pattern-audit-log/</loc>
     <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-ai-sdk-openrouter/</loc>
     <lastmod>2026-04-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-queues-jobs-redis-horizon/</loc>
     <lastmod>2026-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-sanctum-tutorial/</loc>
     <lastmod>2026-03-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-rest-api-best-practices/</loc>
     <lastmod>2026-03-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-openai-integration-guide/</loc>
     <lastmod>2025-12-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-12-39-new-features/</loc>
     <lastmod>2025-11-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-performance-optimization/</loc>
     <lastmod>2025-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-docker-kubernetes-deployment/</loc>
     <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/laravel-mvcs-architecture-guide/</loc>
     <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/mysql-query-optimization-laravel/</loc>
     <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://polash.link/blog/php-coding-standards-bangladesh-developers/</loc>
     <lastmod>2025-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

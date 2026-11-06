@@ -36,9 +36,13 @@ function getLastmod(filePath, content) {
       const data = JSON.parse(jsonLdMatch[1]);
       const graph = Array.isArray(data['@graph']) ? data['@graph'] : [data];
 
-      // Prioritize Article / TechArticle / BlogPosting / WebPage
+      const ARTICLE_TYPES = new Set(['TechArticle', 'BlogPosting', 'Article', 'WebPage', 'NewsArticle']);
+
+      // Prioritize Article / TechArticle / BlogPosting / WebPage / NewsArticle
+      // Supports both single @type string and array of types e.g. ["TechArticle","NewsArticle"]
       for (const item of graph) {
-        if (['TechArticle', 'BlogPosting', 'Article', 'WebPage'].includes(item['@type'])) {
+        const types = Array.isArray(item['@type']) ? item['@type'] : [item['@type']];
+        if (types.some(t => ARTICLE_TYPES.has(t))) {
           if (item.dateModified) return item.dateModified.split('T')[0];
           if (item.datePublished) return item.datePublished.split('T')[0];
         }
@@ -162,7 +166,16 @@ function generateSitemap() {
     seenUrls.add(loc);
 
     const lastmod = getLastmod(filePath, content);
-    entries.push({ loc, lastmod, file: relativePath });
+
+    // Determine priority: homepage = 1.0, services = 0.8, blog index = 0.8, posts = 0.7
+    // Security/CVE posts (freshly updated) get 0.9
+    let priority = '0.7';
+    let changefreq = 'monthly';
+    if (loc.match(/^https?:\/\/[^/]+\/?$/)) { priority = '1.0'; changefreq = 'weekly'; }
+    else if (loc.includes('/services/') && !loc.match(/\/services\/.+\//)) { priority = '0.8'; changefreq = 'monthly'; }
+    else if (loc.match(/\/blog\/?$/)) { priority = '0.8'; changefreq = 'weekly'; }
+
+    entries.push({ loc, lastmod, priority, changefreq, file: relativePath });
   }
 
   // Sort newest first by lastmod descending
@@ -188,6 +201,8 @@ function generateSitemap() {
     xmlLines.push('  <url>');
     xmlLines.push(`    <loc>${entry.loc}</loc>`);
     xmlLines.push(`    <lastmod>${entry.lastmod}</lastmod>`);
+    xmlLines.push(`    <changefreq>${entry.changefreq}</changefreq>`);
+    xmlLines.push(`    <priority>${entry.priority}</priority>`);
     xmlLines.push('  </url>');
   }
 

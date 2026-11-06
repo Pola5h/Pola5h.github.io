@@ -7,7 +7,18 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 02 Nov 2026 12:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 01:25:00 GMT</lastBuildDate>
+    <item>
+      <title>CVE-2026-109618 (PHP2Shell RCE): How It Works &amp; How to Fix It Today</title>
+      <link>https://polash.link/blog/php-rce-cve-2026-109618-fix/</link>
+      <guid isPermaLink="true">https://polash.link/blog/php-rce-cve-2026-109618-fix/</guid>
+      <pubDate>Fri, 06 Nov 2026 12:00:00 GMT</pubDate>
+      <category>PHP Security</category>
+      <category>CVE-2026-109618</category>
+      <author>hello@polash.link (Kamruzzaman Polash)</author>
+      <enclosure url="https://polash.link/assets/images/og-php-rce-fix.jpg" length="74163" type="image/jpeg"/>
+      <description>CVE-2026-109618 (PHP2Shell) is a CVSS 9.2 unauthenticated RCE flaw actively exploited in the wild. Safe PHP versions: 8.5.12, 8.4.27, 8.3.36, 8.2.35. Plain-English breakdown of how zend_bailout() and longjmp() create the exploit, plus exact 5-minute patch commands for Ubuntu, Docker, and cPanel.</description>
+    </item>
     <item>
       <title>I Tested the Doppar PHP Framework: Benchmarks &amp; Architecture Review</title>
       <link>https://polash.link/blog/doppar-php-framework-review/</link>
