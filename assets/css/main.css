@@ -12,6 +12,16 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Modelista Signature';
+  src: url('/assets/fonts/modelista-signature.woff2') format('woff2'),
+       url('/assets/fonts/modelista-signature.otf') format('opentype'),
+       url('/assets/fonts/modelista-signature.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
 :root {
   --paper: #fafafa;
   --paper-2: #ffffff;
@@ -202,24 +212,27 @@ hr { border: 0; border-top: 1px solid var(--line); }
   display: grid; place-items: center; border-radius: 6px;
 }
 .brand__name {
-  font-family: var(--sans);
-  font-size: 1.05rem;
+  font-family: 'Modelista Signature', cursive;
+  font-size: 1.35rem;
   font-weight: 600;
+  line-height: 1;
+  text-transform: lowercase;
   color: var(--ink);
+  -webkit-text-stroke: 0.35px currentColor;
   display: inline-flex;
   align-items: center;
-  letter-spacing: -0.025em;
+  letter-spacing: 0.02em;
   transition: opacity .16s ease, color .16s ease;
 }
 .brand__tld {
   display: none;
 }
 .brand:hover .brand__name {
-  opacity: .7;
+  opacity: .75;
 }
 @media (max-width: 480px) {
   .brand__name {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 }
 .brand__handle { font-family: var(--mono); font-size: .75rem; color: var(--muted); font-weight: 500; transition: color .16s ease; }

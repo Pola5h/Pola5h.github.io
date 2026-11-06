@@ -107,7 +107,7 @@ for (const file of files) {
   content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=33"');
 
   // Sync main.css stylesheet link version
-  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=33"');
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=39"');
 
   if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {
     console.log(`  SKIP  (no target)         ${rel}`);
