@@ -48,6 +48,7 @@ try {
 <link rel="preload" href="/assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/modelista-signature.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/maqin-larisa.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/images/polash-profile.jpg" fetchpriority="high">
 <style>
 @font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:block;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:block;src:url('/assets/fonts/jetbrains-mono-latin.woff2') format('woff2')}
@@ -67,6 +68,9 @@ html.fonts-loading body{opacity:0;pointer-events:none}
     if(document.readyState!=='loading')r();
     else document.addEventListener('DOMContentLoaded',r,{once:true});
   });
+  var heroImg=new Image();
+  heroImg.src='/assets/images/polash-profile.jpg';
+  var imgReady=heroImg.decode?heroImg.decode().catch(function(){}):Promise.resolve();
   Promise.all([
     document.fonts.load('400 1rem "Inter"'),
     document.fonts.load('600 1rem "Inter"'),
@@ -75,13 +79,13 @@ html.fonts-loading body{opacity:0;pointer-events:none}
     document.fonts.load('500 1rem "JetBrains Mono"'),
     document.fonts.load('400 1rem "Modelista Signature"'),
     document.fonts.load('400 1rem "Maqin Larisa"'),
+    imgReady,
     domReady,
     document.fonts.ready
   ]).then(function(){clearTimeout(t);requestAnimationFrame(show);}).catch(function(){clearTimeout(t);show();});
 })();
 </script>
 <link rel="stylesheet" href="/assets/css/main.css?v=44">
-<link rel="preload" as="image" href="/assets/images/polash-profile.jpg" fetchpriority="high">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -163,10 +167,8 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
             class="hero__portrait-img"
             fetchpriority="high"
             loading="eager"
-            decoding="async"
-            onload="this.classList.add('is-loaded')"
+            decoding="sync"
           >
-          <script>document.currentScript.previousElementSibling.complete&&document.currentScript.previousElementSibling.classList.add('is-loaded');</script>
         </div>
       </div>
     </div>
