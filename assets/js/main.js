@@ -465,9 +465,7 @@
     var targets = $$('.work__item, .skill, .xp__row, .svc__panel, .post-row, [data-reveal]');
     if (!targets.length) return;
 
-    targets.forEach(function (el) {
-      el.classList.add('reveal');
-    });
+    var vh = window.innerHeight || document.documentElement.clientHeight;
 
     var observer = new IntersectionObserver(
       function (entries, obs) {
@@ -480,7 +478,15 @@
       },
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
+
     targets.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      // Keep elements already in initial viewport fully visible without layout jump
+      if (rect.top < vh && rect.bottom > 0) {
+        el.classList.add('is-visible');
+        return;
+      }
+      el.classList.add('reveal');
       observer.observe(el);
     });
 
