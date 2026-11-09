@@ -284,19 +284,36 @@
     var form = $('[data-contact-form]');
     if (!form) return;
 
-    var turnstileWidget = form.querySelector('.cf-turnstile');
-    if (turnstileWidget) {
-      var turnstileLoaded = false;
-      var loadTurnstile = function () {
-        if (turnstileLoaded) return;
-        turnstileLoaded = true;
+    var TURNSTILE_SITE_KEY = '0x4AAAAAAF5hoFMUb4Oe2HP1';
+    var tsContainer = document.getElementById('cf-turnstile-container');
+    var tsWidgetId = null;
+    var tsToken = null;
+
+    var loadTurnstile = (function () {
+      var loaded = false;
+      return function () {
+        if (loaded) return;
+        loaded = true;
         var s = document.createElement('script');
-        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=auto';
+        // render=explicit: we call turnstile.render() manually — no auto-rendered visible widget
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
         s.async = true;
         s.defer = true;
+        s.onload = function () {
+          if (!tsContainer || !window.turnstile) return;
+          tsWidgetId = window.turnstile.render(tsContainer, {
+            sitekey: TURNSTILE_SITE_KEY,
+            size: 'invisible',
+            callback: function (token) { tsToken = token; },
+            'error-callback': function () { tsToken = null; },
+            'expired-callback': function () { tsToken = null; }
+          });
+        };
         document.head.appendChild(s);
       };
+    }());
 
+    if (tsContainer) {
       if ('IntersectionObserver' in window) {
         var obs = new IntersectionObserver(function (entries) {
           if (entries[0] && entries[0].isIntersecting) {
@@ -318,14 +335,13 @@
 
       var formData = new FormData(form);
 
-      // Verify Turnstile response if widget has an active site key
-      var siteKey = turnstileWidget ? turnstileWidget.getAttribute('data-sitekey') : '';
-      if (turnstileWidget && siteKey && siteKey !== 'YOUR_TURNSTILE_SITE_KEY') {
-        var cfToken = formData.get('cf-turnstile-response');
-        if (!cfToken && window.turnstile) {
-          showToast('Please complete the security check.');
-          return;
-        }
+      // Inject Turnstile token into FormData for backend verification
+      if (tsToken) {
+        formData.set('cf-turnstile-response', tsToken);
+      } else if (window.turnstile && tsWidgetId !== null) {
+        // Token not yet ready — ask user to wait a moment
+        showToast('Security check still loading. Please try again in a moment.');
+        return;
       }
 
       if (submitBtn) {
@@ -334,8 +350,9 @@
       }
 
       function resetTurnstile() {
-        if (window.turnstile) {
-          try { window.turnstile.reset(); } catch (err) {}
+        tsToken = null;
+        if (window.turnstile && tsWidgetId !== null) {
+          try { window.turnstile.reset(tsWidgetId); } catch (err) {}
         }
       }
 
