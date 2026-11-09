@@ -284,18 +284,60 @@
     var form = $('[data-contact-form]');
     if (!form) return;
 
+    var turnstileWidget = form.querySelector('.cf-turnstile');
+    if (turnstileWidget) {
+      var turnstileLoaded = false;
+      var loadTurnstile = function () {
+        if (turnstileLoaded) return;
+        turnstileLoaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=auto';
+        s.async = true;
+        s.defer = true;
+        document.head.appendChild(s);
+      };
+
+      if ('IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function (entries) {
+          if (entries[0] && entries[0].isIntersecting) {
+            loadTurnstile();
+            obs.disconnect();
+          }
+        }, { rootMargin: '300px' });
+        obs.observe(form);
+      } else {
+        loadTurnstile();
+      }
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var action = form.getAttribute('action') || '';
       var submitBtn = form.querySelector('button[type="submit"]');
       var originalBtnText = submitBtn ? submitBtn.textContent : 'Send project brief';
 
+      var formData = new FormData(form);
+
+      // Verify Turnstile response if widget has an active site key
+      var siteKey = turnstileWidget ? turnstileWidget.getAttribute('data-sitekey') : '';
+      if (turnstileWidget && siteKey && siteKey !== 'YOUR_TURNSTILE_SITE_KEY') {
+        var cfToken = formData.get('cf-turnstile-response');
+        if (!cfToken && window.turnstile) {
+          showToast('Please complete the security check.');
+          return;
+        }
+      }
+
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending brief…';
       }
 
-      var formData = new FormData(form);
+      function resetTurnstile() {
+        if (window.turnstile) {
+          try { window.turnstile.reset(); } catch (err) {}
+        }
+      }
 
       function doFallback() {
         var subject = 'Project enquiry — ' + (formData.get('scope') || 'general');
@@ -313,7 +355,10 @@
       fetch(action, {
         method: 'POST',
         body: formData,
-        headers: { 'Accept': 'application/json' }
+        headers: {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       })
       .then(function (res) {
         return res.json().then(function (data) {
@@ -324,14 +369,18 @@
         if (result.ok && result.data && result.data.success) {
           showToast(result.data.message || 'Brief sent! I will respond within 4 hours.');
           form.reset();
+          resetTurnstile();
         } else if (result.status === 429) {
           showToast(result.data.message || 'Too many submissions. Please wait a few minutes.');
+          resetTurnstile();
         } else {
           showToast(result.data.message || 'Could not send. Opening email client…');
+          resetTurnstile();
           doFallback();
         }
       })
       .catch(function () {
+        resetTurnstile();
         doFallback();
       })
       .finally(function () {
