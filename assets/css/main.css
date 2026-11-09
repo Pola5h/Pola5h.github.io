@@ -5,9 +5,7 @@
 
 @font-face {
   font-family: 'Maqin Larisa';
-  src: url('/assets/fonts/maqin-larisa.woff2') format('woff2'),
-       url('/assets/fonts/maqin-larisa.otf') format('opentype'),
-       url('/assets/fonts/maqin-larisa.ttf') format('truetype');
+  src: url('/assets/fonts/maqin-larisa.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: block;
@@ -15,9 +13,7 @@
 
 @font-face {
   font-family: 'Modelista Signature';
-  src: url('/assets/fonts/modelista-signature.woff2') format('woff2'),
-       url('/assets/fonts/modelista-signature.otf') format('opentype'),
-       url('/assets/fonts/modelista-signature.ttf') format('truetype');
+  src: url('/assets/fonts/modelista-signature.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: block;
