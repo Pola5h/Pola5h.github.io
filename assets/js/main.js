@@ -334,6 +334,29 @@
       var originalBtnText = submitBtn ? submitBtn.textContent : 'Send project brief';
 
       var formData = new FormData(form);
+      var rawEmail = String(formData.get('email') || '').trim().toLowerCase();
+      var emailParts = rawEmail.split('@');
+      var emailDomain = emailParts.length === 2 ? emailParts[1] : '';
+      var disposableDomains = [
+        'mailinator.com', 'tempmail.com', 'temp-mail.org', 'temp-mail.io',
+        '10minutemail.com', '10minutemail.net', 'guerrillamail.com', 'guerrillamailblock.com',
+        'sharklasers.com', 'grr.la', 'pokemail.net', 'spam4.me',
+        'trashmail.com', 'trashmail.net', 'yopmail.com', 'yopmail.fr', 'yopmail.net',
+        'dispostable.com', 'getairmail.com', 'mohmal.com', 'fakeinbox.com',
+        'burnermail.io', 'inboxkitten.com', 'generator.email', 'dropmail.me',
+        'maildrop.cc', 'emailondeck.com', 'tempail.com', 'crazymailing.com',
+        'throwawaymail.com', 'mytemp.email', 'fakemailgenerator.com', 'mailnesia.com',
+        'mailcatch.com', 'mintemail.com', 'getnada.com', 'nada.ltd',
+        'tempmailo.com', 'tempmailaddress.com', 'tmpmail.net', 'tmpmail.org',
+        'internxt.com', 'anonaddy.me', 'mailpoof.com', 'harakirimail.com'
+      ];
+      var isDisposable = disposableDomains.some(function (d) {
+        return emailDomain === d || emailDomain.slice(-(d.length + 1)) === '.' + d;
+      });
+      if (isDisposable) {
+        showToast('Disposable or temporary email addresses are not permitted.');
+        return;
+      }
 
       // Inject Turnstile token into FormData for backend verification
       if (tsToken) {
@@ -357,12 +380,10 @@
       }
 
       function doFallback() {
-        var subject = 'Project enquiry — ' + (formData.get('scope') || 'general');
+        var subject = 'Project enquiry — ' + (formData.get('name') || '');
         var body =
           'Name: ' + (formData.get('name') || '') + '\n' +
-          'Email: ' + (formData.get('email') || '') + '\n' +
-          'Phone / WhatsApp: ' + (formData.get('phone') || '') + '\n' +
-          'Project type: ' + (formData.get('scope') || '') + '\n\n' +
+          'Email: ' + (formData.get('email') || '') + '\n\n' +
           (formData.get('message') || '');
         window.location.href =
           'mailto:hello@polash.link?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
