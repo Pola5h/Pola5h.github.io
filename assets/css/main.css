@@ -410,8 +410,6 @@ hr { border: 0; border-top: 1px solid var(--line); }
   object-fit: cover;
   object-position: center 20%;
   display: block;
-  opacity: 0;
-  transition: opacity 0.35s ease-out;
 }
 
 .hero__portrait-img.is-loaded {
