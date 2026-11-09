@@ -5,11 +5,12 @@
 
 @font-face {
   font-family: 'Maqin Larisa';
-  src: url('/assets/fonts/maqin-larisa.otf') format('opentype'),
+  src: url('/assets/fonts/maqin-larisa.woff2') format('woff2'),
+       url('/assets/fonts/maqin-larisa.otf') format('opentype'),
        url('/assets/fonts/maqin-larisa.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
