@@ -479,7 +479,7 @@
     if (!document.querySelector('link[href*="mascot.css"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = '/assets/css/mascot.css?v=9';
+      link.href = '/assets/css/mascot.css?v=10';
       document.head.appendChild(link);
     }
   }
@@ -492,6 +492,10 @@
       mascot.setAttribute('aria-live', 'polite');
       mascot.innerHTML = `
         <div class="page-mascot__dock">
+          <div class="page-mascot__tooltip" id="page-mascot-tooltip" role="tooltip" aria-hidden="true">
+            <span class="page-mascot__tooltip-dot" id="page-mascot-tooltip-dot"></span>
+            <span class="page-mascot__tooltip-text" id="page-mascot-tooltip-text">Available · Click to chat or poke!</span>
+          </div>
           <div class="page-mascot__bubble" id="page-mascot-bubble" role="tooltip" aria-hidden="true">
             <span class="page-mascot__bubble-text" id="page-mascot-text">Click or poke me! 👋</span>
             <div class="page-mascot__bubble-action" id="page-mascot-bubble-action">
@@ -501,7 +505,7 @@
               </button>
             </div>
           </div>
-          <button type="button" class="page-mascot__btn" id="page-mascot-btn" aria-label="Poke Polash mascot" title="Polash Mascot">
+          <button type="button" class="page-mascot__btn" id="page-mascot-btn" aria-label="Poke Polash mascot">
             <span class="page-mascot__status-dot" id="page-mascot-status-dot" aria-hidden="true"></span>
             <span class="page-mascot__unread" id="page-mascot-unread" hidden></span>
             <div class="page-mascot__squash" id="page-mascot-squash">
@@ -557,6 +561,8 @@
     const ctaText = document.getElementById('page-mascot-cta-text');
     const bubbleAction = document.getElementById('page-mascot-bubble-action');
     const ctaBtn = document.getElementById('page-mascot-cta');
+    const tooltipDot = document.getElementById('page-mascot-tooltip-dot');
+    const tooltipText = document.getElementById('page-mascot-tooltip-text');
 
     let currentChatStatus = 'available';
     let isChatVisible = true;
@@ -572,6 +578,14 @@
       if (ctaBtn) {
         ctaBtn.title = isAway ? 'Leave a Message' : 'Live Chat';
       }
+
+      if (tooltipDot) {
+        tooltipDot.style.display = 'inline-block';
+        tooltipDot.classList.toggle('is-away', isAway);
+      }
+      if (tooltipText) {
+        tooltipText.textContent = isAway ? 'Away · Click to leave a message' : 'Available · Click to chat or poke!';
+      }
     }
 
     function applyChatVisibility(visibility) {
@@ -583,6 +597,8 @@
           if (bubbleDot) bubbleDot.style.display = 'none';
           if (ctaText) ctaText.textContent = 'WhatsApp';
           ctaBtn.title = 'WhatsApp Polash';
+          if (tooltipDot) tooltipDot.style.display = 'none';
+          if (tooltipText) tooltipText.textContent = '👋 Click to explore & interact!';
         } else {
           ctaBtn.setAttribute('data-action', 'chat');
           if (bubbleDot) bubbleDot.style.display = 'inline-block';
