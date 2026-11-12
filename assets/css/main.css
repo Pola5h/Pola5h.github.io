@@ -1678,8 +1678,8 @@ textarea.field { resize: vertical; min-height: 7rem; }
 /* ---------- back to top ---------- */
 .back-to-top {
   position: fixed;
-  right: 1.75rem;
-  bottom: 5.25rem;
+  right: 3rem;
+  bottom: 7.35rem;
   z-index: 85;
   width: 2.75rem;
   height: 2.75rem;
@@ -1723,8 +1723,8 @@ textarea.field { resize: vertical; min-height: 7rem; }
 }
 @media (max-width: 579px) {
   .back-to-top {
-    right: 1rem;
-    bottom: 4.85rem;
+    right: 1.65rem;
+    bottom: 5.25rem;
     width: 2.6rem;
     height: 2.6rem;
   }

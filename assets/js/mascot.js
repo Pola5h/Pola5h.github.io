@@ -479,10 +479,9 @@
     if (!document.querySelector('link[href*="mascot.css"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = '/assets/css/mascot.css?v=3';
+      link.href = '/assets/css/mascot.css?v=9';
       document.head.appendChild(link);
     }
-    
   }
 
   function mountDOM() {
@@ -495,8 +494,16 @@
         <div class="page-mascot__dock">
           <div class="page-mascot__bubble" id="page-mascot-bubble" role="tooltip" aria-hidden="true">
             <span class="page-mascot__bubble-text" id="page-mascot-text">Click or poke me! 👋</span>
+            <div class="page-mascot__bubble-action" id="page-mascot-bubble-action">
+              <button type="button" class="page-mascot__bubble-cta" id="page-mascot-cta" title="Live Chat" data-action="chat">
+                <span class="page-mascot__bubble-dot" id="page-mascot-bubble-dot"></span>
+                <span id="page-mascot-cta-text">Live Chat</span>
+              </button>
+            </div>
           </div>
-          <button type="button" class="page-mascot__btn" id="page-mascot-btn" aria-label="Poke Polash mascot">
+          <button type="button" class="page-mascot__btn" id="page-mascot-btn" aria-label="Poke Polash mascot" title="Polash Mascot">
+            <span class="page-mascot__status-dot" id="page-mascot-status-dot" aria-hidden="true"></span>
+            <span class="page-mascot__unread" id="page-mascot-unread" hidden></span>
             <div class="page-mascot__squash" id="page-mascot-squash">
               <div class="page-mascot__layer page-mascot__layer--directions" id="mascot-layer-directions"></div>
               <div class="page-mascot__layer page-mascot__layer--reactions" id="mascot-layer-reactions"></div>
@@ -543,6 +550,79 @@
     let bubbleTimer = 0;
     let sector = -1;
     let pointer = null;
+
+    const statusDot = document.getElementById('page-mascot-status-dot');
+    const unreadBadge = document.getElementById('page-mascot-unread');
+    const bubbleDot = document.getElementById('page-mascot-bubble-dot');
+    const ctaText = document.getElementById('page-mascot-cta-text');
+    const bubbleAction = document.getElementById('page-mascot-bubble-action');
+    const ctaBtn = document.getElementById('page-mascot-cta');
+
+    let currentChatStatus = 'available';
+    let isChatVisible = true;
+
+    function applyChatStatus(status) {
+      currentChatStatus = status || 'available';
+      const isAway = currentChatStatus === 'away';
+      if (statusDot) statusDot.classList.toggle('is-away', isAway);
+      if (bubbleDot) bubbleDot.style.background = isAway ? '#f59e0b' : '#10b981';
+      if (ctaText) {
+        ctaText.textContent = isAway ? 'Leave a Message' : 'Live Chat';
+      }
+      if (ctaBtn) {
+        ctaBtn.title = isAway ? 'Leave a Message' : 'Live Chat';
+      }
+    }
+
+    function applyChatVisibility(visibility) {
+      isChatVisible = (visibility !== 'hidden');
+      mascot.classList.toggle('chat--hidden', !isChatVisible);
+      if (ctaBtn) {
+        if (!isChatVisible) {
+          ctaBtn.setAttribute('data-action', 'whatsapp');
+          if (bubbleDot) bubbleDot.style.display = 'none';
+          if (ctaText) ctaText.textContent = 'WhatsApp';
+          ctaBtn.title = 'WhatsApp Polash';
+        } else {
+          ctaBtn.setAttribute('data-action', 'chat');
+          if (bubbleDot) bubbleDot.style.display = 'inline-block';
+          applyChatStatus(currentChatStatus);
+        }
+      }
+    }
+
+    // Check initial state from DOM
+    const launcherDot = document.getElementById('live-chat-launcher-dot');
+    if (launcherDot && launcherDot.classList.contains('is-away')) {
+      applyChatStatus('away');
+    }
+    const initialChatWidget = document.getElementById('live-chat');
+    if (initialChatWidget && (initialChatWidget.classList.contains('live-chat--hidden') || initialChatWidget.style.display === 'none')) {
+      applyChatVisibility('hidden');
+    }
+
+    document.addEventListener('chat:status', (e) => {
+      if (e.detail && e.detail.status) applyChatStatus(e.detail.status);
+    });
+
+    document.addEventListener('chat:visibility', (e) => {
+      if (e.detail && e.detail.visibility) applyChatVisibility(e.detail.visibility);
+    });
+
+    document.addEventListener('chat:unread', (e) => {
+      if (!unreadBadge) return;
+      const count = (e.detail && e.detail.count) || 0;
+      if (count > 0) {
+        unreadBadge.hidden = false;
+        unreadBadge.removeAttribute('hidden');
+        unreadBadge.textContent = count > 9 ? '9+' : String(count);
+        showBubble("Polash sent a new message! 💬", 5500);
+      } else {
+        unreadBadge.hidden = true;
+        unreadBadge.setAttribute('hidden', '');
+        unreadBadge.textContent = '';
+      }
+    });
 
     // Web Audio Synthesizer
     let audioCtx = null;
@@ -720,8 +800,17 @@
 
     function showBubble(text, duration) {
       if (!bubble || !bubbleText) return;
+      const chatWidget = document.getElementById('live-chat');
+      if (chatWidget && chatWidget.classList.contains('is-open')) {
+        return; // Suppress bubble while chat window is active
+      }
       clearTimeout(bubbleTimer);
       bubbleText.textContent = text;
+
+      if (bubbleAction) {
+        bubbleAction.style.display = 'flex';
+      }
+
       mascot.classList.add('is-talking');
       bubbleTimer = setTimeout(() => {
         if (!isHoveringBubble) {
@@ -803,9 +892,50 @@
         showBubble(variant.text, clickDuration);
       }
 
+      // If there are unread messages from Polash, clicking mascot opens chat directly!
+      if (unreadBadge && !unreadBadge.hidden && unreadBadge.textContent !== '') {
+        const toggleBtn = document.getElementById('live-chat-toggle');
+        if (toggleBtn) {
+          toggleBtn.click();
+          return;
+        }
+      }
+
       if (squash && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         squash.animate(SQUASH, { duration: SQUASH_MS, easing: 'linear' });
       }
+    }
+
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(bubbleTimer);
+        mascot.classList.remove('is-talking');
+        if (ctaBtn.getAttribute('data-action') === 'whatsapp') {
+          window.open('https://wa.me/8801791296967?text=' + encodeURIComponent('Hi Polash, I would like to discuss a project.'), '_blank', 'noopener,noreferrer');
+          return;
+        }
+        const toggleBtn = document.getElementById('live-chat-toggle');
+        if (toggleBtn) {
+          toggleBtn.click();
+        }
+      });
+    }
+
+    const chatToggle = document.getElementById('live-chat-toggle');
+    if (chatToggle) {
+      chatToggle.addEventListener('click', () => {
+        clearTimeout(bubbleTimer);
+        mascot.classList.remove('is-talking');
+      });
+    }
+
+    const chatClose = document.getElementById('live-chat-close');
+    if (chatClose) {
+      chatClose.addEventListener('click', () => {
+        clearTimeout(bubbleTimer);
+        mascot.classList.remove('is-talking');
+      });
     }
 
     btn.addEventListener('click', boop);

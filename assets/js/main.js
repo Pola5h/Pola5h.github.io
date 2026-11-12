@@ -729,6 +729,9 @@
         unreadBadge.hidden = false;
         unreadBadge.textContent = unreadCount > 9 ? '9+' : String(unreadCount);
       }
+      try {
+        document.dispatchEvent(new CustomEvent('chat:unread', { detail: { count: unreadCount, isOpen: isOpen } }));
+      } catch (e) {}
     }
     function getStoredSession() {
       try {
@@ -975,6 +978,10 @@
           }
         }
       });
+
+      try {
+        document.dispatchEvent(new CustomEvent('chat:visibility', { detail: { visibility: visibility } }));
+      } catch (e) {}
     }
 
     function updateAvailabilityUI(status) {
@@ -988,6 +995,10 @@
       if (statusText) {
         statusText.textContent = isAway ? 'Away right now' : 'Available for chat';
       }
+
+      try {
+        document.dispatchEvent(new CustomEvent('chat:status', { detail: { status: status } }));
+      } catch (e) {}
     }
 
     function onPolashMessageReceived(text, timestamp, msgId) {
