@@ -115,13 +115,23 @@ for (const file of files) {
     }
   }
 
-  // Update mascot.js & mascot.css version (cache buster)
-  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=15"');
-  content = content.replace(/href="\/assets\/css\/mascot\.css(?:\?v=\d+)?"/g, 'href="/assets/css/mascot.css?v=4"');
-
   // Keep latest asset versions intact (main.css v=52, main.js v=39)
   content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=52"');
   content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=39"');
+
+  // Inject mascot.css into <head> right after main.css (if not already present and not a redirect)
+  if (!isRedirect && !content.includes('/assets/css/mascot.css')) {
+    if (content.includes('href="/assets/css/main.css?v=52"')) {
+      content = content.replace(
+        '<link rel="stylesheet" href="/assets/css/main.css?v=52">',
+        '<link rel="stylesheet" href="/assets/css/main.css?v=52">\n<link rel="stylesheet" href="/assets/css/mascot.css?v=5">'
+      );
+    }
+  }
+
+  // Update mascot.js & mascot.css version (cache buster)
+  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=16"');
+  content = content.replace(/href="\/assets\/css\/mascot\.css(?:\?v=\d+)?"/g, 'href="/assets/css/mascot.css?v=5"');
 
   if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {
     console.log(`  SKIP  (no target)         ${rel}`);

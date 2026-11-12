@@ -18,6 +18,42 @@
     'down-right',
   ];
 
+  // ── High-Performance Background Sprite Preloading & GPU Warmup ───────────────
+  // Pre-warms and decodes sprites directly in browser RAM/GPU memory
+  // Eliminates blank delays, flickering, or popping during animations/reactions.
+  const CORE_SPRITES = [
+    '/assets/images/mascot-directions.webp?v=1',
+    '/assets/images/mascot-directions-blink.webp?v=1',
+    '/assets/images/mascot-reactions.webp?v=1'
+  ];
+
+  const SECONDARY_SPRITES = [
+    '/assets/images/mascot-actions.webp?v=1',
+    '/assets/images/mascot-actions-2.webp?v=1'
+  ];
+
+  function preloadImage(src) {
+    const img = new Image();
+    img.src = src;
+    if (img.decode) {
+      img.decode().catch(() => {});
+    }
+  }
+
+  function warmUpMascotSprites() {
+    // 1. Immediately decode core sprites (idle directions, directional blink, basic reactions)
+    CORE_SPRITES.forEach(preloadImage);
+
+    // 2. Lazily decode secondary action sheets during browser idle cycles
+    const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
+    onIdle(() => {
+      SECONDARY_SPRITES.forEach(preloadImage);
+    });
+  }
+
+  // Kick off preload immediately upon script execution (mascot.js runs deferred)
+  warmUpMascotSprites();
+
   const REACTIONS = [
     'blink',
     'heart',
@@ -479,7 +515,7 @@
     if (!document.querySelector('link[href*="mascot.css"]')) {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = '/assets/css/mascot.css?v=10';
+      link.href = '/assets/css/mascot.css?v=5';
       document.head.appendChild(link);
     }
   }
