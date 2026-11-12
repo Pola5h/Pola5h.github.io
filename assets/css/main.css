@@ -1671,9 +1671,53 @@ textarea.field { resize: vertical; min-height: 7rem; }
 .nf__actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 2rem; }
 
 /* ---------- toast ---------- */
-.toast { position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%); z-index: 100;
-  background: var(--ink); color: var(--paper); padding: .6rem 1rem; border-radius: var(--radius);
-  font-family: var(--mono); font-size: .72rem; }
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 100000;
+  background: var(--ink);
+  color: var(--paper);
+  padding: .65rem 1.15rem;
+  border-radius: var(--radius);
+  font-family: var(--mono);
+  font-size: .74rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+  max-width: calc(100vw - 2rem);
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, transform .25s ease, visibility .25s ease;
+}
+.toast.toast-enter {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.toast-exit {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(8px);
+}
+@media (max-width: 579px) {
+  .toast {
+    top: 1.25rem;
+    bottom: auto;
+    font-size: .72rem;
+    padding: .6rem 1rem;
+    max-width: calc(100vw - 2rem);
+    border: 1px solid var(--line-2);
+    transform: translateX(-50%) translateY(-8px);
+  }
+  .toast.toast-enter {
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast.toast-exit {
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
 
 /* ---------- back to top ---------- */
 .back-to-top {
@@ -2014,6 +2058,28 @@ textarea.field { resize: vertical; min-height: 7rem; }
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.live-chat__input.is-invalid,
+.live-chat__textarea.is-invalid {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.22) !important;
+}
+.live-chat__error {
+  font-family: var(--sans);
+  font-size: .74rem;
+  color: #ef4444;
+  margin-top: .15rem;
+  line-height: 1.35;
+  display: block;
+  font-weight: 500;
+  animation: chatErrFade .2s ease forwards;
+}
+.live-chat__error[hidden] {
+  display: none !important;
+}
+@keyframes chatErrFade {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .live-chat__submit-btn {
   margin-top: .25rem;

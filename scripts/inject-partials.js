@@ -118,9 +118,9 @@ for (const file of files) {
   // Update mascot.js version to v=12 (cache buster)
   content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=12"');
 
-  // Keep latest asset versions intact (main.css v=50, main.js v=37)
-  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=50"');
-  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=37"');
+  // Keep latest asset versions intact (main.css v=52, main.js v=39)
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=52"');
+  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=39"');
 
   if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {
     console.log(`  SKIP  (no target)         ${rel}`);

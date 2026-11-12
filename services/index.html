@@ -80,7 +80,7 @@ html.fonts-loading body{opacity:0;pointer-events:none}
   ]).then(function(){clearTimeout(t);requestAnimationFrame(show);}).catch(function(){clearTimeout(t);show();});
 })();
 </script>
-<link rel="stylesheet" href="/assets/css/main.css?v=50">
+<link rel="stylesheet" href="/assets/css/main.css?v=52">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -927,7 +927,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
   <script defer src="/assets/js/t.js"></script>
 </footer>
   <script src="/assets/js/mascot.js?v=12" defer></script>
-<script src="/assets/js/main.js?v=37" defer></script>
+<script src="/assets/js/main.js?v=39" defer></script>
   <!-- chat:start -->
 <!-- 100% White-Label Live Chat Widget -->
 <div class="live-chat" id="live-chat" aria-live="polite">
@@ -972,6 +972,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <div class="live-chat__field-group">
           <label for="chat-email" class="live-chat__label">Email</label>
           <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+          <span class="live-chat__error" id="chat-email-error" role="alert" hidden></span>
         </div>
         <div class="live-chat__field-group">
           <label for="chat-first-msg" class="live-chat__label">Message</label>

@@ -86,6 +86,7 @@
   /* Toast                                                                  */
   /* --------------------------------------------------------------------- */
   var toastTimer;
+  var toastHideTimer;
   function showToast(message) {
     var toast = $('#global-toast');
     if (!toast) {
@@ -93,16 +94,29 @@
       toast.id = 'global-toast';
       toast.className = 'toast';
       toast.setAttribute('role', 'status');
+      toast.setAttribute('aria-live', 'polite');
       document.body.appendChild(toast);
     }
     toast.textContent = message;
+    toast.hidden = false;
+    toast.removeAttribute('hidden');
     toast.classList.remove('toast-exit');
+    void toast.offsetWidth;
     toast.classList.add('toast-enter');
+
     window.clearTimeout(toastTimer);
+    window.clearTimeout(toastHideTimer);
+
     toastTimer = window.setTimeout(function () {
       toast.classList.remove('toast-enter');
       toast.classList.add('toast-exit');
-    }, 2200);
+      toastHideTimer = window.setTimeout(function () {
+        if (toast.classList.contains('toast-exit')) {
+          toast.hidden = true;
+          toast.setAttribute('hidden', '');
+        }
+      }, 260);
+    }, 2500);
   }
 
   /* --------------------------------------------------------------------- */
@@ -1188,15 +1202,42 @@
       });
     });
 
+    var chatEmailInput = initForm.querySelector('#chat-email');
+    var chatEmailError = initForm.querySelector('#chat-email-error');
+
+    function clearChatEmailError() {
+      if (chatEmailInput) chatEmailInput.classList.remove('is-invalid');
+      if (chatEmailError) {
+        chatEmailError.textContent = '';
+        chatEmailError.hidden = true;
+        chatEmailError.setAttribute('hidden', '');
+      }
+    }
+
+    function showChatEmailError(msg) {
+      if (chatEmailInput) {
+        chatEmailInput.classList.add('is-invalid');
+        chatEmailInput.focus();
+      }
+      if (chatEmailError) {
+        chatEmailError.textContent = msg;
+        chatEmailError.hidden = false;
+        chatEmailError.removeAttribute('hidden');
+      }
+      showToast(msg);
+    }
+
+    if (chatEmailInput) {
+      chatEmailInput.addEventListener('input', clearChatEmailError);
+    }
+
     // Pre-chat submission
     initForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      clearChatEmailError();
+
       var submitBtn = initForm.querySelector('button[type="submit"]');
       var originalText = submitBtn ? submitBtn.innerHTML : 'Start Chat';
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Sending…';
-      }
 
       var payload = {
         name: initForm.name.value.trim(),
@@ -1207,17 +1248,37 @@
 
       var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       if (!emailRegex.test(payload.email)) {
-        showToast('Please provide a valid email format (e.g. name@domain.com).');
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
+        showChatEmailError('Please provide a valid email format (e.g. name@domain.com).');
         return;
       }
 
-      var emailDomain = (payload.email.split('@')[1] || '').toLowerCase();
-      var blockedDomains = ['tempmail.com', 'mailinator.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'trashmail.com', 'temp-mail.org'];
-      if (blockedDomains.indexOf(emailDomain) !== -1) {
-        showToast('Temporary/disposable emails are not permitted.');
-        if (submitBtn) { submitBtn.disabled = false; submitBtn.innerHTML = originalText; }
+      var rawEmail = payload.email.toLowerCase();
+      var emailParts = rawEmail.split('@');
+      var emailDomain = emailParts.length === 2 ? emailParts[1] : '';
+      var blockedDomains = [
+        'mailinator.com', 'tempmail.com', 'temp-mail.org', 'temp-mail.io',
+        '10minutemail.com', '10minutemail.net', 'guerrillamail.com', 'guerrillamailblock.com',
+        'sharklasers.com', 'grr.la', 'pokemail.net', 'spam4.me',
+        'trashmail.com', 'trashmail.net', 'yopmail.com', 'yopmail.fr', 'yopmail.net',
+        'dispostable.com', 'getairmail.com', 'mohmal.com', 'fakeinbox.com',
+        'burnermail.io', 'inboxkitten.com', 'generator.email', 'dropmail.me',
+        'maildrop.cc', 'emailondeck.com', 'tempail.com', 'crazymailing.com',
+        'throwawaymail.com', 'mytemp.email', 'fakemailgenerator.com', 'mailnesia.com',
+        'mailcatch.com', 'mintemail.com', 'getnada.com', 'nada.ltd',
+        'tempmailo.com', 'tempmailaddress.com', 'tmpmail.net', 'tmpmail.org',
+        'internxt.com', 'anonaddy.me', 'mailpoof.com', 'harakirimail.com'
+      ];
+      var isDisposable = blockedDomains.some(function (d) {
+        return emailDomain === d || emailDomain.slice(-(d.length + 1)) === '.' + d;
+      });
+      if (isDisposable) {
+        showChatEmailError('Temporary/disposable emails are not permitted.');
         return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Sending…';
       }
 
       fetch(CHAT_ENDPOINT, {
