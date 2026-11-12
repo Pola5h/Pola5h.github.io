@@ -510,6 +510,7 @@
             <span class="page-mascot__unread" id="page-mascot-unread" hidden></span>
             <div class="page-mascot__squash" id="page-mascot-squash">
               <div class="page-mascot__layer page-mascot__layer--directions" id="mascot-layer-directions"></div>
+              <div class="page-mascot__layer page-mascot__layer--blink" id="mascot-layer-blink"></div>
               <div class="page-mascot__layer page-mascot__layer--reactions" id="mascot-layer-reactions"></div>
               <div class="page-mascot__layer page-mascot__layer--actions" id="mascot-layer-actions"></div>
               <div class="page-mascot__layer page-mascot__layer--actions-2" id="mascot-layer-actions-2"></div>
@@ -537,6 +538,7 @@
     const btn = document.getElementById('page-mascot-btn');
     const squash = document.getElementById('page-mascot-squash');
     const layerDir = document.getElementById('mascot-layer-directions');
+    const layerBlink = document.getElementById('mascot-layer-blink');
     const layerReact = document.getElementById('mascot-layer-reactions');
     const layerActions1 = document.getElementById('mascot-layer-actions');
     const layerActions2 = document.getElementById('mascot-layer-actions-2');
@@ -736,7 +738,9 @@
 
     function updateView() {
       const dirIdx = DIRECTIONS.indexOf(direction);
-      layerDir.style.backgroundPosition = getCellPosition(dirIdx >= 0 ? dirIdx : 4);
+      const dirPos = getCellPosition(dirIdx >= 0 ? dirIdx : 4);
+      layerDir.style.backgroundPosition = dirPos;
+      if (layerBlink) layerBlink.style.backgroundPosition = dirPos;
 
       const act1Idx = ACTIONS_1.indexOf(reaction);
       const act2Idx = ACTIONS_2.indexOf(reaction);
@@ -747,11 +751,20 @@
         layerActions1.style.opacity = '1';
         if (layerActions2) layerActions2.style.opacity = '0';
         layerReact.style.opacity = '0';
+        if (layerBlink) layerBlink.style.opacity = '0';
         layerDir.style.opacity = '0';
       } else if (layerActions2 && act2Idx >= 0) {
         layerActions2.style.backgroundPosition = getCellPosition(act2Idx);
         layerActions2.style.opacity = '1';
         if (layerActions1) layerActions1.style.opacity = '0';
+        layerReact.style.opacity = '0';
+        if (layerBlink) layerBlink.style.opacity = '0';
+        layerDir.style.opacity = '0';
+      } else if (reaction === 'blink') {
+        // Natural directional blink — stays in current head pose, zero snap!
+        if (layerBlink) layerBlink.style.opacity = '1';
+        if (layerActions1) layerActions1.style.opacity = '0';
+        if (layerActions2) layerActions2.style.opacity = '0';
         layerReact.style.opacity = '0';
         layerDir.style.opacity = '0';
       } else if (reactIdx >= 0) {
@@ -759,10 +772,12 @@
         layerReact.style.opacity = '1';
         if (layerActions1) layerActions1.style.opacity = '0';
         if (layerActions2) layerActions2.style.opacity = '0';
+        if (layerBlink) layerBlink.style.opacity = '0';
         layerDir.style.opacity = '0';
       } else {
         if (layerActions1) layerActions1.style.opacity = '0';
         if (layerActions2) layerActions2.style.opacity = '0';
+        if (layerBlink) layerBlink.style.opacity = '0';
         layerReact.style.opacity = '0';
         layerDir.style.opacity = '1';
       }
@@ -810,6 +825,7 @@
           mascot.classList.remove('is-talking');
           reaction = null;
           updateView();
+          scheduleNextBlink();
         }, 1800);
       });
     }
@@ -831,6 +847,7 @@
       bubbleTimer = setTimeout(() => {
         if (!isHoveringBubble) {
           mascot.classList.remove('is-talking');
+          scheduleNextBlink();
         }
       }, duration || 6000);
     }
@@ -855,6 +872,7 @@
               if (!isHoveringBubble) {
                 reaction = null;
                 updateView();
+                scheduleNextBlink();
               }
             }, welcomeDuration);
           }, 1200);
@@ -871,12 +889,17 @@
 
       timers.forEach(window.clearTimeout);
       timers = [];
+      clearTimeout(blinkTimer);
+      isBlinking = false;
 
       const later = (ms, next) => {
         timers.push(window.setTimeout(() => {
           if (!isHoveringBubble || next !== null) {
             reaction = next;
             updateView();
+            if (next === null) {
+              scheduleNextBlink();
+            }
           }
         }, ms));
       };
@@ -954,9 +977,85 @@
       });
     }
 
+    // ------------------------------------------------------------------------
+    // Industry-Standard Natural Idle Blinking & Micro-Presence Engine
+    // ------------------------------------------------------------------------
+    let blinkTimer = null;
+    let isBlinking = false;
+
+    function scheduleNextBlink() {
+      clearTimeout(blinkTimer);
+      if (document.hidden) return; // Full CPU & battery conservation when tab is hidden
+
+      // Organic human cadence: blinks every 3.2s to 6.2s
+      const nextDelay = 3200 + Math.random() * 3000;
+
+      blinkTimer = setTimeout(() => {
+        triggerBlink();
+      }, nextDelay);
+    }
+
+    function triggerBlink() {
+      // Don't interrupt active dialogue reactions, speeches or manual boop clicks
+      if (reaction !== null || isBlinking) {
+        scheduleNextBlink();
+        return;
+      }
+
+      isBlinking = true;
+      reaction = 'blink';
+      updateView();
+
+      const blinkDuration = 150; // Standard eye closure duration
+
+      setTimeout(() => {
+        if (reaction === 'blink') {
+          reaction = null;
+          updateView();
+        }
+
+        // 22% chance of a realistic quick double-blink!
+        if (Math.random() < 0.22 && reaction === null) {
+          setTimeout(() => {
+            if (reaction === null) {
+              reaction = 'blink';
+              updateView();
+              setTimeout(() => {
+                if (reaction === 'blink') {
+                  reaction = null;
+                  updateView();
+                }
+                isBlinking = false;
+                scheduleNextBlink();
+              }, 130);
+            } else {
+              isBlinking = false;
+              scheduleNextBlink();
+            }
+          }, 85);
+        } else {
+          isBlinking = false;
+          scheduleNextBlink();
+        }
+      }, blinkDuration);
+    }
+
+    function startIdleBlinking() {
+      scheduleNextBlink();
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearTimeout(blinkTimer);
+        } else {
+          scheduleNextBlink();
+        }
+      });
+    }
+
     btn.addEventListener('click', boop);
     updateView();
     greetFirstVisit();
+    startIdleBlinking();
   }
 
   if (document.readyState === 'loading') {

@@ -57,6 +57,22 @@
   inset: 0;
   display: block;
   transform-origin: center bottom;
+  animation: mascotBreathe 3.8s ease-in-out infinite;
+}
+
+@keyframes mascotBreathe {
+  0%, 100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  50% {
+    transform: translateY(-2.2px) scale(1.012, 1.018);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-mascot__squash {
+    animation: none !important;
+  }
 }
 
 .page-mascot__layer {
@@ -65,12 +81,17 @@
   background-size: 300% 300%;
   background-repeat: no-repeat;
   pointer-events: none;
-  transition: opacity 0.12s ease;
+  transition: opacity 0.09s ease;
 }
 
 .page-mascot__layer--directions {
   background-image: url('/assets/images/mascot-directions.webp?v=1');
   opacity: 1;
+}
+
+.page-mascot__layer--blink {
+  background-image: url('/assets/images/mascot-directions-blink.webp?v=1');
+  opacity: 0;
 }
 
 .page-mascot__layer--reactions {

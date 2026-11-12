@@ -115,8 +115,9 @@ for (const file of files) {
     }
   }
 
-  // Update mascot.js version to v=12 (cache buster)
-  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=12"');
+  // Update mascot.js & mascot.css version (cache buster)
+  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=15"');
+  content = content.replace(/href="\/assets\/css\/mascot\.css(?:\?v=\d+)?"/g, 'href="/assets/css/mascot.css?v=4"');
 
   // Keep latest asset versions intact (main.css v=52, main.js v=39)
   content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=52"');
