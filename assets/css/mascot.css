@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Kamruzzaman Polash — Page Mascot (Option 1: Floating Dock)
+   100% Theme-adaptive, Accessible, Responsive with Mobile Optimization
+   ========================================================================== */
+
+.page-mascot {
+  position: fixed;
+  left: 1.75rem;
+  bottom: 1.75rem;
+  z-index: 55; /* Sits below mobile menu (z:60) & live chat (z:95) */
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.page-mascot__dock {
+  position: relative;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mascot Button: Authentic transparent sticker */
+.page-mascot__btn {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  display: block;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16));
+}
+
+.dark .page-mascot__btn {
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+}
+
+.page-mascot__btn:hover {
+  transform: translateY(-3px) scale(1.05);
+}
+
+.page-mascot__btn:active {
+  transform: translateY(1px) scale(0.96);
+}
+
+.page-mascot__squash {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform-origin: center bottom;
+}
+
+.page-mascot__layer {
+  position: absolute;
+  inset: 0;
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.page-mascot__layer--directions {
+  background-image: url('/assets/images/mascot-directions.webp?v=1');
+  opacity: 1;
+}
+
+.page-mascot__layer--reactions {
+  background-image: url('/assets/images/mascot-reactions.webp?v=1');
+  opacity: 0;
+}
+
+.page-mascot__layer--actions {
+  background-image: url('/assets/images/mascot-actions.webp?v=1');
+  opacity: 0;
+}
+
+.page-mascot__layer--actions-2 {
+  background-image: url('/assets/images/mascot-actions-2.webp?v=1');
+  opacity: 0;
+}
+
+/* Speech Bubble */
+.page-mascot__bubble {
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: 0;
+  transform: translateY(8px) scale(0.92);
+  transform-origin: bottom left;
+  background: var(--paper-2);
+  color: var(--ink);
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  padding: 0.65rem 0.95rem;
+  font-family: var(--sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  width: max-content;
+  max-width: min(290px, calc(100vw - 48px));
+  white-space: normal;
+  text-wrap: pretty;
+  word-break: break-word;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22), 0 3px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.page-mascot__bubble::before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 23px;
+  border: 8px solid transparent;
+  border-top-color: var(--line-2);
+}
+
+.page-mascot__bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 24px;
+  border: 7px solid transparent;
+  border-top-color: var(--paper-2);
+}
+
+.page-mascot.is-talking .page-mascot__bubble {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Confetti & Emojis Canvas */
+.mascot-fx-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Hide mascot when fullscreen mobile navigation menu is open */
+body:has(.mobile-menu.is-open) .page-mascot,
+.mobile-menu.is-open ~ .page-mascot {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* ==========================================================================
+   Mobile Optimization (< 580px)
+   ========================================================================== */
+@media (max-width: 579px) {
+  /* On mobile only: hide mascot when fullscreen live-chat modal takes over screen */
+  body:has(.live-chat.is-open) .page-mascot,
+  .live-chat.is-open ~ .page-mascot {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+  }
+
+  .page-mascot {
+    left: 1rem;
+    bottom: 1rem;
+  }
+
+  .page-mascot__btn {
+    width: 58px;
+    height: 58px;
+  }
+
+  .page-mascot__bubble {
+    left: 0;
+    max-width: calc(100vw - 3.5rem);
+    white-space: normal;
+    font-size: 0.74rem;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .page-mascot__bubble::before {
+    left: 17px;
+  }
+
+  .page-mascot__bubble::after {
+    left: 18px;
+  }
+}

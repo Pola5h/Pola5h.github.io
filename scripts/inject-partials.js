@@ -103,11 +103,24 @@ for (const file of files) {
     }
   }
 
-  // Sync main.js script tag version
-  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=33"');
+  // Clean up any mascot-dialogues.js references (merged into single mascot.js)
+  content = content.replace(/<script\s+src="\/assets\/js\/mascot-dialogues\.js[^>]*><\/script>\s*/g, '');
 
-  // Sync main.css stylesheet link version
-  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=39"');
+  // Mascot injection (skip redirects) — single clean mascot.js file
+  if (!isRedirect && !content.includes('/assets/js/mascot.js')) {
+    if (content.includes('src="/assets/js/main.js')) {
+      content = content.replace(/(<script\s+src="\/assets\/js\/main\.js[^>]*><\/script>)/, '  <script src="/assets/js/mascot.js?v=2" defer></script>\n$1');
+    } else if (content.includes('</body>')) {
+      content = content.replace('</body>', '  <script src="/assets/js/mascot.js?v=2" defer></script>\n</body>');
+    }
+  }
+
+  // Update mascot.js version to v=4 (cache buster)
+  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=4"');
+
+  // Keep latest asset versions intact (main.css v=44, main.js v=34)
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=44"');
+  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=34"');
 
   if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {
     console.log(`  SKIP  (no target)         ${rel}`);
