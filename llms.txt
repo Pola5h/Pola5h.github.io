@@ -1,20 +1,61 @@
 # Kamruzzaman Polash
 
-> Custom software and backend engineer (Laravel, PHP, MySQL, Redis, Docker, Kubernetes) based in Bangladesh. Builds custom business software, multi-branch POS platforms, e-commerce automation, courier & payment pipelines (Pathao, Steadfast, RedX, CarryBee, bKash, SSLCommerz), and scalable SaaS backends. Available for client projects and remote full-time engineering roles worldwide.
+> Custom software engineer and Laravel backend architect based in Bangladesh, working remotely with teams in France, the UK, the US, and worldwide since 2022. Builds multi-tenant SaaS platforms, multi-branch POS & inventory systems, WooCommerce/Shopify sync engines, automated courier & payment pipelines (Pathao, Steadfast, bKash, SSLCommerz, Stripe), and production AI/LLM workflows using Laravel 13, PHP 8.4, MySQL, Redis, Docker, and Kubernetes.
 
-## Key pages
-- [Home / portfolio](https://polash.link/): custom software, selected work, production systems, verified recommendations, FAQ and live chat.
-- [Services](https://polash.link/services/): custom business software, POS systems, e-commerce automation, courier/payment integrations, SaaS architecture, database tuning, and AI pipelines.
-- [Engineering blog](https://polash.link/blog/): 18 production-focused Laravel & backend engineering guides (queues, MySQL optimisation, REST APIs, Docker/Kubernetes, AI integration).
+## Core Pages
 
-## Notable work
-- [Vendzoo](https://vendzoo.com): omnichannel retail & commerce SaaS (multi-branch POS, Shopify and WooCommerce inventory sync, automated courier dispatch, COD fraud scoring, double-entry accounting).
-- [pola5h/laravel-flags](https://github.com/pola5h/laravel-flags): open-source Laravel package with 249 country and 210 language flags as Blade components.
+- [Home & Portfolio](https://polash.link/): Production case studies, backend architecture track record, engineering stack, client recommendations, and live chat.
+- [Engineering Services](https://polash.link/services/): Fixed-scope milestone projects and remote engineering roles — custom POS, e-commerce automation, multi-tenant Laravel SaaS, API integrations, AI pipelines, and MySQL scaling.
+- [Engineering Blog](https://polash.link/blog/): 26 production-focused guides on Laravel 13, PHP security, MySQL optimization, Redis queues, Docker/Kubernetes, realtime WebSockets, and AI integration.
+- [RSS Feed (XML)](https://polash.link/rss.xml): Standard RSS 2.0 feed of all 26 published engineering articles.
+- [Full LLM Reference](https://polash.link/llms-full.txt): Consolidated plain-text Markdown reference with services, case studies, FAQ, and article summaries.
 
-## Contact & Collaboration
-- Live Chat: On-site at https://polash.link/ (instant real-time messaging)
+## Notable Systems & Open Source
+
+- [Vendzoo](https://vendzoo.com): Omnichannel retail & commerce SaaS featuring multi-branch POS, bi-directional WooCommerce/Shopify inventory sync, automated Pathao/Steadfast courier dispatch, COD fraud scoring, and double-entry accounting.
+- [Hishab](https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/): Offline-first personal finance PWA + Android wrapper with Vue 3, Laravel 13, IndexedDB sync, and zero-cost Gemini AI receipt parsing on a 256MB server.
+- [pola5h/laravel-flags](https://github.com/pola5h/laravel-flags): Open-source Laravel package providing 249 country and 210 language flags as Blade components.
+
+## Engineering Blog — Laravel Architecture & Security
+
+- [Laravel Middleware vs FormRequest vs Policy vs Resource (Laravel 13)](https://polash.link/blog/laravel-middleware-form-request-policy-resource/): 5-layer API security lifecycle in Laravel 13 covering `bootstrap/app.php` without `Kernel.php`, `SecurityHeaders`, 404 vs 403 IDOR prevention, atomic `DB::transaction()` file handling, and PHP 8 `match (true)` exceptions.
+- [CVE-2026-109618 (PHP2Shell RCE): How It Works & How to Fix It](https://polash.link/blog/php-rce-cve-2026-109618-fix/): CVSS 9.2 unauthenticated PHP multipart parser RCE breakdown, safe versions (8.5.12, 8.4.27, 8.3.36, 8.2.35), and Ubuntu, Docker, and cPanel patch steps.
+- [Laravel 13 New Features & PHP 8.3 Requirements](https://polash.link/blog/laravel-13-new-features/): Complete guide to Laravel 13 requirements, PHP model attributes, `Cache::touch()`, Reverb database driver, passkeys, and zero-downtime upgrade steps.
+- [Laravel Sanctum vs JWT: Which Should You Use for API Auth?](https://polash.link/blog/laravel-api-authentication-jwt-sanctum/): Technical comparison of opaque database tokens vs stateless bearer JWTs, revocation trade-offs, and hybrid auth patterns.
+- [Laravel Sanctum Tutorial: API Auth Step by Step](https://polash.link/blog/laravel-sanctum-tutorial/): Installing Sanctum, protecting API routes, token abilities, SPA cookie auth, and instant revocation.
+- [Laravel REST API: Auth & Best Practices Guide](https://polash.link/blog/laravel-rest-api-best-practices/): Versioning, Spatie permissions, rate limiting, validation, and consistent JSON error envelopes.
+- [MVCS Architecture in Laravel, Explained](https://polash.link/blog/laravel-mvcs-architecture-guide/): Keeping controllers thin by moving domain logic into testable Service classes.
+- [Laravel Observer Pattern: Audit Logging Done Right](https://polash.link/blog/laravel-observer-pattern-audit-log/): Implementing immutable audit trails with Eloquent Observers vs MySQL triggers.
+- [Single-Database vs Multi-Database SaaS Multi-Tenancy](https://polash.link/blog/single-vs-multi-database-saas-multitenancy/): Cost, data isolation, migrations, and compliance trade-offs for SaaS founders and architects.
+- [Laravel 12.39: @hasStack, Route Filtering & More](https://polash.link/blog/laravel-12-39-new-features/): Breakdown of `@hasStack`, route filtering improvements, and core updates.
+- [PHP Coding Standards Every Developer Should Follow](https://polash.link/blog/php-coding-standards-bangladesh-developers/): PSR-12, PSR-4, strict types, Pint, and PHPStan practices for engineering teams.
+
+## Engineering Blog — Performance, Queues, Realtime & DevOps
+
+- [I Tested the Doppar PHP Framework: Benchmarks & Architecture Review](https://polash.link/blog/doppar-php-framework-review/): Real-world `wrk` concurrency benchmarks, queue stress tests, and memory profiling compared to Laravel.
+- [Laravel Queue vs defer(): When to Use Each](https://polash.link/blog/laravel-queue-vs-defer/): Execution order, memory behavior, database transaction gotchas, and decision matrix for Laravel 11–13.
+- [Laravel Queue Workers in Docker: Why They Die & How to Fix It](https://polash.link/blog/laravel-queue-worker-docker-production/): Supervisor config, `--max-time`, `--max-jobs`, SIGTERM handling, OOM kills, and Horizon vs `queue:work`.
+- [Laravel Queues & Jobs with Redis: Production Guide](https://polash.link/blog/laravel-queues-jobs-redis-horizon/): Batching, Redis Horizon auto-scaling, failure handling, and worker supervision.
+- [Laravel Realtime in 2026: Reverb vs Pusher vs Ably](https://polash.link/blog/laravel-realtime-notifications-pusher-fcm-soketi/): Pricing breakdown, latency comparison, self-hosted Reverb/Soketi setup, and Laravel Echo integration.
+- [Building a White-Label Real-Time Live Chat with Ably and Telegram Topics](https://polash.link/blog/white-label-live-chat-ably-telegram/): Zero-tracker WebSocket live chat routed 1:1 to Telegram Forum Topics.
+- [Laravel Performance Optimisation Guide](https://polash.link/blog/laravel-performance-optimization/): Caching strategy, Redis tuning, eager loading, OPcache, and query profiling.
+- [MySQL Query Optimisation in Laravel](https://polash.link/blog/mysql-query-optimization-laravel/): Eliminating N+1 queries, composite index design, reading `EXPLAIN` plans, and stopping full table scans.
+- [Deploy Laravel with Docker & Kubernetes](https://polash.link/blog/laravel-docker-kubernetes-deployment/): Multi-stage Docker builds, PHP-FPM/Nginx tuning, health checks, and zero-downtime Kubernetes rollouts.
+
+## Engineering Blog — Applied AI & E-Commerce Systems
+
+- [Laravel AI SDK + OpenRouter: A Complete Guide](https://polash.link/blog/laravel-ai-sdk-openrouter/): Building agents, streaming responses, queued LLM pipelines, multi-provider failover, and tests in Laravel 13.
+- [Laravel + OpenAI & OpenRouter: Integration Guide](https://polash.link/blog/laravel-openai-integration-guide/): Streaming, token cost controls, retries, and production error handling.
+- [Building an Offline-First App with Zero-Cost AI on a 256MB Server](https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/): Local-first PWA + Android architecture with IndexedDB and Gemini AI parsing.
+- [Why Your WooCommerce Store Keeps Overselling](https://polash.link/blog/woocommerce-overselling-inventory-sync-fix/): Fixing race conditions and inventory drift with MySQL row locks (`SELECT ... FOR UPDATE`) and a central ledger.
+- [How to Automate Pathao and Steadfast Courier Booking in Laravel](https://polash.link/blog/automate-pathao-steadfast-courier-laravel/): Event-driven parcel dispatch, webhook tracking, and COD fraud scoring for e-commerce stores.
+- [Custom POS vs Ready-Made Software](https://polash.link/blog/custom-pos-vs-ready-made-software-bangladesh/): Why off-the-shelf POS breaks multi-branch retail and how custom offline-capable systems remove recurring seat fees.
+
+## Contact
+
 - Email: hello@polash.link
+- Live Chat: https://polash.link/
 - WhatsApp: https://wa.me/8801791296967
 - GitHub: https://github.com/pola5h
 - LinkedIn: https://linkedin.com/in/pola5h
-
+- DEV Community: https://dev.to/polash
