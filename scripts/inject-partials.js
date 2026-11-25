@@ -19,7 +19,7 @@ const ROOT         = path.resolve(__dirname, '..');
 const HEADER_FILE  = path.join(ROOT, '_partials', 'header.html');
 const FOOTER_FILE  = path.join(ROOT, '_partials', 'footer.html');
 const CHAT_FILE    = path.join(ROOT, '_partials', 'chat.html');
-const IGNORE_DIRS  = new Set(['node_modules', '.git', '_partials', '_site']);
+const IGNORE_DIRS  = new Set(['node_modules', '.git', '_partials', '_site', 'rss']);
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
