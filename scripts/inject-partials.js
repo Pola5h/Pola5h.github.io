@@ -130,7 +130,7 @@ for (const file of files) {
   }
 
   // Update mascot.js & mascot.css version (cache buster)
-  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=17"');
+  content = content.replace(/src="\/assets\/js\/mascot\.js(?:\?v=\d+)?"/g, 'src="/assets/js/mascot.js?v=18"');
   content = content.replace(/href="\/assets\/css\/mascot\.css(?:\?v=\d+)?"/g, 'href="/assets/css/mascot.css?v=5"');
 
   if (!headerRegex.test(original) && !footerRegex.test(original) && !content.includes('</body>')) {

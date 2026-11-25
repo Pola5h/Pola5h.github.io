@@ -491,7 +491,7 @@
     {
       name: "Homepage",
       match: () => true,
-      welcome: { reaction: 'salam', text: "Assalamu Alaikum! Welcome to Polash's engineering portfolio! 👋" },
+      welcome: { reaction: 'waving', text: "Hey there! Welcome to Polash's engineering portfolio! 👋" },
       variants: [
         { reaction: 'waving',    text: "Hi there! Feel free to explore my open source projects & architectures! 🚀" },
         { reaction: 'cool',      text: "APIs engineered for sub-100ms response times guaranteed! ⚡" },
@@ -499,7 +499,7 @@
         { reaction: 'thumbs_up', text: "Available for remote roles & SaaS architecture contracts worldwide! 🤝" },
         { reaction: 'coffee',    text: "Clean architecture, automated tests, zero drama ☕" },
         { reaction: 'flex',      text: "Databases indexed & high-concurrency bottlenecks eliminated! 📊" },
-        { reaction: 'salam',     text: "Assalamu Alaikum! Kamruzzaman Polash at your service! 🤝" }
+        { reaction: 'thumbs_up', text: "Kamruzzaman Polash here — open Live Chat anytime to talk tech! 🤝" }
       ]
     }
   ];
