@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laravel Middleware vs FormRequest vs Policy vs Resource (Laravel 13) | Kamruzzaman Polash</title>
+<meta name="description" content="Laravel 13 API security architecture: Middleware vs FormRequest vs Policy vs Resource, bootstrap/app.php, 404 vs 403 IDOR defense &amp; match(true) errors.">
+<link rel="canonical" href="https://polash.link/blog/laravel-middleware-form-request-policy-resource/">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="author" content="Kamruzzaman Polash">
+<meta name="keywords" content="Laravel Middleware vs FormRequest vs Policy, Laravel Policy vs Resource, Laravel 13 request lifecycle, Laravel bootstrap app php middleware, Laravel 404 vs 403 IDOR, Laravel SecurityHeaders middleware, Laravel withExceptions match true, Laravel FormRequest authorize vs Policy, Laravel DB transaction file upload, Laravel API security architecture">
+<meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<script>
+try {
+  document.documentElement.classList.add('js');
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+} catch (e) {}
+</script>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Kamruzzaman Polash">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://polash.link/blog/laravel-middleware-form-request-policy-resource/">
+<meta property="og:title" content="Laravel Middleware vs FormRequest vs Policy vs Resource: Layered API Security in Laravel 13">
+<meta property="og:description" content="A production guide to Laravel 13's request lifecycle: bootstrap/app.php middleware, FormRequest input guards, 404 vs 403 Policy defense, DB::transaction file safety, and centralized match(true) exceptions.">
+<meta property="og:image" content="https://polash.link/assets/images/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Laravel Middleware vs FormRequest vs Policy vs Resource architecture guide">
+<meta property="article:published_time" content="2026-11-25T14:30:00+06:00">
+<meta property="article:modified_time" content="2026-11-25T14:30:00+06:00">
+<meta property="article:section" content="Architecture">
+<meta property="article:author" content="https://polash.link/">
+<meta property="article:tag" content="Laravel 13">
+<meta property="article:tag" content="Laravel Security">
+<meta property="article:tag" content="Middleware">
+<meta property="article:tag" content="FormRequest">
+<meta property="article:tag" content="Policies">
+<meta property="article:tag" content="API Resources">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@pola5h">
+<meta name="twitter:url" content="https://polash.link/blog/laravel-middleware-form-request-policy-resource/">
+<meta name="twitter:title" content="Laravel Middleware vs FormRequest vs Policy vs Resource (Laravel 13)">
+<meta name="twitter:description" content="Complete request lifecycle &amp; layered API security in Laravel 13: bootstrap/app.php, 404 vs 403 IDOR defense, DB::transaction file safety, and match(true) exceptions.">
+<meta name="twitter:image" content="https://polash.link/assets/images/twitter-image.png">
+<meta name="twitter:creator" content="@pola5h">
+<meta name="twitter:label1" content="Reading time">
+<meta name="twitter:data1" content="12 minutes">
+<meta name="twitter:label2" content="Filed under">
+<meta name="twitter:data2" content="Architecture">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="Kamruzzaman Polash — Blog" href="/rss.xml">
+<link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/modelista-signature.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/maqin-larisa.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:block;src:url('/assets/fonts/inter-latin.woff2') format('woff2')}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:block;src:url('/assets/fonts/jetbrains-mono-latin.woff2') format('woff2')}
+@font-face{font-family:'Modelista Signature';font-style:normal;font-weight:400;font-display:block;src:url('/assets/fonts/modelista-signature.woff2') format('woff2')}
+@font-face{font-family:'Maqin Larisa';font-style:normal;font-weight:400;font-display:block;src:url('/assets/fonts/maqin-larisa.woff2') format('woff2')}
+html.fonts-loading body{opacity:0;pointer-events:none}
+</style>
+<script>
+(function(){
+  var d=document.documentElement;
+  if(!document.fonts||!document.fonts.load)return;
+  d.classList.add('fonts-loading');
+  var done=false;
+  function show(){if(done)return;done=true;d.classList.remove('fonts-loading');}
+  var t=setTimeout(show,1200);
+  var domReady=new Promise(function(r){
+    if(document.readyState!=='loading')r();
+    else document.addEventListener('DOMContentLoaded',r,{once:true});
+  });
+  Promise.all([
+    document.fonts.load('400 1rem "Inter"'),
+    document.fonts.load('600 1rem "Inter"'),
+    document.fonts.load('700 1rem "Inter"'),
+    document.fonts.load('400 1rem "JetBrains Mono"'),
+    document.fonts.load('500 1rem "JetBrains Mono"'),
+    document.fonts.load('400 1rem "Modelista Signature"'),
+    document.fonts.load('400 1rem "Maqin Larisa"'),
+    domReady,
+    document.fonts.ready
+  ]).then(function(){clearTimeout(t);requestAnimationFrame(show);}).catch(function(){clearTimeout(t);show();});
+})();
+</script>
+<link rel="stylesheet" href="/assets/css/main.css?v=52">
+<link rel="stylesheet" href="/assets/css/mascot.css?v=5">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://polash.link/#person",
+      "name": "Kamruzzaman Polash",
+      "alternateName": ["KP", "pola5h"],
+      "jobTitle": "Custom Software Engineer & Backend Architect",
+      "url": "https://polash.link/",
+      "image": "https://polash.link/assets/images/og-image.png",
+      "sameAs": [
+        "https://github.com/pola5h",
+        "https://linkedin.com/in/pola5h",
+        "https://dev.to/polash"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://polash.link/#organization",
+      "name": "Kamruzzaman Polash",
+      "url": "https://polash.link/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://polash.link/assets/images/favicon-32x32.png",
+        "width": 32,
+        "height": 32
+      },
+      "founder": { "@id": "https://polash.link/#person" }
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://polash.link/blog/laravel-middleware-form-request-policy-resource/#article",
+      "headline": "Laravel Middleware vs FormRequest vs Policy vs Resource: Layered API Security in Laravel 13",
+      "description": "Where should auth, validation, authorization, and error handling live in Laravel 13? Complete request lifecycle guide covering bootstrap/app.php, 404 vs 403 IDOR defense, DB::transaction, and match(true) exceptions.",
+      "url": "https://polash.link/blog/laravel-middleware-form-request-policy-resource/",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://polash.link/blog/laravel-middleware-form-request-policy-resource/"
+      },
+      "image": "https://polash.link/assets/images/og-image.png",
+      "datePublished": "2026-11-25T14:30:00+06:00",
+      "dateModified": "2026-11-25T14:30:00+06:00",
+      "author": { "@id": "https://polash.link/#person" },
+      "publisher": { "@id": "https://polash.link/#organization" },
+      "inLanguage": "en",
+      "articleSection": "Architecture",
+      "keywords": ["Laravel 13", "Middleware", "FormRequest", "Policy", "API Resource", "Laravel Security", "bootstrap/app.php"]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://polash.link/" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://polash.link/blog/" },
+        { "@type": "ListItem", "position": 3, "name": "Laravel Middleware vs FormRequest vs Policy vs Resource", "item": "https://polash.link/blog/laravel-middleware-form-request-policy-resource/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between Middleware, FormRequest, Policy, and Resource in Laravel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Middleware checks identity and transport rules at the gate (JWT auth, email verification, JSON headers, security headers). FormRequest validates and sanitizes incoming payloads before the controller runs. Policy checks resource-level ownership and permissions (can this user update this specific record?). API Resource shapes the outgoing JSON so internal columns and secrets never leak."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should Laravel APIs return 404 or 403 when a user requests another user's resource?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Return 404 by scoping the query to the authenticated user ($user->documents()->findOrFail($id)). Returning 403 confirms that the record ID exists in your database (an IDOR enumeration leak). Keep a Policy check as a second defense-in-depth layer in case a developer ever uses an unscoped lookup."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where do middleware and exception handlers go in Laravel 11, 12, and 13 without Kernel.php?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In Laravel 11 through 13, app/Http/Kernel.php and app/Exceptions/Handler.php are removed from the skeleton. Global middleware, API middleware prepends, aliases, and JSON exception rendering are all registered in bootstrap/app.php using withMiddleware() and withExceptions()."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why pass Document::class instead of a model instance to FormRequest::authorize()?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "During a POST create request, no Document model exists in the database yet. Passing Document::class to $this->user()->can('create', Document::class) tells Laravel's Gate to resolve DocumentPolicy and invoke its create(User $user) method."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you prevent orphan uploaded files when a database transaction fails in Laravel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On create, wrap the database insert in DB::transaction() inside a try/catch block and delete the newly stored file inside the catch block if the DB write throws. On delete, run DB::transaction() to delete the row first, and only delete the file from disk after the transaction commits."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why use match (true) with instanceof in bootstrap/app.php withExceptions()?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "PHP 8's match (true) evaluates instanceof checks strictly from top to bottom and returns immediately without break statements or fallthrough bugs. Ordering specific exceptions above generic interfaces and ending with a generic 500 response prevents leaking SQL queries or file paths to API clients."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="related" href="https://polash.link/blog/laravel-13-new-features/">
+<link rel="related" href="https://polash.link/blog/laravel-mvcs-architecture-guide/">
+<link rel="related" href="https://polash.link/blog/laravel-rest-api-best-practices/">
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="site-header" id="site-header">
+  <div class="wrap site-header__inner">
+    <a href="/" class="brand" aria-label="K. Polash — home">
+      <span class="brand__name">K. Polash</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#work" class="nav__link">Work</a>
+      <a href="/#about" class="nav__link">About</a>
+      <a href="/#skills" class="nav__link">Skills</a>
+      <a href="/#experience" class="nav__link">Experience</a>
+      <a href="/services/" class="nav__link">Services</a>
+      <a href="/blog/" class="nav__link" aria-current="page">Blog</a>
+      <a href="/#contact" class="nav__link">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" data-theme-toggle aria-label="Toggle colour theme"><span class="only-light"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></span><span class="only-dark"><svg viewBox="0 0 24 24" width="16" height="16" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span></button>
+      <button type="button" class="icon-btn menu-btn" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="progress" id="reading-progress"></div>
+  <div class="crumbs"><div class="wrap crumbs__inner"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span class="crumbs__current">Middleware vs FormRequest vs Policy vs Resource</span></div></div>
+
+  <header class="article-head"><div class="wrap">
+    <div class="article-head__cat"><span class="label label--accent">Architecture</span><span class="label">12 min read</span></div>
+    <h1 class="article-head__title">Laravel Middleware vs FormRequest vs Policy vs Resource: Layered API Security in Laravel 13</h1>
+    <p class="article-head__desc">One of the most common architectural mistakes in Laravel APIs is stuffing auth checks, validation, ownership rules, and JSON formatting into controllers. Here is the exact 5-layer request lifecycle I use in production Laravel 13 apps — from bootstrap/app.php to 404-first Policies and match (true) exception handling.</p>
+    <div class="article-head__by">
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date"><time datetime="2026-11-25T14:30:00+06:00">November 25, 2026</time> · 12 min read · Laravel 13 &amp; Security</div></div></div>
+      <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
+    </div>
+  </div></header>
+
+  <div class="article-body"><div class="wrap"><div class="article-grid">
+    <div>
+      <article class="article">
+        <aside class="callout callout--tip">
+          <span class="callout__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+          <div>
+            <p class="callout__label">TL;DR — The One-Line Mental Model</p>
+            <div class="callout__body">
+              <p><strong>Middleware</strong> checks <em>who you are</em> at the door. <strong>FormRequest</strong> checks <em>what you brought</em>. <strong>Policy</strong> checks <em>whether this exact record belongs to you</em>. <strong>Service</strong> executes the transaction safely. <strong>Resource</strong> shapes <em>what leaves the server</em>.</p>
+            </div>
+          </div>
+        </aside>
+
+        <h2 id="1-quick-comparison">1. Middleware vs FormRequest vs Policy vs Resource (At a Glance)</h2>
+        <p>Every senior Laravel code review and backend interview eventually hits the same question: <em>"Why split checks across Middleware, FormRequest, Policy, and Resource when you could write them all in the controller?"</em></p>
+        <p>The answer is <strong>Defense in Depth</strong> and <strong>Separation of Concerns</strong>. Think of an API request like boarding a flight at an airport:</p>
+        <ol>
+          <li><strong>Main Gate Security (Middleware):</strong> <em>"Who are you? Do you have a valid passport and visa?"</em> — Validates your JWT token, email verification status, and forces JSON headers before your payload ever touches the controller.</li>
+          <li><strong>Luggage Scanner (FormRequest):</strong> <em>"What is inside your bag? Is the weight and file type allowed?"</em> — Sanitizes fields, enforces MIME types and upload size limits, and rejects bad input with <code>422</code> before touching the database.</li>
+          <li><strong>Seat Boarding Check (Policy):</strong> <em>"Everything checks out, but is seat 12B actually yours?"</em> — Verifies object-level ownership (<code>$document-&gt;user_id === $user-&gt;id</code>) so users can never view, edit, or delete someone else's data.</li>
+          <li><strong>Packaging &amp; Customs Exit (Resource):</strong> <em>"What is allowed to leave the terminal?"</em> — Whitelists safe fields and strips internal database columns, foreign keys, and encrypted secrets.</li>
+        </ol>
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Directory</th>
+                <th>Primary Question</th>
+                <th>Failure Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Middleware</strong></td>
+                <td style="white-space:nowrap"><code>app/Http/Middleware</code></td>
+                <td>Is this user authenticated, verified, and within rate limits?</td>
+                <td style="white-space:nowrap"><code>401</code> / <code>403</code> / <code>429</code></td>
+              </tr>
+              <tr>
+                <td><strong>FormRequest</strong></td>
+                <td style="white-space:nowrap"><code>app/Http/Requests</code></td>
+                <td>Is the incoming payload valid, sanitized, and permitted?</td>
+                <td style="white-space:nowrap"><code>422</code> / <code>403</code></td>
+              </tr>
+              <tr>
+                <td><strong>Policy</strong></td>
+                <td style="white-space:nowrap"><code>app/Policies</code></td>
+                <td>Does this user own or have permission on this specific model?</td>
+                <td style="white-space:nowrap"><code>404</code> / <code>403</code></td>
+              </tr>
+              <tr>
+                <td><strong>Service</strong></td>
+                <td style="white-space:nowrap"><code>app/Services</code></td>
+                <td>How do DB writes, files, and external APIs stay atomic?</td>
+                <td style="white-space:nowrap">Domain Exception</td>
+              </tr>
+              <tr>
+                <td><strong>API Resource</strong></td>
+                <td style="white-space:nowrap"><code>app/Http/Resources</code></td>
+                <td>Which exact JSON fields should be exposed to the client?</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="2-request-lifecycle">2. The Full Laravel 13 Request Lifecycle</h2>
+        <p>When a client sends a request like <code>PUT /api/documents/42</code> in a modern <a href="/blog/laravel-13-new-features/">Laravel 13</a> SaaS API, it travels through a strict one-way dependency chain: <strong>Route &rarr; Middleware &rarr; FormRequest &rarr; Controller &rarr; Policy &rarr; Service &rarr; Model &rarr; Resource</strong>.</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">Request Lifecycle Pipeline</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">text</span>
+          </figcaption>
+          <pre><code>PUT /api/documents/42
+  │
+  ├─ 1. bootstrap/app.php &amp; AppServiceProvider (routes, rate limiters, policies)
+  ├─ 2. Global + API Middleware
+  │      ├─ ForceJsonResponse (Before: sets Accept: application/json)
+  │      └─ auth:api + verified.email (JWT + email_verified_at check)
+  ├─ 3. FormRequest (UpdateDocumentRequest)
+  │      ├─ prepareForValidation() → trim / lowercase
+  │      ├─ authorize()            → request-level guard
+  │      └─ rules()                → 422 on invalid fields
+  ├─ 4. Controller (≤ 15 lines — orchestration only)
+  │      ├─ $document = $documents-&gt;findForUser($user, $id) → 404 if not owned
+  │      ├─ $this-&gt;authorize('update', $document)           → Policy fallback (403)
+  │      ├─ $document = $documents-&gt;update($document, $request-&gt;validated())
+  │      └─ ApiResponse::success(new DocumentResource($document))
+  ├─ 5. Global Exit Middleware
+  │      └─ SecurityHeaders (After: nosniff, DENY, Referrer-Policy)
+  └─ 6. Centralized Exception Handler (withExceptions → strict JSON envelope)</code></pre>
+        </figure>
+
+        <p>Notice the golden rule: <strong>Controllers never run Eloquent queries, touch files, or call third-party APIs.</strong> Services never read <code>request()</code> or return HTTP responses — they throw domain exceptions that <code>bootstrap/app.php</code> translates into clean JSON. (If you want a deeper dive into thin controllers, see my <a href="/blog/laravel-mvcs-architecture-guide/">MVCS Architecture in Laravel guide</a>.)</p>
+
+        <h2 id="3-middleware-layer">3. Layer 1 — Middleware in bootstrap/app.php (No Kernel.php)</h2>
+        <p>Since Laravel 11 (and continuing in Laravel 13), <code>app/Http/Kernel.php</code> and <code>app/Exceptions/Handler.php</code> are no longer part of the application skeleton. Everything is wired cleanly inside <code>bootstrap/app.php</code>:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">bootstrap/app.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-keyword">return</span> <span class="hljs-title class_">Application</span>::<span class="hljs-title function_ invoke__">configure</span>(basePath: <span class="hljs-title function_ invoke__">dirname</span>(<span class="hljs-keyword">__DIR__</span>))
+    -&gt;<span class="hljs-title function_ invoke__">withRouting</span>(
+        web: <span class="hljs-keyword">__DIR__</span>.<span class="hljs-string">'/../routes/web.php'</span>,
+        api: <span class="hljs-keyword">__DIR__</span>.<span class="hljs-string">'/../routes/api.php'</span>,
+        commands: <span class="hljs-keyword">__DIR__</span>.<span class="hljs-string">'/../routes/console.php'</span>,
+        health: <span class="hljs-string">'/up'</span>,
+    )
+    -&gt;<span class="hljs-title function_ invoke__">withMiddleware</span>(<span class="hljs-keyword">function</span> (Middleware <span class="hljs-variable">$middleware</span>): <span class="hljs-title">void</span> {
+        <span class="hljs-comment">// After-middleware: attaches security headers to every response</span>
+        <span class="hljs-variable">$middleware</span>-&gt;<span class="hljs-title function_ invoke__">append</span>(<span class="hljs-title class_">SecurityHeaders</span>::<span class="hljs-variable language_">class</span>);
+
+        <span class="hljs-comment">// Before-middleware: forces JSON even if the client forgets Accept header</span>
+        <span class="hljs-variable">$middleware</span>-&gt;<span class="hljs-title function_ invoke__">api</span>(prepend: [
+            <span class="hljs-title class_">ForceJsonResponse</span>::<span class="hljs-variable language_">class</span>,
+        ]);
+
+        <span class="hljs-variable">$middleware</span>-&gt;<span class="hljs-title function_ invoke__">alias</span>([
+            <span class="hljs-string">'verified.email'</span> =&gt; <span class="hljs-title class_">EnsureEmailVerified</span>::<span class="hljs-variable language_">class</span>,
+        ]);
+    })
+    -&gt;<span class="hljs-title function_ invoke__">withExceptions</span>(<span class="hljs-comment">/* ... */</span>)
+    -&gt;<span class="hljs-title function_ invoke__">create</span>();</code></pre>
+        </figure>
+
+        <h3>Before Middleware vs After Middleware</h3>
+        <p>Prepending <code>ForceJsonResponse</code> runs <em>before</em> the controller so that a missing <code>Accept: application/json</code> header never causes Laravel to redirect an unauthenticated API request to an HTML <code>/login</code> page:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Http/Middleware/ForceJsonResponse.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, Closure <span class="hljs-variable">$next</span></span>): <span class="hljs-title">Response</span>
+</span>{
+    <span class="hljs-variable">$request</span>-&gt;headers-&gt;<span class="hljs-title function_ invoke__">set</span>(<span class="hljs-string">'Accept'</span>, <span class="hljs-string">'application/json'</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$next</span>(<span class="hljs-variable">$request</span>);
+}</code></pre>
+        </figure>
+
+        <p>Appending <code>SecurityHeaders</code> runs <em>after</em> the response is built, protecting every web and API endpoint against three classic browser attacks:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Http/Middleware/SecurityHeaders.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handle</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span>, Closure <span class="hljs-variable">$next</span></span>): <span class="hljs-title">Response</span>
+</span>{
+    <span class="hljs-variable">$response</span> = <span class="hljs-variable">$next</span>(<span class="hljs-variable">$request</span>);
+
+    <span class="hljs-variable">$response</span>-&gt;headers-&gt;<span class="hljs-title function_ invoke__">set</span>(<span class="hljs-string">'X-Content-Type-Options'</span>, <span class="hljs-string">'nosniff'</span>);
+    <span class="hljs-variable">$response</span>-&gt;headers-&gt;<span class="hljs-title function_ invoke__">set</span>(<span class="hljs-string">'X-Frame-Options'</span>, <span class="hljs-string">'DENY'</span>);
+    <span class="hljs-variable">$response</span>-&gt;headers-&gt;<span class="hljs-title function_ invoke__">set</span>(<span class="hljs-string">'Referrer-Policy'</span>, <span class="hljs-string">'strict-origin-when-cross-origin'</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$response</span>;
+}</code></pre>
+        </figure>
+
+        <ul>
+          <li><strong><code>X-Frame-Options: DENY</code></strong> — Blocks clickjacking by forbidding attackers from embedding your app inside an invisible <code>&lt;iframe&gt;</code>.</li>
+          <li><strong><code>X-Content-Type-Options: nosniff</code></strong> — Stops browsers from MIME-sniffing uploaded images or text files as executable JavaScript (preventing stored XSS via disguised uploads).</li>
+          <li><strong><code>Referrer-Policy: strict-origin-when-cross-origin</code></strong> — Strips paths and query strings (like <code>/verify-email?token=secret...</code>) when a user clicks an external link, sending only the bare origin so tokens never leak into third-party server logs.</li>
+        </ul>
+
+        <h2 id="4-form-request-layer">4. Layer 2 — FormRequest (Input Guard &amp; RBAC Field Protection)</h2>
+        <p>A <code>FormRequest</code> runs <strong>before your controller method executes</strong> and handles three distinct jobs in order: <code>prepareForValidation()</code> (sanitization), <code>authorize()</code> (request permission), and <code>rules()</code> (field validation).</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Http/Requests/Document/StoreDocumentRequest.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StoreDocumentRequest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">FormRequest</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">authorize</span>(<span class="hljs-params"></span>): <span class="hljs-title">bool</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">user</span>()?-&gt;<span class="hljs-title function_ invoke__">can</span>(<span class="hljs-string">'create'</span>, <span class="hljs-title class_">Document</span>::<span class="hljs-variable language_">class</span>) ?? <span class="hljs-literal">false</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">rules</span>(<span class="hljs-params"></span>): <span class="hljs-title">array</span>
+    </span>{
+        <span class="hljs-keyword">return</span> [
+            <span class="hljs-string">'file'</span>     =&gt; [<span class="hljs-string">'required'</span>, <span class="hljs-string">'file'</span>, <span class="hljs-string">'mimes:'</span>.<span class="hljs-title function_ invoke__">implode</span>(<span class="hljs-string">','</span>, <span class="hljs-title function_ invoke__">config</span>(<span class="hljs-string">'documents.mimes'</span>)), <span class="hljs-string">'max:'</span>.<span class="hljs-title function_ invoke__">config</span>(<span class="hljs-string">'documents.max_kb'</span>)],
+            <span class="hljs-string">'title'</span>    =&gt; [<span class="hljs-string">'required'</span>, <span class="hljs-string">'string'</span>, <span class="hljs-string">'max:120'</span>],
+            <span class="hljs-string">'category'</span> =&gt; [<span class="hljs-string">'required'</span>, <span class="hljs-string">'string'</span>, <span class="hljs-string">'max:80'</span>],
+            <span class="hljs-string">'notes'</span>    =&gt; [<span class="hljs-string">'nullable'</span>, <span class="hljs-string">'string'</span>, <span class="hljs-string">'max:2000'</span>],
+        ];
+    }
+}</code></pre>
+        </figure>
+
+        <h3>Why Document::class Instead of a $document Object?</h3>
+        <p>During a <code>POST</code> request, no <code>Document</code> row exists in the database yet. Calling <code>$this-&gt;user()-&gt;can('create', Document::class)</code> asks Laravel's central <code>Gate</code> to look up the policy registered for <code>Document::class</code> in <code>AppServiceProvider</code> and call <code>DocumentPolicy::create(User $user)</code>.</p>
+
+        <h3>Always Use $request-&gt;validated(), Never $request-&gt;all()</h3>
+        <p>Passing <code>$request-&gt;all()</code> to a model or service is how mass-assignment vulnerabilities happen. If an attacker injects <code>is_admin: true</code> or <code>user_id: 1</code> into a JSON body, <code>$request-&gt;validated()</code> strips every key that wasn't explicitly declared in <code>rules()</code>.</p>
+
+        <h3>Handling Admin-Only Fields cleanly</h3>
+        <p>When regular users and admins edit the same model, you have two clean patterns:</p>
+        <ul>
+          <li><strong>Conditional <code>prohibited</code> rules:</strong> Allow <code>is_featured</code> or <code>status</code> when <code>$this-&gt;user()?-&gt;hasRole('admin')</code>, and set them to <code>['prohibited']</code> for regular users so tampering triggers an explicit <code>422</code>.</li>
+          <li><strong>Dedicated Admin Endpoints (Enterprise approach):</strong> Split into <code>/api/v1/documents/{id}</code> (<code>UpdateDocumentRequest</code>) and <code>/api/v1/admin/documents/{id}</code> (<code>AdminUpdateDocumentRequest</code> behind <code>role:admin</code> middleware). Zero <code>if/else</code> branching inside validation rules.</li>
+        </ul>
+
+        <h2 id="5-policy-and-404">5. Layer 3 — Policy &amp; Two-Layer Ownership (Why 404 Beats 403)</h2>
+        <p>Suppose User A owns Document #42, and User B sends <code>GET /api/documents/42</code> or <code>DELETE /api/documents/42</code>. Most tutorials fetch <code>Document::findOrFail(42)</code> and let the Policy throw a <code>403 Forbidden</code>.</p>
+        <p><strong>The security problem with 403:</strong> Returning <code>403 Forbidden</code> tells an attacker, <em>"Document #42 definitely exists in this database — it just belongs to someone else."</em> That enables IDOR resource enumeration.</p>
+        <p>Instead, use <strong>two-layer ownership defense</strong>:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">Two-Layer Ownership Check</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-comment">// Layer 1 (DocumentService): Scope the query to the authenticated user → 404 if not owned</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findForUser</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, int <span class="hljs-variable">$id</span></span>): <span class="hljs-title">Document</span>
+</span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">documents</span>()-&gt;<span class="hljs-title function_ invoke__">findOrFail</span>(<span class="hljs-variable">$id</span>);
+}
+
+<span class="hljs-comment">// Layer 2 (DocumentController): Explicit Policy check as a 403 safety net</span>
+<span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params">UpdateDocumentRequest <span class="hljs-variable">$request</span>, int <span class="hljs-variable">$id</span>, DocumentService <span class="hljs-variable">$documents</span></span>): <span class="hljs-title">JsonResponse</span>
+</span>{
+    <span class="hljs-variable">$document</span> = <span class="hljs-variable">$documents</span>-&gt;<span class="hljs-title function_ invoke__">findForUser</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>(), <span class="hljs-variable">$id</span>);
+    <span class="hljs-variable">$this</span>-&gt;<span class="hljs-title function_ invoke__">authorize</span>(<span class="hljs-string">'update'</span>, <span class="hljs-variable">$document</span>);
+
+    <span class="hljs-variable">$document</span> = <span class="hljs-variable">$documents</span>-&gt;<span class="hljs-title function_ invoke__">update</span>(<span class="hljs-variable">$document</span>, <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">validated</span>());
+
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">success</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DocumentResource</span>(<span class="hljs-variable">$document</span>), <span class="hljs-string">'Document updated.'</span>);
+}</code></pre>
+        </figure>
+
+        <p>If User B requests Document #42, Layer 1 throws <code>ModelNotFoundException</code> &rarr; <code>404 Resource not found</code>, leaking zero information. If a future developer accidentally swaps in an unscoped <code>Document::find($id)</code>, Layer 2 (<code>DocumentPolicy</code>) still blocks the breach with <code>403</code>.</p>
+
+        <h3>Combining Spatie RBAC with Policies</h3>
+        <p>Keep your controllers and FormRequests completely unaware of Spatie permissions by wrapping role/permission checks inside the Policy itself:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Policies/DocumentPolicy.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DocumentPolicy</span>
+</span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">before</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, string <span class="hljs-variable">$ability</span></span>): ?<span class="hljs-title">bool</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">hasRole</span>(<span class="hljs-string">'admin'</span>) ? <span class="hljs-literal">true</span> : <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, Document <span class="hljs-variable">$document</span></span>): <span class="hljs-title">bool</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$document</span>-&gt;user_id === <span class="hljs-variable">$user</span>-&gt;id;
+    }
+
+    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delete</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, Document <span class="hljs-variable">$document</span></span>): <span class="hljs-title">bool</span>
+    </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$document</span>-&gt;user_id === <span class="hljs-variable">$user</span>-&gt;id;
+    }
+}</code></pre>
+        </figure>
+
+        <h2 id="6-service-and-transactions">6. Layer 4 — Service Layer &amp; DB::transaction() File Safety</h2>
+        <p>Combining file uploads with database writes is a classic source of production corruption. Without careful ordering, you either leak <strong>orphan files</strong> on disk or leave <strong>broken download links</strong> in MySQL.</p>
+
+        <h3>On Create: Roll Back the File if the DB Fails</h3>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Services/DocumentService.php (create)</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-variable">$stored</span> = <span class="hljs-variable">$this</span>-&gt;storage-&gt;<span class="hljs-title function_ invoke__">store</span>(<span class="hljs-variable">$file</span>); <span class="hljs-comment">// Saves with UUID filename</span>
+
+<span class="hljs-keyword">try</span> {
+    <span class="hljs-variable">$document</span> = <span class="hljs-title class_">DB</span>::<span class="hljs-title function_ invoke__">transaction</span>(<span class="hljs-keyword">function</span> () <span class="hljs-keyword">use</span> (<span class="hljs-variable">$user</span>, <span class="hljs-variable">$data</span>, <span class="hljs-variable">$stored</span>): <span class="hljs-title">Document</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">documents</span>()-&gt;<span class="hljs-title function_ invoke__">create</span>([
+            <span class="hljs-string">'title'</span>         =&gt; <span class="hljs-variable">$data</span>[<span class="hljs-string">'title'</span>],
+            <span class="hljs-string">'category'</span>      =&gt; <span class="hljs-variable">$data</span>[<span class="hljs-string">'category'</span>],
+            <span class="hljs-string">'notes'</span>         =&gt; <span class="hljs-variable">$data</span>[<span class="hljs-string">'notes'</span>] ?? <span class="hljs-literal">null</span>,
+            <span class="hljs-string">'file_path'</span>     =&gt; <span class="hljs-variable">$stored</span>[<span class="hljs-string">'path'</span>],
+            <span class="hljs-string">'original_name'</span> =&gt; <span class="hljs-variable">$stored</span>[<span class="hljs-string">'original_name'</span>],
+        ]);
+    });
+} <span class="hljs-keyword">catch</span> (<span class="hljs-title class_">Throwable</span> <span class="hljs-variable">$e</span>) {
+    <span class="hljs-comment">// Prevent orphan files on disk if the database insert fails</span>
+    <span class="hljs-variable">$this</span>-&gt;storage-&gt;<span class="hljs-title function_ invoke__">delete</span>(<span class="hljs-variable">$stored</span>[<span class="hljs-string">'path'</span>]);
+    <span class="hljs-keyword">throw</span> <span class="hljs-variable">$e</span>;
+}</code></pre>
+        </figure>
+
+        <h3>On Delete: Commit the DB Delete Before Deleting the File</h3>
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Services/DocumentService.php (delete)</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-variable">$path</span> = <span class="hljs-variable">$document</span>-&gt;file_path;
+
+<span class="hljs-title class_">DB</span>::<span class="hljs-title function_ invoke__">transaction</span>(<span class="hljs-keyword">fn</span> () =&gt; <span class="hljs-variable">$document</span>-&gt;<span class="hljs-title function_ invoke__">delete</span>());
+
+<span class="hljs-comment">// Only remove from disk once the DB commit succeeds</span>
+<span class="hljs-variable">$this</span>-&gt;storage-&gt;<span class="hljs-title function_ invoke__">delete</span>(<span class="hljs-variable">$path</span>);</code></pre>
+        </figure>
+
+        <p>If you deleted the file first and the database transaction rolled back, the database record would survive while the file was permanently gone — leaving broken attachments across your UI. Committing the DB delete first eliminates that failure mode.</p>
+
+        <h2 id="7-resources-and-exceptions">7. Layer 5 — API Resources &amp; Centralized match (true) Exceptions</h2>
+        <p>Never return a raw Eloquent model (<code>return response()-&gt;json($user)</code>). Even with <code>$hidden</code> or Laravel 13's <code>#[Hidden]</code> attribute, raw models couple your public API contract directly to your database columns. An <code>API Resource</code> acts as an explicit allowlist:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">app/Http/Resources/UserResource.php</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php"><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toArray</span>(<span class="hljs-params">Request <span class="hljs-variable">$request</span></span>): <span class="hljs-title">array</span>
+</span>{
+    <span class="hljs-keyword">return</span> [
+        <span class="hljs-string">'id'</span>                 =&gt; <span class="hljs-variable">$this</span>-&gt;id,
+        <span class="hljs-string">'name'</span>               =&gt; <span class="hljs-variable">$this</span>-&gt;name,
+        <span class="hljs-string">'email'</span>              =&gt; <span class="hljs-variable">$this</span>-&gt;email,
+        <span class="hljs-string">'email_verified_at'</span>  =&gt; <span class="hljs-variable">$this</span>-&gt;email_verified_at?-&gt;<span class="hljs-title function_ invoke__">toIso8601String</span>(),
+        <span class="hljs-string">'two_factor_enabled'</span> =&gt; <span class="hljs-variable">$this</span>-&gt;two_factor_confirmed_at !== <span class="hljs-literal">null</span>,
+        <span class="hljs-string">'created_at'</span>         =&gt; <span class="hljs-variable">$this</span>-&gt;created_at?-&gt;<span class="hljs-title function_ invoke__">toIso8601String</span>(),
+    ];
+}</code></pre>
+        </figure>
+
+        <h3>Centralized JSON Exception Mapping with PHP 8 match (true)</h3>
+        <p>Instead of scattering <code>try/catch</code> blocks across every controller, let services throw clear domain exceptions and map every <code>/api/*</code> error once inside <code>bootstrap/app.php</code>:</p>
+
+        <figure class="code-block">
+          <figcaption class="code-block__bar">
+            <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="code-block__title">bootstrap/app.php (withExceptions)</span>
+            <span class="code-block__spacer"></span>
+            <span class="code-block__lang">php</span>
+            <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
+          </figcaption>
+          <pre><code class="hljs language-php">-&gt;<span class="hljs-title function_ invoke__">withExceptions</span>(<span class="hljs-keyword">function</span> (Exceptions <span class="hljs-variable">$exceptions</span>): <span class="hljs-title">void</span> {
+    <span class="hljs-variable">$exceptions</span>-&gt;<span class="hljs-title function_ invoke__">shouldRenderJsonWhen</span>(
+        <span class="hljs-keyword">fn</span> (Request <span class="hljs-variable">$request</span>) =&gt; <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">is</span>(<span class="hljs-string">'api/*'</span>) || <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">expectsJson</span>(),
+    );
+
+    <span class="hljs-variable">$exceptions</span>-&gt;<span class="hljs-title function_ invoke__">render</span>(<span class="hljs-keyword">function</span> (Throwable <span class="hljs-variable">$e</span>, Request <span class="hljs-variable">$request</span>) {
+        <span class="hljs-keyword">if</span> (! <span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">is</span>(<span class="hljs-string">'api/*'</span>)) {
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">match</span> (<span class="hljs-literal">true</span>) {
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">EmailNotVerifiedException</span> =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">getMessage</span>(), [], <span class="hljs-number">403</span>),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">TwoFactorRequiredException</span> =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">getMessage</span>(), [], <span class="hljs-number">401</span>, [<span class="hljs-string">'two_factor_required'</span> =&gt; <span class="hljs-literal">true</span>]),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">ValidationException</span>       =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">getMessage</span>(), <span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">errors</span>(), <span class="hljs-number">422</span>),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">AuthenticationException</span>   =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">'Unauthenticated.'</span>, [], <span class="hljs-number">401</span>),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">ThrottleRequestsException</span> =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">'Too many attempts.'</span>, [], <span class="hljs-number">429</span>),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">NotFoundHttpException</span>     =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">'Resource not found.'</span>, [], <span class="hljs-number">404</span>),
+            <span class="hljs-variable">$e</span> <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">HttpExceptionInterface</span>    =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">getMessage</span>() ?: <span class="hljs-string">'Request failed.'</span>, [], <span class="hljs-variable">$e</span>-&gt;<span class="hljs-title function_ invoke__">getStatusCode</span>()),
+            <span class="hljs-keyword">default</span>                                 =&gt; <span class="hljs-title class_">ApiResponse</span>::<span class="hljs-title function_ invoke__">error</span>(<span class="hljs-string">'Server error.'</span>, [], <span class="hljs-number">500</span>),
+        };
+    });
+})</code></pre>
+        </figure>
+
+        <p>Why <code>match (true)</code> works so well here: it evaluates each <code>instanceof</code> branch top-to-bottom with strict semantics, requires no <code>break</code> statements, returns directly as an expression, and guarantees that an unhandled database crash returns a safe generic <code>500 Server error.</code> instead of leaking SQL queries or server paths.</p>
+
+        <h2 id="8-antipatterns-checklist">8. Common Anti-Patterns to Avoid</h2>
+        <ol>
+          <li><strong>Returning 403 on unscoped lookups:</strong> Always scope by <code>$user-&gt;relation()-&gt;findOrFail($id)</code> first so attackers cannot enumerate IDs.</li>
+          <li><strong>Using <code>$request-&gt;all()</code> instead of <code>$request-&gt;validated()</code>:</strong> Opens mass-assignment holes the moment a new column is added to <code>$fillable</code>.</li>
+          <li><strong>Putting <code>request()</code> or <code>response()</code> inside Services:</strong> Makes your service impossible to reuse in Artisan commands, jobs, or unit tests.</li>
+          <li><strong>Skipping <code>ForceJsonResponse</code> on API routes:</strong> One missing <code>Accept</code> header turns a 401 JSON error into a broken HTML redirect.</li>
+          <li><strong>Deleting files before DB commit:</strong> Always delete from disk <em>after</em> <code>DB::transaction()</code> succeeds.</li>
+          <li><strong>Putting generic exception interfaces above specific ones in <code>match (true)</code>:</strong> Always list specific exceptions (<code>NotFoundHttpException</code>) before parent interfaces (<code>HttpExceptionInterface</code>).</li>
+        </ol>
+
+        <p>If you are pairing this architecture with API authentication, see <a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT: Which Should You Use?</a> and <a href="/blog/laravel-rest-api-best-practices/">Laravel REST API Best Practices</a>. Need a production security audit or custom Laravel backend built with these exact standards? Check out my <a href="/services/">Laravel Engineering &amp; Architecture Services</a>.</p>
+
+        <h2 id="9-faq">9. Frequently Asked Questions</h2>
+        <div class="faq">
+          <details class="faq__item" open>
+            <summary class="faq__q">What is the difference between Middleware, FormRequest, Policy, and Resource in Laravel?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Middleware enforces authentication, email verification, rate limits, and HTTP headers at the boundary. FormRequest sanitizes and validates incoming payloads before the controller runs. Policy checks resource-level ownership and permissions. API Resource whitelists outgoing JSON fields so internal schema details never leak.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Should Laravel APIs return 404 or 403 for another user's resource?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Return 404 by scoping queries through the authenticated user's relationship (<code>$user-&gt;documents()-&gt;findOrFail($id)</code>). Returning 403 leaks that the record ID exists (IDOR enumeration). Keep a Policy check as a secondary fallback.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Where do middleware and exception handlers live in Laravel 13 without Kernel.php?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">In <code>bootstrap/app.php</code>. Use <code>-&gt;withMiddleware()</code> to append global middleware, prepend API middleware, or register aliases, and <code>-&gt;withExceptions()</code> to render consistent JSON error envelopes.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q"><span>Why pass Document::class instead of a model instance to FormRequest::authorize()?</span><span class="faq__icon">+</span></summary>
+            <p class="faq__a">On a <code>POST</code> create endpoint, no model row exists yet. Passing the class string tells Laravel's Gate to resolve <code>DocumentPolicy</code> and call its <code>create(User $user)</code> method.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How do you avoid orphan files when a Laravel DB transaction fails?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Store the uploaded file with a UUID filename, wrap the DB insert in <code>DB::transaction()</code> inside a <code>try/catch</code>, and delete the file inside the <code>catch</code> block if the transaction throws. On delete, commit the DB deletion first, then remove the file from disk.</p>
+          </details>
+        </div>
+      </article>
+
+      <div class="cta-band">
+        <p class="label label--accent">Work with me</p>
+        <h2>Building a production Laravel API or multi-tenant SaaS?</h2>
+        <p>I architect and ship clean, secure Laravel backends — layered authorization, zero-leak APIs, database tuning, and automated Pest test suites.</p>
+        <div class="cta-band__actions">
+          <button type="button" class="btn btn--solid" data-open-chat>Chat now</button>
+          <a class="btn btn--line" href="/services/">Engineering Services</a>
+          <a class="btn btn--line" href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20read%20your%20Laravel%20architecture%20guide%20and%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="author-box">
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Custom software &amp; backend engineer · Laravel, Security, Architecture</div></div></div>
+        <div class="social">
+          <a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a class="icon-btn" href="mailto:hello@polash.link" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a class="icon-btn" href="/rss/" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="Article navigation">
+        <a href="/blog/php-rce-cve-2026-109618-fix/"><span>← Previous</span><b>PHP2Shell RCE (CVE-2026-109618) Fix</b></a>
+        <a href="/blog/laravel-mvcs-architecture-guide/" style="text-align:right"><span>Next →</span><b>MVCS Architecture in Laravel</b></a>
+      </nav>
+    </div>
+
+    <aside><nav class="toc" aria-label="Table of contents" data-toc>
+      <p class="label toc__title">On this page</p>
+      <a href="#1-quick-comparison" data-toc-link>1. Quick Comparison</a>
+      <a href="#2-request-lifecycle" data-toc-link>2. Request Lifecycle</a>
+      <a href="#3-middleware-layer" data-toc-link>3. Middleware &amp; SecurityHeaders</a>
+      <a href="#4-form-request-layer" data-toc-link>4. FormRequest &amp; RBAC</a>
+      <a href="#5-policy-and-404" data-toc-link>5. Policy &amp; 404 vs 403</a>
+      <a href="#6-service-and-transactions" data-toc-link>6. Services &amp; Transactions</a>
+      <a href="#7-resources-and-exceptions" data-toc-link>7. Resources &amp; Exceptions</a>
+      <a href="#8-antipatterns-checklist" data-toc-link>8. Anti-Patterns</a>
+      <a href="#9-faq" data-toc-link>9. FAQ</a>
+    </nav></aside>
+  </div></div></div>
+
+  <section class="related section"><div class="wrap">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.5rem"><h2 class="section__title" style="font-size:clamp(1.4rem,3vw,2rem)">Keep reading</h2><a class="btn--text btn" href="/blog/">All articles →</a></div>
+    <div class="post-grid">
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Laravel</span><span class="post-row__time">10 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-13-new-features/">Laravel 13 New Features &amp; PHP 8.3 Requirements: Complete Guide</a></h3><p class="post-row__desc">Every confirmed Laravel 13 feature: PHP 8.3+ system requirements, PHP attributes, Cache::touch(), Reverb database driver, passkeys, and upgrade steps.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Architecture</span><span class="post-row__time">5 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-mvcs-architecture-guide/">MVCS Architecture in Laravel, Explained</a></h3><p class="post-row__desc">A practical guide to MVCS in Laravel: keep controllers thin by moving business logic into dedicated, testable service classes.</p></article>
+      <article class="post-row"><div class="post-row__top"><span class="post-row__cat">Security</span><span class="post-row__time">6 min</span></div><h3 class="post-row__title"><a href="/blog/laravel-api-authentication-jwt-sanctum/">Laravel Sanctum vs JWT: Which Should You Use for API Auth?</a></h3><p class="post-row__desc">Sanctum vs JWT in Laravel explained: opaque database tokens vs stateless bearer JWTs, performance overhead, token revocation, and which fits your API.</p></article>
+    </div>
+  </div></section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p class="footer__wordmark">Kamruzzaman Polash</p>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h2 class="label">Custom software &amp; backend engineer</h2>
+        <p>I build custom business software, e-commerce automation, POS systems, and scalable SaaS platforms. Direct developer, no middlemen. Based in Bangladesh, working remotely worldwide.</p>
+        <div class="social" style="margin-top:1rem">
+          <a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a>
+          <a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a>
+          <a href="mailto:hello@polash.link" class="icon-btn" aria-label="Email"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="/rss/" class="icon-btn" aria-label="RSS"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14"/></svg></a>
+        </div>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Explore</h2>
+        <ul>
+          <li><a href="/#work">Selected work</a></li>
+          <li><a href="/#about">About</a></li>
+          <li><a href="/#skills">Skills</a></li>
+          <li><a href="/#experience">Experience</a></li>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/blog/">Engineering blog</a></li>
+          <li><a href="/#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h2 class="label">Work with me</h2>
+        <ul>
+          <li><a href="/services/">Engineering services</a></li>
+          <li><a href="/#contact">Start a project</a></li>
+          <li><a href="mailto:hello@polash.link">hello@polash.link</a></li>
+          <li><a href="https://wa.me/8801791296967" target="_blank" rel="noopener noreferrer">WhatsApp +880 1791 296967</a></li>
+          <li><a href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer">LinkedIn (@pola5h)</a></li>
+          <li><a href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer">GitHub (@pola5h)</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© 2026 Kamruzzaman Polash. All rights reserved.</p>
+      <p>Backend Engineer &amp; SaaS Architect · Remote Worldwide</p>
+    </div>
+  </div>
+  <script defer src="/assets/js/t.js"></script>
+</footer>
+<script src="/assets/js/mascot.js?v=17" defer></script>
+<script src="/assets/js/main.js?v=39" defer></script>
+  <!-- chat:start -->
+<!-- 100% White-Label Live Chat Widget -->
+<div class="live-chat" id="live-chat" aria-live="polite">
+  <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
+    <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
+    <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="live-chat__icon-close" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <span class="live-chat__launcher-label">Live Chat</span>
+    <span class="live-chat__unread" id="live-chat-unread" hidden></span>
+  </button>
+
+  <div class="live-chat__window" id="live-chat-window" role="dialog" aria-modal="false" aria-label="Live Chat" hidden>
+    <header class="live-chat__header">
+      <div class="live-chat__header-info">
+        <div class="live-chat__avatar-wrap">
+          <img src="/assets/images/polash-profile.jpg" alt="Kamruzzaman Polash" class="live-chat__avatar-img" width="38" height="38">
+          <span class="live-chat__avatar-badge" id="live-chat-status-badge" aria-hidden="true"></span>
+        </div>
+        <div>
+          <div class="live-chat__title">Kamruzzaman Polash</div>
+          <div class="live-chat__status" id="live-chat-status-text">Available for chat</div>
+        </div>
+      </div>
+      <div class="live-chat__header-actions">
+        <button type="button" class="live-chat__btn-icon" id="live-chat-close" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Pre-Chat Screen -->
+    <div class="live-chat__prechat" id="live-chat-prechat">
+      <div class="live-chat__prechat-intro">
+        <h3 class="live-chat__prechat-title">Chat with Polash</h3>
+        <p class="live-chat__prechat-desc">Drop your details and message. I'll receive it immediately and reply right here.</p>
+      </div>
+      <form class="live-chat__form" id="live-chat-init-form">
+        <div class="live-chat__field-group">
+          <label for="chat-name" class="live-chat__label">Name</label>
+          <input type="text" id="chat-name" name="name" class="live-chat__input" placeholder="Your name" required autocomplete="name">
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-email" class="live-chat__label">Email</label>
+          <input type="email" id="chat-email" name="email" class="live-chat__input" placeholder="Your email address" required autocomplete="email">
+          <span class="live-chat__error" id="chat-email-error" role="alert" hidden></span>
+        </div>
+        <div class="live-chat__field-group">
+          <label for="chat-first-msg" class="live-chat__label">Message</label>
+          <textarea id="chat-first-msg" name="message" class="live-chat__textarea" rows="3" placeholder="How can I help you today?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--solid live-chat__submit-btn">
+          Start Chat
+        </button>
+      </form>
+    </div>
+
+    <!-- Active Conversation Screen -->
+    <div class="live-chat__conversation" id="live-chat-conversation" hidden>
+      <div class="live-chat__messages" id="live-chat-messages" tabindex="0" aria-label="Message history"></div>
+      <form class="live-chat__composer" id="live-chat-composer">
+        <textarea id="chat-reply-input" class="live-chat__composer-input" placeholder="Type a message…" rows="1" autocomplete="off" required></textarea>
+        <button type="submit" class="live-chat__composer-send" aria-label="Send message">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- chat:end -->
+</body>
+</html>

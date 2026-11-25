@@ -170,8 +170,20 @@
     },
 
     // ------------------------------------------------------------------------
-    // 25 Specific Blog Articles (Smartly Mapped with Actions & Intriguing Trivia)
+    // 26 Specific Blog Articles (Smartly Mapped with Actions & Intriguing Trivia)
     // ------------------------------------------------------------------------
+
+    // Blog 0: Laravel Middleware vs FormRequest vs Policy vs Resource
+    {
+      name: "Laravel Layered Security (Middleware, FormRequest, Policy, Resource)",
+      match: path => path.includes('laravel-middleware-form-request-policy-resource'),
+      welcome: { reaction: 'shield', text: "Still returning 403 on unauthorized IDs? Why 404 stops IDOR enumeration cold! 🛡️" },
+      variants: [
+        { reaction: 'thinking', text: "Middleware vs FormRequest vs Policy vs Resource—think of airport security gates! 🛂" },
+        { reaction: 'debug',    text: "Why commit DB::transaction() BEFORE deleting an uploaded file from disk? 🔍" },
+        { reaction: 'coding',   text: "No Kernel.php in Laravel 13—wire SecurityHeaders & match(true) in bootstrap/app.php ⚡" }
+      ]
+    },
 
     // Blog 1: PHP RCE Vulnerability Patch
     {

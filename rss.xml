@@ -6,7 +6,17 @@
     <atom:link href="https://polash.link/rss.xml" rel="self" type="application/rss+xml" />
     <description>Practical Laravel and PHP engineering from production: software architecture, offline-first architectures, scalable APIs, AI pipelines, queues, and containerised deployments.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 01:25:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 08:30:00 GMT</lastBuildDate>
+    <item>
+      <title>Laravel Middleware vs FormRequest vs Policy vs Resource: Layered API Security in Laravel 13</title>
+      <link>https://polash.link/blog/laravel-middleware-form-request-policy-resource/</link>
+      <guid isPermaLink="true">https://polash.link/blog/laravel-middleware-form-request-policy-resource/</guid>
+      <pubDate>Wed, 25 Nov 2026 08:30:00 GMT</pubDate>
+      <category>Architecture</category>
+      <category>Laravel 13</category>
+      <author>hello@polash.link (Kamruzzaman Polash)</author>
+      <description>Where auth, validation, authorization, and error handling belong in Laravel 13: bootstrap/app.php middleware, 404 vs 403 IDOR defense, DB::transaction file safety, and centralized match(true) exceptions.</description>
+    </item>
     <item>
       <title>CVE-2026-109618 (PHP2Shell RCE): How It Works &amp; How to Fix It Today</title>
       <link>https://polash.link/blog/php-rce-cve-2026-109618-fix/</link>
