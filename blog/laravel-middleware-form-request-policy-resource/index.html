@@ -28,7 +28,7 @@ try {
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Laravel Middleware vs FormRequest vs Policy vs Resource architecture guide">
 <meta property="article:published_time" content="2026-11-25T14:30:00+06:00">
-<meta property="article:modified_time" content="2026-11-25T14:30:00+06:00">
+<meta property="article:modified_time" content="2026-11-26T16:38:00+06:00">
 <meta property="article:section" content="Architecture">
 <meta property="article:author" content="https://polash.link/">
 <meta property="article:tag" content="Laravel 13">
@@ -143,7 +143,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
       },
       "image": "https://polash.link/assets/images/og-image.png",
       "datePublished": "2026-11-25T14:30:00+06:00",
-      "dateModified": "2026-11-25T14:30:00+06:00",
+      "dateModified": "2026-11-26T16:38:00+06:00",
       "author": { "@id": "https://polash.link/#person" },
       "publisher": { "@id": "https://polash.link/#organization" },
       "inLanguage": "en",
@@ -275,6 +275,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
           <li><strong>Main Gate Security (Middleware):</strong> <em>"Who are you? Do you have a valid passport and visa?"</em> — Validates your JWT token, email verification status, and forces JSON headers before your payload ever touches the controller.</li>
           <li><strong>Luggage Scanner (FormRequest):</strong> <em>"What is inside your bag? Is the weight and file type allowed?"</em> — Sanitizes fields, enforces MIME types and upload size limits, and rejects bad input with <code>422</code> before touching the database.</li>
           <li><strong>Seat Boarding Check (Policy):</strong> <em>"Everything checks out, but is seat 12B actually yours?"</em> — Verifies object-level ownership (<code>$document-&gt;user_id === $user-&gt;id</code>) so users can never view, edit, or delete someone else's data.</li>
+          <li><strong>Baggage Handling &amp; Ground Crew (Service):</strong> <em>"Did everything load atomically without losing anything?"</em> — Coordinates database writes, file storage, and external calls inside transactions so partial failures roll back cleanly.</li>
           <li><strong>Packaging &amp; Customs Exit (Resource):</strong> <em>"What is allowed to leave the terminal?"</em> — Whitelists safe fields and strips internal database columns, foreign keys, and encrypted secrets.</li>
         </ol>
 
@@ -305,7 +306,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
                 <td><strong>Policy</strong></td>
                 <td style="white-space:nowrap"><code>app/Policies</code></td>
                 <td>Does this user own or have permission on this specific model?</td>
-                <td style="white-space:nowrap"><code>404</code> / <code>403</code></td>
+                <td style="white-space:nowrap"><code>404</code> (scoped) / <code>403</code> (policy)</td>
               </tr>
               <tr>
                 <td><strong>Service</strong></td>
@@ -432,9 +433,10 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         </figure>
 
         <ul>
-          <li><strong><code>X-Frame-Options: DENY</code></strong> — Blocks clickjacking by forbidding attackers from embedding your app inside an invisible <code>&lt;iframe&gt;</code>.</li>
+          <li><strong><code>X-Frame-Options: DENY</code></strong> — Mitigates clickjacking by forbidding attackers from embedding browser-rendered pages inside an invisible <code>&lt;iframe&gt;</code> (it mainly protects HTML views and has limited effect on pure JSON endpoints).</li>
           <li><strong><code>X-Content-Type-Options: nosniff</code></strong> — Stops browsers from MIME-sniffing uploaded images or text files as executable JavaScript (preventing stored XSS via disguised uploads).</li>
           <li><strong><code>Referrer-Policy: strict-origin-when-cross-origin</code></strong> — Strips paths and query strings (like <code>/verify-email?token=secret...</code>) when a user clicks an external link, sending only the bare origin so tokens never leak into third-party server logs.</li>
+          <li><strong>Bonus hardening for production:</strong> Add <code>Strict-Transport-Security: max-age=31536000; includeSubDomains</code> on HTTPS-only origins and <code>Cache-Control: no-store</code> on sensitive auth or personal-data responses so proxies and browsers never cache them.</li>
         </ul>
 
         <h2 id="4-form-request-layer">4. Layer 2 — FormRequest (Input Guard &amp; RBAC Field Protection)</h2>
@@ -488,18 +490,22 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
         <figure class="code-block">
           <figcaption class="code-block__bar">
             <span class="code-block__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="code-block__title">Two-Layer Ownership Check</span>
+            <span class="code-block__title">Two-Step Ownership Check</span>
             <span class="code-block__spacer"></span>
             <span class="code-block__lang">php</span>
             <button type="button" class="copy-code-btn" aria-label="Copy code to clipboard"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>Copy</span></button>
           </figcaption>
-          <pre><code class="hljs language-php"><span class="hljs-comment">// Layer 1 (DocumentService): Scope the query to the authenticated user → 404 if not owned</span>
+          <pre><code class="hljs language-php"><span class="hljs-comment">// Step 1: scoped query (DocumentService) → 404 for non-owners; unscoped for admins</span>
 <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findForUser</span>(<span class="hljs-params">User <span class="hljs-variable">$user</span>, int <span class="hljs-variable">$id</span></span>): <span class="hljs-title">Document</span>
 </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">hasRole</span>(<span class="hljs-string">'admin'</span>)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Document</span>::<span class="hljs-title function_ invoke__">findOrFail</span>(<span class="hljs-variable">$id</span>);
+    }
+
     <span class="hljs-keyword">return</span> <span class="hljs-variable">$user</span>-&gt;<span class="hljs-title function_ invoke__">documents</span>()-&gt;<span class="hljs-title function_ invoke__">findOrFail</span>(<span class="hljs-variable">$id</span>);
 }
 
-<span class="hljs-comment">// Layer 2 (DocumentController): Explicit Policy check as a 403 safety net</span>
+<span class="hljs-comment">// Step 2: Policy check (DocumentController) → 403 safety net</span>
 <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params">UpdateDocumentRequest <span class="hljs-variable">$request</span>, int <span class="hljs-variable">$id</span>, DocumentService <span class="hljs-variable">$documents</span></span>): <span class="hljs-title">JsonResponse</span>
 </span>{
     <span class="hljs-variable">$document</span> = <span class="hljs-variable">$documents</span>-&gt;<span class="hljs-title function_ invoke__">findForUser</span>(<span class="hljs-variable">$request</span>-&gt;<span class="hljs-title function_ invoke__">user</span>(), <span class="hljs-variable">$id</span>);
@@ -511,7 +517,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 }</code></pre>
         </figure>
 
-        <p>If User B requests Document #42, Layer 1 throws <code>ModelNotFoundException</code> &rarr; <code>404 Resource not found</code>, leaking zero information. If a future developer accidentally swaps in an unscoped <code>Document::find($id)</code>, Layer 2 (<code>DocumentPolicy</code>) still blocks the breach with <code>403</code>.</p>
+        <p>The status code split is deliberate: a <strong>scoped query miss returns <code>404</code></strong>, while a <strong>Policy denial returns <code>403</code></strong>. If non-owner User B requests Document #42, Step 1 throws <code>ModelNotFoundException</code> &rarr; <code>404 Resource not found</code>, leaking zero information. Branching on <code>hasRole('admin')</code> ensures admins can actually fetch records they do not own and reach <code>DocumentPolicy::before()</code> instead of hitting a premature 404, while Step 2 still acts as a <code>403</code> safety net if a future developer ever introduces an unscoped lookup for regular users. Note that the admin rule now exists in both <code>DocumentPolicy::before()</code> and <code>findForUser()</code>, so if admin access rules change later, both places must be updated together.</p>
 
         <h3>Combining Spatie RBAC with Policies</h3>
         <p>Keep your controllers and FormRequests completely unaware of Spatie permissions by wrapping role/permission checks inside the Policy itself:</p>
@@ -591,7 +597,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 <span class="hljs-variable">$this</span>-&gt;storage-&gt;<span class="hljs-title function_ invoke__">delete</span>(<span class="hljs-variable">$path</span>);</code></pre>
         </figure>
 
-        <p>If you deleted the file first and the database transaction rolled back, the database record would survive while the file was permanently gone — leaving broken attachments across your UI. Committing the DB delete first eliminates that failure mode.</p>
+        <p>If you deleted the file first and the database transaction rolled back, the database record would survive while the file was permanently gone — leaving broken attachments across your UI. Committing the DB delete first eliminates that failure mode. One caveat: if the file deletion itself fails after the commit (for example, due to a transient storage outage), an orphan file remains on disk — in high-reliability systems, dispatch a custom queued job (for example, <code>DeleteStoredFile::dispatch($path)-&gt;afterCommit()</code>) so failed deletes retry automatically.</p>
 
         <h2 id="7-resources-and-exceptions">7. Layer 5 — API Resources &amp; Centralized match (true) Exceptions</h2>
         <p>Never return a raw Eloquent model (<code>return response()-&gt;json($user)</code>). Even with <code>$hidden</code> or Laravel 13's <code>#[Hidden]</code> attribute, raw models couple your public API contract directly to your database columns. An <code>API Resource</code> acts as an explicit allowlist:</p>
@@ -652,7 +658,7 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
 })</code></pre>
         </figure>
 
-        <p>Why <code>match (true)</code> works so well here: it evaluates each <code>instanceof</code> branch top-to-bottom with strict semantics, requires no <code>break</code> statements, returns directly as an expression, and guarantees that an unhandled database crash returns a safe generic <code>500 Server error.</code> instead of leaking SQL queries or server paths.</p>
+        <p>Why <code>match (true)</code> works so well here: it evaluates each <code>instanceof</code> branch top-to-bottom with strict semantics, requires no <code>break</code> statements, returns directly as an expression, and guarantees that an unhandled database crash returns a safe generic <code>500 Server error.</code> instead of leaking SQL queries or server paths. Note that this <code>render</code> callback only shapes the HTTP response — it does not stop Laravel from reporting and logging exceptions to your logs or error tracker. In local development, let unhandled errors fall through when <code>config('app.debug')</code> is <code>true</code> (by returning <code>null</code> on the default branch) so the generic 500 never hides stack traces while debugging.</p>
 
         <h2 id="8-antipatterns-checklist">8. Common Anti-Patterns to Avoid</h2>
         <ol>
@@ -687,6 +693,10 @@ gtag('config', 'G-Q3R4PTV9GH', { anonymize_ip: true });
           <details class="faq__item">
             <summary class="faq__q">How do you avoid orphan files when a Laravel DB transaction fails?<span class="faq__icon">+</span></summary>
             <p class="faq__a">Store the uploaded file with a UUID filename, wrap the DB insert in <code>DB::transaction()</code> inside a <code>try/catch</code>, and delete the file inside the <code>catch</code> block if the transaction throws. On delete, commit the DB deletion first, then remove the file from disk.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Why use match (true) with instanceof in bootstrap/app.php withExceptions()?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">PHP 8's match (true) evaluates instanceof checks strictly from top to bottom and returns immediately without break statements or fallthrough bugs. Ordering specific exceptions above generic interfaces and ending with a generic 500 response prevents leaking SQL queries or file paths to API clients.</p>
           </details>
         </div>
       </article>
