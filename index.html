@@ -48,7 +48,6 @@ try {
 <link rel="preload" href="/assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/modelista-signature.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/maqin-larisa.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="/assets/images/polash-profile.jpg" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/images/mascot-directions.webp?v=1" fetchpriority="low">
 <style>
@@ -56,38 +55,8 @@ try {
 @font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:100 800;font-display:block;src:url('/assets/fonts/jetbrains-mono-latin.woff2') format('woff2')}
 @font-face{font-family:'Modelista Signature';font-style:normal;font-weight:400;font-display:block;src:url('/assets/fonts/modelista-signature.woff2') format('woff2')}
 @font-face{font-family:'Maqin Larisa';font-style:normal;font-weight:400;font-display:block;src:url('/assets/fonts/maqin-larisa.woff2') format('woff2')}
-html.fonts-loading body{opacity:0;pointer-events:none}
 </style>
-<script>
-(function(){
-  var d=document.documentElement;
-  if(!document.fonts||!document.fonts.load)return;
-  d.classList.add('fonts-loading');
-  var done=false;
-  function show(){if(done)return;done=true;d.classList.remove('fonts-loading');}
-  var t=setTimeout(show,1200);
-  var domReady=new Promise(function(r){
-    if(document.readyState!=='loading')r();
-    else document.addEventListener('DOMContentLoaded',r,{once:true});
-  });
-  var heroImg=new Image();
-  heroImg.src='/assets/images/polash-profile.jpg';
-  var imgReady=heroImg.decode?heroImg.decode().catch(function(){}):Promise.resolve();
-  Promise.all([
-    document.fonts.load('400 1rem "Inter"'),
-    document.fonts.load('600 1rem "Inter"'),
-    document.fonts.load('700 1rem "Inter"'),
-    document.fonts.load('400 1rem "JetBrains Mono"'),
-    document.fonts.load('500 1rem "JetBrains Mono"'),
-    document.fonts.load('400 1rem "Modelista Signature"'),
-    document.fonts.load('400 1rem "Maqin Larisa"'),
-    imgReady,
-    domReady,
-    document.fonts.ready
-  ]).then(function(){clearTimeout(t);requestAnimationFrame(show);}).catch(function(){clearTimeout(t);show();});
-})();
-</script>
-<link rel="stylesheet" href="/assets/css/main.css?v=53">
+<link rel="stylesheet" href="/assets/css/main.css?v=54">
 <link rel="stylesheet" href="/assets/css/mascot.css?v=5">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
 <script>

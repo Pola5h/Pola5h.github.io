@@ -268,16 +268,23 @@ for (const file of files) {
     }
   }
 
-  // Keep latest asset versions intact (main.css v=53, main.js v=39)
-  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=53"');
+  // Remove below-the-fold footer font preload (keep top-of-page Inter, JetBrains Mono & Modelista Signature)
+  content = content.replace(/<link\s+rel="preload"\s+href="\/assets\/fonts\/maqin-larisa\.woff2"[^>]*>\r?\n?/gi, '');
+
+  // Remove render-blocking fonts-loading CSS rule and JS gate that hid <body> from Googlebot
+  content = content.replace(/\r?\n?html\.fonts-loading\s+body\s*\{\s*opacity:\s*0;\s*pointer-events:\s*none;?\s*\}/gi, '');
+  content = content.replace(/<script>\s*\(function\(\)\{\s*var\s+d=document\.documentElement;[\s\S]*?fonts-loading[\s\S]*?\}\)\(\);\s*<\/script>\r?\n?/gi, '');
+
+  // Keep latest asset versions intact (main.css v=54, main.js v=39)
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=54"');
   content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=39"');
 
   // Inject mascot.css into <head> right after main.css (if not already present and not a redirect)
   if (!isRedirect && footerRegex.test(content) && !content.includes('/assets/css/mascot.css')) {
-    if (content.includes('href="/assets/css/main.css?v=53"')) {
+    if (content.includes('href="/assets/css/main.css?v=54"')) {
       content = content.replace(
-        '<link rel="stylesheet" href="/assets/css/main.css?v=53">',
-        '<link rel="stylesheet" href="/assets/css/main.css?v=53">\n<link rel="stylesheet" href="/assets/css/mascot.css?v=5">'
+        '<link rel="stylesheet" href="/assets/css/main.css?v=54">',
+        '<link rel="stylesheet" href="/assets/css/main.css?v=54">\n<link rel="stylesheet" href="/assets/css/mascot.css?v=5">'
       );
     }
   }
