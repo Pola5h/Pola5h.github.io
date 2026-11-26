@@ -352,7 +352,7 @@
       var emailParts = rawEmail.split('@');
       var emailDomain = emailParts.length === 2 ? emailParts[1] : '';
       var disposableDomains = [
-        'mailinator.com', 'tempmail.com', 'temp-mail.org', 'temp-mail.io',
+        'mailinator.com', 'xmailinator.com', 'tempmail.com', 'temp-mail.org', 'temp-mail.io',
         '10minutemail.com', '10minutemail.net', 'guerrillamail.com', 'guerrillamailblock.com',
         'sharklasers.com', 'grr.la', 'pokemail.net', 'spam4.me',
         'trashmail.com', 'trashmail.net', 'yopmail.com', 'yopmail.fr', 'yopmail.net',
@@ -404,6 +404,21 @@
         showToast('Opening your email client…');
       }
 
+      function extractErrorMessage(data, fallbackMsg) {
+        if (data && data.errors && typeof data.errors === 'object') {
+          var keys = Object.keys(data.errors);
+          for (var i = 0; i < keys.length; i++) {
+            var val = data.errors[keys[i]];
+            if (Array.isArray(val) && val[0]) return String(val[0]);
+            if (typeof val === 'string' && val) return val;
+          }
+        }
+        if (data && typeof data.message === 'string' && data.message.trim()) {
+          return data.message.trim();
+        }
+        return fallbackMsg;
+      }
+
       fetch(action, {
         method: 'POST',
         body: formData,
@@ -413,7 +428,7 @@
         }
       })
       .then(function (res) {
-        return res.json().then(function (data) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
           return { ok: res.ok, status: res.status, data: data };
         });
       })
@@ -423,10 +438,12 @@
           form.reset();
           resetTurnstile();
         } else if (result.status === 429) {
-          showToast(result.data.message || 'Too many submissions. Please wait a few minutes.');
+          showToast(extractErrorMessage(result.data, 'Too many submissions. Please wait a few minutes.'));
+          resetTurnstile();
+        } else if (result.status >= 400 && result.status < 500) {
+          showToast(extractErrorMessage(result.data, 'Please check your name, email, and project details and try again.'));
           resetTurnstile();
         } else {
-          showToast(result.data.message || 'Could not send. Opening email client…');
           resetTurnstile();
           doFallback();
         }
