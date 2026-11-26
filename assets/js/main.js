@@ -87,7 +87,66 @@
   /* --------------------------------------------------------------------- */
   var toastTimer;
   var toastHideTimer;
-  function showToast(message) {
+  var toastRemainingMs = 0;
+  var toastStartTime = 0;
+  var toastPaused = false;
+  var toastPriorFocus = null;
+  var supportsPopover = 'popover' in HTMLElement.prototype;
+
+  function dismissToast(restoreFocus) {
+    var toast = $('#global-toast');
+    if (!toast) return;
+    window.clearTimeout(toastTimer);
+    window.clearTimeout(toastHideTimer);
+    toastPaused = false;
+    var hadFocus = toast.contains(document.activeElement);
+
+    toast.classList.remove('toast-enter');
+    toast.classList.add('toast-exit');
+    toastHideTimer = window.setTimeout(function () {
+      if (toast.classList.contains('toast-exit')) {
+        if (supportsPopover && typeof toast.hidePopover === 'function') {
+          try { toast.hidePopover(); } catch (e) {}
+        }
+        toast.hidden = true;
+        toast.setAttribute('hidden', '');
+      }
+      if (restoreFocus && hadFocus && toastPriorFocus && typeof toastPriorFocus.focus === 'function') {
+        try { toastPriorFocus.focus(); } catch (e) {}
+      }
+    }, 240);
+  }
+
+  function scheduleToastDismiss(delay) {
+    window.clearTimeout(toastTimer);
+    toastRemainingMs = delay;
+    toastStartTime = Date.now();
+    toastTimer = window.setTimeout(function () {
+      var toast = $('#global-toast');
+      if (toast && (toastPaused || toast.contains(document.activeElement))) {
+        return;
+      }
+      dismissToast(false);
+    }, delay);
+  }
+
+  function showToast(message, options) {
+    var opts = options || {};
+    var type = opts.type || 'info';
+    var duration = typeof opts.duration === 'number'
+      ? opts.duration
+      : (type === 'error' || type === 'success' ? 6500 : 3500);
+
+    var region = $('#global-toast-region');
+    if (!region) {
+      region = document.createElement('div');
+      region.id = 'global-toast-region';
+      region.className = 'toast-region';
+      region.setAttribute('role', 'region');
+      region.setAttribute('aria-label', 'Notifications');
+      document.body.appendChild(region);
+    }
+
     var toast = $('#global-toast');
     if (!toast) {
       toast = document.createElement('div');
@@ -95,28 +154,98 @@
       toast.className = 'toast';
       toast.setAttribute('role', 'status');
       toast.setAttribute('aria-live', 'polite');
-      document.body.appendChild(toast);
+      if (supportsPopover) {
+        toast.setAttribute('popover', 'manual');
+      }
+
+      var iconSpan = document.createElement('span');
+      iconSpan.className = 'toast__icon';
+      iconSpan.setAttribute('aria-hidden', 'true');
+
+      var msgSpan = document.createElement('span');
+      msgSpan.className = 'toast__msg';
+
+      var closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'toast__close';
+      closeBtn.setAttribute('aria-label', 'Dismiss notification');
+      if (supportsPopover) {
+        closeBtn.setAttribute('popovertarget', 'global-toast');
+        closeBtn.setAttribute('popovertargetaction', 'hide');
+      }
+      closeBtn.innerHTML = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      closeBtn.addEventListener('click', function () {
+        dismissToast(true);
+      });
+
+      toast.appendChild(iconSpan);
+      toast.appendChild(msgSpan);
+      toast.appendChild(closeBtn);
+
+      toast.addEventListener('mouseenter', function () {
+        if (!toast.classList.contains('toast-enter')) return;
+        toastPaused = true;
+        window.clearTimeout(toastTimer);
+        toastRemainingMs = Math.max(1200, toastRemainingMs - (Date.now() - toastStartTime));
+      });
+      toast.addEventListener('mouseleave', function () {
+        if (!toast.classList.contains('toast-enter')) return;
+        toastPaused = false;
+        if (!toast.contains(document.activeElement)) {
+          scheduleToastDismiss(toastRemainingMs);
+        }
+      });
+      toast.addEventListener('focusin', function () {
+        toastPaused = true;
+        window.clearTimeout(toastTimer);
+        toastRemainingMs = Math.max(1500, toastRemainingMs - (Date.now() - toastStartTime));
+      });
+      toast.addEventListener('focusout', function () {
+        if (!toast.classList.contains('toast-enter')) return;
+        toastPaused = false;
+        scheduleToastDismiss(toastRemainingMs);
+      });
+
+      region.appendChild(toast);
     }
-    toast.textContent = message;
-    toast.hidden = false;
-    toast.removeAttribute('hidden');
-    toast.classList.remove('toast-exit');
-    void toast.offsetWidth;
-    toast.classList.add('toast-enter');
+
+    toastPriorFocus = document.activeElement;
+    toast.classList.remove('toast--error', 'toast--success', 'toast--info', 'toast-exit');
+    toast.classList.add('toast--' + type);
+    toast.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    toast.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
+
+    var iconEl = toast.querySelector('.toast__icon');
+    var msgEl = toast.querySelector('.toast__msg');
+    if (iconEl) {
+      if (type === 'error') {
+        iconEl.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+      } else if (type === 'success') {
+        iconEl.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+      } else {
+        iconEl.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+      }
+    }
+    if (msgEl) {
+      msgEl.textContent = message;
+    }
 
     window.clearTimeout(toastTimer);
     window.clearTimeout(toastHideTimer);
+    toastPaused = false;
+    toast.hidden = false;
+    toast.removeAttribute('hidden');
+    if (supportsPopover && typeof toast.showPopover === 'function') {
+      try { toast.showPopover(); } catch (e) {}
+    }
+    void toast.offsetWidth;
+    toast.classList.add('toast-enter');
 
-    toastTimer = window.setTimeout(function () {
-      toast.classList.remove('toast-enter');
-      toast.classList.add('toast-exit');
-      toastHideTimer = window.setTimeout(function () {
-        if (toast.classList.contains('toast-exit')) {
-          toast.hidden = true;
-          toast.setAttribute('hidden', '');
-        }
-      }, 260);
-    }, 2500);
+    if (typeof document.ariaNotify === 'function') {
+      try { document.ariaNotify(message); } catch (e) {}
+    }
+
+    scheduleToastDismiss(duration);
   }
 
   /* --------------------------------------------------------------------- */
@@ -341,8 +470,44 @@
       }
     }
 
+    var statusEl = form.querySelector('.form-status');
+    if (!statusEl) {
+      statusEl = document.createElement('div');
+      statusEl.className = 'form-status';
+      statusEl.hidden = true;
+      var btnRef = form.querySelector('button[type="submit"]');
+      if (btnRef && btnRef.parentNode) {
+        btnRef.parentNode.insertBefore(statusEl, btnRef);
+      } else {
+        form.appendChild(statusEl);
+      }
+    }
+
+    function setFormStatus(message, type) {
+      if (!message) {
+        statusEl.hidden = true;
+        statusEl.textContent = '';
+        statusEl.classList.remove('form-status--error', 'form-status--success');
+        return;
+      }
+      statusEl.classList.remove('form-status--error', 'form-status--success');
+      if (type === 'error' || type === 'success') {
+        statusEl.classList.add('form-status--' + type);
+      }
+      statusEl.setAttribute('role', type === 'error' ? 'alert' : 'status');
+      statusEl.textContent = message;
+      statusEl.hidden = false;
+    }
+
+    form.addEventListener('input', function () {
+      if (!statusEl.hidden && statusEl.classList.contains('form-status--error')) {
+        setFormStatus('', '');
+      }
+    });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      setFormStatus('', '');
       var action = form.getAttribute('action') || '';
       var submitBtn = form.querySelector('button[type="submit"]');
       var originalBtnText = submitBtn ? submitBtn.textContent : 'Send project brief';
@@ -368,7 +533,9 @@
         return emailDomain === d || emailDomain.slice(-(d.length + 1)) === '.' + d;
       });
       if (isDisposable) {
-        showToast('Disposable or temporary email addresses are not permitted.');
+        var dispMsg = 'Disposable or temporary email addresses are not permitted.';
+        setFormStatus(dispMsg, 'error');
+        showToast(dispMsg, { type: 'error', duration: 6500 });
         return;
       }
 
@@ -377,7 +544,9 @@
         formData.set('cf-turnstile-response', tsToken);
       } else if (window.turnstile && tsWidgetId !== null) {
         // Token not yet ready — ask user to wait a moment
-        showToast('Security check still loading. Please try again in a moment.');
+        var waitMsg = 'Security check still loading. Please try again in a moment.';
+        setFormStatus(waitMsg, 'error');
+        showToast(waitMsg, { type: 'error', duration: 5500 });
         return;
       }
 
@@ -401,7 +570,7 @@
           (formData.get('message') || '');
         window.location.href =
           'mailto:hello@polash.link?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-        showToast('Opening your email client…');
+        showToast('Opening your email client…', { type: 'info', duration: 4500 });
       }
 
       function extractErrorMessage(data, fallbackMsg) {
@@ -434,14 +603,20 @@
       })
       .then(function (result) {
         if (result.ok && result.data && result.data.success) {
-          showToast(result.data.message || 'Brief sent! I will respond within 4 hours.');
+          var okMsg = result.data.message || 'Brief sent! I will respond within 4 hours.';
+          setFormStatus(okMsg, 'success');
+          showToast(okMsg, { type: 'success', duration: 6500 });
           form.reset();
           resetTurnstile();
         } else if (result.status === 429) {
-          showToast(extractErrorMessage(result.data, 'Too many submissions. Please wait a few minutes.'));
+          var rateMsg = extractErrorMessage(result.data, 'Too many submissions. Please wait a few minutes.');
+          setFormStatus(rateMsg, 'error');
+          showToast(rateMsg, { type: 'error', duration: 6500 });
           resetTurnstile();
         } else if (result.status >= 400 && result.status < 500) {
-          showToast(extractErrorMessage(result.data, 'Please check your name, email, and project details and try again.'));
+          var errMsg = extractErrorMessage(result.data, 'Please check your name, email, and project details and try again.');
+          setFormStatus(errMsg, 'error');
+          showToast(errMsg, { type: 'error', duration: 6500 });
           resetTurnstile();
         } else {
           resetTurnstile();

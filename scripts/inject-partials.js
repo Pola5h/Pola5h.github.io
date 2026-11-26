@@ -275,16 +275,16 @@ for (const file of files) {
   content = content.replace(/\r?\n?html\.fonts-loading\s+body\s*\{\s*opacity:\s*0;\s*pointer-events:\s*none;?\s*\}/gi, '');
   content = content.replace(/<script>\s*\(function\(\)\{\s*var\s+d=document\.documentElement;[\s\S]*?fonts-loading[\s\S]*?\}\)\(\);\s*<\/script>\r?\n?/gi, '');
 
-  // Keep latest asset versions intact (main.css v=54, main.js v=40)
-  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=54"');
-  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=40"');
+  // Keep latest asset versions intact (main.css v=55, main.js v=41)
+  content = content.replace(/href="\/assets\/css\/main\.css(?:\?v=\d+)?"/g, 'href="/assets/css/main.css?v=55"');
+  content = content.replace(/src="\/assets\/js\/main\.js(?:\?v=\d+)?"/g, 'src="/assets/js/main.js?v=41"');
 
   // Inject mascot.css into <head> right after main.css (if not already present and not a redirect)
   if (!isRedirect && footerRegex.test(content) && !content.includes('/assets/css/mascot.css')) {
-    if (content.includes('href="/assets/css/main.css?v=54"')) {
+    if (content.includes('href="/assets/css/main.css?v=55"')) {
       content = content.replace(
-        '<link rel="stylesheet" href="/assets/css/main.css?v=54">',
-        '<link rel="stylesheet" href="/assets/css/main.css?v=54">\n<link rel="stylesheet" href="/assets/css/mascot.css?v=5">'
+        '<link rel="stylesheet" href="/assets/css/main.css?v=55">',
+        '<link rel="stylesheet" href="/assets/css/main.css?v=55">\n<link rel="stylesheet" href="/assets/css/mascot.css?v=5">'
       );
     }
   }
