@@ -470,23 +470,44 @@
       }
     }
 
+    var statusTimer;
     var statusEl = form.querySelector('.form-status');
+    var statusMsgEl;
     if (!statusEl) {
       statusEl = document.createElement('div');
       statusEl.className = 'form-status';
       statusEl.hidden = true;
+
+      statusMsgEl = document.createElement('span');
+      statusMsgEl.className = 'form-status__msg';
+
+      var statusCloseBtn = document.createElement('button');
+      statusCloseBtn.type = 'button';
+      statusCloseBtn.className = 'form-status__close';
+      statusCloseBtn.setAttribute('aria-label', 'Dismiss message');
+      statusCloseBtn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+      statusCloseBtn.addEventListener('click', function () {
+        setFormStatus('', '');
+      });
+
+      statusEl.appendChild(statusMsgEl);
+      statusEl.appendChild(statusCloseBtn);
+
       var btnRef = form.querySelector('button[type="submit"]');
       if (btnRef && btnRef.parentNode) {
         btnRef.parentNode.insertBefore(statusEl, btnRef);
       } else {
         form.appendChild(statusEl);
       }
+    } else {
+      statusMsgEl = statusEl.querySelector('.form-status__msg') || statusEl;
     }
 
     function setFormStatus(message, type) {
+      window.clearTimeout(statusTimer);
       if (!message) {
         statusEl.hidden = true;
-        statusEl.textContent = '';
+        statusMsgEl.textContent = '';
         statusEl.classList.remove('form-status--error', 'form-status--success');
         return;
       }
@@ -495,12 +516,18 @@
         statusEl.classList.add('form-status--' + type);
       }
       statusEl.setAttribute('role', type === 'error' ? 'alert' : 'status');
-      statusEl.textContent = message;
+      statusMsgEl.textContent = message;
       statusEl.hidden = false;
+
+      if (type === 'success') {
+        statusTimer = window.setTimeout(function () {
+          setFormStatus('', '');
+        }, 8000);
+      }
     }
 
     form.addEventListener('input', function () {
-      if (!statusEl.hidden && statusEl.classList.contains('form-status--error')) {
+      if (!statusEl.hidden) {
         setFormStatus('', '');
       }
     });

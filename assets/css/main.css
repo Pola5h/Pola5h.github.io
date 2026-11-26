@@ -1804,7 +1804,8 @@ textarea.field { resize: vertical; min-height: 7rem; }
 .form-status {
   display: flex;
   align-items: flex-start;
-  gap: .6rem;
+  justify-content: space-between;
+  gap: .65rem;
   padding: .75rem .9rem;
   border-radius: var(--radius-sm);
   border: 1px solid var(--line-2);
@@ -1815,6 +1816,28 @@ textarea.field { resize: vertical; min-height: 7rem; }
   font-size: .86rem;
   line-height: 1.45;
   font-weight: 500;
+}
+.form-status__msg {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.form-status__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: -.15rem -.2rem -.15rem 0;
+  border-radius: var(--radius-sm);
+  color: currentColor;
+  opacity: .65;
+  transition: opacity .15s ease, background-color .15s ease;
+}
+.form-status__close:hover,
+.form-status__close:focus-visible {
+  opacity: 1;
+  background: rgba(127, 127, 127, 0.16);
 }
 .form-status[hidden] {
   display: none !important;
