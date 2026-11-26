@@ -15,3 +15,6 @@ reports/
 # Local backend / scripts
 scripts/alwaysdata-contact.php
 scripts/*.php
+
+# Private Search Console exports
+polash.link-Performance-on-Search-*/

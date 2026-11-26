@@ -14,7 +14,7 @@
 
 - [Vendzoo](https://vendzoo.com): Omnichannel retail & commerce SaaS featuring multi-branch POS, bi-directional WooCommerce/Shopify inventory sync, automated Pathao/Steadfast courier dispatch, COD fraud scoring, and double-entry accounting.
 - [Hishab](https://polash.link/blog/offline-first-expense-tracker-pwa-android-laravel/): Offline-first personal finance PWA + Android wrapper with Vue 3, Laravel 13, IndexedDB sync, and zero-cost Gemini AI receipt parsing on a 256MB server.
-- [pola5h/laravel-flags](https://github.com/pola5h/laravel-flags): Open-source Laravel package providing 249 country and 210 language flags as Blade components.
+- [Pola5h/FlagIcons](https://github.com/Pola5h/FlagIcons): Open-source Laravel package (`pola5h/laravel-flags` on Packagist) providing 249 country and 210 language flags as Blade components.
 
 ## Engineering Blog — Laravel Architecture & Security
 

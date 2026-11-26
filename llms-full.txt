@@ -35,7 +35,7 @@ Kamruzzaman Polash (K. Polash / @pola5h) is a backend software engineer speciali
 
 - **Vendzoo (https://vendzoo.com):** Omnichannel retail & commerce SaaS combining multi-branch POS, real-time Shopify/WooCommerce stock sync, automated courier booking, COD fraud scoring, and double-entry accounting.
 - **Hishab:** Offline-first personal finance PWA + Android wrapper built with Vue 3, Laravel 13, IndexedDB sync, and zero-cost Gemini AI expense parsing running comfortably on 256MB RAM.
-- **pola5h/laravel-flags (https://github.com/pola5h/laravel-flags):** Open-source Laravel Blade component package for 249 country flags and 210 language flags.
+- **Pola5h/FlagIcons (https://github.com/Pola5h/FlagIcons):** Open-source Laravel Blade component package (`pola5h/laravel-flags` on Packagist) for 249 country flags and 210 language flags.
 
 ---
 

@@ -6,7 +6,7 @@
 <title>Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)</title>
 <meta name="description" content="Your Laravel queue worker keeps dying in Docker? Supervisor config, --max-time, --max-jobs, memory leak prevention, OOM kills, and Horizon in Docker — all in one guide.">
 <link rel="canonical" href="https://polash.link/blog/laravel-queue-worker-docker-production/">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Kamruzzaman Polash">
 <meta name="theme-color" content="#100f0e" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
@@ -25,7 +25,7 @@ try {
 <meta property="og:image" content="https://polash.link/assets/images/og-laravel-queue-docker.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Kamruzzaman Polash — Laravel &amp; PHP Backend Engineer">
+<meta property="og:image:alt" content="Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026) — Kamruzzaman Polash">
 <meta property="article:published_time" content="2026-09-27">
 <meta property="article:modified_time" content="2026-09-27">
 <meta property="article:section" content="DevOps">
@@ -37,6 +37,7 @@ try {
 <meta name="twitter:creator" content="@pola5h">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/images/favicon-192x192.png" sizes="192x192" type="image/png">
 <link rel="icon" href="/assets/images/favicon-32x32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/assets/images/favicon-16x16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
@@ -78,7 +79,7 @@ html.fonts-loading body{opacity:0;pointer-events:none}
   ]).then(function(){clearTimeout(t);requestAnimationFrame(show);}).catch(function(){clearTimeout(t);show();});
 })();
 </script>
-<link rel="stylesheet" href="/assets/css/main.css?v=52">
+<link rel="stylesheet" href="/assets/css/main.css?v=53">
 <link rel="stylesheet" href="/assets/css/mascot.css?v=5">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q3R4PTV9GH"></script>
 <script>
@@ -87,7 +88,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag("js", new Date());
 gtag("config", "G-Q3R4PTV9GH", { anonymize_ip: true });
 </script>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/og-laravel-queue-docker.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-32x32.png","width":32,"height":32},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queue-worker-docker-production/#article","headline":"Laravel Queue Workers in Docker: Why They Die & How to Fix It (2026 Production Guide)","description":"Your Laravel queue worker keeps dying in Docker? This is the definitive fix: Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.","url":"https://polash.link/blog/laravel-queue-worker-docker-production/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queue-worker-docker-production/"},"datePublished":"2026-09-27","dateModified":"2026-09-27","timeRequired":"PT15M","articleSection":"DevOps","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-queue-docker.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue Workers in Docker Guide","item":"https://polash.link/blog/laravel-queue-worker-docker-production/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my Laravel queue worker keep dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Laravel queue workers die in Docker for 4 main reasons: (1) Memory leaks — PHP accumulates memory over time; without --max-time or --max-jobs, the worker runs forever until Docker OOM killer terminates it. (2) Uncaught exceptions — an exception thrown outside a job handle() method can crash the worker process. (3) Docker OOM kill — the container hits its memory limit and Linux kills the worker process with SIGKILL. (4) Missing process manager — without Supervisor or Horizon, a dead worker simply stays dead. The fix: use --max-time=3600 --max-jobs=500 and Supervisor with autorestart=true."}},{"@type":"Question","name":"How do I stop Laravel queue workers from dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Run queue:work with --max-time and --max-jobs flags: php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256. This ensures workers exit gracefully before accumulating too much memory. Use Supervisor with autorestart=true to automatically restart workers after each exit."}},{"@type":"Question","name":"What is the best Supervisor config for Laravel queue workers in Docker?","acceptedAnswer":{"@type":"Answer","text":"The recommended supervisord.conf for Laravel Docker: [program:laravel-worker] command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256, autostart=true, autorestart=true, stopasgroup=true, killasgroup=true, numprocs=2, stopwaitsecs=3600, redirect_stderr=true, stdout_logfile=/var/www/html/storage/logs/worker.log."}},{"@type":"Question","name":"Should I use Laravel Horizon or queue:work in Docker?","acceptedAnswer":{"@type":"Answer","text":"Use Horizon if you are already on Redis and want a dashboard, auto-scaling workers, and metrics. Use queue:work + Supervisor if you need simplicity or are using a non-Redis driver (database, SQS)."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://polash.link/#person","name":"Kamruzzaman Polash","alternateName":["KP","pola5h"],"jobTitle":"Custom Software Engineer & Backend Architect","description":"Backend software engineer specialising in Laravel, PHP, REST APIs, multi-tenant SaaS systems and database optimisation.","url":"https://polash.link/","image":"https://polash.link/assets/images/polash-profile.jpg","email":"mailto:hello@polash.link","telephone":"+8801791296967","address":{"@type":"PostalAddress","addressLocality":"Mymensingh","addressCountry":"BD"},"knowsAbout":["Laravel","PHP","REST API design","MySQL","Docker","Kubernetes","Multi-tenancy","WooCommerce","Redis","POS Systems","E-commerce Automation","Courier API Integration","Payment Gateway Integration"],"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h","https://dev.to/polash","https://vendzoo.com"]},{"@type":"Organization","@id":"https://polash.link/#organization","name":"Kamruzzaman Polash","url":"https://polash.link/","logo":{"@type":"ImageObject","url":"https://polash.link/assets/images/favicon-192x192.png","width":192,"height":192},"founder":{"@id":"https://polash.link/#person"},"sameAs":["https://github.com/pola5h","https://linkedin.com/in/pola5h"]},{"@type":"TechArticle","@id":"https://polash.link/blog/laravel-queue-worker-docker-production/#article","headline":"Laravel Queue Workers in Docker: Why They Die & How to Fix It (2026 Production Guide)","description":"Your Laravel queue worker keeps dying in Docker? This is the definitive fix: Supervisor config, --max-time, --max-jobs, OOM kills, uncaught exceptions, and Horizon vs queue:work — all in one guide.","url":"https://polash.link/blog/laravel-queue-worker-docker-production/","mainEntityOfPage":{"@type":"WebPage","@id":"https://polash.link/blog/laravel-queue-worker-docker-production/"},"datePublished":"2026-09-27","dateModified":"2026-09-27","timeRequired":"PT15M","articleSection":"DevOps","inLanguage":"en","image":{"@type":"ImageObject","url":"https://polash.link/assets/images/og-laravel-queue-docker.jpg","width":1200,"height":630},"author":{"@id":"https://polash.link/#person"},"publisher":{"@id":"https://polash.link/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polash.link/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://polash.link/blog/"},{"@type":"ListItem","position":3,"name":"Laravel Queue Workers in Docker Guide","item":"https://polash.link/blog/laravel-queue-worker-docker-production/"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my Laravel queue worker keep dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Laravel queue workers die in Docker for 4 main reasons: (1) Memory leaks — PHP accumulates memory over time; without --max-time or --max-jobs, the worker runs forever until Docker OOM killer terminates it. (2) Uncaught exceptions — an exception thrown outside a job handle() method can crash the worker process. (3) Docker OOM kill — the container hits its memory limit and Linux kills the worker process with SIGKILL. (4) Missing process manager — without Supervisor or Horizon, a dead worker simply stays dead. The fix: use --max-time=3600 --max-jobs=500 and Supervisor with autorestart=true."}},{"@type":"Question","name":"How do I stop Laravel queue workers from dying in Docker?","acceptedAnswer":{"@type":"Answer","text":"Run queue:work with --max-time and --max-jobs flags: php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256. This ensures workers exit gracefully before accumulating too much memory. Use Supervisor with autorestart=true to automatically restart workers after each exit."}},{"@type":"Question","name":"What is the best Supervisor config for Laravel queue workers in Docker?","acceptedAnswer":{"@type":"Answer","text":"The recommended supervisord.conf for Laravel Docker: [program:laravel-worker] command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256, autostart=true, autorestart=true, stopasgroup=true, killasgroup=true, numprocs=2, stopwaitsecs=3600, redirect_stderr=true, stdout_logfile=/var/www/html/storage/logs/worker.log."}},{"@type":"Question","name":"Should I use Laravel Horizon or queue:work in Docker?","acceptedAnswer":{"@type":"Answer","text":"Use Horizon if you are already on Redis and want a dashboard, auto-scaling workers, and metrics. Use queue:work + Supervisor if you need simplicity or are using a non-Redis driver (database, SQS)."}}]}]}</script>
 </head>
 <body>
 <a href="#main" class="skip">Skip to content</a>
@@ -119,7 +120,13 @@ gtag("config", "G-Q3R4PTV9GH", { anonymize_ip: true });
   </div>
   <nav class="wrap mobile-menu__nav" aria-label="Mobile">
     <ul>
-      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li><li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li><li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li><li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li><li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li><li><a class="mobile-menu__link" href="/blog/" data-menu-link>Blog</a></li><li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
+      <li><a class="mobile-menu__link" href="/#work" data-menu-link>Work</a></li>
+      <li><a class="mobile-menu__link" href="/#about" data-menu-link>About</a></li>
+      <li><a class="mobile-menu__link" href="/#skills" data-menu-link>Skills</a></li>
+      <li><a class="mobile-menu__link" href="/#experience" data-menu-link>Experience</a></li>
+      <li><a class="mobile-menu__link" href="/services/" data-menu-link>Services</a></li>
+      <li><a class="mobile-menu__link" href="/blog/" aria-current="page" data-menu-link>Blog</a></li>
+      <li><a class="mobile-menu__link" href="/#contact" data-menu-link>Contact</a></li>
     </ul>
     <div class="mobile-menu__foot">
       <a href="/#contact" data-menu-link class="btn btn--solid">Start a project</a>
@@ -136,7 +143,7 @@ gtag("config", "G-Q3R4PTV9GH", { anonymize_ip: true });
     <h1 class="article-head__title">Laravel Queue Workers in Docker: Why They Die &amp; How to Fix It (2026)</h1>
     <p class="article-head__desc">Your Laravel queue worker keeps dying in Docker? Supervisor config, --max-time, --max-jobs, memory leak prevention, OOM kills, and Horizon in Docker — all in one guide.</p>
     <div class="article-head__by">
-      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">September 27, 2026</div></div></div>
+      <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name"><a href="/#about" rel="author">Kamruzzaman Polash</a></div><div class="byline__date">September 27, 2026</div></div></div>
       <button type="button" class="btn btn--line" data-copy-link>Copy link</button>
     </div>
   </div></header>
@@ -321,6 +328,7 @@ php artisan queue:work redis     --queue=critical,default     --max-jobs=500    
 <span class="hljs-comment"># Start Supervisor in foreground</span>
 <span class="hljs-keyword">CMD</span> [<span class="hljs-string">"supervisord"</span>, <span class="hljs-string">"-n"</span>, <span class="hljs-string">"-c"</span>, <span class="hljs-string">"/etc/supervisor/conf.d/laravel-worker.conf"</span>]</code></pre>
         </figure>
+        <p><strong>Security note:</strong> Always pull patched PHP-FPM Alpine base images (<code>8.3.36+</code>, <code>8.4.27+</code>, or <code>8.5.12+</code>) and rebuild containers regularly to stay protected against runtime flaws such as <a href="/blog/php-rce-cve-2026-109618-fix/">CVE-2026-109618 (PHP2Shell RCE)</a>.</p>
 
         <h2 id="5-handling-oom-kills">5. Handling OOM Kills and Memory Limits</h2>
         <p>An OOM kill (Out of Memory kill) is different from a graceful exit. When Docker memory limit is hit, Linux sends <code>SIGKILL</code> — which cannot be caught or handled by PHP. The worker dies immediately, mid-job.</p>
@@ -447,6 +455,26 @@ php artisan queue:restart</code></pre>
 
         <p>Laravel queue workers die in Docker for predictable, fixable reasons. The core solution is always the same: use <code>--max-time</code> and <code>--max-jobs</code> to restart workers before they leak memory, and use Supervisor (or Horizon) with <code>autorestart=true</code> to keep them running continuously.</p>
 
+        <h2 id="9-faq">9. Frequently Asked Questions</h2>
+        <div class="faq">
+          <details class="faq__item" open>
+            <summary class="faq__q">Why does my Laravel queue worker keep dying in Docker?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Laravel queue workers die in Docker for 4 main reasons: (1) Memory leaks — PHP accumulates memory over time; without <code>--max-time</code> or <code>--max-jobs</code>, the worker runs forever until Docker OOM killer terminates it. (2) Uncaught exceptions — an exception thrown outside a job <code>handle()</code> method can crash the worker process. (3) Docker OOM kill — the container hits its memory limit and Linux kills the worker process with SIGKILL. (4) Missing process manager — without Supervisor or Horizon, a dead worker simply stays dead. The fix: use <code>--max-time=3600 --max-jobs=500</code> and Supervisor with <code>autorestart=true</code>.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">How do I stop Laravel queue workers from dying in Docker?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Run <code>queue:work</code> with <code>--max-time</code> and <code>--max-jobs</code> flags: <code>php artisan queue:work redis --max-jobs=500 --max-time=3600 --memory=256</code>. This ensures workers exit gracefully before accumulating too much memory. Use Supervisor with <code>autorestart=true</code> to automatically restart workers after each exit.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">What is the best Supervisor config for Laravel queue workers in Docker?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">The recommended <code>supervisord.conf</code> for Laravel Docker: <code>[program:laravel-worker] command=php /var/www/html/artisan queue:work redis --sleep=3 --tries=3 --max-jobs=500 --max-time=3600 --memory=256</code>, <code>autostart=true</code>, <code>autorestart=true</code>, <code>stopasgroup=true</code>, <code>killasgroup=true</code>, <code>numprocs=2</code>, <code>stopwaitsecs=3600</code>, <code>redirect_stderr=true</code>, <code>stdout_logfile=/var/www/html/storage/logs/worker.log</code>.</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__q">Should I use Laravel Horizon or queue:work in Docker?<span class="faq__icon">+</span></summary>
+            <p class="faq__a">Use Horizon if you are already on Redis and want a dashboard, auto-scaling workers, and metrics. Use <code>queue:work</code> + Supervisor if you need simplicity or are using a non-Redis driver (database, SQS).</p>
+          </details>
+        </div>
+
       </article>
       <div class="cta-band">
         <p class="label label--accent">Work with me</p>
@@ -455,7 +483,7 @@ php artisan queue:restart</code></pre>
         <div class="cta-band__actions"><button type="button" class="btn btn--solid" data-open-chat>Chat now</button><a class="btn btn--line" href="/services/">Engineering Services</a><a class="btn btn--line" href="https://wa.me/8801791296967?text=Hi%20Polash%2C%20I%20found%20your%20blog%20and%20would%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer">WhatsApp</a></div>
       </div>
       <div class="author-box">
-        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name">Kamruzzaman Polash</div><div class="byline__date">Custom software &amp; backend engineer · Laravel, SaaS, APIs</div></div></div>
+        <div class="byline"><span class="byline__mark">KP</span><div><div class="byline__name"><a href="/#about" rel="author">Kamruzzaman Polash</a></div><div class="byline__date">Custom software &amp; backend engineer · Laravel, SaaS, APIs</div></div></div>
         <div class="social"><a class="icon-btn" href="https://github.com/pola5h" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M12 2C6.5 2 2 6.6 2 12.2c0 4.5 2.9 8.3 6.8 9.6.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.6 2.4 1.1 3 .9.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.4 9.4 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 22 12.2C22 6.6 17.5 2 12 2Z"/></svg></a><a class="icon-btn" href="https://linkedin.com/in/pola5h" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" class="ic" fill="currentColor" aria-hidden="true"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM8.3 18H6V10h2.3v8ZM7.2 9a1.4 1.4 0 1 1 0-2.8 1.4 1.4 0 0 1 0 2.8ZM18 18h-2.3v-4.2c0-1-.4-1.6-1.3-1.6-.7 0-1.1.5-1.3 1-.1.2-.1.5-.1.8V18h-2.3s0-7 0-8H13v1.1c.3-.5.9-1.2 2.2-1.2 1.6 0 2.8 1 2.8 3.3V18Z"/></svg></a></div>
       </div>
       <nav class="pager" aria-label="Article navigation">
@@ -463,7 +491,7 @@ php artisan queue:restart</code></pre>
         <a href="/blog/laravel-queues-jobs-redis-horizon/" style="text-align:right"><span>Related →</span><b>Laravel Queues &amp; Jobs with Redis: Complete Production Guide</b></a>
       </nav>
     </div>
-    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-the-4-reasons-laravel-queue-workers-die-in-docker" data-toc-link>1. The 4 Reasons Workers Die</a><a href="#2-max-time-and-max-jobs" data-toc-link>2. --max-time and --max-jobs</a><a href="#3-supervisor-configuration" data-toc-link>3. Supervisor Configuration</a><a href="#4-dockerfile-setup" data-toc-link>4. Dockerfile Setup</a><a href="#5-handling-oom-kills" data-toc-link>5. Handling OOM Kills</a><a href="#6-uncaught-exceptions" data-toc-link>6. Uncaught Exceptions</a><a href="#7-horizon-vs-queuework" data-toc-link>7. Horizon vs queue:work</a><a href="#8-production-checklist" data-toc-link>8. Production Checklist</a></nav></aside>
+    <aside><nav class="toc" aria-label="Table of contents" data-toc><p class="label toc__title">On this page</p><a href="#1-the-4-reasons-laravel-queue-workers-die-in-docker" data-toc-link>1. The 4 Reasons Workers Die</a><a href="#2-max-time-and-max-jobs" data-toc-link>2. --max-time and --max-jobs</a><a href="#3-supervisor-configuration" data-toc-link>3. Supervisor Configuration</a><a href="#4-dockerfile-setup" data-toc-link>4. Dockerfile Setup</a><a href="#5-handling-oom-kills" data-toc-link>5. Handling OOM Kills</a><a href="#6-uncaught-exceptions" data-toc-link>6. Uncaught Exceptions</a><a href="#7-horizon-vs-queuework" data-toc-link>7. Horizon vs queue:work</a><a href="#8-production-checklist" data-toc-link>8. Production Checklist</a><a href="#9-faq" data-toc-link>9. FAQ</a></nav></aside>
   </div></div></div>
 
   <section class="related section"><div class="wrap">
@@ -520,7 +548,7 @@ php artisan queue:restart</code></pre>
 <script src="/assets/js/main.js?v=39" defer></script>
   <!-- chat:start -->
 <!-- 100% White-Label Live Chat Widget -->
-<div class="live-chat" id="live-chat" aria-live="polite">
+<div class="live-chat" id="live-chat" data-nosnippet aria-live="polite">
   <button type="button" class="live-chat__launcher" id="live-chat-toggle" aria-label="Open live chat" aria-expanded="false" aria-controls="live-chat-window">
     <span class="live-chat__status-dot" id="live-chat-launcher-dot" aria-hidden="true"></span>
     <svg class="live-chat__icon-chat" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
