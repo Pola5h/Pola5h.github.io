@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Bumply for WooCommerce — 1-Click Checkout Order Bump Plugin</title>
+	<meta name="description" content="Boost your WooCommerce average order value with Bumply — an ultra-lightweight 1-click checkout order bump plugin for Checkout Blocks, Classic Checkout & HPOS. Pay once, no subscriptions." />
+	<meta name="keywords" content="woocommerce order bump, checkout upsell plugin, woocommerce checkout blocks order bump, one click order bump woocommerce, bumply, woocommerce cross sell" />
+	<meta name="author" content="Kamruzzaman Polash" />
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+	<link rel="canonical" href="https://polash.link/bumply/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="Bumply for WooCommerce" />
+	<meta property="og:url" content="https://polash.link/bumply/" />
+	<meta property="og:title" content="Bumply for WooCommerce — 1-Click Checkout Order Bump Plugin" />
+	<meta property="og:description" content="Ultra-lightweight 1-click checkout order bumps for WooCommerce Checkout Blocks & Classic Checkout. Free on WordPress.org, or $19 one-time launch offer for Pro." />
+	<meta property="og:image" content="https://polash.link/bumply/og-banner.png" />
+	<meta property="og:image:width" content="1544" />
+	<meta property="og:image:height" content="500" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Bumply for WooCommerce — 1-Click Checkout Order Bump" />
+	<meta name="twitter:description" content="Boost WooCommerce AOV with 1-click checkout order bumps. Blocks + Classic + HPOS ready. $19 one-time launch offer — no subscriptions." />
+	<meta name="twitter:image" content="https://polash.link/bumply/og-banner.png" />
+	<meta name="twitter:creator" content="@pola5h" />
+	<link rel="icon" type="image/png" href="./icon.png" />
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "SoftwareApplication",
+				"name": "Bumply for WooCommerce",
+				"applicationCategory": "BusinessApplication",
+				"operatingSystem": "WordPress, WooCommerce",
+				"url": "https://polash.link/bumply/",
+				"image": "https://polash.link/bumply/og-banner.png",
+				"description": "Ultra-lightweight 1-click checkout order bump plugin for WooCommerce Checkout Blocks, Classic Checkout, and HPOS.",
+				"softwareVersion": "1.0.0",
+				"author": {
+					"@type": "Person",
+					"name": "Kamruzzaman Polash",
+					"url": "https://polash.link/"
+				},
+				"offers": [
+					{
+						"@type": "Offer",
+						"name": "Bumply Free",
+						"price": "0",
+						"priceCurrency": "USD",
+						"url": "https://wordpress.org/plugins/bumply-for-woocommerce/"
+					},
+					{
+						"@type": "Offer",
+						"name": "Bumply Pro Single Site (One-Time Launch Offer)",
+						"price": "19",
+						"priceCurrency": "USD",
+						"url": "https://polash.link/bumply/#pricing"
+					}
+				]
+			},
+			{
+				"@type": "FAQPage",
+				"mainEntity": [
+					{
+						"@type": "Question",
+						"name": "Does Bumply work with the new WooCommerce Checkout Block?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Yes! Both Bumply Free and Bumply Pro automatically mount inside WooCommerce Checkout Blocks and refresh the live order summary when toggled."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Will Bumply slow down my store?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "No. Bumply is under 20 KB total and only loads its tiny stylesheet and script on the checkout page when an eligible offer is active."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Do you offer refunds?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Yes — every Pro purchase is backed by a 14-day no-questions-asked money-back guarantee."
+						}
+					}
+				]
+			}
+		]
+	}
+	</script>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+	<style>
+		:root {
+			--bg: #0b1120;
+			--surface: #111827;
+			--card: #ffffff;
+			--ink: #0f172a;
+			--muted: #64748b;
+			--accent: #16a34a;
+			--accent-dark: #15803d;
+			--accent-soft: #f0fdf4;
+			--border: #e2e8f0;
+		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			font-family: 'Inter', system-ui, -apple-system, sans-serif;
+			color: var(--ink);
+			background: #ffffff;
+			line-height: 1.6;
+		}
+		a { color: inherit; text-decoration: none; }
+		.container { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+
+		/* Nav */
+		header {
+			position: sticky;
+			top: 0;
+			z-index: 40;
+			background: rgba(255, 255, 255, 0.92);
+			backdrop-filter: blur(10px);
+			border-bottom: 1px solid var(--border);
+		}
+		.nav {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 68px;
+		}
+		.brand {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 800;
+			font-size: 19px;
+			letter-spacing: -0.02em;
+		}
+		.brand img { width: 34px; height: 34px; border-radius: 8px; }
+		.nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; font-weight: 500; color: #334155; }
+		.nav-links a:hover { color: var(--accent); }
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			padding: 11px 20px;
+			border-radius: 9px;
+			font-weight: 600;
+			font-size: 14px;
+			transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+			cursor: pointer;
+			border: 1px solid transparent;
+		}
+		.btn-primary { background: var(--accent); color: #ffffff; box-shadow: 0 6px 18px rgba(22, 163, 74, 0.25); }
+		.btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+		.btn-outline { background: #ffffff; color: var(--ink); border-color: #cbd5e1; }
+		.btn-outline:hover { border-color: var(--ink); }
+
+		/* Hero */
+		.hero {
+			background: radial-gradient(circle at 80% 20%, rgba(22, 163, 74, 0.18), transparent 45%), linear-gradient(160deg, #0b1120 0%, #062c22 100%);
+			color: #ffffff;
+			padding: 78px 0 88px;
+		}
+		.hero-grid {
+			display: grid;
+			grid-template-columns: 1.05fr 0.95fr;
+			gap: 48px;
+			align-items: center;
+		}
+		.pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 5px 12px;
+			border-radius: 999px;
+			background: rgba(22, 163, 74, 0.18);
+			border: 1px solid rgba(74, 222, 128, 0.35);
+			color: #86efac;
+			font-size: 12px;
+			font-weight: 600;
+			margin-bottom: 18px;
+		}
+		.hero h1 {
+			margin: 0 0 18px;
+			font-size: clamp(32px, 4.4vw, 48px);
+			line-height: 1.12;
+			letter-spacing: -0.03em;
+		}
+		.hero p.lead {
+			margin: 0 0 28px;
+			font-size: 17px;
+			color: #cbd5e1;
+			max-width: 520px;
+		}
+		.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+		.hero-trust { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: #94a3b8; }
+
+		/* Interactive Demo Card */
+		.demo-box {
+			background: #ffffff;
+			color: var(--ink);
+			border-radius: 16px;
+			padding: 22px;
+			box-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
+		}
+		.demo-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--border);
+			margin-bottom: 14px;
+			font-size: 13px;
+			font-weight: 700;
+			color: #334155;
+		}
+		.demo-tag { font-size: 11px; color: var(--accent); background: var(--accent-soft); padding: 2px 8px; border-radius: 999px; }
+		.demo-line { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; color: #334155; }
+		.demo-line.bump-row { color: var(--accent-dark); font-weight: 600; display: none; }
+		.demo-line.bump-row.show { display: flex; }
+		.demo-total {
+			display: flex;
+			justify-content: space-between;
+			font-size: 16px;
+			font-weight: 800;
+			padding-top: 12px;
+			margin-top: 10px;
+			border-top: 1px solid var(--border);
+		}
+		.bump-card {
+			margin: 14px 0;
+			padding: 14px 16px;
+			border: 2px dashed var(--accent);
+			border-radius: 11px;
+			background: var(--accent-soft);
+			transition: box-shadow 0.2s ease;
+		}
+		.bump-card.added { box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2); }
+		.bump-badge {
+			display: inline-block;
+			background: var(--accent);
+			color: #ffffff;
+			font-size: 10px;
+			font-weight: 700;
+			letter-spacing: 0.05em;
+			padding: 2px 8px;
+			border-radius: 999px;
+			margin-bottom: 8px;
+		}
+		.bump-toggle {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			background: #ffffff;
+			padding: 9px 11px;
+			border-radius: 8px;
+			border: 1px solid rgba(15, 23, 42, 0.1);
+			cursor: pointer;
+			font-weight: 700;
+			font-size: 14px;
+			margin-bottom: 10px;
+		}
+		.bump-toggle input { width: 17px; height: 17px; accent-color: var(--accent); cursor: pointer; }
+		.bump-meta { font-size: 13px; color: #334155; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+		.bump-price del { color: #64748b; margin-right: 6px; font-size: 12px; }
+		.bump-price strong { color: var(--accent-dark); }
+		.demo-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+		.demo-tab {
+			flex: 1;
+			padding: 6px 8px;
+			font-size: 11px;
+			font-weight: 600;
+			border-radius: 7px;
+			border: 1px solid var(--border);
+			background: #f8fafc;
+			color: #475569;
+			cursor: pointer;
+			transition: all 0.15s ease;
+		}
+		.demo-tab.active { background: var(--ink); color: #ffffff; border-color: var(--ink); }
+		.bump-card.tpl-minimal { border: 1px solid #e2e8f0; border-left: 4px solid var(--accent); background: #ffffff; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06); }
+		.bump-card.tpl-minimal .bump-toggle { background: #f8fafc; border-color: #e2e8f0; }
+		.bump-card.tpl-urgency { border: 2px solid var(--accent); padding-top: 0; overflow: hidden; }
+		.bump-card.tpl-urgency .bump-badge { display: block; margin: 0 -16px 12px; padding: 6px 16px; border-radius: 0; text-align: center; font-size: 11px; letter-spacing: 0.07em; }
+		.demo-save-pill { display: none; font-size: 11px; font-weight: 700; color: var(--accent-dark); background: var(--accent-soft); padding: 2px 8px; border-radius: 999px; margin-left: 8px; }
+		.demo-save-pill.show { display: inline-block; }
+		.demo-controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed var(--border); }
+		.color-dots { display: flex; align-items: center; gap: 7px; }
+		.color-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; transition: transform 0.15s ease; }
+		.color-dot.active { border-color: #0f172a; transform: scale(1.15); }
+		.demo-dark-btn { padding: 4px 10px; font-size: 11px; font-weight: 600; border-radius: 999px; border: 1px solid var(--border); background: #f8fafc; color: #334155; cursor: pointer; }
+		.demo-box.is-dark { background: #0f172a; color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.1); }
+		.demo-box.is-dark .demo-header { color: #e2e8f0; border-bottom-color: rgba(255, 255, 255, 0.1); }
+		.demo-box.is-dark .demo-controls { border-bottom-color: rgba(255, 255, 255, 0.12); }
+		.demo-box.is-dark .demo-line { color: #cbd5e1; }
+		.demo-box.is-dark .demo-total { border-top-color: rgba(255, 255, 255, 0.12); color: #f8fafc; }
+		.demo-box.is-dark .demo-tab { background: #1e293b; color: #cbd5e1; border-color: rgba(255, 255, 255, 0.12); }
+		.demo-box.is-dark .demo-tab.active { background: var(--demo-accent, var(--accent)); color: #ffffff; border-color: transparent; }
+		.demo-box.is-dark .demo-dark-btn { background: #1e293b; color: #f8fafc; border-color: rgba(255, 255, 255, 0.15); }
+		.demo-box.is-dark .color-dot.active { border-color: #ffffff; }
+		.demo-box.is-dark .bump-card { background: #162033; color: #f8fafc; }
+		.demo-box.is-dark .bump-toggle { background: #1e293b; color: #f8fafc; border-color: rgba(255, 255, 255, 0.12); }
+		.demo-box.is-dark .bump-meta { color: #cbd5e1; }
+		.demo-box.is-dark .bump-price del { color: #94a3b8; }
+		.demo-box { --demo-accent: #16a34a; --demo-bg: #f0fdf4; }
+		.demo-box .bump-card { border-color: var(--demo-accent); background: var(--demo-bg); }
+		.demo-box .bump-badge { background: var(--demo-accent); }
+		.demo-box .bump-toggle input { accent-color: var(--demo-accent); }
+		.demo-box .bump-price strong, .demo-box .demo-line.bump-row { color: var(--demo-accent); }
+		.demo-box .bump-card.tpl-minimal { border-left-color: var(--demo-accent); background: #ffffff; }
+		.demo-box.is-dark .bump-card.tpl-minimal { background: #162033; border-color: rgba(255, 255, 255, 0.12); border-left-color: var(--demo-accent); }
+
+		/* Sections */
+		section { padding: 78px 0; }
+		section.alt { background: #f8fafc; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+		.sec-head { text-align: center; max-width: 640px; margin: 0 auto 48px; }
+		.sec-head h2 { margin: 0 0 12px; font-size: 32px; letter-spacing: -0.02em; }
+		.sec-head p { margin: 0; color: var(--muted); font-size: 16px; }
+
+		.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+		.feat-card { background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+		.feat-icon {
+			width: 40px;
+			height: 40px;
+			border-radius: 10px;
+			background: var(--accent-soft);
+			color: var(--accent);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 800;
+			font-size: 18px;
+			margin-bottom: 14px;
+		}
+		.feat-card h3 { margin: 0 0 8px; font-size: 17px; }
+		.feat-card p { margin: 0; font-size: 14px; color: var(--muted); }
+
+		/* Pricing */
+		.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
+		.price-card {
+			background: #ffffff;
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 28px;
+			display: flex;
+			flex-direction: column;
+		}
+		.price-card.featured {
+			border: 2px solid var(--accent);
+			box-shadow: 0 18px 40px rgba(22, 163, 74, 0.12);
+			position: relative;
+		}
+		.popular-tag {
+			position: absolute;
+			top: -12px;
+			right: 20px;
+			background: var(--accent);
+			color: #ffffff;
+			font-size: 11px;
+			font-weight: 700;
+			padding: 3px 10px;
+			border-radius: 999px;
+		}
+		.price-card h3 { margin: 0 0 6px; font-size: 19px; }
+		.price-num { font-size: 38px; font-weight: 800; letter-spacing: -0.03em; margin: 12px 0; }
+		.price-num span { font-size: 14px; font-weight: 500; color: var(--muted); }
+		.price-list { list-style: none; padding: 0; margin: 18px 0 26px; flex: 1; }
+		.price-list li { padding: 6px 0; font-size: 14px; color: #334155; }
+		.price-list li::before { content: "✓ "; color: var(--accent); font-weight: 800; margin-right: 4px; }
+
+		/* FAQ */
+		.faq-list { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+		details {
+			background: #ffffff;
+			border: 1px solid var(--border);
+			border-radius: 12px;
+			padding: 16px 20px;
+		}
+		summary { font-weight: 600; cursor: pointer; font-size: 15px; }
+		details p { margin: 10px 0 0; font-size: 14px; color: var(--muted); }
+
+		footer {
+			background: #0b1120;
+			color: #94a3b8;
+			padding: 36px 0;
+			font-size: 14px;
+		}
+		.foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+		footer a { color: #e2e8f0; }
+
+		@media (max-width: 860px) {
+			.hero-grid, .features-grid, .pricing-grid { grid-template-columns: 1fr; gap: 32px; }
+			.nav-links { display: none; }
+		}
+
+		@media (max-width: 640px) {
+			body { overflow-x: hidden; }
+			.container { padding: 0 16px; }
+			.nav { height: 60px; }
+			.nav .btn { padding: 8px 14px; font-size: 13px; }
+			.hero { padding: 44px 0 56px; }
+			.hero p.lead { font-size: 15px; }
+			.hero-cta { flex-direction: column; }
+			.hero-cta .btn { width: 100%; }
+			.hero-trust { gap: 10px 16px; font-size: 12px; }
+			section { padding: 52px 0; }
+			.sec-head { margin-bottom: 32px; }
+			.sec-head h2 { font-size: 26px; }
+			.demo-box { padding: 16px; }
+			.demo-tabs { flex-wrap: wrap; }
+			.demo-tab { font-size: 11px; padding: 7px 6px; }
+			.bump-card { padding: 12px 14px; }
+			.bump-card.tpl-urgency .bump-badge { margin: 0 -14px 12px; }
+			.bump-meta { flex-direction: column; align-items: flex-start; gap: 6px; }
+			.demo-total { font-size: 15px; flex-wrap: wrap; gap: 6px; }
+			.price-card { padding: 22px; }
+			.foot-row { flex-direction: column; text-align: center; gap: 8px; }
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="container nav">
+			<a href="#" class="brand">
+				<img src="./icon.png" alt="Bumply logo" />
+				<span>Bumply</span>
+			</a>
+			<nav class="nav-links">
+				<a href="#features">Features</a>
+				<a href="#pricing">Pricing</a>
+				<a href="#faq">FAQ</a>
+			</nav>
+			<a href="#pricing" class="btn btn-primary">Get Bumply Pro</a>
+		</div>
+	</header>
+
+	<section class="hero">
+		<div class="container hero-grid">
+			<div>
+				<div class="pill">⚡ Checkout Blocks + Classic Checkout + HPOS Ready</div>
+				<h1>Turn Every WooCommerce Checkout Into Higher Revenue</h1>
+				<p class="lead">
+					Add an ultra-lightweight 1-click order bump directly on your checkout page. No bloated funnel builders, no $199/yr lock-in — just instant extra sales.
+				</p>
+				<div class="hero-cta">
+					<a href="#pricing" class="btn btn-primary">Get Pro — $19 One-Time</a>
+					<a href="https://wordpress.org/plugins/bumply-for-woocommerce/" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Download Free on WP.org</a>
+				</div>
+				<div class="hero-trust">
+					<span>✓ Pay once — no subscription</span>
+					<span>✓ Only 18 KB lightweight</span>
+					<span>✓ 14-day money-back guarantee</span>
+				</div>
+			</div>
+
+			<div class="demo-box" id="demo-box" aria-label="Interactive Order Bump Demo">
+				<div class="demo-header">
+					<span>Live Checkout Demo</span>
+					<span class="demo-tag">Try colors, dark mode &amp; click!</span>
+				</div>
+				<div class="demo-controls">
+					<div class="color-dots" aria-label="Pick brand color">
+						<button type="button" class="color-dot active" data-accent="#16a34a" data-bg="#f0fdf4" style="background:#16a34a;" aria-label="Emerald"></button>
+						<button type="button" class="color-dot" data-accent="#2563eb" data-bg="#eff6ff" style="background:#2563eb;" aria-label="Blue"></button>
+						<button type="button" class="color-dot" data-accent="#7c3aed" data-bg="#f5f3ff" style="background:#7c3aed;" aria-label="Purple"></button>
+						<button type="button" class="color-dot" data-accent="#d97706" data-bg="#fffbeb" style="background:#d97706;" aria-label="Amber"></button>
+					</div>
+					<button type="button" class="demo-dark-btn" id="demo-dark-toggle">🌙 Dark Mode</button>
+				</div>
+				<div class="demo-tabs" role="tablist" aria-label="Bumply Card Styles">
+					<button type="button" class="demo-tab active" data-demo-tpl="classic">Classic Dashed</button>
+					<button type="button" class="demo-tab" data-demo-tpl="minimal">Modern Minimal</button>
+					<button type="button" class="demo-tab" data-demo-tpl="urgency">Urgency Banner</button>
+				</div>
+				<div class="demo-line">
+					<span>Minimalist Leather Wallet × 1</span>
+					<span>$64.00</span>
+				</div>
+				<div class="demo-line bump-row" id="demo-bump-line">
+					<span>Express Gift Wrapping (Bump Offer)</span>
+					<span>$4.99</span>
+				</div>
+
+				<div class="bump-card" id="demo-bump-card">
+					<div class="bump-badge">ONE-TIME OFFER · SAVE 37%</div>
+					<label class="bump-toggle">
+						<input type="checkbox" id="demo-bump-checkbox" />
+						<span>Yes! Add Express Gift Wrapping to my order</span>
+					</label>
+					<div class="bump-meta">
+						<span>Premium gift box + handwritten note card.</span>
+						<span class="bump-price"><del>$7.99</del><strong>$4.99</strong></span>
+					</div>
+				</div>
+
+				<div class="demo-total">
+					<span>Order Total <span class="demo-save-pill" id="demo-save-pill">You saved $3.00!</span></span>
+					<span id="demo-total-val">$64.00</span>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="features">
+		<div class="container">
+			<div class="sec-head">
+				<h2>Everything You Need, Zero Bloat</h2>
+				<p>Built from the ground up for modern WooCommerce stores that care about checkout speed and conversion rate.</p>
+			</div>
+			<div class="features-grid">
+				<div class="feat-card">
+					<div class="feat-icon">⚡</div>
+					<h3>Checkout Blocks Native</h3>
+					<p>Works seamlessly on both the new WooCommerce Checkout Block and Classic Shortcode Checkout with instant cart refresh.</p>
+				</div>
+				<div class="feat-card">
+					<div class="feat-icon">🎯</div>
+					<h3>Smart Conditional Rules</h3>
+					<p>Trigger specific offers based on cart subtotal, product categories, specific cart items, or guest vs. logged-in shoppers.</p>
+				</div>
+				<div class="feat-card">
+					<div class="feat-icon">📊</div>
+					<h3>Built-in Conversion Analytics</h3>
+					<p>Track impressions, conversions, conversion rate, and exact extra revenue earned per offer right inside WooCommerce.</p>
+				</div>
+				<div class="feat-card">
+					<div class="feat-icon">💸</div>
+					<h3>Isolated Bump Discounts</h3>
+					<p>Offer percentage or fixed discounts that apply strictly to the bumped item without discounting normal catalog purchases.</p>
+				</div>
+				<div class="feat-card">
+					<div class="feat-icon">🎨</div>
+					<h3>Live Visual Customizer</h3>
+					<p>Match your store branding in seconds with custom badge text, headlines, accent colors, backgrounds, and dashed/solid borders.</p>
+				</div>
+				<div class="feat-card">
+					<div class="feat-icon">🛡️</div>
+					<h3>HPOS & Security First</h3>
+					<p>100% HPOS compatible, WordPress.org Plugin Check clean, and assets load only on checkout when an offer is active.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="pricing" class="alt">
+		<div class="container">
+			<div class="sec-head">
+				<h2>Pay Once, Own Forever — No Subscriptions</h2>
+				<p>Tired of $99–$299/yr funnel subscriptions? Start free on WordPress.org, or unlock all Pro features with one simple payment.</p>
+			</div>
+			<div class="pricing-grid">
+				<div class="price-card">
+					<h3>Free</h3>
+					<div class="price-num">$0 <span>forever</span></div>
+					<ul class="price-list">
+						<li>1 Active Checkout Order Bump</li>
+						<li>Checkout Blocks + Classic Checkout</li>
+						<li>Percentage or Fixed Discount</li>
+						<li>Live Admin Preview & Custom Colors</li>
+						<li>Basic Total Revenue Counter</li>
+					</ul>
+					<a href="https://wordpress.org/plugins/bumply-for-woocommerce/" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Download Free</a>
+				</div>
+
+				<div class="price-card featured">
+					<div class="popular-tag">LAUNCH OFFER · NO SUBSCRIPTION</div>
+					<h3>Pro — Single Site</h3>
+					<div class="price-num"><del style="font-size:20px;color:#94a3b8;font-weight:600;margin-right:6px;">$29</del>$19 <span>one-time</span></div>
+					<ul class="price-list">
+						<li>Unlimited Order Bump Offers</li>
+						<li>3 Pre-built Card Templates</li>
+						<li>Cart Total, Category & Product Rules</li>
+						<li>Schedule Start / End Dates (Flash Sales)</li>
+						<li>Smart Upgrade / Replace Cart Item Mode</li>
+						<li>Per-Offer Impressions & Conv. Rate</li>
+						<li>Lifetime License + Priority Support</li>
+					</ul>
+					<a href="https://checkout.freemius.com/plugin/46578/plan/82113/licenses/1/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Buy Pro — $19 One-Time</a>
+				</div>
+
+				<div class="price-card">
+					<h3>Pro — Agency (10 Sites)</h3>
+					<div class="price-num"><del style="font-size:20px;color:#94a3b8;font-weight:600;margin-right:6px;">$69</del>$49 <span>one-time</span></div>
+					<ul class="price-list">
+						<li>Everything in Pro Single Site</li>
+						<li>Use on up to 10 Client Stores</li>
+						<li>Stack Multiple Bumps per Checkout</li>
+						<li>Scheduled Sales + Upgrade Mode</li>
+						<li>Lifetime License + Priority Support</li>
+					</ul>
+					<a href="https://checkout.freemius.com/plugin/46578/plan/82113/licenses/10/" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Buy Agency — $49 One-Time</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="faq">
+		<div class="container">
+			<div class="sec-head">
+				<h2>Frequently Asked Questions</h2>
+			</div>
+			<div class="faq-list">
+				<details open>
+					<summary>Does Bumply work with the new WooCommerce Checkout Block?</summary>
+					<p>Yes! Both Bumply Free and Bumply Pro automatically mount inside WooCommerce Checkout Blocks and refresh the live order summary when toggled.</p>
+				</details>
+				<details>
+					<summary>Will Bumply slow down my store?</summary>
+					<p>No. Bumply is under 20 KB total and only loads its tiny stylesheet and script on the checkout page when an eligible offer is active.</p>
+				</details>
+				<details>
+					<summary>Do you offer refunds?</summary>
+					<p>Yes — every Pro purchase is backed by a 14-day no-questions-asked money-back guarantee. Just email connect.polash@gmail.com.</p>
+				</details>
+			</div>
+		</div>
+	</section>
+
+	<footer>
+		<div class="container foot-row">
+			<div>© 2026 Bumply for WooCommerce · Built by <a href="https://polash.link" target="_blank" rel="noopener noreferrer">K. Polash</a></div>
+			<div>Support: <a href="mailto:connect.polash@gmail.com">connect.polash@gmail.com</a></div>
+		</div>
+	</footer>
+
+	<script>
+		(function () {
+			var cb = document.getElementById('demo-bump-checkbox');
+			var card = document.getElementById('demo-bump-card');
+			var row = document.getElementById('demo-bump-line');
+			var total = document.getElementById('demo-total-val');
+			var savePill = document.getElementById('demo-save-pill');
+			var demoBox = document.getElementById('demo-box');
+			var darkBtn = document.getElementById('demo-dark-toggle');
+			var dots = document.querySelectorAll('.color-dot');
+			var tabs = document.querySelectorAll('[data-demo-tpl]');
+			if (!cb || !card) return;
+
+			cb.addEventListener('change', function () {
+				var added = cb.checked;
+				card.classList.toggle('added', added);
+				row.classList.toggle('show', added);
+				if (savePill) savePill.classList.toggle('show', added);
+				total.textContent = added ? '$68.99' : '$64.00';
+			});
+
+			tabs.forEach(function (btn) {
+				btn.addEventListener('click', function () {
+					var tpl = btn.getAttribute('data-demo-tpl');
+					tabs.forEach(function (t) { t.classList.toggle('active', t === btn); });
+					card.classList.remove('tpl-minimal', 'tpl-urgency');
+					if (tpl === 'minimal') card.classList.add('tpl-minimal');
+					if (tpl === 'urgency') card.classList.add('tpl-urgency');
+				});
+			});
+
+			dots.forEach(function (dot) {
+				dot.addEventListener('click', function () {
+					dots.forEach(function (d) { d.classList.toggle('active', d === dot); });
+					if (demoBox) {
+						demoBox.style.setProperty('--demo-accent', dot.getAttribute('data-accent'));
+						demoBox.style.setProperty('--demo-bg', dot.getAttribute('data-bg'));
+					}
+				});
+			});
+
+			if (darkBtn && demoBox) {
+				darkBtn.addEventListener('click', function () {
+					var isDark = demoBox.classList.toggle('is-dark');
+					darkBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+				});
+			}
+		})();
+	</script>
+</body>
+</html>
