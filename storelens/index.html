@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>StoreLens — WooCommerce &amp; Shopify Store Inspector Extension</title>
+	<meta name="description" content="Inspect any Shopify or WooCommerce store in 1 click. Detect themes, plugins, apps, tracking pixels, payment gateways, brand colors, fonts, and export live products to CSV. Pay once ($12), no subscriptions." />
+	<meta name="keywords" content="shopify theme detector, woocommerce plugin detector, shopify app detector, ecommerce store inspector extension, export shopify products csv, storelens" />
+	<meta name="author" content="Kamruzzaman Polash" />
+	<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+	<link rel="canonical" href="https://polash.link/storelens/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="StoreLens" />
+	<meta property="og:url" content="https://polash.link/storelens/" />
+	<meta property="og:title" content="StoreLens — WooCommerce &amp; Shopify Store Inspector" />
+	<meta property="og:description" content="1-click eCommerce spy &amp; audit extension for Edge, Firefox &amp; Chrome. Detect themes, apps, pixels, brand colors &amp; export products to CSV. $12 one-time Pro." />
+	<meta property="og:image" content="https://polash.link/storelens/og-banner.png" />
+	<meta property="og:image:width" content="1200" />
+	<meta property="og:image:height" content="630" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="StoreLens — WooCommerce &amp; Shopify Store Inspector" />
+	<meta name="twitter:description" content="Detect Shopify &amp; WooCommerce themes, apps, pixels, payment gateways, colors &amp; export live product catalogs. $12 one-time, zero subscriptions." />
+	<meta name="twitter:image" content="https://polash.link/storelens/og-banner.png" />
+	<meta name="twitter:creator" content="@pola5h" />
+	<link rel="icon" type="image/png" href="./icon.png" />
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@graph": [
+			{
+				"@type": "SoftwareApplication",
+				"name": "StoreLens — WooCommerce & Shopify Store Inspector",
+				"applicationCategory": "BrowserApplication",
+				"operatingSystem": "Chrome, Edge, Firefox, Brave",
+				"url": "https://polash.link/storelens/",
+				"image": "https://polash.link/storelens/og-banner.png",
+				"description": "Privacy-first browser extension to inspect Shopify and WooCommerce stores: themes, apps, plugins, pixels, payment gateways, brand colors, fonts, and CSV product export.",
+				"softwareVersion": "1.0.0",
+				"author": {
+					"@type": "Person",
+					"name": "Kamruzzaman Polash",
+					"url": "https://polash.link/"
+				},
+				"offers": [
+					{
+						"@type": "Offer",
+						"name": "StoreLens Free",
+						"price": "0",
+						"priceCurrency": "USD",
+						"url": "https://polash.link/storelens/#install"
+					},
+					{
+						"@type": "Offer",
+						"name": "StoreLens Pro (Lifetime One-Time)",
+						"price": "12",
+						"priceCurrency": "USD",
+						"url": "https://polash.link/storelens/#pricing"
+					}
+				]
+			},
+			{
+				"@type": "FAQPage",
+				"mainEntity": [
+					{
+						"@type": "Question",
+						"name": "Does StoreLens track my browsing history or send data to any server?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "No. StoreLens runs 100% locally inside your browser using activeTab permission only when you click the icon. Zero telemetry, zero analytics, zero remote servers."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Is StoreLens Pro a recurring subscription?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "Never. StoreLens Pro is a single $12 one-time payment for lifetime access and all v1.x updates."
+						}
+					},
+					{
+						"@type": "Question",
+						"name": "Which browsers are supported?",
+						"acceptedAnswer": {
+							"@type": "Answer",
+							"text": "StoreLens is built on Manifest V3 and works on Microsoft Edge, Mozilla Firefox, Google Chrome, and Brave."
+						}
+					}
+				]
+			}
+		]
+	}
+	</script>
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+	<style>
+		:root {
+			--bg: #0b1120;
+			--surface: #111827;
+			--card: #1e293b;
+			--ink: #f8fafc;
+			--muted: #94a3b8;
+			--accent: #10b981;
+			--accent-bright: #34d399;
+			--accent-dark: #059669;
+			--border: rgba(148, 163, 184, 0.16);
+		}
+		* { box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body {
+			margin: 0;
+			font-family: 'Inter', system-ui, -apple-system, sans-serif;
+			background: var(--bg);
+			color: var(--ink);
+			line-height: 1.6;
+			-webkit-font-smoothing: antialiased;
+		}
+		a { color: inherit; text-decoration: none; }
+		.container { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+
+		/* Nav */
+		.nav {
+			position: sticky;
+			top: 0;
+			z-index: 40;
+			backdrop-filter: blur(12px);
+			background: rgba(11, 17, 32, 0.84);
+			border-bottom: 1px solid var(--border);
+		}
+		.nav-inner {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			height: 68px;
+			gap: 16px;
+		}
+		.brand {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			font-weight: 800;
+			font-size: 1.05rem;
+			letter-spacing: -0.02em;
+		}
+		.brand img { width: 32px; height: 32px; border-radius: 8px; }
+		.nav-links {
+			display: flex;
+			align-items: center;
+			gap: 24px;
+			font-size: 0.92rem;
+			color: var(--muted);
+		}
+		.nav-links a:hover { color: var(--ink); }
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			padding: 11px 20px;
+			border-radius: 10px;
+			font-weight: 600;
+			font-size: 0.94rem;
+			transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+			cursor: pointer;
+			border: 1px solid transparent;
+		}
+		.btn:hover { transform: translateY(-1px); }
+		.btn-primary {
+			background: var(--accent);
+			color: #022c22;
+		}
+		.btn-primary:hover { background: var(--accent-bright); }
+		.btn-secondary {
+			background: rgba(255, 255, 255, 0.04);
+			border-color: var(--border);
+			color: var(--ink);
+		}
+		.btn-secondary:hover { border-color: rgba(52, 211, 153, 0.5); }
+
+		/* Hero */
+		.hero {
+			padding: 76px 0 64px;
+			background: radial-gradient(circle at 20% 0%, rgba(16, 185, 129, 0.16), transparent 48%),
+			            radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.1), transparent 45%);
+		}
+		.hero-grid {
+			display: grid;
+			grid-template-columns: 1.12fr 0.88fr;
+			gap: 44px;
+			align-items: center;
+		}
+		.pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 6px 13px;
+			border-radius: 999px;
+			font-size: 0.8rem;
+			font-weight: 600;
+			color: var(--accent-bright);
+			background: rgba(16, 185, 129, 0.12);
+			border: 1px solid rgba(16, 185, 129, 0.28);
+			margin-bottom: 18px;
+		}
+		h1 {
+			margin: 0 0 18px;
+			font-size: clamp(2.1rem, 4.4vw, 3.25rem);
+			line-height: 1.1;
+			letter-spacing: -0.03em;
+			font-weight: 800;
+		}
+		.hero-sub {
+			margin: 0 0 28px;
+			color: var(--muted);
+			font-size: 1.08rem;
+			max-width: 560px;
+		}
+		.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+		.trust-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 16px;
+			font-size: 0.84rem;
+			color: var(--muted);
+		}
+		.trust-row span::before { content: "✓ "; color: var(--accent-bright); font-weight: 700; }
+
+		/* Mockup card */
+		.mock {
+			background: #0f172a;
+			border: 1px solid rgba(52, 211, 153, 0.28);
+			border-radius: 16px;
+			padding: 18px;
+			box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+		}
+		.mock-top {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--border);
+			margin-bottom: 14px;
+		}
+		.mock-host { font-weight: 700; font-size: 0.92rem; }
+		.mock-badge {
+			font-size: 0.72rem;
+			font-weight: 700;
+			padding: 3px 9px;
+			border-radius: 999px;
+			background: rgba(16, 185, 129, 0.16);
+			color: var(--accent-bright);
+		}
+		.mock-pair {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 10px;
+			margin-bottom: 14px;
+		}
+		.mock-box {
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid var(--border);
+			border-radius: 10px;
+			padding: 10px 12px;
+		}
+		.mock-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+		.mock-val { font-size: 0.96rem; font-weight: 700; margin-top: 2px; }
+		.swatch-row { display: flex; gap: 8px; margin: 10px 0 14px; }
+		.swatch {
+			flex: 1;
+			border-radius: 8px;
+			padding: 8px 6px;
+			font-size: 0.72rem;
+			font-weight: 600;
+			text-align: center;
+			border: 1px solid rgba(255,255,255,0.12);
+		}
+		.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+		.chip {
+			font-size: 0.76rem;
+			padding: 4px 10px;
+			border-radius: 999px;
+			background: rgba(148, 163, 184, 0.12);
+			border: 1px solid var(--border);
+			color: #e2e8f0;
+		}
+
+		/* Sections */
+		section { padding: 68px 0; }
+		.sec-head { text-align: center; max-width: 660px; margin: 0 auto 44px; }
+		.sec-head h2 {
+			margin: 0 0 12px;
+			font-size: clamp(1.65rem, 3vw, 2.25rem);
+			letter-spacing: -0.025em;
+		}
+		.sec-head p { margin: 0; color: var(--muted); }
+
+		.features-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 20px;
+		}
+		.card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 14px;
+			padding: 24px;
+		}
+		.card h3 { margin: 0 0 8px; font-size: 1.06rem; }
+		.card p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+		.icon-badge {
+			width: 38px;
+			height: 38px;
+			border-radius: 10px;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(16, 185, 129, 0.14);
+			color: var(--accent-bright);
+			font-weight: 800;
+			margin-bottom: 14px;
+		}
+
+		/* Pricing */
+		.pricing-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 24px;
+			max-width: 840px;
+			margin: 0 auto;
+		}
+		.price-card {
+			background: var(--surface);
+			border: 1px solid var(--border);
+			border-radius: 16px;
+			padding: 30px;
+			display: flex;
+			flex-direction: column;
+		}
+		.price-card.featured {
+			border-color: rgba(16, 185, 129, 0.55);
+			background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), rgba(17, 24, 39, 1) 42%);
+		}
+		.price-tag {
+			font-size: 2.5rem;
+			font-weight: 800;
+			letter-spacing: -0.03em;
+			margin: 10px 0 4px;
+		}
+		.price-note { color: var(--muted); font-size: 0.88rem; margin-bottom: 20px; }
+		.price-list {
+			list-style: none;
+			padding: 0;
+			margin: 0 0 26px;
+			flex: 1;
+		}
+		.price-list li {
+			padding: 7px 0;
+			font-size: 0.93rem;
+			color: #e2e8f0;
+		}
+		.price-list li::before { content: "✓ "; color: var(--accent-bright); font-weight: 700; }
+
+		/* FAQ */
+		.faq-grid {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 18px;
+		}
+
+		/* Footer */
+		footer {
+			border-top: 1px solid var(--border);
+			padding: 36px 0;
+			color: var(--muted);
+			font-size: 0.88rem;
+		}
+		.foot-inner {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			gap: 16px;
+		}
+		.foot-links { display: flex; flex-wrap: wrap; gap: 20px; }
+		.foot-links a:hover { color: var(--ink); }
+
+		@media (max-width: 860px) {
+			.hero-grid, .features-grid, .pricing-grid, .faq-grid { grid-template-columns: 1fr; }
+			.nav-links { display: none; }
+		}
+	</style>
+</head>
+<body>
+	<header class="nav">
+		<div class="container nav-inner">
+			<a href="./" class="brand">
+				<img src="./icon.png" alt="StoreLens icon" />
+				<span>StoreLens</span>
+			</a>
+			<nav class="nav-links">
+				<a href="#features">Features</a>
+				<a href="#pricing">Pricing</a>
+				<a href="#faq">FAQ</a>
+				<a href="./privacy/">Privacy</a>
+			</nav>
+			<a href="#pricing" class="btn btn-primary">Get Pro — $12</a>
+		</div>
+	</header>
+
+	<main>
+		<section class="hero">
+			<div class="container hero-grid">
+				<div>
+					<div class="pill">Manifest V3 • 100% Local • Zero Tracking</div>
+					<h1>Inspect Any Shopify or WooCommerce Store in 1 Click.</h1>
+					<p class="hero-sub">
+						Instantly uncover the theme, apps, WordPress plugins, tracking pixels, payment gateways, brand colors, fonts, and live product catalog of any eCommerce store—right from your browser toolbar.
+					</p>
+					<div class="hero-cta" id="install">
+						<a href="#pricing" class="btn btn-primary">Unlock Pro ($12 One-Time)</a>
+						<a href="#features" class="btn btn-secondary">See What It Detects</a>
+					</div>
+					<div class="trust-row">
+						<span>Edge, Firefox &amp; Chrome</span>
+						<span>No Subscriptions</span>
+						<span>14-Day Money-Back Guarantee</span>
+					</div>
+				</div>
+
+				<div class="mock" aria-label="StoreLens Inspector Preview">
+					<div class="mock-top">
+						<span class="mock-host">example-store.com</span>
+						<span class="mock-badge">PRO ACTIVE</span>
+					</div>
+					<div class="mock-pair">
+						<div class="mock-box">
+							<div class="mock-label">Platform</div>
+							<div class="mock-val">Shopify</div>
+						</div>
+						<div class="mock-box">
+							<div class="mock-label">Theme</div>
+							<div class="mock-val">Dawn Custom v14</div>
+						</div>
+					</div>
+					<div class="mock-label">Brand Colors (Click to Copy)</div>
+					<div class="swatch-row">
+						<div class="swatch" style="background:#0f172a;color:#f8fafc;">#0F172A</div>
+						<div class="swatch" style="background:#10b981;color:#022c22;">#10B981</div>
+						<div class="swatch" style="background:#f8fafc;color:#0f172a;">#F8FAFC</div>
+					</div>
+					<div class="mock-label" style="margin-bottom:8px;">Detected Apps &amp; Pixels</div>
+					<div class="chips">
+						<span class="chip">Klaviyo</span>
+						<span class="chip">Judge.me</span>
+						<span class="chip">Recharge</span>
+						<span class="chip">Meta Pixel</span>
+						<span class="chip">GA4</span>
+						<span class="chip">Shop Pay</span>
+						<span class="chip">Klarna</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="features">
+			<div class="container">
+				<div class="sec-head">
+					<h2>Built for Agencies, Freelancers &amp; Store Owners</h2>
+					<p>Skip digging through View Source and DevTools. Get a clean competitive audit in under two seconds.</p>
+				</div>
+				<div class="features-grid">
+					<div class="card">
+						<div class="icon-badge">01</div>
+						<h3>Platform &amp; Theme Detector</h3>
+						<p>Identifies Shopify, WooCommerce, and WordPress sites along with the active theme name automatically.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">02</div>
+						<h3>Plugins &amp; 28+ eCommerce Apps</h3>
+						<p>Detects WordPress plugins from asset paths plus Klaviyo, Judge.me, Loox, Yotpo, Recharge, Gorgias, CartFlows, and more.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">03</div>
+						<h3>Brand Colors &amp; Typography</h3>
+						<p>Extracts live computed brand colors with 1-click HEX copy plus the exact heading and body fonts used on the page.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">04</div>
+						<h3>Pixels &amp; Payment Gateways</h3>
+						<p>Spot Meta Pixel, TikTok Pixel, GA4, GTM, Hotjar, Clarity, Stripe, PayPal, Shop Pay, Apple Pay, Klarna, and Afterpay.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">05</div>
+						<h3>Live Product CSV Export</h3>
+						<p>Pulls public Shopify <code>/products.json</code> and WooCommerce Store API listings and exports titles, prices &amp; URLs to CSV.</p>
+					</div>
+					<div class="card">
+						<div class="icon-badge">06</div>
+						<h3>1-Click Markdown Audit Report</h3>
+						<p>Download a structured Markdown audit summary ready to drop into Notion, GitHub, or client proposals.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="pricing">
+			<div class="container">
+				<div class="sec-head">
+					<h2>Simple Pricing. Zero Subscriptions.</h2>
+					<p>Start free forever. Upgrade once if you need unlimited app detection, payment gateways, CSV &amp; Markdown exports.</p>
+				</div>
+				<div class="pricing-grid">
+					<div class="price-card">
+						<h3>StoreLens Free</h3>
+						<div class="price-tag">$0</div>
+						<div class="price-note">Free forever — no account required</div>
+						<ul class="price-list">
+							<li>Shopify, WooCommerce &amp; WordPress detection</li>
+							<li>Active theme detection</li>
+							<li>Up to 5 detected plugins / apps per store</li>
+							<li>Brand colors (1-click HEX copy) &amp; fonts</li>
+							<li>Tracking pixels &amp; analytics detection</li>
+							<li>100% local &amp; privacy-first</li>
+						</ul>
+						<a href="#install" class="btn btn-secondary">Available on Edge &amp; Firefox Add-ons</a>
+					</div>
+
+					<div class="price-card featured">
+						<h3>StoreLens Pro</h3>
+						<div class="price-tag">$12</div>
+						<div class="price-note">One-time payment • Lifetime license • No recurring fees</div>
+						<ul class="price-list">
+							<li>Everything in Free</li>
+							<li>Unlimited detected plugins &amp; apps list</li>
+							<li>Payment gateway detection (Stripe, Shop Pay, Klarna, etc.)</li>
+							<li>Live Shopify &amp; WooCommerce product catalog loader</li>
+							<li>1-click Product Catalog CSV export</li>
+							<li>1-click Markdown Store Audit export</li>
+							<li>14-day no-questions-asked refund guarantee</li>
+						</ul>
+						<!-- Replace href with your live Freemius checkout URL once product is created -->
+						<a href="mailto:connect.polash@gmail.com?subject=StoreLens%20Pro%20License%20($12%20One-Time)" class="btn btn-primary" id="buy-pro-btn">Buy Pro License — $12 One-Time</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="faq">
+			<div class="container">
+				<div class="sec-head">
+					<h2>Frequently Asked Questions</h2>
+				</div>
+				<div class="faq-grid">
+					<div class="card">
+						<h3>Does StoreLens collect my browsing data?</h3>
+						<p>Never. StoreLens only inspects the active tab when you explicitly click the extension icon. Nothing is ever sent to any external server.</p>
+					</div>
+					<div class="card">
+						<h3>Why is it a $12 one-time fee?</h3>
+						<p>Everything runs locally inside your browser—there are no cloud servers to pay for, so you shouldn't have to pay a monthly subscription.</p>
+					</div>
+					<div class="card">
+						<h3>How do I activate my Pro license key?</h3>
+						<p>Click the <strong>Upgrade Pro ($12)</strong> button inside the StoreLens popup, paste your license key, and hit <strong>Activate Key</strong>.</p>
+					</div>
+					<div class="card">
+						<h3>Do you offer refunds?</h3>
+						<p>Yes! Every Pro license comes with a 14-day money-back guarantee. Just email <a href="mailto:connect.polash@gmail.com" style="color:var(--accent-bright);">connect.polash@gmail.com</a>.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+
+	<footer>
+		<div class="container foot-inner">
+			<div>&copy; 2026 StoreLens by <a href="https://polash.link/" style="color:var(--ink);">Kamruzzaman Polash</a></div>
+			<div class="foot-links">
+				<a href="./privacy/">Privacy Policy &amp; Terms</a>
+				<a href="https://polash.link/bumply/">Bumply for WooCommerce</a>
+				<a href="mailto:connect.polash@gmail.com">Support</a>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
